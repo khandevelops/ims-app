@@ -5,7 +5,7 @@ import { RootState } from "../store"
 
 export const createSrrTopic = (params: { pathName: string, department: string, departmentMasterItems: IDepartmentMasterItem[] }) => {
     // return axios.post(`http://localhost:7080/api/inventory${params.pathName}/create`, params.requestItems)
-    return axios.post(`http://localhost:8060/ims/api/v1${params.pathName}/${params.department}/create`, params.departmentMasterItems)
+    return axios.post(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/${params.department}/create`, params.departmentMasterItems)
 }
 
 

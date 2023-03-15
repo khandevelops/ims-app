@@ -3,7 +3,7 @@ import axios from "axios";
 import { RootState } from "../store";
 import { IMasterItem } from "../master/masterSlice";
 
-const baseUrl = 'http://localhost:8060/ims/api/v1'
+const baseUrl = 'http://192.168.1.137:8000/ims/api/v1'
 
 
 export const getRequestsItems = (params: { pathName: string, page: number, size: number }) => {

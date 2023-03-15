@@ -5,7 +5,7 @@ import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { getMasterDepartmentItemById, IMasterDepartmentState } from "../masterDepartment/masterDepartmentSlice";
 
 export const updateQuantity = (departmentItems: IDepartmentItem[]) => {
-    return axios.put('http://localhost:9080/api/inventory/services/extractions/update-total-quantity', departmentItems)
+    return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-total-quantity', departmentItems)
 }
 
 

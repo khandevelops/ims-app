@@ -3,7 +3,7 @@ import axios from "axios";
 import { RootState } from "../store";
 
 export const getDepartmentExperienceItems = (params: { pathName: string, page: number, size: number }) => {
-    return axios.get(`http://localhost:8010/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
+    return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
 }
 
 export interface IDepartmentExperience {

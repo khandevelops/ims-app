@@ -4,7 +4,7 @@ import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { RootState } from "../store";
 
 export const getMasterDepartmentItemById = (id: number) => {
-    return axios.get(`http://localhost:1080/api/inventory/master-department/master/${id}`)
+    return axios.get(`http://192.168.1.137:8000/ims/api/v1/master/${id}`)
 }
 
 export interface IMasterDepartmentItem {

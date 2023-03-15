@@ -4,18 +4,18 @@ import { RootState } from '../store';
 import axios from "axios"
 import { IDepartmentItem } from '../department/departmentItemsSlice';
 
-const baseUrl = 'http://localhost:8040/ims/api/v1/master'
+const baseUrl = 'http://192.168.1.137:8000/ims/api/v1/master'
 
 export const fetchMasterItems = (pagination: { page: number, size: number }) => {
     return axios.get(`${baseUrl}/list?page=${pagination.page}&size=${pagination.size}`)
 }
 
 export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
-    return axios.put(`http://localhost:9080/api/services/admin/master/${params.id}`, params.masterItem)
+    return axios.put(`${baseUrl}/${params.id}`, params.masterItem)
 }
 
 export const createMasterItem = (masterItem: IMasterItem) => {
-    return axios.post('http://localhost:9080/api/inventory/services/admin/master', masterItem)
+    return axios.post(baseUrl, masterItem)
 }
 
 export interface IMasterItem {

@@ -16,13 +16,14 @@ const Layout = () => {
 
     return (
         <div>
-            <AuthenticatedTemplate>
+            {/* <AuthenticatedTemplate>
                 <Navbar />
-            </AuthenticatedTemplate>
+            </AuthenticatedTemplate> */}
+            <Navbar />
 
             <Routes>
-                <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } />
-                <Route path="*" element={<Navigate to="auth" />} />
+                {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}
+                {/* <Route path="*" element={<Navigate to="auth" />} /> */}
                 <Route path="departments">
                     <Route path="master" element={<Master />} />
                     <Route path="extractions" element={<Department />} />

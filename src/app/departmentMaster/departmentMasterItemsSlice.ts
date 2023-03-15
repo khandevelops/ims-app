@@ -4,7 +4,7 @@ import { IMasterItem } from "../master/masterSlice";
 import { RootState } from "../store";
 
 export const getDepartmentMasterItems = (params: { pathName: string, page: number, size: number }) => {
-    return axios.get(`http://localhost:8070/ims/api/v1${params.pathName}/list?page=${params.page}&size=${params.size}`)
+    return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list?page=${params.page}&size=${params.size}`)
 }
 
 
