@@ -16,11 +16,8 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { updateQuantityThunk } from '../app/departmentExperience/quantityUpdateSlice';
-import {
-    changeDepartmentExperienceItems,
-    selectDepartmentItems
-} from '../app/departmentExperience/departmentExperienceSlice';
+import { updateQuantityThunk } from '../app/departmentMaster/quantityUpdateSlice';
+import { changeDepartmentExperienceItems, selectDepartmentItems } from '../app/departmentMaster/departmentMasterSlice';
 import {
     changeMasterDepartmentItem,
     IMasterDepartmentItem,
@@ -101,27 +98,23 @@ const QuantityUpdateForm = () => {
 
     const getDepartmentItems = (masterDepartmentItem: IMasterDepartmentItem) => {
         switch (location.pathname) {
-            case '/departments/extractions':
+            case '/department/extractions':
                 return masterDepartmentItem.extractionsItems;
-            case '/departments/mass-spec':
-                return masterDepartmentItem.extractionsItems;
-            case '/departments/receiving':
-                return masterDepartmentItem.extractionsItems;
-            case '/departments/rd':
-                return masterDepartmentItem.extractionsItems;
-            case '/departments/screening':
-                return masterDepartmentItem.extractionsItems;
-            case '/departments/shipping':
-                return masterDepartmentItem.extractionsItems;
-            case '/departments/quality':
-                return masterDepartmentItem.extractionsItems;
+            case '/department/mass-spec':
+                return masterDepartmentItem.massSpecItems;
+            case '/department/receiving':
+                return masterDepartmentItem.receivingItems;
+            case '/department/rd':
+                return masterDepartmentItem.rdItems;
+            case '/department/screening':
+                return masterDepartmentItem.screeningItems;
+            case '/department/shipping':
+                return masterDepartmentItem.shippingItems;
+            case '/department/quality':
+                return masterDepartmentItem.qualityItems;
             default:
                 return [];
         }
-        // if(location.pathname === '/departments/extractions') {
-        //     return masterDepartmentItem.extractionsItems
-        // }
-        // if()
     };
 
     const handleDateChange = () => {};

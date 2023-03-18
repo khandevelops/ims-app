@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { IMasterItem } from "./masterSlice";
-import { createMasterItem, updateMasterItemById } from "./masterSlice";
+import { IMasterItem } from "./masterItemSlice";
+import { createMasterItem, updateMasterItemById } from "./masterItemSlice";
 
 interface IMasterFormState {
     masterItem: IMasterItem,
@@ -41,8 +41,8 @@ export const updateMasterItem = createAsyncThunk(
 export const addMasterItem = createAsyncThunk(
     'addMasterItem',
     async (masterItem: IMasterItem) => {
-        const resposne = await createMasterItem(masterItem)
-        return resposne.data
+        const response = await createMasterItem(masterItem)
+        return response.data
     }
 )
 

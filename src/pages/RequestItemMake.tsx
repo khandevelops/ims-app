@@ -1,11 +1,11 @@
 import { AppBar, Box, Fab, Tab, Tabs, Toolbar } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import RequestsComplete from '../../components/RequestsComplete';
-import RequestsPending from '../../components/RequestsPending';
-import RequestsToMake from '../../components/RequestsToMake';
-import { changeTab, selectRequestTab } from '../../app/common/requestTabSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import RequestsComplete from '../components/RequestMakeComplete';
+import RequestsPending from '../components/RequestsMakePending';
+import RequestsToMake from '../components/RequestsList';
+import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 interface TabPanelProps {
     children?: React.ReactNode;

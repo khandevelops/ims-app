@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
-export const getDepartmentExperienceItems = (params: { pathName: string, page: number, size: number }) => {
-    return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
+export const getDepartmentMasterItems = (params: { pathName: string, page: number, size: number }) => {
+    // return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
+    return axios.get(`http://localhost:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
 }
 
-export interface IDepartmentExperience {
+export interface IDepartmentMasterItem {
     department_id: number;
     item_id: number;
     item: string;
@@ -26,9 +27,9 @@ export interface IDepartmentExperience {
     category: string;
 }
 
-export interface IDepartmentExperienceState {
+export interface IDepartmentMasterState {
     response: {
-        content: IDepartmentExperience[],
+        content: IDepartmentMasterItem[],
         last: boolean,
         totalPages: number,
         totalElements: number,
@@ -42,7 +43,7 @@ export interface IDepartmentExperienceState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IDepartmentExperienceState = {
+const initialState: IDepartmentMasterState = {
     response: {
         content: [],
         last: false,
@@ -58,16 +59,16 @@ const initialState: IDepartmentExperienceState = {
     status: 'idle'
 }
 
-export const getDepartmentExperienceItemsThunk = createAsyncThunk(
-    'fetchDepartmentItemsByPage',
+export const getDepartmentMasterThunk = createAsyncThunk(
+    'getDepartmentMasterThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getDepartmentExperienceItems(params)
+        const response = await getDepartmentMasterItems(params)
         return response.data
     }
 )
 
-export const departmentExperienceSlice = createSlice({
-    name: 'departmentSlice',
+export const departmentMasterSlice = createSlice({
+    name: 'transformedSlice',
     initialState,
     reducers: {
         changeDepartmentExperienceItems: (state, action) => {
@@ -75,17 +76,17 @@ export const departmentExperienceSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getDepartmentExperienceItemsThunk.pending, (state) => {
+        builder.addCase(getDepartmentMasterThunk.pending, (state) => {
             state.status = 'loading'
-        }).addCase(getDepartmentExperienceItemsThunk.fulfilled, (state, action) => {
+        }).addCase(getDepartmentMasterThunk.fulfilled, (state, action) => {
             state.status = 'success'
             state.response = action.payload
-        }).addCase(getDepartmentExperienceItemsThunk.rejected, (state) => {
+        }).addCase(getDepartmentMasterThunk.rejected, (state) => {
             state.status = 'failed'
         })
     }
 })
 
-export const selectDepartmentItems = (state: RootState) => state.departmentExperienceItemsStore
-export const { changeDepartmentExperienceItems } = departmentExperienceSlice.actions
-export default departmentExperienceSlice.reducer
+export const selectDepartmentItems = (state: RootState) => state.transformedItemsStore
+export const { changeDepartmentExperienceItems } = departmentMasterSlice.actions
+export default departmentMasterSlice.reducer

@@ -1,44 +1,45 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import { IMasterItem } from "../master/masterSlice";
+import { IMasterItem } from "../master/masterItemSlice";
 
-const baseUrl = 'http://192.168.1.137:8000/ims/api/v1'
+// const baseUrl = 'http://192.168.1.137:8000/ims/api/v1'
+const baseUrl = 'http://localhost:8000/ims/api/v1'
 
 
-export const getRequestsItems = (params: { pathName: string, page: number, size: number }) => {
+export const getRequestMakeItems = (params: { pathName: string, page: number, size: number }) => {
     return axios.get(`${baseUrl}${params.pathName}/list?page=${params.page}&size=${params.size}`)
 }
 
-export const getRequestsCompletedItems = (params: { pathName: string, page: number, size: number }) => {
+export const getRequestMakeCompleteItems = (params: { pathName: string, page: number, size: number }) => {
     return axios.get(`${baseUrl}${params.pathName}/list/completed?page=${params.page}&size=${params.size}`)
 }
 
-export const getRequestsPendingItems = (params: { pathName: string, page: number, size: number }) => {
+export const getRequestMakePendingItems = (params: { pathName: string, page: number, size: number }) => {
     return axios.get(`${baseUrl}${params.pathName}/list/pending?page=${params.page}&size=${params.size}`)
 }
 
-export const updateRequestItem = (params: { pathName: string, requestItem: IRequestItem }) => {
+export const updateRequestMakeItem = (params: { pathName: string, requestItem: IRequestMakeItem }) => {
     return axios.put(`${baseUrl}${params.pathName}/update`, params.requestItem)
 }
 
-export const confirmRequestItems = (params: { pathName: string, requestItems: IRequestItem[] }) => {
+export const confirmRequestMakeItems = (params: { pathName: string, requestItems: IRequestMakeItem[] }) => {
     return axios.put(`${baseUrl}${params.pathName}/confirm`, params.requestItems)
 }
 
-export const createRequestItems = (params: { pathName: string, requestItems: IRequestItem[] }) => {
+export const createRequestMakeItems = (params: { pathName: string, requestItems: IRequestMakeItem[] }) => {
     return axios.post(`${baseUrl}${params.pathName}/create`, params.requestItems)
 }
 
 
-export interface IRequestItem {
+export interface IRequestMakeItem {
     id: number,
     order_quantity: number,
     department: string,
     status: string,
     location: string,
     time_requested: Date | null,
-    time_updated: Date | null, 
+    time_updated: Date | null,
     confirmation: string,
     user: string,
     comment: string,
@@ -47,9 +48,9 @@ export interface IRequestItem {
     checked: boolean
 }
 
-export interface IRequestState {
+export interface IRequestMakeState {
     response: {
-        content: IRequestItem[],
+        content: IRequestMakeItem[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -79,7 +80,7 @@ export interface IRequestState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IRequestState = {
+const initialState: IRequestMakeState = {
     response: {
         content: [],
         pageable: {
@@ -111,31 +112,31 @@ const initialState: IRequestState = {
     status: 'idle'
 }
 
-export const getRequestItemsThunk = createAsyncThunk(
-    'getRequestItemsThunk',
+export const getRequestMakeItemsThunk = createAsyncThunk(
+    'getRequestMakeItemsThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getRequestsItems(params)
+        const response = await getRequestMakeItems(params)
         return response.data
     }
 )
 
-export const getRequestCompletedItemsThunk = createAsyncThunk(
-    'getStoreRoomRequestCompletedItems',
+export const getRequestMakeCompletedItemsThunk = createAsyncThunk(
+    'getRequestMakeCompletedItemsThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getRequestsCompletedItems(params)
+        const response = await getRequestMakeCompleteItems(params)
         return response.data
     }
 )
 
-export const getRequestPendingItemsThunk = createAsyncThunk(
-    'getStoreRoomRequestPendingItems',
+export const getRequestMakePendingItemsThunk = createAsyncThunk(
+    'getRequestMakePendingItemsThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getRequestsPendingItems(params)
+        const response = await getRequestMakePendingItems(params)
         return response.data
     }
 )
 
-export const requestItemsSlice = createSlice({
+export const requestMakeItemSlice = createSlice({
     name: 'requestItemsSlice',
     initialState,
     reducers: {
@@ -147,20 +148,20 @@ export const requestItemsSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getRequestCompletedItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(getRequestCompletedItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(getRequestCompletedItemsThunk.rejected, (state) => { state.status = 'failed' })
-            .addCase(getRequestPendingItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(getRequestPendingItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(getRequestPendingItemsThunk.rejected, (state) => { state.status = 'failed' })
-            .addCase(getRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(getRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(getRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(getRequestMakeCompletedItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(getRequestMakeCompletedItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMakeCompletedItemsThunk.rejected, (state) => { state.status = 'failed' })
+            .addCase(getRequestMakePendingItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(getRequestMakePendingItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMakePendingItemsThunk.rejected, (state) => { state.status = 'failed' })
+            .addCase(getRequestMakeItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(getRequestMakeItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMakeItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const selectRequestItems = (state: RootState) => state.requestItemsStore
+export const selectRequestItems = (state: RootState) => state.requestMakeItemStore
 
-export const { changeRequestItems, changeCheckbox } = requestItemsSlice.actions
+export const { changeRequestItems, changeCheckbox } = requestMakeItemSlice.actions
 
-export default requestItemsSlice.reducer
+export default requestMakeItemSlice.reducer

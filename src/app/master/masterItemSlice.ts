@@ -4,10 +4,10 @@ import { RootState } from '../store';
 import axios from "axios"
 import { IDepartmentItem } from '../department/departmentItemsSlice';
 
-const baseUrl = 'http://192.168.1.137:8000/ims/api/v1/master'
+const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const fetchMasterItems = (pagination: { page: number, size: number }) => {
-    return axios.get(`${baseUrl}/list?page=${pagination.page}&size=${pagination.size}`)
+export const getMasterItems = (pagination: { page: number, size: number }) => {
+    return axios.get(`${baseUrl}/master/list?page=${pagination.page}&size=${pagination.size}`)
 }
 
 export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
@@ -15,7 +15,7 @@ export const updateMasterItemById = (params: { id: number, masterItem: IMasterIt
 }
 
 export const createMasterItem = (masterItem: IMasterItem) => {
-    return axios.post(baseUrl, masterItem)
+    return axios.post(baseUrl || '', masterItem)
 }
 
 export interface IMasterItem {
@@ -126,10 +126,10 @@ const initialState: IMasterState = {
     status: 'idle'
 }
 
-export const getMasterItems = createAsyncThunk(
-    'getMasterItems',
+export const getMasterItemsThunk = createAsyncThunk(
+    'getMasterItemsThunk',
     async (pagination: { page: number, size: number }) => {
-        const response = await fetchMasterItems({ page: pagination.page, size: pagination.size })
+        const response = await getMasterItems({ page: pagination.page, size: pagination.size })
         return response.data
     }
 )
@@ -139,14 +139,14 @@ export const masterItemsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(getMasterItems.pending, (state) => {
+        builder.addCase(getMasterItemsThunk.pending, (state) => {
             state.status = 'loading'
         })
-            .addCase(getMasterItems.fulfilled, (state, action) => {
+            .addCase(getMasterItemsThunk.fulfilled, (state, action) => {
                 state.status = 'success';
                 state.response = action.payload
             })
-            .addCase(getMasterItems.rejected, (state) => {
+            .addCase(getMasterItemsThunk.rejected, (state) => {
                 state.status = 'failed'
             })
     }

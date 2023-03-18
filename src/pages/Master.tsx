@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getMasterItems, selectMasterItems } from '../../app/master/masterSlice';
-import { selectMasterFormDrawer, toggleDrawer, setForm } from '../../app/master/masterFormDrawerUpdateSlice';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { getMasterItems, getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
+import { selectMasterFormDrawer, toggleDrawer, setForm } from '../app/master/masterFormDrawerUpdateSlice';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
     Table,
@@ -21,13 +21,12 @@ import {
     Stack
 } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import MasterForm from '../../components/UpdateMasterForm';
-import { populateMasterItem } from '../../app/master/masterFormSlice';
-import { IMasterItem } from '../../app/master/masterSlice';
+import MasterForm from '../components/UpdateMasterForm';
+import { populateMasterItem } from '../app/master/masterFormSlice';
+import { IMasterItem } from '../app/master/masterItemSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
-    { field: 'id', headerName: 'ID' },
     { field: 'item', headerName: 'Item' },
     { field: 'manufacturer', headerName: 'Manufacturer' },
     { field: 'recent_cn', headerName: 'Recent CN' },
@@ -54,7 +53,7 @@ const Master = () => {
     const [size, setSize] = useState<number>(10);
 
     useEffect(() => {
-        dispatch(getMasterItems({ page: page, size: size }));
+        dispatch(getMasterItemsThunk({ page: page, size: size }));
     }, [dispatch, page, size, rightDrawerSelector]);
 
     const handleChangePage = (event: any, newPage: number): void => {
@@ -101,12 +100,15 @@ const Master = () => {
                 alignItems="stretch"
                 sx={{ padding: 2, height: '100%' }}>
                 <TableContainer component={Paper}>
-                    <Table size="small">
+                    <Table stickyHeader size="small">
                         <TableHead>
                             <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <TableCell key={column.field}>{column.headerName}</TableCell>
+                                        <TableCell 
+                                        key={column.field}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >{column.headerName}</TableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
@@ -117,7 +119,6 @@ const Master = () => {
                                         <TableCell>
                                             <Checkbox />
                                         </TableCell>
-                                        <TableCell>{masterItem.id}</TableCell>
                                         <TableCell>{masterItem.item}</TableCell>
                                         <TableCell>{masterItem.manufacturer}</TableCell>
                                         <TableCell>{masterItem.recent_cn}</TableCell>

@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IMasterItem } from "../master/masterSlice";
+import { IMasterItem } from "../master/masterItemSlice";
 import { RootState } from "../store";
 
-export const getDepartmentMasterItems = (params: { pathName: string, page: number, size: number }) => {
+export const getRequestListItems = (params: { pathName: string, page: number, size: number }) => {
     return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list?page=${params.page}&size=${params.size}`)
 }
 
 
-export interface IDepartmentMasterItem {
+export interface IRequestItemList {
     id: number,
     location: string,
     quantity: number,
@@ -23,9 +23,9 @@ export interface IDepartmentMasterItem {
     masterItem: IMasterItem
 }
 
-export interface IDepartmentMasterState {
+export interface IRequestListState {
     response: {
-        content: IDepartmentMasterItem[],
+        content: IRequestItemList[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -55,7 +55,7 @@ export interface IDepartmentMasterState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IDepartmentMasterState = {
+const initialState: IRequestListState = {
     response: {
         content: [],
         pageable: {
@@ -87,29 +87,29 @@ const initialState: IDepartmentMasterState = {
     status: 'idle'
 }
 
-export const getDepartmentMasterItemsThunk = createAsyncThunk(
-    'getDepartmentMasterItemsThunk',
-   async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getDepartmentMasterItems({ pathName: params.pathName, page: params.page, size: params.size })
+export const getRequestListItemsThunk = createAsyncThunk(
+    'getRequestListItemsThunk',
+    async (params: { pathName: string, page: number, size: number }) => {
+        const response = await getRequestListItems({ pathName: params.pathName, page: params.page, size: params.size })
         return response.data
-   }
+    }
 )
 
-export const departmentMasterItemsSlice = createSlice({
-    name: 'departmentMasterItemsSlice',
+export const requestListItemSlice = createSlice({
+    name: 'requestListSlice',
     initialState,
     reducers: {
-        updateDepartmentMasterItems: (state, action) => {state.response.content = action.payload}
+        updateRequestItemList: (state, action) => { state.response.content = action.payload }
     },
     extraReducers: (builder) => {
-        builder.addCase(getDepartmentMasterItemsThunk.pending, (state) => { state.status = 'loading'})
-        builder.addCase(getDepartmentMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload})
-        builder.addCase(getDepartmentMasterItemsThunk.rejected, (state) => { state.status = 'failed'})
+        builder.addCase(getRequestListItemsThunk.pending, (state) => { state.status = 'loading' })
+        builder.addCase(getRequestListItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+        builder.addCase(getRequestListItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const { updateDepartmentMasterItems } = departmentMasterItemsSlice.actions
+export const { updateRequestItemList } = requestListItemSlice.actions
 
-export const selectDepartmentMasterItems = (state: RootState) => state.departmentMasterItemsStore
+export const selectRequestItemList = (state: RootState) => state.requestListItemStore
 
-export default departmentMasterItemsSlice.reducer
+export default requestListItemSlice.reducer

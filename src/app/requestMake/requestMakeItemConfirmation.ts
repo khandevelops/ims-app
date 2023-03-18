@@ -1,16 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
-import { IDepartmentMasterItem } from "../departmentMaster/departmentMasterItemsSlice";
+import { IRequestItemList } from "../requestList/requestListItemSlice";
 import { RootState } from "../store"
 
-export const createSrrTopic = (params: { pathName: string, department: string, departmentMasterItems: IDepartmentMasterItem[] }) => {
-    // return axios.post(`http://localhost:7080/api/inventory${params.pathName}/create`, params.requestItems)
-    return axios.post(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/${params.department}/create`, params.departmentMasterItems)
+export const createSrrTopic = (params: { pathName: string, departmentMasterItems: IRequestItemList[] }) => {
+    return axios.post(`http://http://192.168.1.137:8000/ims/api/v1${params.pathName}/create`, params.departmentMasterItems)
 }
 
 
 export interface IRequestItemsConfirmationState {
-    response: IDepartmentMasterItem[]
+    response: IRequestItemList[]
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
@@ -21,8 +20,8 @@ const initialState: IRequestItemsConfirmationState = {
 
 export const createSrrTopicThunk = createAsyncThunk(
     'createRequestThunk',
-    async (params: {pathName: string, department: string, departmentMasterItems: IDepartmentMasterItem[]}) => {
-        const response = await createSrrTopic({pathName: params.pathName, department: params.department, departmentMasterItems: params.departmentMasterItems})
+    async (params: { pathName: string, departmentMasterItems: IRequestItemList[] }) => {
+        const response = await createSrrTopic({ pathName: params.pathName, departmentMasterItems: params.departmentMasterItems })
         return response.data
     }
 )

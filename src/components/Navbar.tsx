@@ -11,6 +11,7 @@ import DepartmentMenu from './DepartmentMenu';
 export default function Navbar() {
     const { instance } = useMsal();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [profile, setProfile] = useState<{role: string, department: string}>({role: 'admin', department: 'extractions'})
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -27,8 +28,7 @@ export default function Navbar() {
 
     return (
         <Box>
-            <AdminMenu />
-            <DepartmentMenu />
+            {profile.role === 'admin' && <AdminMenu />}
             <AuthenticatedTemplate>
                 <Button onClick={handleLogout}>Logout</Button>
             </AuthenticatedTemplate>

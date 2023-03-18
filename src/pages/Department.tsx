@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import {
     Table,
@@ -19,7 +19,7 @@ import {
     Drawer
 } from '@mui/material';
 import { useLocation, useParams } from 'react-router-dom';
-import { getDepartmentItemsThunk, selectDepartmentItems } from '../../app/department/departmentItemsSlice';
+import { getDepartmentItemsThunk, selectDepartmentItems } from '../app/department/departmentItemsSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },

@@ -4,6 +4,7 @@ import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { RootState } from "../store";
 
 export const updateQuantity = (departmentItems: IDepartmentItem[]) => {
+    // return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-quantity', departmentItems)
     return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-quantity', departmentItems)
 }
 

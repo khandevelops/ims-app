@@ -1,6 +1,10 @@
 import {
     Checkbox,
+    FormControl,
+    MenuItem,
     Paper,
+    Select,
+    SelectChangeEvent,
     Stack,
     Table,
     TableBody,
@@ -11,23 +15,35 @@ import {
     TableRow
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getRequestCompletedItemsThunk, selectRequestItems } from '../app/requests/requestItemsSlice';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
+import {
+    changeRequestItems,
+    getRequestMakeCompletedItemsThunk,
+    IRequestMakeItem,
+    selectRequestItems
+} from '../app/requestMake/requestMakeItemSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { statuses } from '../common/constants';
+import { updateRequestMakeItemThunk } from '../app/requestMake/requestMakeItemUpdateSlice';
+import { getRequestListItemsThunk } from '../app/requestList/requestListItemSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
     { field: 'item', headerName: 'Item' },
     { field: 'recent_cn', headerName: 'Recent CN' },
-    { field: 'order_quantity', headerName: 'Order Quantity' },
+    { field: 'quantity', headerName: 'Quantity' },
     { field: 'status', headerName: 'Status' },
     { field: 'time_revieved', headerName: 'Received Date' },
     { field: 'time_updated', headerName: 'Updated Date' },
+    { field: 'department', headerName: 'Department' },
+    { field: 'user', headerName: 'User' },
+    { field: 'custom_text', headerName: 'Customer Text' },
+    { field: 'location', headerName: 'Location' },
     { field: 'comment', headerName: 'Comment' }
 ];
 
-const StoreRoomRequestComplete = () => {
+const RequestsAdmin = () => {
     const requestsSelector = useAppSelector(selectRequestItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
@@ -35,9 +51,7 @@ const StoreRoomRequestComplete = () => {
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(
-            getRequestCompletedItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
-        );
+        dispatch(getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size }));
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
     const handleChangePage = (event: any, page: number): void => {
@@ -46,6 +60,23 @@ const StoreRoomRequestComplete = () => {
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
         setPagination((prevState) => ({ ...prevState, page: 0, size: parseInt(event.target.value) }));
+    };
+
+    const handleStatusChange = (event: SelectChangeEvent, requestItem: IRequestMakeItem) => {
+        dispatch(
+            changeRequestItems(
+                requestsSelector.response.content.map((item) => ({
+                    ...item,
+                    status: item.id === requestItem.id ? event.target.value : item.status
+                }))
+            )
+        );
+        dispatch(
+            updateRequestMakeItemThunk({
+                pathName: location.pathname,
+                requestItem: { ...requestItem, status: event.target.value }
+            })
+        );
     };
 
     return (
@@ -72,9 +103,28 @@ const StoreRoomRequestComplete = () => {
                                     <TableCell>{requestItem.masterItem && requestItem.masterItem.item}</TableCell>
                                     <TableCell>{requestItem.masterItem && requestItem.masterItem.recent_cn}</TableCell>
                                     <TableCell>{requestItem.order_quantity}</TableCell>
-                                    <TableCell>{requestItem.status}</TableCell>
+                                    <TableCell>
+                                        <FormControl fullWidth>
+                                            <Select
+                                                id="demo-simple-select"
+                                                value={requestItem.status}
+                                                onChange={(event: SelectChangeEvent) =>
+                                                    handleStatusChange(event, requestItem)
+                                                }>
+                                                {statuses.map((status, index) => (
+                                                    <MenuItem key={index} value={status}>
+                                                        {status}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </TableCell>
                                     <TableCell>{moment(requestItem.time_requested).format('MM/DD/YYYY')}</TableCell>
                                     <TableCell>{moment(requestItem.time_updated).format('MM/DD/YYYY')}</TableCell>
+                                    <TableCell>{requestItem.department}</TableCell>
+                                    <TableCell>{requestItem.user}</TableCell>
+                                    <TableCell>{requestItem.custom_text}</TableCell>
+                                    <TableCell>{requestItem.location}</TableCell>
                                     <TableCell>{requestItem.comment}</TableCell>
                                 </TableRow>
                             ))}
@@ -97,4 +147,4 @@ const StoreRoomRequestComplete = () => {
     );
 };
 
-export default StoreRoomRequestComplete;
+export default RequestsAdmin;

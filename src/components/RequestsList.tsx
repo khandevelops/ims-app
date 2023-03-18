@@ -18,13 +18,13 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import {
-    getDepartmentMasterItemsThunk,
-    IDepartmentMasterItem,
-    selectDepartmentMasterItems,
-    updateDepartmentMasterItems
-} from '../app/departmentMaster/departmentMasterItemsSlice';
+    getRequestListItemsThunk,
+    IRequestItemList,
+    selectRequestItemList,
+    updateRequestItemList
+} from '../app/requestList/requestListItemSlice';
 import { departments } from '../common/constants';
-import { createRequestThunk } from '../app/requests/requestItemsCreateConfirmationSlice';
+import { createRequestMakeItemsThunk } from '../app/requestMake/requestMakeItemCreateConfirmationSlice';
 import { changeTab } from '../app/common/requestTabSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -37,14 +37,14 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 ];
 
 const RequestsToMake = () => {
-    const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
+    const departmentMasterItemsSelector = useAppSelector(selectRequestItemList);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
     const location = useLocation();
 
     useEffect(() => {
         dispatch(
-            getDepartmentMasterItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
+            getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
@@ -58,10 +58,10 @@ const RequestsToMake = () => {
 
     const handleCheckboxChange = (
         event: ChangeEvent<HTMLInputElement>,
-        departmentMasterItem: IDepartmentMasterItem
+        departmentMasterItem: IRequestItemList
     ) => {
         dispatch(
-            updateDepartmentMasterItems([
+            updateRequestItemList([
                 ...departmentMasterItemsSelector.response.content.map((item) => ({
                     ...item,
                     checked: departmentMasterItem.id === item.id ? event.target.checked : item.checked
@@ -90,7 +90,7 @@ const RequestsToMake = () => {
             }));
 
         if (checkedItems.length > 0) {
-            dispatch(createRequestThunk({ pathName: location.pathname, requestItems: checkedItems }));
+            dispatch(createRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
             dispatch(changeTab(1));
         }
     };

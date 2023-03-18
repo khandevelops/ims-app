@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import {
@@ -20,19 +20,15 @@ import {
     Button,
     Drawer
 } from '@mui/material';
-import {
-    getDepartmentExperienceItemsThunk,
-    selectDepartmentItems
-} from '../../app/departmentExperience/departmentExperienceSlice';
+import { getDepartmentMasterThunk, selectDepartmentItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
-import TotalQuantityUpdateForm from '../../components/QuantityUpdateForm';
-import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../../app/master/quantityFormDrawerSlice';
-import { handlePage, handleSize, selectPage } from '../../app/common/pageSlice';
-import { getMasterDepartmentItemThunk } from '../../app/masterDepartment/masterDepartmentSlice';
+import TotalQuantityUpdateForm from '../components/QuantityUpdateForm';
+import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../app/master/quantityFormDrawerSlice';
+import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
+import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
-    { field: 'item_id', headerName: 'Item ID' },
     { field: 'item', headerName: 'Item' },
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'part_number', headerName: 'Part Number' },
@@ -59,7 +55,7 @@ const DepartmentExperience = () => {
 
     useEffect(() => {
         dispatch(
-            getDepartmentExperienceItemsThunk({
+            getDepartmentMasterThunk({
                 pathName: location.pathname,
                 page: pageSelector.page,
                 size: pageSelector.size
@@ -100,7 +96,10 @@ const DepartmentExperience = () => {
                             <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <TableCell key={column.field}>{column.headerName}</TableCell>
+                                        <TableCell 
+                                        key={column.field}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >{column.headerName}</TableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
@@ -111,7 +110,6 @@ const DepartmentExperience = () => {
                                         <TableCell>
                                             <Checkbox />
                                         </TableCell>
-                                        <TableCell>{departmentExperienceItems.item_id}</TableCell>
                                         <TableCell>{departmentExperienceItems.item}</TableCell>
                                         <TableCell>{departmentExperienceItems.purchase_unit}</TableCell>
                                         <TableCell>{departmentExperienceItems.part_number}</TableCell>

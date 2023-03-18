@@ -18,15 +18,15 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import {
     changeCheckbox,
     changeRequestItems,
-    getRequestPendingItemsThunk,
-    IRequestItem,
+    getRequestMakeCompletedItemsThunk,
+    IRequestMakeItem,
     selectRequestItems
-} from '../app/requests/requestItemsSlice';
+} from '../app/requestMake/requestMakeItemSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { updateRequestItemThunk } from '../app/requests/requestItemsUpdateSlice';
+import { updateRequestMakeItemThunk } from '../app/requestMake/requestMakeItemUpdateSlice';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Navigation';
-import { confirmRequestThunk } from '../app/requests/requestItemsCreateConfirmationSlice';
+import { confirmRequestMakeItemsThunk } from '../app/requestMake/requestMakeItemCreateConfirmationSlice';
 import { changeTab } from '../app/common/requestTabSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -48,7 +48,7 @@ const StoreRoomRequestsPending = () => {
 
     useEffect(() => {
         dispatch(
-            getRequestPendingItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
+            getRequestMakeCompletedItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
@@ -60,7 +60,7 @@ const StoreRoomRequestsPending = () => {
         setPagination((prevState) => ({ ...prevState, page: 0, size: parseInt(event.target.value) }));
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestItem) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
         dispatch(
             changeRequestItems({
                 ...requestItemsSelector.response,
@@ -79,7 +79,7 @@ const StoreRoomRequestsPending = () => {
         );
     };
 
-    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestItem) => {
+    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
         dispatch(
             changeCheckbox([
                 ...requestItemsSelector.response.content.map((item) => ({
@@ -90,9 +90,9 @@ const StoreRoomRequestsPending = () => {
         );
     };
 
-    const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestItem) => {
+    const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
         if (event.key === 'Enter') {
-            dispatch(updateRequestItemThunk({ pathName: location.pathname, requestItem: requestItem }));
+            dispatch(updateRequestMakeItemThunk({ pathName: location.pathname, requestItem: requestItem }));
         }
     };
 
@@ -100,7 +100,7 @@ const StoreRoomRequestsPending = () => {
         const checkedItems = requestItemsSelector.response.content.filter((item) => item.checked === true);
 
         if (checkedItems.length > 0) {
-            dispatch(confirmRequestThunk({ pathName: location.pathname, requestItems: checkedItems }));
+            dispatch(confirmRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
             if (requestItemsSelector.status === 'success') {
                 dispatch(
                     changeRequestItems({

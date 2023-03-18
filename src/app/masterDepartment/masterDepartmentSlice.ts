@@ -4,7 +4,8 @@ import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { RootState } from "../store";
 
 export const getMasterDepartmentItemById = (id: number) => {
-    return axios.get(`http://192.168.1.137:8000/ims/api/v1/master/${id}`)
+    // return axios.get(`http://192.168.1.137:8000/ims/api/v1/master/${id}`)
+    return axios.get(`http://localhost:8000/ims/api/v1/master-department/${id}`)
 }
 
 export interface IMasterDepartmentItem {
@@ -26,11 +27,11 @@ export interface IMasterDepartmentItem {
     group: string;
     extractionsItems: IDepartmentItem[];
     massSpecItems: IDepartmentItem[];
-    receiving: IDepartmentItem[];
-    rd: IDepartmentItem[];
-    screening: IDepartmentItem[];
-    shipping: IDepartmentItem[];
-    quality: IDepartmentItem[];
+    receivingItems: IDepartmentItem[];
+    rdItems: IDepartmentItem[];
+    screeningItems: IDepartmentItem[];
+    shippingItems: IDepartmentItem[];
+    qualityItems: IDepartmentItem[];
 }
 
 export interface IMasterDepartmentState {

@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addMasterItem, populateMasterItem, selectMasterForm, updateMasterItem } from '../app/master/masterFormSlice';
 import { setForm, selectMasterFormDrawer, toggleDrawer } from '../app/master/masterFormDrawerUpdateSlice';
-import { IMasterItem } from '../app/master/masterSlice';
+import { IMasterItem } from '../app/master/masterItemSlice';
 
 const defaultMasterItem = {
     id: 0,
