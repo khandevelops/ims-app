@@ -38,10 +38,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'next_advance_cn', headerName: 'Next Advance CN' },
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'average_unit_price', headerName: 'Average Unit Price' },
-    { field: 'category', headerName: 'Category' },
     { field: 'comments', headerName: 'Comments' },
-    { field: 'type', headerName: 'Type' },
-    { field: 'group', headerName: 'Group' },
     { field: 'nore', headerName: 'More' }
 ];
 
@@ -94,12 +91,8 @@ const Master = () => {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <Stack
-                direction="column"
-                justifyContent="space-between"
-                alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}>
-                <TableContainer component={Paper}>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader size="small">
                         <TableHead>
                             <TableRow>
@@ -130,10 +123,7 @@ const Master = () => {
                                         <TableCell>{masterItem.next_advance_cn}</TableCell>
                                         <TableCell>{masterItem.purchase_unit}</TableCell>
                                         <TableCell>{masterItem.average_unit_price}</TableCell>
-                                        <TableCell>{masterItem.category}</TableCell>
                                         <TableCell>{masterItem.comments}</TableCell>
-                                        <TableCell>{masterItem.type}</TableCell>
-                                        <TableCell>{masterItem.group}</TableCell>
                                         <TableCell>
                                             <IconButton
                                                 aria-label="more"
@@ -150,7 +140,6 @@ const Master = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    sx={{ marginTop: 3 }}
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={masterItemsSelector.response.totalElements}
@@ -161,7 +150,7 @@ const Master = () => {
                     showFirstButton={true}
                     showLastButton={true}
                 />
-            </Stack>
+            </Paper>
         </Box>
     );
 };
