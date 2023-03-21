@@ -1,6 +1,7 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../images/logo.png';
+import Profile from './Profile';
 
 const MenuAdmin = () => {
     return (
@@ -43,7 +44,9 @@ const MenuAdmin = () => {
                 <Button sx={{ color: '#fff' }} component={Link} to="/request/list/store-room">
                     <Typography variant="subtitle2">store-room-request</Typography>
                 </Button>
+                <Box sx={{ position: 'fixed', right: 20 }}><Profile/></Box>
             </Toolbar>
+            
             <Outlet />
         </AppBar>
     );

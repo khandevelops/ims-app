@@ -12,8 +12,15 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import Home from '../pages/Home';
 import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
+import { Drawer } from '@mui/material';
+import MasterForm from './UpdateMasterForm';
+import { selectMasterItems } from '../app/master/masterItemSlice';
+import { selectMasterFormDrawer } from '../app/master/masterFormDrawerUpdateSlice';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 const Layout = () => {
+    const masterItemsSelector = useAppSelector(selectMasterItems);
+    const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
     const isAuthenticated = useIsAuthenticated();
     const [profile, setProfile] = useState<{role: string, department: string}>({role: 'admin', department: 'extractions'})
 
@@ -24,6 +31,9 @@ const Layout = () => {
                 <Navbar />
             </AuthenticatedTemplate> */}
             <NavbarTop />
+            <Drawer anchor="right" open={rightDrawerSelector.open}>
+                <MasterForm />
+            </Drawer>
 
             <Routes>
                 {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}

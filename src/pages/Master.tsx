@@ -80,11 +80,6 @@ const Master = () => {
         dispatch(populateMasterItem(masterItem));
     };
 
-    const handleAddClick = () => {
-        dispatch(toggleDrawer(true));
-        dispatch(setForm('add'));
-    };
-
     return (
         <Box
             sx={{
@@ -94,9 +89,6 @@ const Master = () => {
                 alignItems: 'center',
                 padding: '10px'
             }}>
-            <Drawer anchor="right" open={rightDrawerSelector.open}>
-                <MasterForm />
-            </Drawer>
             <Paper elevation={3}>
                 <TableContainer sx={{ height: 680, fontSize: '12pt' }}>
                     <Table stickyHeader size="small">
