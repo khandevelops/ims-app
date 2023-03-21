@@ -14,6 +14,7 @@ import InputBase from '@mui/material/InputBase';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getSearchValue, selectSearchValue } from '../app/search';
+import { getMasterFilterItems } from '../app/master/masterItemSlice';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -79,13 +80,17 @@ export default function Navbar() {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(getSearchValue(event.target.value));
+        if(location.pathname === 'master') {
+            dispatch(getMasterFilterItems({page: 1, size: 10}))
+        }
+        
     };
 
     return (
         <Box>
             {profile.role === 'admin' && <AdminMenu />}
             {/* <div>{searchValueSelector.searchValue}</div> */}
-            <AppBar position="static">
+            <AppBar position="static" elevation={5}>
                 <Toolbar variant="dense" sx={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
                     <Search>
                         <SearchIconWrapper>

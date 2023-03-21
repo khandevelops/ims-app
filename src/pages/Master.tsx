@@ -143,7 +143,7 @@ const Master = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
+                    rowsPerPageOptions={[10, 50, 100]}
                     component="div"
                     count={masterItemsSelector.response.totalElements}
                     rowsPerPage={masterItemsSelector.response.size}
