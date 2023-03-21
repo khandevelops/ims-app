@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
-import Navbar from './Navbar';
+import Navbar from './NavbarTop';
 import Department from '../pages/Department';
 import DepartmentExperience from '../pages/DepartmentMaster';
 import RequestsAdmin from '../pages/RequestItemList';
@@ -10,6 +10,8 @@ import { AuthenticatedTemplate } from '@azure/msal-react';
 import Auth from '../pages/Auth';
 import { useIsAuthenticated } from '@azure/msal-react';
 import Home from '../pages/Home';
+import NavbarBottom from './NavbarBottom';
+import NavbarTop from './NavbarTop';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -21,7 +23,7 @@ const Layout = () => {
             {/* <AuthenticatedTemplate>
                 <Navbar />
             </AuthenticatedTemplate> */}
-            <Navbar />
+            <NavbarTop />
 
             <Routes>
                 {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}
@@ -54,6 +56,10 @@ const Layout = () => {
                     </Route>
                 </Route>
             </Routes>
+
+   
+
+            <NavbarBottom/>
         </div>
     );
 };

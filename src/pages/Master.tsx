@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { getMasterItems, getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
+import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
 import { selectMasterFormDrawer, toggleDrawer, setForm } from '../app/master/masterFormDrawerUpdateSlice';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
@@ -13,18 +13,26 @@ import {
     Checkbox,
     TablePagination,
     Drawer,
-    AppBar,
-    Toolbar,
     IconButton,
     Paper,
     Box,
-    Stack
+    styled
 } from '@mui/material';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import MasterForm from '../components/UpdateMasterForm';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
-import { display } from '@mui/system';
+import { tableCellClasses } from '@mui/material/TableCell';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor:'WhiteSmoke',
+      fontSize: 13,
+      color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 12,
+    },
+  }));
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -36,10 +44,13 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'fisher_cn', headerName: 'Fisher CN' },
     { field: 'vwr_cn', headerName: 'VWR CN' },
     { field: 'lab_source_cn', headerName: 'Lab Source CN' },
-    { field: 'next_advance_cn', headerName: 'Next Advance CN' },
+    { field: 'next_advance_cn', headerName: 'Other CN' },
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'average_unit_price', headerName: 'Average Unit Price' },
     { field: 'comments', headerName: 'Comments' },
+    { field: 'category', headerName: 'Category' },
+    { field: 'type', headerName: 'Type' },
+    { field: 'group', headerName: 'Group' },
     { field: 'nore', headerName: 'More' }
 ];
 
@@ -81,53 +92,51 @@ const Master = () => {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: '40px 20px 20px 20px'
+                padding: '10px'
             }}>
             <Drawer anchor="right" open={rightDrawerSelector.open}>
                 <MasterForm />
             </Drawer>
-            <Paper
-                elevation={3}
-                sx={{
-                    width: '100%',
-                    overflow: 'hidden'
-                }}>
-                <TableContainer sx={{ height: 750 }}>
+            <Paper elevation={3}>
+                <TableContainer sx={{ height: 680, fontSize: '12pt' }}>
                     <Table stickyHeader size="small">
-                        <TableHead>
-                            <TableRow>
+                        <TableHead sx={{backgroundColor: 'grey'}}>
+                            <TableRow
+                                sx={{'th': { fontSize: 14 }}}>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <TableCell
-                                            key={column.field}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <StyledTableCell
+                                            key={column.field}>
                                             {column.headerName}
-                                        </TableCell>
+                                        </StyledTableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {masterItemsSelector.response.content.length > 0 &&
                                 masterItemsSelector.response.content.map((masterItem, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            <Checkbox />
-                                        </TableCell>
-                                        <TableCell
-                                             sx={{maxWidth: '250px'}}>{masterItem.item}</TableCell>
-                                        <TableCell>{masterItem.manufacturer}</TableCell>
-                                        <TableCell>{masterItem.recent_cn}</TableCell>
-                                        <TableCell>{masterItem.part_number}</TableCell>
-                                        <TableCell>{masterItem.recent_vendor}</TableCell>
-                                        <TableCell>{masterItem.fisher_cn}</TableCell>
-                                        <TableCell>{masterItem.vwr_cn}</TableCell>
-                                        <TableCell>{masterItem.lab_source_cn}</TableCell>
-                                        <TableCell>{masterItem.next_advance_cn}</TableCell>
-                                        <TableCell>{masterItem.purchase_unit}</TableCell>
-                                        <TableCell>{masterItem.average_unit_price}</TableCell>
-                                        <TableCell
-                                            sx={{maxWidth: '200px'}}>{masterItem.comments}</TableCell>
-                                        <TableCell>
+                                    <TableRow
+                                        key={index}
+                                        >
+                                        <StyledTableCell >
+                                            <Checkbox/>
+                                        </StyledTableCell>
+                                        <StyledTableCell>{masterItem.item}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.part_number}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.recent_vendor}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.fisher_cn}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.next_advance_cn}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.average_unit_price}</StyledTableCell>
+                                        <StyledTableCell sx={{fontSize: 12, maxWidth: '200px' }}>{masterItem.comments}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.category}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.type}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.group}</StyledTableCell>
+                                        <StyledTableCell>
                                             <IconButton
                                                 aria-label="more"
                                                 id="long-button"
@@ -136,7 +145,7 @@ const Master = () => {
                                                 }>
                                                 <MoreVertIcon />
                                             </IconButton>
-                                        </TableCell>
+                                        </StyledTableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>

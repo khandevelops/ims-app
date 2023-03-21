@@ -1,9 +1,9 @@
 import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
-const DepartmentMenu = () => {
+const MenuDepartment = () => {
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{backgroundColor: '#1347a4'}}>
             <Toolbar>
             <Button sx={{ color: '#fff' }} component={Link} to="master">
                     <Typography component="div" sx={{ flexGrow: 1 }}>
@@ -66,4 +66,4 @@ const DepartmentMenu = () => {
     );
 };
 
-export default DepartmentMenu;
+export default MenuDepartment;
