@@ -24,6 +24,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import MasterForm from '../components/UpdateMasterForm';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
+import { display } from '@mui/system';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -74,34 +75,34 @@ const Master = () => {
     };
 
     return (
-        <Box sx={{ height: '100%' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '40px 20px 20px 20px'
+            }}>
             <Drawer anchor="right" open={rightDrawerSelector.open}>
                 <MasterForm />
             </Drawer>
-            <AppBar position="static" sx={{ backgroundColor: 'grey' }}>
-                <Toolbar variant="dense">
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={handleAddClick}>
-                        <AddBoxIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+            <Paper
+                elevation={3}
+                sx={{
+                    width: '100%',
+                    overflow: 'hidden'
+                }}>
+                <TableContainer sx={{ height: 750 }}>
                     <Table stickyHeader size="small">
                         <TableHead>
                             <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <TableCell 
-                                        key={column.field}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >{column.headerName}</TableCell>
+                                        <TableCell
+                                            key={column.field}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            {column.headerName}
+                                        </TableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
@@ -112,7 +113,8 @@ const Master = () => {
                                         <TableCell>
                                             <Checkbox />
                                         </TableCell>
-                                        <TableCell>{masterItem.item}</TableCell>
+                                        <TableCell
+                                             sx={{maxWidth: '250px'}}>{masterItem.item}</TableCell>
                                         <TableCell>{masterItem.manufacturer}</TableCell>
                                         <TableCell>{masterItem.recent_cn}</TableCell>
                                         <TableCell>{masterItem.part_number}</TableCell>
@@ -123,7 +125,8 @@ const Master = () => {
                                         <TableCell>{masterItem.next_advance_cn}</TableCell>
                                         <TableCell>{masterItem.purchase_unit}</TableCell>
                                         <TableCell>{masterItem.average_unit_price}</TableCell>
-                                        <TableCell>{masterItem.comments}</TableCell>
+                                        <TableCell
+                                            sx={{maxWidth: '200px'}}>{masterItem.comments}</TableCell>
                                         <TableCell>
                                             <IconButton
                                                 aria-label="more"

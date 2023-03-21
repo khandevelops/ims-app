@@ -1,40 +1,64 @@
-import { AppBar, Button, Toolbar } from '@mui/material';
-import React from 'react';
+import { AppBar, Button, Toolbar, Typography } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 const DepartmentMenu = () => {
     return (
         <AppBar position="static">
-            <Toolbar variant="dense" sx={{ margin: 'auto' }}>
+            <Toolbar>
+            <Button sx={{ color: '#fff' }} component={Link} to="master">
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        master
+                    </Typography>
+                </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions">
-                    extractions
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        extractions
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/mass-spec">
-                    mass-spec
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        mass-spec
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/receiving">
-                    receiving
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        receiving
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/rd">
-                    r&d
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        r&d
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/screening">
-                    screening
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        screening
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/shipping">
-                    shipping
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        shipping
+                    </Typography>
                 </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality">
-                    quality
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        quality
+                    </Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="request/make/general">
-                    general-request
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/general">
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        general-request
+                    </Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="request/make/office-supply">
-                    office-supply-request
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/office-supply">
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        office-supply-request
+                    </Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="request/make/store-room">
-                    store-room-request
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/store-room">
+                    <Typography component="div" sx={{ flexGrow: 1 }}>
+                        store-room-request
+                    </Typography>
                 </Button>
             </Toolbar>
             <Outlet />
