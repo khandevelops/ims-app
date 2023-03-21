@@ -15,25 +15,31 @@ import {
     Toolbar,
     Paper,
     Box,
-    Stack,
-    Drawer
+    Stack
 } from '@mui/material';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getDepartmentItemsThunk, selectDepartmentItems } from '../app/department/departmentItemsSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
-    { field: 'id', headerName: 'ID' },
-    { field: 'location', headerName: 'Location' },
-    { field: 'quantity', headerName: 'Quantity' },
-    { field: 'min_quantity', headerName: 'Min Qty' },
-    { field: 'max_quantity', headerName: 'Max Qty' },
+    { field: 'item', headerName: 'Item' },
+    { field: 'purchase_unit', headerName: 'Purchase Unit' },
+    { field: 'quantity', headerName: 'Part Number' },
+    { field: 'min_quantity', headerName: 'Recent CN' },
+    { field: 'max_quantity', headerName: 'Location' },
+    { field: 'total_quantity', headerName: 'Total Qty' },
     { field: 'usage_level', headerName: 'Usage Level' },
-    { field: 'expiration_date', headerName: 'Expiration Date' },
-    { field: 'received_date', headerName: 'Received Date' }
+    { field: 'min_quantity', headerName: 'Min Qty' }
+    { field: 'max_quantity', headerName: 'Max Qty' }
+    { field: 'order_quantity', headerName: 'Order Qty' }
+    { field: 'unit_price', headerName: 'Unit Price' }
+    { field: 'issued', headerName: 'Issued' }
+    { field: 'received', headerName: 'Received' }
+    { field: 'total_price', headerName: 'Total Price' }
+    { field: 'comments', headerName: 'Comment' }
 ];
 
-const Department = () => {
+const StoreRoom = () => {
     const departmentItemsSelector = useAppSelector(selectDepartmentItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
@@ -85,14 +91,33 @@ const Department = () => {
                                         <TableCell>
                                             <Checkbox />
                                         </TableCell>
-                                        <TableCell>{departmentExperienceItems.id}</TableCell>
-                                        <TableCell>{departmentExperienceItems.location}</TableCell>
-                                        <TableCell>{departmentExperienceItems.usage_level}</TableCell>
+                                        <TableCell>{departmentExperienceItems.item}</TableCell>
+                                        <TableCell>{departmentExperienceItems.purchase_unit}</TableCell>
                                         <TableCell>{departmentExperienceItems.min_quantity}</TableCell>
                                         <TableCell>{departmentExperienceItems.max_quantity}</TableCell>
-                                        <TableCell>{departmentExperienceItems.quantity}</TableCell>
-                                        <TableCell>{departmentExperienceItems.received_date}</TableCell>
-                                        <TableCell>{departmentExperienceItems.expiration_date}</TableCell>
+                                        <TableCell>{departmentExperienceItems.total_quantity}</TableCell>
+                                        <TableCell>{departmentExperienceItems.max_quantity}</TableCell>
+                                        <TableCell>{departmentExperienceItems.order_quantity}</TableCell>
+                                        <TableCell>{departmentExperienceItems.unit_price}</TableCell>
+                                        <TableCell>{departmentExperienceItems.issued}</TableCell>
+                                        <TableCell>{departmentExperienceItems.received}</TableCell>
+                                        <TableCell>{departmentExperienceItems.comments}</TableCell>
+                                        { field: 'checkbox', headerName: <Checkbox /> },
+    { field: 'item', headerName: 'Item' },
+    { field: 'purchase_unit', headerName: 'Purchase Unit' },
+    { field: 'quantity', headerName: 'Part Number' },
+    { field: 'min_quantity', headerName: 'Recent CN' },
+    { field: 'max_quantity', headerName: 'Location' },
+    { field: 'total_quantity', headerName: 'Total Qty' },
+    { field: 'usage_level', headerName: 'Usage Level' },
+    { field: 'min_quantity', headerName: 'Min Qty' }
+    { field: 'max_quantity', headerName: 'Max Qty' }
+    { field: 'order_quantity', headerName: 'Order Qty' }
+    { field: 'unit_price', headerName: 'Unit Price' }
+    { field: 'issued', headerName: 'Issued' }
+    { field: 'received', headerName: 'Received' }
+    { field: 'total_price', headerName: 'Total Price' }
+    { field: 'comments', headerName: 'Comment' }
                                     </TableRow>
                                 ))}
                         </TableBody>
@@ -117,4 +142,4 @@ const Department = () => {
     );
 };
 
-export default Department;
+export default StoreRoom;

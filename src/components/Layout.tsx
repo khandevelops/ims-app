@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
 import Navbar from './NavbarTop';
-import Department from '../pages/Department';
+import Department from '../pages/StoreRoom';
 import DepartmentExperience from '../pages/DepartmentMaster';
 import RequestsAdmin from '../pages/RequestItemList';
 import Requests from '../pages/RequestItemMake';

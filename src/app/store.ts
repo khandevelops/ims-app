@@ -17,6 +17,7 @@ import requestItemsConfirmationReducer from './requestMake/requestMakeItemConfir
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
+import storeRooomItemsReducer from './storeRoom/storeRoomSlice'
 
 export const store = configureStore({
   reducer: {
@@ -37,7 +38,8 @@ export const store = configureStore({
     requestItemsConfirmationStore: requestItemsConfirmationReducer,
     requestTabStore: requestTabReducer,
     profileStore: profileReducer,
-    searchStore: searchReducer
+    searchStore: searchReducer,
+    storeRooomItemsStore: storeRooomItemsReducer
   }
 });
 
