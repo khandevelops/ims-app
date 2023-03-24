@@ -22,6 +22,7 @@ import MasterForm from '../components/UpdateMasterForm';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
+import { Height } from '@mui/icons-material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -81,20 +82,12 @@ const Master = () => {
     };
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '10px'
-            }}>
+        <Box sx={{paddingTop: 3, paddingLeft: 1, paddingRight: 1}}>
             <Paper elevation={3}>
-                <TableContainer sx={{ height: 680, fontSize: '12pt' }}>
+                <TableContainer sx={{height: 750}}>
                     <Table stickyHeader size="small">
                         <TableHead sx={{backgroundColor: 'grey'}}>
-                            <TableRow
-                                sx={{'th': { fontSize: 14 }}}>
+                            <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
                                         <StyledTableCell

@@ -18,7 +18,9 @@ import {
     Box,
     Stack,
     Button,
-    Drawer
+    Drawer,
+    tableCellClasses,
+    styled
 } from '@mui/material';
 import { getDepartmentMasterThunk, selectDepartmentItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
@@ -44,6 +46,17 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comments', headerName: 'Comments' },
     { field: 'category', headerName: 'Category' }
 ];
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor:'WhiteSmoke',
+      fontSize: 13,
+      color: theme.palette.common.black,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 12,
+    },
+  }));
 
 const DepartmentExperience = () => {
     const departmentItemsSelector = useAppSelector(selectDepartmentItems);
@@ -78,28 +91,18 @@ const DepartmentExperience = () => {
     };
 
     return (
-        <Box sx={{ height: '100%' }}>
-            <Drawer anchor="bottom" open={updateTotalQuantityFormDrawerSelector.open}>
-                <TotalQuantityUpdateForm />
-            </Drawer>
-            <AppBar position="static" sx={{ backgroundColor: 'grey' }}>
-                <Toolbar variant="dense"></Toolbar>
-            </AppBar>
-            <Stack
-                direction="column"
-                justifyContent="space-between"
-                alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}>
-                <TableContainer component={Paper}>
+        <Box sx={{paddingTop: 3, paddingLeft: 1, paddingRight: 1}}>
+            <Paper elevation={3}>
+                <TableContainer sx={{height: 750}}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <TableCell 
+                                        <StyledTableCell 
                                         key={column.field}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >{column.headerName}</TableCell>
+                                        >{column.headerName}</StyledTableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
@@ -107,15 +110,15 @@ const DepartmentExperience = () => {
                             {departmentItemsSelector.response.content.length > 0 &&
                                 departmentItemsSelector.response.content.map((departmentExperienceItems, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>
+                                        <StyledTableCell>
                                             <Checkbox />
-                                        </TableCell>
-                                        <TableCell>{departmentExperienceItems.item}</TableCell>
-                                        <TableCell>{departmentExperienceItems.purchase_unit}</TableCell>
-                                        <TableCell>{departmentExperienceItems.part_number}</TableCell>
-                                        <TableCell>{departmentExperienceItems.recent_cn}</TableCell>
-                                        <TableCell>{departmentExperienceItems.location}</TableCell>
-                                        <TableCell>
+                                        </StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.item}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.purchase_unit}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.part_number}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.recent_cn}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.location}</StyledTableCell>
+                                        <StyledTableCell>
                                             <Button
                                                 variant="outlined"
                                                 endIcon={<ChevronRightIcon />}
@@ -123,15 +126,15 @@ const DepartmentExperience = () => {
                                                 sx={{ minWidth: 80 }}>
                                                 {departmentExperienceItems.total_quantity}
                                             </Button>
-                                        </TableCell>
-                                        <TableCell>{departmentExperienceItems.usage_level}</TableCell>
-                                        <TableCell>{departmentExperienceItems.min_quantity}</TableCell>
-                                        <TableCell>{departmentExperienceItems.max_quantity}</TableCell>
-                                        <TableCell>{departmentExperienceItems.order_quantity}</TableCell>
-                                        <TableCell>{departmentExperienceItems.unit_price}</TableCell>
-                                        <TableCell>{departmentExperienceItems.total_price}</TableCell>
-                                        <TableCell>{departmentExperienceItems.comments}</TableCell>
-                                        <TableCell>{departmentExperienceItems.category}</TableCell>
+                                        </StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.usage_level}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.min_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.max_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.order_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.unit_price}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.total_price}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.comments}</StyledTableCell>
+                                        <StyledTableCell>{departmentExperienceItems.category}</StyledTableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
@@ -149,7 +152,10 @@ const DepartmentExperience = () => {
                     showFirstButton={true}
                     showLastButton={true}
                 />
-            </Stack>
+            </Paper>
+            <Drawer anchor="bottom" open={updateTotalQuantityFormDrawerSelector.open}>
+                <TotalQuantityUpdateForm />
+            </Drawer>
         </Box>
     );
 };

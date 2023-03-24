@@ -20,24 +20,24 @@ import {
 import { useLocation } from 'react-router-dom';
 import { getDepartmentItemsThunk, selectDepartmentItems } from '../app/department/departmentItemsSlice';
 
-const columns: { field: string; headerName: string | JSX.Element }[] = [
-    { field: 'checkbox', headerName: <Checkbox /> },
-    { field: 'item', headerName: 'Item' },
-    { field: 'purchase_unit', headerName: 'Purchase Unit' },
-    { field: 'quantity', headerName: 'Part Number' },
-    { field: 'min_quantity', headerName: 'Recent CN' },
-    { field: 'max_quantity', headerName: 'Location' },
-    { field: 'total_quantity', headerName: 'Total Qty' },
-    { field: 'usage_level', headerName: 'Usage Level' },
-    { field: 'min_quantity', headerName: 'Min Qty' }
-    { field: 'max_quantity', headerName: 'Max Qty' }
-    { field: 'order_quantity', headerName: 'Order Qty' }
-    { field: 'unit_price', headerName: 'Unit Price' }
-    { field: 'issued', headerName: 'Issued' }
-    { field: 'received', headerName: 'Received' }
-    { field: 'total_price', headerName: 'Total Price' }
-    { field: 'comments', headerName: 'Comment' }
-];
+// const columns: { field: string; headerName: string | JSX.Element }[] = [
+//     { field: 'checkbox', headerName: <Checkbox /> },
+//     { field: 'item', headerName: 'Item' },
+//     { field: 'purchase_unit', headerName: 'Purchase Unit' },
+//     { field: 'quantity', headerName: 'Part Number' },
+//     { field: 'min_quantity', headerName: 'Recent CN' },
+//     { field: 'max_quantity', headerName: 'Location' },
+//     { field: 'total_quantity', headerName: 'Total Qty' },
+//     { field: 'usage_level', headerName: 'Usage Level' },
+//     { field: 'min_quantity', headerName: 'Min Qty' }
+//     { field: 'max_quantity', headerName: 'Max Qty' }
+//     { field: 'order_quantity', headerName: 'Order Qty' }
+//     { field: 'unit_price', headerName: 'Unit Price' }
+//     { field: 'issued', headerName: 'Issued' }
+//     { field: 'received', headerName: 'Received' }
+//     { field: 'total_price', headerName: 'Total Price' }
+//     { field: 'comments', headerName: 'Comment' }
+// ];
 
 const StoreRoom = () => {
     const departmentItemsSelector = useAppSelector(selectDepartmentItems);
@@ -62,10 +62,11 @@ const StoreRoom = () => {
 
     return (
         <Box sx={{ height: '100%' }}>
+            Hi
             {/* <Drawer anchor="bottom" open={updateTotalQuantityFormDrawerSelector.open}>
                 <TotalQuantityUpdateForm />
             </Drawer> */}
-            <AppBar position="static" sx={{ backgroundColor: 'grey' }}>
+            {/* <AppBar position="static" sx={{ backgroundColor: 'grey' }}>
                 <Toolbar variant="dense"></Toolbar>
             </AppBar>
             <Stack
@@ -137,7 +138,7 @@ const StoreRoom = () => {
                         showLastButton={true}
                     />
                 )}
-            </Stack>
+            </Stack> */}
         </Box>
     );
 };
