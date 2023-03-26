@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
-const baseUrl = 'http://192.168.1.137:8000/ims/api/v1'
+const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const getDepartmentItem = (params: { pathName: string, page: number, size: number }) => {
     return axios.put(`${baseUrl}${params.pathName}/list?page=${params.page}&size=${params.size}`)
 }
 
-export const updateDepartmentItem = (params: { pathName: string, id: number, departmentItem: IDepartmentItem }) => {
-    return axios.put(`${baseUrl}${params.pathName}/${params.id}`, params.departmentItem)
+export const updateDepartmentItem = (params: { departmentName: string, id: number, departmentItem: IDepartmentItem }) => {
+    return axios.put(`${baseUrl}${params.departmentName}/${params.id}`, params.departmentItem)
 }
 
 export const getDepartmentItems = (params: { pathName: string, page: number, size: number }) => {

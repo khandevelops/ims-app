@@ -3,9 +3,10 @@ import axios from "axios";
 import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { RootState } from "../store";
 
-export const getMasterDepartmentItemById = (id: number) => {
-    // return axios.get(`http://192.168.1.137:8000/ims/api/v1/master/${id}`)
-    return axios.get(`http://localhost:8000/ims/api/v1/master-department/${id}`)
+const baseUrl = process.env.REACT_APP_BASE_URL
+
+export const getMasterDepartmentItemById = (id: number, departmentName: string) => {
+    return axios.get(`${baseUrl}/master-department/${departmentName}/${id}`)
 }
 
 export interface IMasterDepartmentItem {
@@ -46,8 +47,8 @@ const initialState: IMasterDepartmentState = {
 
 export const getMasterDepartmentItemThunk = createAsyncThunk(
     'getMasterDepartmentItemThunk',
-    async (id: number) => {
-        const response = await getMasterDepartmentItemById(id)
+    async (params: { id: number, departmentName: string }) => {
+        const response = await getMasterDepartmentItemById(params.id, params.departmentName)
         return response.data
     })
 

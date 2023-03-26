@@ -2,10 +2,10 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import masterReducer from './master/masterItemSlice';
 import masterFormReducer from "./master/masterFormSlice";
 import updateMasterFormDrawerReducer from './master/masterFormDrawerUpdateSlice';
-import transformedItemsReducer from "./departmentMaster/departmentMasterSlice";
+import departmentMasterReducer from "./departmentMaster/departmentMasterSlice";
 import updateTotalQuantityFromDrawerReducer from './master/quantityFormDrawerSlice';
 import requestMakeItemCreateReducer from './requestMake/requestMakeItemCreateConfirmationSlice';
-import updateQuantityByListReducer from './departmentMaster/quantityUpdateSlice';
+import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
 import requestMakeItemUpdateReducer from "./requestMake/requestMakeItemUpdateSlice";
 import departmentUpdateReducer from './department/departmentUpdateSlice';
@@ -25,9 +25,9 @@ export const store = configureStore({
     masterFormStore: masterFormReducer,
     masterDepartmentStore: masterDepartmentReducer,
     masterFormDrawerStore: updateMasterFormDrawerReducer,
-    transformedItemsStore: transformedItemsReducer,
+    departmentMasterStore: departmentMasterReducer,
     quantityFormDrawerStore: updateTotalQuantityFromDrawerReducer,
-    quantityUpdateStore: updateQuantityByListReducer,
+    updateQuantityStore: updateQuantityReducer,
     requestMakeItemUpdateStore: requestMakeItemUpdateReducer,
     requestMakeItemCreateStore: requestMakeItemCreateReducer,
     requestMakeItemStore: requestMakeItemReducer,

@@ -14,8 +14,8 @@ const initialState: IDepartmentUpdateState = {
 
 export const updateDepartmentItemThunk = createAsyncThunk(
     'updateDepartmentItemById',
-    async (params: { pathName: string, id: number, departmentItem: IDepartmentItem }) => {
-        const response = await updateDepartmentItem({pathName: params.pathName, id: params.id, departmentItem: params.departmentItem})
+    async (params: { deapartmentName: string, id: number, departmentItem: IDepartmentItem }) => {
+        const response = await updateDepartmentItem({departmentName: params.deapartmentName, id: params.id, departmentItem: params.departmentItem})
         return response.data
     }
 )

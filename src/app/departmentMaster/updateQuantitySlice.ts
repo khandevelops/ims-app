@@ -3,9 +3,10 @@ import axios from "axios";
 import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { RootState } from "../store";
 
-export const updateQuantity = (departmentItems: IDepartmentItem[]) => {
-    // return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-quantity', departmentItems)
-    return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-quantity', departmentItems)
+const baseUrl = process.env.REACT_APP_BASE_URL
+
+export const updateQuantity = (departmentName: string, departmentItems: IDepartmentItem[]) => {
+    return axios.patch(`${baseUrl}/departments/${departmentName}/update-quantity`, departmentItems)
 }
 
 export interface quantityUpdateState {
@@ -20,13 +21,13 @@ const initialState: quantityUpdateState = {
 
 export const updateQuantityThunk = createAsyncThunk(
     'updateQuantity',
-    async (departmentItems: IDepartmentItem[]) => {
-        const response = await updateQuantity(departmentItems)
+    async (params: {departmentName: string, departmentItems: IDepartmentItem[]}) => {
+        const response = await updateQuantity(params.departmentName, params.departmentItems)
         return response.data
     }
 )
 
-export const quantityUpdateSlice = createSlice({
+export const updateQuantitySlice = createSlice({
     name: 'updateQuantityByListSlice',
     initialState,
     reducers: {},
@@ -37,6 +38,6 @@ export const quantityUpdateSlice = createSlice({
     }
 })
 
-export const selectUpdateQuantity = (state: RootState) => state.quantityUpdateStore
+export const selectUpdateQuantity = (state: RootState) => state.updateQuantityStore
 
-export default quantityUpdateSlice.reducer
+export default updateQuantitySlice.reducer

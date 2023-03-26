@@ -15,7 +15,7 @@ export const getMasterFilterItems = (params: {item: string, page: number, size: 
 }
 
 export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
-    return axios.put(`${baseUrl}/${params.id}`, params.masterItem)
+    return axios.put(`${baseUrl}/master/${params.id}`, params.masterItem)
 }
 
 export const createMasterItem = (masterItem: IMasterItem) => {

@@ -14,34 +14,34 @@ const MenuAdmin = () => {
                 <Button sx={{ color: '#fff' }} component={Link} to="master">
                     <Typography variant="subtitle2">master</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions" state='extractions'>
                     <Typography variant="subtitle2">extractions</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/mass-spec">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/mass-spec" state='mass-spec'>
                     <Typography variant="subtitle2">mass-spec</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/receiving">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/receiving" state='receiving'>
                     <Typography variant="subtitle2">receiving</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/rd">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/rd" state='rd'>
                     <Typography variant="subtitle2">r&d</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/screening">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/screening" state='screening'>
                     <Typography variant="subtitle2">screening</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/shipping">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/shipping" state='shipping'>
                     <Typography variant="subtitle2">shipping</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality">
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality" state='quality'>
                     <Typography variant="subtitle2">quality</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/general">
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/general" state='general'>
                     <Typography variant="subtitle2">general-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/office-supply">
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/office-supply" state='office-supply'>
                     <Typography variant="subtitle2">office-supply-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/store-room">
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/store-room" state='store-room'>
                     <Typography variant="subtitle2">store-room-request</Typography>
                 </Button>
                 <Box sx={{ position: 'fixed', right: 20 }}><Profile/></Box>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -10,27 +10,24 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Checkbox,
     TablePagination,
-    AppBar,
-    Toolbar,
     Paper,
     Box,
-    Stack,
     Button,
     Drawer,
     tableCellClasses,
     styled
 } from '@mui/material';
-import { getDepartmentMasterThunk, selectDepartmentItems } from '../app/departmentMaster/departmentMasterSlice';
+import { getDepartmentMasterThunk, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
-import TotalQuantityUpdateForm from '../components/QuantityUpdateForm';
+import QuantityUpdateForm from '../components/UpdateQuantityForm';
 import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../app/master/quantityFormDrawerSlice';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
-import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
+import {
+    getMasterDepartmentItemThunk,
+} from '../app/masterDepartment/masterDepartmentSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
-    { field: 'checkbox', headerName: <Checkbox /> },
     { field: 'item', headerName: 'Item' },
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'part_number', headerName: 'Part Number' },
@@ -49,17 +46,17 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor:'WhiteSmoke',
-      fontSize: 13,
-      color: theme.palette.common.black,
+        backgroundColor: 'WhiteSmoke',
+        fontSize: 13,
+        color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 12,
-    },
-  }));
+        fontSize: 12
+    }
+}));
 
 const DepartmentExperience = () => {
-    const departmentItemsSelector = useAppSelector(selectDepartmentItems);
+    const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
     const pageSelector = useAppSelector(selectPage);
     const updateTotalQuantityFormDrawerSelector = useAppSelector(selectUpdateTotalQuantityFormDrawer);
     const dispatch = useAppDispatch();
@@ -85,56 +82,58 @@ const DepartmentExperience = () => {
         dispatch(handlePage(0));
     };
 
-    const handleUpdateClick = (id: number) => {
-        dispatch(toggleDrawer(true));
-        dispatch(getMasterDepartmentItemThunk(id));
+    const handleUpdateClick = (id: number, departmentName: string) => {
+        dispatch(getMasterDepartmentItemThunk({ id: id, departmentName: departmentName })).then(() =>
+            dispatch(toggleDrawer(true))
+        );
     };
 
     return (
-        <Box sx={{paddingTop: 3, paddingLeft: 1, paddingRight: 1}}>
+        <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
             <Paper elevation={3}>
-                <TableContainer sx={{height: 750}}>
+                <TableContainer sx={{ height: 750 }}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
                                 {columns.length > 0 &&
                                     columns.map((column) => (
-                                        <StyledTableCell 
-                                        key={column.field}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >{column.headerName}</StyledTableCell>
+                                        <StyledTableCell
+                                            key={column.field}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            {column.headerName}
+                                        </StyledTableCell>
                                     ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {departmentItemsSelector.response.content.length > 0 &&
-                                departmentItemsSelector.response.content.map((departmentExperienceItems, index) => (
+                            {departmentMasterItemsSelector.response.content.length > 0 &&
+                                departmentMasterItemsSelector.response.content.map((departmentMasterItems, index) => (
                                     <TableRow key={index}>
-                                        <StyledTableCell>
-                                            <Checkbox />
-                                        </StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.item}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.purchase_unit}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.part_number}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.recent_cn}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.location}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.item}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.purchase_unit}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.part_number}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.recent_cn}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.location}</StyledTableCell>
                                         <StyledTableCell>
                                             <Button
                                                 variant="outlined"
                                                 endIcon={<ChevronRightIcon />}
-                                                onClick={() => handleUpdateClick(departmentExperienceItems.item_id)}
-                                                sx={{ minWidth: 80 }}>
-                                                {departmentExperienceItems.total_quantity}
+                                                onClick={() =>
+                                                    handleUpdateClick(departmentMasterItems.item_id, location.state)
+                                                }
+                                                sx={{ minWidth: 80 }}
+                                                disabled={false}>
+                                                {departmentMasterItems.total_quantity}
                                             </Button>
                                         </StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.usage_level}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.min_quantity}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.max_quantity}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.order_quantity}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.unit_price}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.total_price}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.comments}</StyledTableCell>
-                                        <StyledTableCell>{departmentExperienceItems.category}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.usage_level}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.min_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.max_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.order_quantity}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.unit_price}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.total_price}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.comments}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.category}</StyledTableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
@@ -142,11 +141,11 @@ const DepartmentExperience = () => {
                 </TableContainer>
                 <TablePagination
                     sx={{ marginTop: 3 }}
-                    rowsPerPageOptions={[10, 25, 50]}
+                    rowsPerPageOptions={[]}
                     component="div"
-                    count={departmentItemsSelector.response.totalElements}
-                    rowsPerPage={departmentItemsSelector.response.size}
-                    page={departmentItemsSelector.response.number}
+                    count={departmentMasterItemsSelector.response.totalElements}
+                    rowsPerPage={departmentMasterItemsSelector.response.size}
+                    page={departmentMasterItemsSelector.response.number}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     showFirstButton={true}
@@ -154,7 +153,7 @@ const DepartmentExperience = () => {
                 />
             </Paper>
             <Drawer anchor="bottom" open={updateTotalQuantityFormDrawerSelector.open}>
-                <TotalQuantityUpdateForm />
+                <QuantityUpdateForm />
             </Drawer>
         </Box>
     );

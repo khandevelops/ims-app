@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 
+const baseUrl = process.env.REACT_APP_BASE_URL
+
 export const getDepartmentMasterItems = (params: { pathName: string, page: number, size: number }) => {
-    // return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
-    return axios.get(`http://localhost:8000/ims/api/v1${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
+    return axios.get(`${baseUrl}${params.pathName}/list/transformed?page=${params.page}&size=${params.size}`)
 }
 
 export interface IDepartmentMasterItem {
@@ -87,6 +88,6 @@ export const departmentMasterSlice = createSlice({
     }
 })
 
-export const selectDepartmentItems = (state: RootState) => state.transformedItemsStore
+export const selectDepartmentMasterItems = (state: RootState) => state.departmentMasterStore
 export const { changeDepartmentExperienceItems } = departmentMasterSlice.actions
 export default departmentMasterSlice.reducer
