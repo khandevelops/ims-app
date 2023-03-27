@@ -11,6 +11,10 @@ const MenuAdmin = () => {
                     <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
                 </Box>
 
+
+                <Button sx={{ color: '#fff' }} component={Link} to="master/store-room">
+                    <Typography variant="subtitle2">store-room</Typography>
+                </Button>
                 <Button sx={{ color: '#fff' }} component={Link} to="master">
                     <Typography variant="subtitle2">master</Typography>
                 </Button>

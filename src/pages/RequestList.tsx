@@ -19,7 +19,6 @@ import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import {
     changeRequestItems,
-    getRequestMakeCompletedItemsThunk,
     IRequestMakeItem,
     selectRequestItems
 } from '../app/requestMake/requestMakeItemSlice';
@@ -43,7 +42,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comment', headerName: 'Comment' }
 ];
 
-const RequestsAdmin = () => {
+const RequestList = () => {
     const requestsSelector = useAppSelector(selectRequestItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
@@ -51,7 +50,7 @@ const RequestsAdmin = () => {
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size }));
+        dispatch(getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page }));
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
     const handleChangePage = (event: any, page: number): void => {
@@ -147,4 +146,4 @@ const RequestsAdmin = () => {
     );
 };
 
-export default RequestsAdmin;
+export default RequestList;

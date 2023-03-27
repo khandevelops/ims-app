@@ -59,7 +59,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     extractionsItems: masterDepartmentItemSelector.response?.extractionsItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -70,7 +70,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     massSpecItems: masterDepartmentItemSelector.response?.massSpecItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -81,7 +81,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -92,7 +92,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     rdItems: masterDepartmentItemSelector.response?.rdItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -103,7 +103,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     screeningItems: masterDepartmentItemSelector.response?.screeningItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -114,7 +114,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     shippingItems: masterDepartmentItemSelector.response?.shippingItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -125,7 +125,7 @@ const UpdateQuantityForm = () => {
                     ...masterDepartmentItemSelector.response,
                     qualityItems: masterDepartmentItemSelector.response?.qualityItems.map((item) => ({
                         ...item,
-                        quantity: item.id === parseInt(event.target.id) ? event.target.value : item.quantity
+                        quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
                 })
             );
@@ -138,7 +138,7 @@ const UpdateQuantityForm = () => {
         //         ...masterDepartmentItemSelector.response,
         //         extractionsItems: masterDepartmentItemSelector.response?.extractionsItems.map((item) => ({
         //             ...item,
-        //             quantity: item.id === departmentItem.id ? 0 : item.quantity
+        //             quantity: item.id === departmentItem.id ? '' : item.quantity
         //         }))
         //     })
         // );
@@ -243,7 +243,7 @@ const UpdateQuantityForm = () => {
                                         <TextField
                                             ref={inputRef}
                                             sx={{ maxWidth: 120 }}
-                                            type="number"
+                                            type='number'
                                             size="small"
                                             name={departmentItem.id.toString()}
                                             value={departmentItem.quantity}

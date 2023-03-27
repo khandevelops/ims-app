@@ -44,7 +44,7 @@ const RequestsToMake = () => {
 
     useEffect(() => {
         dispatch(
-            getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
+            getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page})
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
@@ -133,7 +133,7 @@ const RequestsToMake = () => {
             </TableContainer>
             <TablePagination
                 sx={{ marginTop: 3 }}
-                rowsPerPageOptions={[10, 25, 50]}
+                rowsPerPageOptions={[]}
                 component="div"
                 count={departmentMasterItemsSelector.response.totalElements}
                 rowsPerPage={departmentMasterItemsSelector.response.size}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -23,9 +23,7 @@ import { useLocation } from 'react-router-dom';
 import QuantityUpdateForm from '../components/UpdateQuantityForm';
 import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../app/master/quantityFormDrawerSlice';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
-import {
-    getMasterDepartmentItemThunk,
-} from '../app/masterDepartment/masterDepartmentSlice';
+import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },

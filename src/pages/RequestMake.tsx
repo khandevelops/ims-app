@@ -38,7 +38,7 @@ function a11yProps(index: number) {
     };
 }
 
-const Requests = () => {
+const RequestMake = () => {
     const requestTabSelector = useAppSelector(selectRequestTab);
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -74,4 +74,4 @@ const Requests = () => {
     );
 };
 
-export default Requests;
+export default RequestMake;

@@ -3,8 +3,10 @@ import axios from "axios";
 import { IMasterItem } from "../master/masterItemSlice";
 import { RootState } from "../store";
 
-export const getRequestListItems = (params: { pathName: string, page: number, size: number }) => {
-    return axios.get(`http://192.168.1.137:8000/ims/api/v1${params.pathName}/list?page=${params.page}&size=${params.size}`)
+const baseUrl = process.env.REACT_APP_BASE_URL
+
+export const getRequestListItems = (params: { pathName: string, page: number }) => {
+    return axios.get(`${baseUrl}${params.pathName}/list?page=${params.page}}`)
 }
 
 
@@ -89,8 +91,8 @@ const initialState: IRequestListState = {
 
 export const getRequestListItemsThunk = createAsyncThunk(
     'getRequestListItemsThunk',
-    async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getRequestListItems({ pathName: params.pathName, page: params.page, size: params.size })
+    async (params: { pathName: string, page: number}) => {
+        const response = await getRequestListItems({ pathName: params.pathName, page: params.page })
         return response.data
     }
 )

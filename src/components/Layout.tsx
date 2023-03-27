@@ -1,28 +1,22 @@
-import React, { useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
-import Navbar from './NavbarTop';
-import Department from '../pages/StoreRoom';
 import DepartmentExperience from '../pages/DepartmentMaster';
-import RequestsAdmin from '../pages/RequestItemList';
-import Requests from '../pages/RequestItemMake';
-import { AuthenticatedTemplate } from '@azure/msal-react';
-import Auth from '../pages/Auth';
 import { useIsAuthenticated } from '@azure/msal-react';
 import Home from '../pages/Home';
 import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
 import { Drawer } from '@mui/material';
 import MasterForm from './UpdateMasterForm';
-import { selectMasterItems } from '../app/master/masterItemSlice';
 import { selectMasterFormDrawer } from '../app/master/masterFormDrawerUpdateSlice';
-import { useAppSelector, useAppDispatch } from '../app/hooks';
+import { useAppSelector } from '../app/hooks';
+import StoreRoomMaster from '../pages/StoreRoomMaster';
+import RequestList from '../pages/RequestList';
+import RequestMake from '../pages/RequestMake';
 
 const Layout = () => {
-    const masterItemsSelector = useAppSelector(selectMasterItems);
     const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
     const isAuthenticated = useIsAuthenticated();
-    const [profile, setProfile] = useState<{role: string, department: string}>({role: 'admin', department: 'extractions'})
 
 
     return (
@@ -49,20 +43,18 @@ const Layout = () => {
                     <Route path="quality" element={<DepartmentExperience />} />
                 </Route>
                 <Route path="master" element={<Master/>}/>
+                    <Route path='master/store-room' element={<StoreRoomMaster/>}/>
+                <Route/>
                 <Route path="request">
                     <Route path="list">
-                        <Route path="general" element={<RequestsAdmin />} />
-                        <Route path="office-supply" element={<RequestsAdmin />} />
-                        <Route path="store-room" element={<RequestsAdmin />} />
+                        <Route path="general" element={<RequestList />} />
+                        <Route path="office-supply" element={<RequestList />} />
+                        <Route path="store-room" element={<RequestList />} />
                     </Route>
-                </Route>
-                <Route path="department">
-                    <Route path="request">
-                        <Route path="make">
-                            <Route path="general" element={<Requests />} />
-                            <Route path="office-supply" element={<Requests />} />
-                            <Route path="store-room" element={<Requests />} />
-                        </Route>
+                    <Route path="make">
+                        <Route path="general" element={<RequestMake />} />
+                        <Route path="office-supply" element={<RequestMake />} />
+                        <Route path="store-room" element={<RequestMake />} />
                     </Route>
                 </Route>
             </Routes>
