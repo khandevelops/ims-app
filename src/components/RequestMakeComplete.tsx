@@ -11,7 +11,7 @@ import {
     TableRow
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getRequestMakeCompletedItemsThunk, selectRequestItems } from '../app/requestMake/requestMakeItemSlice';
+import { getRequestMakeCompletedItemsThunk, selectRequestItems } from '../app/requestDepartment/requestMakeItemSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
@@ -36,7 +36,11 @@ const StoreRoomRequestComplete = () => {
 
     useEffect(() => {
         dispatch(
-            getRequestMakeCompletedItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
+            getRequestMakeCompletedItemsThunk({
+                pathName: location.pathname,
+                page: pagination.page,
+                size: pagination.size
+            })
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 

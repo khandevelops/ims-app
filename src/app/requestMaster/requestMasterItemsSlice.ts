@@ -5,29 +5,29 @@ import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getRequestListItems = (params: { pathName: string, page: number }) => {
-    return axios.get(`${baseUrl}${params.pathName}/list?page=${params.page}}`)
+export const getRequestMasterItems = (pathName: string, page: number) => {
+    return axios.get(`${baseUrl}${pathName}/list/transformed?page=${page}`)
 }
 
 
-export interface IRequestItemList {
-    id: number,
-    location: string,
-    quantity: number,
-    min_quantity: number,
-    max_quantity: number,
-    usage_level: string,
-    lot_number: string,
-    expiration_date: string,
-    received_date: string,
-    order_quantity: number,
-    checked: boolean,
-    masterItem: IMasterItem
+export interface IRequestMasterItem {
+    item: string,
+    request_item_id: number,
+    master_item_id: number,
+    recent_cn: number,
+    department: string,
+    status: string,
+    quantity: string, 
+    time_requested: Date,
+    time_updated: Date,
+    comment: string,
+    custom_text: string,
+    checked: boolean
 }
 
-export interface IRequestListState {
+export interface IRequestMasterState {
     response: {
-        content: IRequestItemList[],
+        content: IRequestMasterItem[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -57,7 +57,7 @@ export interface IRequestListState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IRequestListState = {
+const initialState: IRequestMasterState = {
     response: {
         content: [],
         pageable: {
@@ -89,29 +89,29 @@ const initialState: IRequestListState = {
     status: 'idle'
 }
 
-export const getRequestListItemsThunk = createAsyncThunk(
-    'getRequestListItemsThunk',
+export const getRequestMasterItemsThunk = createAsyncThunk(
+    'getRequestMasterItemsThunk',
     async (params: { pathName: string, page: number}) => {
-        const response = await getRequestListItems({ pathName: params.pathName, page: params.page })
+        const response = await getRequestMasterItems(params.pathName, params.page)
         return response.data
     }
 )
 
-export const requestListItemSlice = createSlice({
+export const requestMasterItemsSlice = createSlice({
     name: 'requestListSlice',
     initialState,
     reducers: {
         updateRequestItemList: (state, action) => { state.response.content = action.payload }
     },
     extraReducers: (builder) => {
-        builder.addCase(getRequestListItemsThunk.pending, (state) => { state.status = 'loading' })
-        builder.addCase(getRequestListItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-        builder.addCase(getRequestListItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(getRequestMasterItemsThunk.pending, (state) => { state.status = 'loading' })
+        builder.addCase(getRequestMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+        builder.addCase(getRequestMasterItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const { updateRequestItemList } = requestListItemSlice.actions
+export const { updateRequestItemList } = requestMasterItemsSlice.actions
 
-export const selectRequestItemList = (state: RootState) => state.requestListItemStore
+export const selectRequestMasterItems = (state: RootState) => state.requestMasterItemsStore
 
-export default requestListItemSlice.reducer
+export default requestMasterItemsSlice.reducer

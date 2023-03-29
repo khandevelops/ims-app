@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RequestsComplete from '../components/RequestMakeComplete';
 import RequestsPending from '../components/RequestsMakePending';
-import RequestsToMake from '../components/RequestsList';
+import RequestsToMake from '../components/RequestAdminMade';
 import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 

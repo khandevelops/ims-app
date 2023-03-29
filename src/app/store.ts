@@ -4,16 +4,16 @@ import masterFormReducer from "./master/masterFormSlice";
 import updateMasterFormDrawerReducer from './master/masterFormDrawerUpdateSlice';
 import departmentMasterReducer from "./departmentMaster/departmentMasterSlice";
 import updateTotalQuantityFromDrawerReducer from './master/quantityFormDrawerSlice';
-import requestMakeItemCreateReducer from './requestMake/requestMakeItemCreateConfirmationSlice';
+import requestMakeItemCreateReducer from './requestDepartment/requestMakeItemCreateConfirmationSlice';
 import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
-import requestMakeItemUpdateReducer from "./requestMake/requestMakeItemUpdateSlice";
+import requestMakeItemUpdateReducer from "./requestDepartment/requestMakeItemUpdateSlice";
 import departmentUpdateReducer from './department/departmentUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
 import departmentItemsReducer from './department/departmentItemsSlice';
-import requestMakeItemReducer from './requestMake/requestMakeItemSlice';
-import requestListItemReducer from './requestList/requestListItemSlice';
-import requestItemsConfirmationReducer from './requestMake/requestMakeItemConfirmation';
+import requestMakeItemReducer from './requestDepartment/requestMakeItemSlice';
+import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
+import requestItemsConfirmationReducer from './requestDepartment/requestMakeItemConfirmation';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
@@ -35,7 +35,7 @@ export const store = configureStore({
     pageStore: pageReducer,
     departmentUpdateStore: departmentUpdateReducer,
     departmentItemsStore: departmentItemsReducer,
-    requestListItemStore: requestListItemReducer,
+    requestMasterItemsStore: requestMasterItemsReducer,
     requestItemsConfirmationStore: requestItemsConfirmationReducer,
     requestTabStore: requestTabReducer,
     profileStore: profileReducer,

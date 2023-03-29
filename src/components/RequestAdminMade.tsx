@@ -18,13 +18,12 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import {
-    getRequestListItemsThunk,
-    IRequestItemList,
-    selectRequestItemList,
+    getRequestMasterItemsThunk,
+    IRequestMasterItem,
+    selectRequestMasterItems,
     updateRequestItemList
-} from '../app/requestList/requestListItemSlice';
-import { departments } from '../common/constants';
-import { createRequestMakeItemsThunk } from '../app/requestMake/requestMakeItemCreateConfirmationSlice';
+} from '../app/requestMaster/requestMasterItemsSlice';
+import { createRequestMakeItemsThunk } from '../app/requestDepartment/requestMakeItemCreateConfirmationSlice';
 import { changeTab } from '../app/common/requestTabSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -36,16 +35,14 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comments', headerName: 'Comments' }
 ];
 
-const RequestsToMake = () => {
-    const departmentMasterItemsSelector = useAppSelector(selectRequestItemList);
+const RequestMaster = () => {
+    const requestMasterItemsSelector = useAppSelector(selectRequestMasterItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(
-            getRequestListItemsThunk({ pathName: location.pathname, page: pagination.page})
-        );
+        dispatch(getRequestMasterItemsThunk({ pathName: location.pathname, page: pagination.page }));
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 
     const handleChangePage = (event: any, page: number): void => {
@@ -56,43 +53,40 @@ const RequestsToMake = () => {
         setPagination((prevState) => ({ ...prevState, page: 0, size: parseInt(event.target.value) }));
     };
 
-    const handleCheckboxChange = (
-        event: ChangeEvent<HTMLInputElement>,
-        departmentMasterItem: IRequestItemList
-    ) => {
-        dispatch(
-            updateRequestItemList([
-                ...departmentMasterItemsSelector.response.content.map((item) => ({
-                    ...item,
-                    checked: departmentMasterItem.id === item.id ? event.target.checked : item.checked
-                }))
-            ])
-        );
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
+        // dispatch(
+        //     updateRequestItemList([
+        //         ...requestMasterItemsSelector.response.content.map((item) => ({
+        //             ...item,
+        //             checked: departmentMasterItem.id === item.id ? event.target.checked : item.checked
+        //         }))
+        //     ])
+        // );
     };
 
     const handleAddClick = () => {
-        const checkedItems = departmentMasterItemsSelector.response.content
-            .filter((item) => item.checked === true)
-            .map((item) => ({
-                id: 0,
-                order_quantity: 0,
-                department: 'EXTRACTIONS',
-                location: 'store-room',
-                status: 'PENDING',
-                time_requested: new Date(),
-                time_updated: null,
-                confirmation: 'WAITING',
-                user: 'Batsaikhan Ulambayar',
-                comment: 'this is a test comment',
-                custom_text: 'this is a test custom text',
-                masterItem: item.masterItem,
-                checked: item.checked
-            }));
+        // const checkedItems = requestMasterItemsSelector.response.content
+        //     .filter((item) => item.checked === true)
+        //     .map((item) => ({
+        //         id: 0,
+        //         order_quantity: 0,
+        //         department: 'EXTRACTIONS',
+        //         location: 'store-room',
+        //         status: 'PENDING',
+        //         time_requested: new Date(),
+        //         time_updated: null,
+        //         confirmation: 'WAITING',
+        //         user: 'Batsaikhan Ulambayar',
+        //         comment: 'this is a test comment',
+        //         custom_text: 'this is a test custom text',
+        //         masterItem: item.masterItem,
+        //         checked: item.checked
+        //     }));
 
-        if (checkedItems.length > 0) {
-            dispatch(createRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
-            dispatch(changeTab(1));
-        }
+        // if (checkedItems.length > 0) {
+        //     dispatch(createRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
+        //     dispatch(changeTab(1));
+        // }
     };
 
     return (
@@ -110,8 +104,8 @@ const RequestsToMake = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {departmentMasterItemsSelector.response.content.length > 0 &&
-                            departmentMasterItemsSelector.response.content.map((departmentMasterItem, index) => (
+                        {requestMasterItemsSelector.response.content.length > 0 &&
+                            requestMasterItemsSelector.response.content.map((departmentMasterItem, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Checkbox
@@ -121,11 +115,11 @@ const RequestsToMake = () => {
                                             checked={departmentMasterItem.checked}
                                         />
                                     </TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.item}</TableCell>
+                                    {/* <TableCell>{departmentMasterItem.masterItem.item}</TableCell>
                                     <TableCell>{departmentMasterItem.masterItem.recent_cn}</TableCell>
                                     <TableCell>{departmentMasterItem.masterItem.part_number}</TableCell>
                                     <TableCell>{departmentMasterItem.masterItem.purchase_unit}</TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.comments}</TableCell>
+                                    <TableCell>{departmentMasterItem.masterItem.comments}</TableCell> */}
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -135,20 +129,19 @@ const RequestsToMake = () => {
                 sx={{ marginTop: 3 }}
                 rowsPerPageOptions={[]}
                 component="div"
-                count={departmentMasterItemsSelector.response.totalElements}
-                rowsPerPage={departmentMasterItemsSelector.response.size}
-                page={departmentMasterItemsSelector.response.number}
+                count={requestMasterItemsSelector.response.totalElements}
+                rowsPerPage={requestMasterItemsSelector.response.size}
+                page={requestMasterItemsSelector.response.number}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 showFirstButton={true}
                 showLastButton={true}
             />
             <Zoom
-                in={departmentMasterItemsSelector.response.content.filter((item) => item.checked === true).length > 0}
+                in={requestMasterItemsSelector.response.content.filter((item) => item.checked === true).length > 0}
                 style={{
                     transitionDelay:
-                        departmentMasterItemsSelector.response.content.filter((item) => item.checked === true).length >
-                        0
+                    requestMasterItemsSelector.response.content.filter((item) => item.checked === true).length > 0
                             ? '500ms'
                             : '0ms'
                 }}>
@@ -162,4 +155,4 @@ const RequestsToMake = () => {
     );
 };
 
-export default RequestsToMake;
+export default RequestMaster;

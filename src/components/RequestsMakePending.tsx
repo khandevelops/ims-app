@@ -21,12 +21,12 @@ import {
     getRequestMakeCompletedItemsThunk,
     IRequestMakeItem,
     selectRequestItems
-} from '../app/requestMake/requestMakeItemSlice';
+} from '../app/requestDepartment/requestMakeItemSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { updateRequestMakeItemThunk } from '../app/requestMake/requestMakeItemUpdateSlice';
+import { updateRequestMakeItemThunk } from '../app/requestDepartment/requestMakeItemUpdateSlice';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Navigation';
-import { confirmRequestMakeItemsThunk } from '../app/requestMake/requestMakeItemCreateConfirmationSlice';
+import { confirmRequestMakeItemsThunk } from '../app/requestDepartment/requestMakeItemCreateConfirmationSlice';
 import { changeTab } from '../app/common/requestTabSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -48,7 +48,11 @@ const StoreRoomRequestsPending = () => {
 
     useEffect(() => {
         dispatch(
-            getRequestMakeCompletedItemsThunk({ pathName: location.pathname, page: pagination.page, size: pagination.size })
+            getRequestMakeCompletedItemsThunk({
+                pathName: location.pathname,
+                page: pagination.page,
+                size: pagination.size
+            })
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
 

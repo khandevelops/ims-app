@@ -39,13 +39,13 @@ const MenuAdmin = () => {
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality" state='quality'>
                     <Typography variant="subtitle2">quality</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/general" state='general'>
+                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/general" state='general'>
                     <Typography variant="subtitle2">general-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/office-supply" state='office-supply'>
+                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/office-supply" state='office-supply'>
                     <Typography variant="subtitle2">office-supply-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/list/store-room" state='store-room'>
+                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/store-room" state='store-room'>
                     <Typography variant="subtitle2">store-room-request</Typography>
                 </Button>
                 <Box sx={{ position: 'fixed', right: 20 }}><Profile/></Box>

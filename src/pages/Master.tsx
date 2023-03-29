@@ -12,17 +12,14 @@ import {
     TableRow,
     Checkbox,
     TablePagination,
-    Drawer,
     IconButton,
     Paper,
     Box,
     styled
 } from '@mui/material';
-import MasterForm from '../components/UpdateMasterForm';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { Height } from '@mui/icons-material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

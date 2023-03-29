@@ -11,13 +11,12 @@ import MasterForm from './UpdateMasterForm';
 import { selectMasterFormDrawer } from '../app/master/masterFormDrawerUpdateSlice';
 import { useAppSelector } from '../app/hooks';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
-import RequestList from '../pages/RequestList';
+import RequestList from '../pages/RequestMaster';
 import RequestMake from '../pages/RequestMake';
 
 const Layout = () => {
     const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
     const isAuthenticated = useIsAuthenticated();
-
 
     return (
         <div>
@@ -32,9 +31,9 @@ const Layout = () => {
             <Routes>
                 {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}
                 {/* <Route path="*" element={<Navigate to="auth" />} /> */}
-                <Route path='/' element={<Home/>}/>
-                <Route path='department-master'>
-                    <Route path="extractions" element={<DepartmentExperience />}/>
+                <Route path="/" element={<Home />} />
+                <Route path="department-master">
+                    <Route path="extractions" element={<DepartmentExperience />} />
                     <Route path="mass-spec" element={<DepartmentExperience />} />
                     <Route path="receiving" element={<DepartmentExperience />} />
                     <Route path="rd" element={<DepartmentExperience />} />
@@ -42,15 +41,15 @@ const Layout = () => {
                     <Route path="shipping" element={<DepartmentExperience />} />
                     <Route path="quality" element={<DepartmentExperience />} />
                 </Route>
-                <Route path="master" element={<Master/>}/>
-                    <Route path='master/store-room' element={<StoreRoomMaster/>}/>
-                <Route/>
+                <Route path="master" element={<Master />} />
+                <Route path="master/store-room" element={<StoreRoomMaster />} />
                 <Route path="request">
-                    <Route path="list">
-                        <Route path="general" element={<RequestList />} />
-                        <Route path="office-supply" element={<RequestList />} />
-                        <Route path="store-room" element={<RequestList />} />
-                    </Route>
+                    <Route path="admin"></Route>
+                </Route>
+                <Route path="request-master">
+                    <Route path="general" element={<RequestList />} />
+                    <Route path="office-supply" element={<RequestList />} />
+                    <Route path="store-room" element={<RequestList />} />
                     <Route path="make">
                         <Route path="general" element={<RequestMake />} />
                         <Route path="office-supply" element={<RequestMake />} />
@@ -59,9 +58,7 @@ const Layout = () => {
                 </Route>
             </Routes>
 
-   
-
-            <NavbarBottom/>
+            <NavbarBottom />
         </div>
     );
 };
