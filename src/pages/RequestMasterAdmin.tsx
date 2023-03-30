@@ -19,25 +19,25 @@ import {
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { changeRequestItems } from '../app/requestDepartment/requestMakeItemSlice';
+import { changeRequestItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { statuses } from '../common/constants';
 import {
     getRequestMasterItemsThunk,
-    IRequestMasterItem,
+    IRequestMasterAdminItem,
     selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItemsSlice';
+} from '../app/requestAdminMaster/requestMasterAdminItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor:'WhiteSmoke',
-      fontSize: 13,
-      color: theme.palette.common.black,
+        backgroundColor: 'WhiteSmoke',
+        fontSize: 13,
+        color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 12,
-    },
-  }));
+        fontSize: 12
+    }
+}));
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -51,7 +51,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comment', headerName: 'Comment' }
 ];
 
-const RequestMaster = () => {
+const RequestMasterAdmin = () => {
     const requestMasterItemsSelector = useAppSelector(selectRequestMasterItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
@@ -66,7 +66,7 @@ const RequestMaster = () => {
         setPage(page);
     };
 
-    const handleStatusChange = (event: SelectChangeEvent, requestItem: IRequestMasterItem) => {
+    const handleStatusChange = (event: SelectChangeEvent, requestItem: IRequestMasterAdminItem) => {
         dispatch(
             changeRequestItems(
                 requestMasterItemsSelector.response.content.map((item) => ({
@@ -86,7 +86,7 @@ const RequestMaster = () => {
     return (
         <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
             <Paper elevation={3}>
-                <TableContainer sx={{ height: 750 }}>
+                <TableContainer sx={{ height: 600 }}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
@@ -101,7 +101,9 @@ const RequestMaster = () => {
                                 requestMasterItemsSelector.response.content.map((requestItem, index) => (
                                     <TableRow key={index}>
                                         <StyledTableCell>{requestItem.item && requestItem.item}</StyledTableCell>
-                                        <StyledTableCell>{requestItem.recent_cn && requestItem.recent_cn}</StyledTableCell>
+                                        <StyledTableCell>
+                                            {requestItem.recent_cn && requestItem.recent_cn}
+                                        </StyledTableCell>
                                         <StyledTableCell>{requestItem.quantity}</StyledTableCell>
                                         <StyledTableCell>
                                             <FormControl fullWidth>
@@ -120,8 +122,12 @@ const RequestMaster = () => {
                                                 </Select>
                                             </FormControl>
                                         </StyledTableCell>
-                                        <StyledTableCell>{moment(requestItem.time_requested).format('MM/DD/YYYY')}</StyledTableCell>
-                                        <StyledTableCell>{moment(requestItem.time_updated).format('MM/DD/YYYY')}</StyledTableCell>
+                                        <StyledTableCell>
+                                            {moment(requestItem.time_requested).format('MM/DD/YYYY')}
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            {moment(requestItem.time_updated).format('MM/DD/YYYY')}
+                                        </StyledTableCell>
                                         <StyledTableCell>{requestItem.department}</StyledTableCell>
                                         <StyledTableCell>{requestItem.custom_text}</StyledTableCell>
                                         <StyledTableCell>{requestItem.comment}</StyledTableCell>
@@ -146,4 +152,4 @@ const RequestMaster = () => {
     );
 };
 
-export default RequestMaster;
+export default RequestMasterAdmin;

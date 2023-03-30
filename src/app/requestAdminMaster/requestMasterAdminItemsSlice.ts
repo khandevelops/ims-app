@@ -6,18 +6,17 @@ import { RootState } from "../store";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const getRequestMasterItems = (pathName: string, page: number) => {
-    return axios.get(`${baseUrl}${pathName}/list/transformed?page=${page}`)
+    return axios.get(`${baseUrl}${pathName}/list/transformed/admin?page=${page}`)
 }
 
-
-export interface IRequestMasterItem {
+export interface IRequestMasterAdminItem {
     item: string,
     request_item_id: number,
     master_item_id: number,
     recent_cn: number,
     department: string,
     status: string,
-    quantity: string, 
+    quantity: number, 
     time_requested: Date,
     time_updated: Date,
     comment: string,
@@ -27,7 +26,7 @@ export interface IRequestMasterItem {
 
 export interface IRequestMasterState {
     response: {
-        content: IRequestMasterItem[],
+        content: IRequestMasterAdminItem[],
         pageable: {
             sort: {
                 empty: boolean,

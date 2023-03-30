@@ -89,7 +89,7 @@ const DepartmentExperience = () => {
     return (
         <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
             <Paper elevation={3}>
-                <TableContainer sx={{ height: 750 }}>
+                <TableContainer sx={{ height: 600 }}>
                     <Table size="small">
                         <TableHead>
                             <TableRow>

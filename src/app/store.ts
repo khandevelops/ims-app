@@ -4,21 +4,24 @@ import masterFormReducer from "./master/masterFormSlice";
 import updateMasterFormDrawerReducer from './master/masterFormDrawerUpdateSlice';
 import departmentMasterReducer from "./departmentMaster/departmentMasterSlice";
 import updateTotalQuantityFromDrawerReducer from './master/quantityFormDrawerSlice';
-import requestMakeItemCreateReducer from './requestDepartment/requestMakeItemCreateConfirmationSlice';
+import requestMakeItemCreateReducer from './requestMasterDepartment/requestMasterDepartmentCreateItemConfirmationSlice';
 import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
-import requestMakeItemUpdateReducer from "./requestDepartment/requestMakeItemUpdateSlice";
+import requestMakeItemUpdateReducer from "./requestMasterDepartment/requestMasterDepartmentUpdateItemConfirmationSlice";
 import departmentUpdateReducer from './department/departmentUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
 import departmentItemsReducer from './department/departmentItemsSlice';
-import requestMakeItemReducer from './requestDepartment/requestMakeItemSlice';
-import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
-import requestItemsConfirmationReducer from './requestDepartment/requestMakeItemConfirmation';
+import requestMakeItemReducer from './requestMasterDepartment/requestMasterDepartmentItemsSlice';
+import requestMasterItemsReducer from './requestAdminMaster/requestMasterAdminItemsSlice';
+import requestItemsConfirmationReducer from './requestMasterDepartment/requestMasterDepartmentItemsConfirmation';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
 import storeRooomMasterItemsReducer from './storeRoom/storeRoomMasterItemsSlice'
 import storeRooomUpdateReducer from './storeRoom/storeRoomUpdateSlice'
+import requestMasterDepartmentItemsReducer from './requestMasterDepartment/requestMasterDepartmentItemsSlice'
+import requestItemsUpdateReducer from './request/requestItemsUpdate'
+import requestItemsCreateReducer from './request/requestItemsCreate'
 
 export const store = configureStore({
   reducer: {
@@ -41,7 +44,10 @@ export const store = configureStore({
     profileStore: profileReducer,
     searchStore: searchReducer,
     storeRooomMasterItemsStore: storeRooomMasterItemsReducer,
-    storeRooomUpdateStore: storeRooomUpdateReducer
+    storeRooomUpdateStore: storeRooomUpdateReducer,
+    requestMasterDepartmentItemsStore: requestMasterDepartmentItemsReducer,
+    requestItemsUpdateStore: requestItemsUpdateReducer,
+    requestItemsCreateStore: requestItemsCreateReducer
   }
 });
 

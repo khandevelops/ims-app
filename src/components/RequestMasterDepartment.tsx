@@ -13,18 +13,15 @@ import {
     TableRow,
     Zoom
 } from '@mui/material';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import {
-    getRequestMasterItemsThunk,
-    IRequestMasterItem,
-    selectRequestMasterItems,
-    updateRequestItemList
-} from '../app/requestMaster/requestMasterItemsSlice';
-import { createRequestMakeItemsThunk } from '../app/requestDepartment/requestMakeItemCreateConfirmationSlice';
-import { changeTab } from '../app/common/requestTabSlice';
+    getRequestMasterDepartmentItemsThunk,
+    IRequestMasterDepartmentItem,
+    selectRequestMasterDepartmentItems
+} from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -32,28 +29,27 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'recent_cn', headerName: 'Recent CN' },
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'part_number', headerName: 'Part Number' },
-    { field: 'comments', headerName: 'Comments' }
+    { field: 'Detail', headerName: 'detail' }
 ];
 
-const RequestMaster = () => {
-    const requestMasterItemsSelector = useAppSelector(selectRequestMasterItems);
+const RequestMasterDepartment = () => {
+    const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
     const dispatch = useAppDispatch();
-    const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
+    const [page, setPage] = useState<number>(0);
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getRequestMasterItemsThunk({ pathName: location.pathname, page: pagination.page }));
-    }, [dispatch, location.pathname, pagination.page, pagination.size]);
+        dispatch(getRequestMasterDepartmentItemsThunk({ pathName: location.pathname, page: page }));
+    }, [dispatch, location.pathname, page]);
 
     const handleChangePage = (event: any, page: number): void => {
-        setPagination({ ...pagination, page: page });
+        setPage(page);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setPagination((prevState) => ({ ...prevState, page: 0, size: parseInt(event.target.value) }));
-    };
-
-    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
+    const handleCheckboxChange = (
+        event: ChangeEvent<HTMLInputElement>,
+        departmentMasterItem: IRequestMasterDepartmentItem
+    ) => {
         // dispatch(
         //     updateRequestItemList([
         //         ...requestMasterItemsSelector.response.content.map((item) => ({
@@ -82,7 +78,6 @@ const RequestMaster = () => {
         //         masterItem: item.masterItem,
         //         checked: item.checked
         //     }));
-
         // if (checkedItems.length > 0) {
         //     dispatch(createRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
         //     dispatch(changeTab(1));
@@ -104,22 +99,22 @@ const RequestMaster = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {requestMasterItemsSelector.response.content.length > 0 &&
-                            requestMasterItemsSelector.response.content.map((departmentMasterItem, index) => (
+                        {requestMasterDepartmentItemsSelector.response.content.length > 0 &&
+                            requestMasterDepartmentItemsSelector.response.content.map((requestMasterDepartmentItem, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Checkbox
                                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleCheckboxChange(event, departmentMasterItem)
+                                                handleCheckboxChange(event, requestMasterDepartmentItem)
                                             }
-                                            checked={departmentMasterItem.checked}
+                                            checked={requestMasterDepartmentItem.checked}
                                         />
                                     </TableCell>
-                                    {/* <TableCell>{departmentMasterItem.masterItem.item}</TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.recent_cn}</TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.part_number}</TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.purchase_unit}</TableCell>
-                                    <TableCell>{departmentMasterItem.masterItem.comments}</TableCell> */}
+                                    <TableCell>{requestMasterDepartmentItem.item}</TableCell>
+                                    <TableCell>{requestMasterDepartmentItem.recent_cn}</TableCell>
+                                    <TableCell>{requestMasterDepartmentItem.purchase_unit}</TableCell>
+                                    <TableCell>{requestMasterDepartmentItem.part_number}</TableCell>
+                                    <TableCell>{requestMasterDepartmentItem.detail}</TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -129,19 +124,18 @@ const RequestMaster = () => {
                 sx={{ marginTop: 3 }}
                 rowsPerPageOptions={[]}
                 component="div"
-                count={requestMasterItemsSelector.response.totalElements}
-                rowsPerPage={requestMasterItemsSelector.response.size}
-                page={requestMasterItemsSelector.response.number}
+                count={requestMasterDepartmentItemsSelector.response.totalElements}
+                rowsPerPage={requestMasterDepartmentItemsSelector.response.size}
+                page={requestMasterDepartmentItemsSelector.response.number}
                 onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
                 showFirstButton={true}
                 showLastButton={true}
             />
             <Zoom
-                in={requestMasterItemsSelector.response.content.filter((item) => item.checked === true).length > 0}
+                in={requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0}
                 style={{
                     transitionDelay:
-                    requestMasterItemsSelector.response.content.filter((item) => item.checked === true).length > 0
+                    requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0
                             ? '500ms'
                             : '0ms'
                 }}>
@@ -155,4 +149,4 @@ const RequestMaster = () => {
     );
 };
 
-export default RequestMaster;
+export default RequestMasterDepartment;

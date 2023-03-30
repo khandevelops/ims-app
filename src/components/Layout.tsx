@@ -6,13 +6,13 @@ import { useIsAuthenticated } from '@azure/msal-react';
 import Home from '../pages/Home';
 import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
-import { Drawer } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import MasterForm from './UpdateMasterForm';
 import { selectMasterFormDrawer } from '../app/master/masterFormDrawerUpdateSlice';
 import { useAppSelector } from '../app/hooks';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
-import RequestList from '../pages/RequestMaster';
-import RequestMake from '../pages/RequestMake';
+import RequestList from '../pages/RequestMasterAdmin';
+import RequestMake from '../pages/RequestMasterDepartment';
 
 const Layout = () => {
     const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
@@ -42,7 +42,7 @@ const Layout = () => {
                     <Route path="quality" element={<DepartmentExperience />} />
                 </Route>
                 <Route path="master" element={<Master />} />
-                <Route path="master/store-room" element={<StoreRoomMaster />} />
+                <Route path="store-room-master" element={<StoreRoomMaster />} />
                 <Route path="request">
                     <Route path="admin"></Route>
                 </Route>

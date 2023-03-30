@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getSearchValue, selectSearchValue } from '../app/search';
 import MenuSub from './MenuSub';
 import { Box } from '@mui/material';
+import MenuDepartment from './MenuDepartment';
 
 export default function NavbarTop() {
     const dispatch = useAppDispatch();
@@ -22,7 +23,8 @@ export default function NavbarTop() {
 
     return (
         <Box>
-            {profile.role === 'admin' && <AdminMenu />}
+            {/* {profile.role === 'admin' && <AdminMenu />} */}
+            {<MenuDepartment />}
             <MenuSub/>
         </Box>
     );

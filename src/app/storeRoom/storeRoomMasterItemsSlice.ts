@@ -5,7 +5,7 @@ import { RootState } from "../store";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const getStoreRoomMasterItems = (page: number) => {
-    return axios.get(`${baseUrl}/master/store-room/list/transformed?page=${page}`)
+    return axios.get(`${baseUrl}/store-room-master/list/transformed?page=${page}`)
 }
 
 export interface IStoreRoomMasterItem {

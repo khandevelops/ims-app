@@ -1,65 +1,53 @@
-import { AppBar, Button, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
+import logo from '../images/logo.png';
+import Profile from './Profile';
 
 const MenuDepartment = () => {
     return (
-        <AppBar position="static" sx={{backgroundColor: '#1347a4'}}>
-            <Toolbar>
-            <Button sx={{ color: '#fff' }} component={Link} to="master">
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        master
-                    </Typography>
+        <AppBar position="static" elevation={5} sx={{ backgroundColor: '#1347a4' }}>
+            <Toolbar sx={{ margin: 'auto' }}>
+                <Box sx={{ position: 'fixed', left: 20 }}>
+                    <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
+                </Box>
+                
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions" state="extractions">
+                    <Typography variant="subtitle2">extractions</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions" state='extractions'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        extractions
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/mass-spec" state="mass-spec">
+                    <Typography variant="subtitle2">mass-spec</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/mass-spec" state='mass-spec'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        mass-spec
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/receiving" state="receiving">
+                    <Typography variant="subtitle2">receiving</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/receiving" state='receiving'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        receiving
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/rd" state="rd">
+                    <Typography variant="subtitle2">r&d</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/rd" state='rd'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        r&d
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/screening" state="screening">
+                    <Typography variant="subtitle2">screening</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/screening" state='screening'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        screening
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/shipping" state="shipping">
+                    <Typography variant="subtitle2">shipping</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/shipping" state='shipping'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        shipping
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality" state="quality">
+                    <Typography variant="subtitle2">quality</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality" state='quality'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        quality
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/general" state="general">
+                    <Typography variant="subtitle2">general-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/general" state='request/make/general'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        general-request
-                    </Typography>
+                <Button
+                    sx={{ color: '#fff' }}
+                    component={Link}
+                    to="/request-master/office-supply"
+                    state="office-supply">
+                    <Typography variant="subtitle2">office-supply-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/office-supply" state='request/make/office-supply'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        office-supply-request
-                    </Typography>
+                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/store-room" state="store-room">
+                    <Typography variant="subtitle2">store-room-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request/make/store-room" state='request/make/store-room'>
-                    <Typography component="div" sx={{ flexGrow: 1 }}>
-                        store-room-request
-                    </Typography>
-                </Button>
+                <Box sx={{ position: 'fixed', right: 20 }}>
+                    <Profile />
+                </Box>
             </Toolbar>
             <Outlet />
         </AppBar>

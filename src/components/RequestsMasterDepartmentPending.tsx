@@ -18,15 +18,13 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import {
     changeCheckbox,
     changeRequestItems,
-    getRequestMakeCompletedItemsThunk,
-    IRequestMakeItem,
-    selectRequestItems
-} from '../app/requestDepartment/requestMakeItemSlice';
+    getRequestMasterDepartmentItemsThunk,
+    IRequestMasterDepartmentItem,
+    selectRequestMasterDepartmentItems,
+} from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { updateRequestMakeItemThunk } from '../app/requestDepartment/requestMakeItemUpdateSlice';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Navigation';
-import { confirmRequestMakeItemsThunk } from '../app/requestDepartment/requestMakeItemCreateConfirmationSlice';
 import { changeTab } from '../app/common/requestTabSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -40,7 +38,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 ];
 
 const StoreRoomRequestsPending = () => {
-    const requestItemsSelector = useAppSelector(selectRequestItems);
+    const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
 
@@ -48,10 +46,9 @@ const StoreRoomRequestsPending = () => {
 
     useEffect(() => {
         dispatch(
-            getRequestMakeCompletedItemsThunk({
+            getRequestMasterDepartmentItemsThunk({
                 pathName: location.pathname,
-                page: pagination.page,
-                size: pagination.size
+                page: pagination.page
             })
         );
     }, [dispatch, location.pathname, pagination.page, pagination.size]);
@@ -60,56 +57,52 @@ const StoreRoomRequestsPending = () => {
         setPagination((prevState) => ({ ...prevState, page: page }));
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setPagination((prevState) => ({ ...prevState, page: 0, size: parseInt(event.target.value) }));
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
+        // dispatch(
+        //     changeRequestItems({
+        //         ...requestMasterDepartmentItemsSelector.response,
+        //         content: requestMasterDepartmentItemsSelector.response.content.map((item) => ({
+        //             ...item,
+        //             order_quantity:
+        //                 event.target.name === 'order_quantity' && item.request_item_id === requestItem.request_item_id
+        //                     ? Number(event.target.value)
+        //                     : item.quantity,
+        //             custom_text:
+        //                 event.target.name === 'custom_text' && item.request_item_id === requestItem.request_item_id
+        //                     ? event.target.value
+        //                     : item.custom_text
+        //         }))
+        //     })
+        // );
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
-        dispatch(
-            changeRequestItems({
-                ...requestItemsSelector.response,
-                content: requestItemsSelector.response.content.map((item) => ({
-                    ...item,
-                    order_quantity:
-                        event.target.name === 'order_quantity' && item.id === requestItem.id
-                            ? Number(event.target.value)
-                            : item.order_quantity,
-                    custom_text:
-                        event.target.name === 'custom_text' && item.id === requestItem.id
-                            ? event.target.value
-                            : item.custom_text
-                }))
-            })
-        );
+    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
+        // dispatch(
+        //     changeCheckbox([
+        //         ...requestMasterDepartmentItemsSelector.response.content.map((item) => ({
+        //             ...item,
+        //             checked: requestItem.request_item_id === item.request_item_id ? event.target.checked : item.checked
+        //         }))
+        //     ])
+        // );
     };
 
-    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
-        dispatch(
-            changeCheckbox([
-                ...requestItemsSelector.response.content.map((item) => ({
-                    ...item,
-                    checked: requestItem.id === item.id ? event.target.checked : item.checked
-                }))
-            ])
-        );
-    };
-
-    const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestMakeItem) => {
+    const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
         if (event.key === 'Enter') {
             dispatch(updateRequestMakeItemThunk({ pathName: location.pathname, requestItem: requestItem }));
         }
     };
 
     const handleSendClick = () => {
-        const checkedItems = requestItemsSelector.response.content.filter((item) => item.checked === true);
+        const checkedItems = requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true);
 
         if (checkedItems.length > 0) {
             dispatch(confirmRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
-            if (requestItemsSelector.status === 'success') {
+            if (requestMasterDepartmentItemsSelector.status === 'success') {
                 dispatch(
                     changeRequestItems({
-                        ...requestItemsSelector.response,
-                        content: requestItemsSelector.response.content.filter((item) => item.checked !== true)
+                        ...requestMasterDepartmentItemsSelector.response,
+                        content: requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked !== true)
                     })
                 );
             }
@@ -132,8 +125,8 @@ const StoreRoomRequestsPending = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {requestItemsSelector.response.content.length > 0 &&
-                            requestItemsSelector.response.content.map((requestItem, index) => (
+                        {requestMasterDepartmentItemsSelector.response.content.length > 0 &&
+                            requestMasterDepartmentItemsSelector.response.content.map((requestItem, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Checkbox
@@ -143,8 +136,8 @@ const StoreRoomRequestsPending = () => {
                                             checked={requestItem.checked}
                                         />
                                     </TableCell>
-                                    <TableCell>{requestItem.masterItem && requestItem.masterItem.item}</TableCell>
-                                    <TableCell>{requestItem.masterItem && requestItem.masterItem.recent_cn}</TableCell>
+                                    <TableCell>{requestItem && requestItem.item}</TableCell>
+                                    <TableCell>{requestItem && requestItem.recent_cn}</TableCell>
                                     <TableCell>
                                         <TextField
                                             id="manufacturer"
@@ -152,7 +145,7 @@ const StoreRoomRequestsPending = () => {
                                             type="number"
                                             size="small"
                                             name="order_quantity"
-                                            value={requestItem.order_quantity === 0 ? '' : requestItem.order_quantity}
+                                            value={requestItem.quantity === 0 ? '' : requestItem.quantity}
                                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
                                                 handleChange(event, requestItem)
                                             }
@@ -177,7 +170,7 @@ const StoreRoomRequestsPending = () => {
                                         />
                                     </TableCell>
                                     <TableCell>{requestItem.status}</TableCell>
-                                    <TableCell>{requestItem.comment}</TableCell>
+                                    <TableCell>{requestItem.detail}</TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -187,23 +180,22 @@ const StoreRoomRequestsPending = () => {
                 sx={{ marginTop: 3 }}
                 rowsPerPageOptions={[10, 25, 50]}
                 component="div"
-                count={requestItemsSelector.response.totalElements}
-                rowsPerPage={requestItemsSelector.response.size}
-                page={requestItemsSelector.response.number}
+                count={requestMasterDepartmentItemsSelector.response.totalElements}
+                rowsPerPage={requestMasterDepartmentItemsSelector.response.size}
+                page={requestMasterDepartmentItemsSelector.response.number}
                 onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
                 showFirstButton={true}
                 showLastButton={true}
             />
             <Zoom
                 in={
-                    requestItemsSelector.response.content.length > 0 &&
-                    requestItemsSelector.response.content.filter((item) => item.checked === true).length > 0
+                    requestMasterDepartmentItemsSelector.response.content.length > 0 &&
+                    requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0
                 }
                 style={{
                     transitionDelay:
-                        requestItemsSelector.response.content.length > 0 &&
-                        requestItemsSelector.response.content.filter((item) => item.checked === true).length > 0
+                    requestMasterDepartmentItemsSelector.response.content.length > 0 &&
+                    requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0
                             ? '500ms'
                             : '0ms'
                 }}>

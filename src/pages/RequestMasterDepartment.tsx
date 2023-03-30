@@ -1,9 +1,9 @@
 import { AppBar, Box, Fab, Tab, Tabs, Toolbar } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import RequestsComplete from '../components/RequestMakeComplete';
-import RequestsPending from '../components/RequestsMakePending';
-import RequestsToMake from '../components/RequestAdminMade';
+import RequestsComplete from '../components/RequestMasterDepartmentComplete';
+import RequestsPending from '../components/RequestsMasterDepartmentPending';
+import RequestsToMake from '../components/RequestMasterDepartment';
 import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
@@ -38,7 +38,7 @@ function a11yProps(index: number) {
     };
 }
 
-const RequestMake = () => {
+const RequestMasterDepartment = () => {
     const requestTabSelector = useAppSelector(selectRequestTab);
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -74,4 +74,4 @@ const RequestMake = () => {
     );
 };
 
-export default RequestMake;
+export default RequestMasterDepartment;
