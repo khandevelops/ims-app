@@ -47,14 +47,14 @@ const Layout = () => {
                     <Route path="admin"></Route>
                 </Route>
                 <Route path="request-master">
-                    <Route path="general" element={<RequestList />} />
-                    <Route path="office-supply" element={<RequestList />} />
-                    <Route path="store-room" element={<RequestList />} />
-                    <Route path="make">
-                        <Route path="general" element={<RequestMake />} />
-                        <Route path="office-supply" element={<RequestMake />} />
-                        <Route path="store-room" element={<RequestMake />} />
-                    </Route>
+                    <Route path="general/admin" element={<RequestList />} />
+                    <Route path="office-supply/admin" element={<RequestList />} />
+                    <Route path="store-room/admin" element={<RequestList />} />
+                </Route>
+                <Route path="request">
+                    <Route path="general" element={<RequestMake />} />
+                    <Route path="office-supply" element={<RequestMake />} />
+                    <Route path="store-room" element={<RequestMake />} />
                 </Route>
             </Routes>
 

@@ -10,7 +10,7 @@ const MenuDepartment = () => {
                 <Box sx={{ position: 'fixed', left: 20 }}>
                     <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
                 </Box>
-                
+
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/extractions" state="extractions">
                     <Typography variant="subtitle2">extractions</Typography>
                 </Button>
@@ -32,17 +32,21 @@ const MenuDepartment = () => {
                 <Button sx={{ color: '#fff' }} component={Link} to="department-master/quality" state="quality">
                     <Typography variant="subtitle2">quality</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/general" state="general">
+                <Button sx={{ color: '#fff' }} component={Link} to="/request/general" state="general">
                     <Typography variant="subtitle2">general-request</Typography>
                 </Button>
                 <Button
                     sx={{ color: '#fff' }}
                     component={Link}
-                    to="/request-master/office-supply"
+                    to="/request/office-supply"
                     state="office-supply">
                     <Typography variant="subtitle2">office-supply-request</Typography>
                 </Button>
-                <Button sx={{ color: '#fff' }} component={Link} to="/request-master/store-room" state="store-room">
+                <Button
+                    sx={{ color: '#fff' }}
+                    component={Link}
+                    to="/request/store-room/"
+                    state="store-room">
                     <Typography variant="subtitle2">store-room-request</Typography>
                 </Button>
                 <Box sx={{ position: 'fixed', right: 20 }}>

@@ -1,11 +1,11 @@
 import { AppBar, Box, Fab, Tab, Tabs, Toolbar } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import RequestsComplete from '../components/RequestMasterDepartmentComplete';
-import RequestsPending from '../components/RequestsMasterDepartmentPending';
-import RequestsToMake from '../components/RequestMasterDepartment';
 import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import RequestMasterDepartmentPending from '../components/RequestMasterDepartmentPending';
+import RequestMasterDepartmentComplete from '../components/RequestMasterDepartmentComplete';
+import RequestMasterDepartmentItems from '../components/RequestMasterDepartmentItems';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -24,9 +24,9 @@ function TabPanel(props: TabPanelProps) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}>
-            {value === 0 && <RequestsToMake />}
-            {value === 1 && <RequestsPending />}
-            {value === 2 && <RequestsComplete />}
+            {value === 0 && <RequestMasterDepartmentItems />}
+            {value === 1 && <RequestMasterDepartmentPending />}
+            {value === 2 && <RequestMasterDepartmentComplete />}
         </div>
     );
 }
@@ -51,9 +51,6 @@ const RequestMasterDepartment = () => {
 
     return (
         <Box>
-            <AppBar position="static" color="secondary">
-                <Toolbar variant="dense"></Toolbar>
-            </AppBar>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={requestTabSelector.value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="List" {...a11yProps(0)} />

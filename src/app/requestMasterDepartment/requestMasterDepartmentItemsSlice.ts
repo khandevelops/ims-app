@@ -6,28 +6,8 @@ const baseUrl = process.env.REACT_APP_BASE_URL
 
 
 export const getRequestMasterDepartmentItems = (params: { pathName: string, page: number }) => {
-    return axios.get(`${baseUrl}${params.pathName}/list/trasnformed/department?page=${params.page}`)
+    return axios.get(`${baseUrl}${params.pathName}/list/trasnformed?page=${params.page}`)
 }
-
-// export const getRequestMakeCompleteItems = (params: { pathName: string, page: number }) => {
-//     return axios.get(`${baseUrl}${params.pathName}/list/completed?page=${params.page}`)
-// }
-
-// export const getRequestMakePendingItems = (params: { pathName: string, page: number }) => {
-//     return axios.get(`${baseUrl}${params.pathName}/list/pending?page=${params.page}`)
-// }
-
-// export const updateRequestMakeItem = (params: { pathName: string, requestItem: IRequestItem }) => {
-//     return axios.put(`${baseUrl}${params.pathName}/update`, params.requestItem)
-// }
-
-// export const confirmRequestMakeItems = (params: { pathName: string, requestItems: IRequestItem[] }) => {
-//     return axios.put(`${baseUrl}${params.pathName}/confirm`, params.requestItems)
-// }
-
-// export const createRequestMakeItems = (params: { pathName: string, requestItems: IRequestItem[] }) => {
-//     return axios.post(`${baseUrl}${params.pathName}/create`, params.requestItems)
-// }
 export interface IRequestMasterDepartmentItem {
     item: string,
     request_item_id: number,

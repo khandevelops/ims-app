@@ -19,7 +19,6 @@ import {
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { changeRequestItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { statuses } from '../common/constants';
 import {
@@ -27,6 +26,7 @@ import {
     IRequestMasterAdminItem,
     selectRequestMasterItems
 } from '../app/requestAdminMaster/requestMasterAdminItemsSlice';
+import { changeRequestItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

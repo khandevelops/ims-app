@@ -27,7 +27,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comment', headerName: 'Comment' }
 ];
 
-const StoreRoomRequestComplete = () => {
+const RequestMasterDepartmentComplete = () => {
     const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
@@ -95,4 +95,4 @@ const StoreRoomRequestComplete = () => {
     );
 };
 
-export default StoreRoomRequestComplete;
+export default RequestMasterDepartmentComplete;

@@ -32,7 +32,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'Detail', headerName: 'detail' }
 ];
 
-const RequestMasterDepartment = () => {
+const RequestMasterDepartmentItems = () => {
     const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
@@ -149,4 +149,4 @@ const RequestMasterDepartment = () => {
     );
 };
 
-export default RequestMasterDepartment;
+export default RequestMasterDepartmentItems;

@@ -38,7 +38,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'comment', headerName: 'Comment' }
 ];
 
-const StoreRoomRequestsPending = () => {
+const RequestMasterDepartmentPending = () => {
     const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
     const dispatch = useAppDispatch();
     const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
@@ -210,4 +210,4 @@ const StoreRoomRequestsPending = () => {
     );
 };
 
-export default StoreRoomRequestsPending;
+export default RequestMasterDepartmentPending;
