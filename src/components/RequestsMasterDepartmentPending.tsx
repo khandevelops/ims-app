@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Navigation';
 import { changeTab } from '../app/common/requestTabSlice';
+import { updateRequestItemsThunk } from '../app/requestMasterDepartment/requestMasterDepartmentCreateItemConfirmationSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -88,26 +89,26 @@ const StoreRoomRequestsPending = () => {
     };
 
     const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
-        if (event.key === 'Enter') {
-            dispatch(updateRequestMakeItemThunk({ pathName: location.pathname, requestItem: requestItem }));
-        }
+        // if (event.key === 'Enter') {
+        //     dispatch(updateRequestItemsThunk({ pathName: location.pathname, requestItems: requestItem[] }));
+        // }
     };
 
     const handleSendClick = () => {
-        const checkedItems = requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true);
+        // const checkedItems = requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true);
 
-        if (checkedItems.length > 0) {
-            dispatch(confirmRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
-            if (requestMasterDepartmentItemsSelector.status === 'success') {
-                dispatch(
-                    changeRequestItems({
-                        ...requestMasterDepartmentItemsSelector.response,
-                        content: requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked !== true)
-                    })
-                );
-            }
-            dispatch(changeTab(2));
-        }
+        // if (checkedItems.length > 0) {
+        //     dispatch(confirmRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
+        //     if (requestMasterDepartmentItemsSelector.status === 'success') {
+        //         dispatch(
+        //             changeRequestItems({
+        //                 ...requestMasterDepartmentItemsSelector.response,
+        //                 content: requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked !== true)
+        //             })
+        //         );
+        //     }
+        //     dispatch(changeTab(2));
+        // }
     };
 
     return (

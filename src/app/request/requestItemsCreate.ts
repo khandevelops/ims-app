@@ -32,25 +32,14 @@ export const createRequestItemsThunk = createAsyncThunk(
     }
 )
 
-export const updateRequestItemsThunk = createAsyncThunk(
-    'confirmRequestMakeItemsThunk',
-    async (params: { pathName: string, requestItems: IRequestItem[] }) => {
-        const response = await updateRequestItems(params.pathName, params.requestItems)
-        return response.data
-    }
-)
-
 export const requestItemsCreateSlice = createSlice({
     name: 'requestMakeItemCreateConfirmationSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(updateRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(updateRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
-            .addCase(updateRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
-            .addCase(updateRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(updateRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
-            .addCase(updateRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(createRequestItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(createRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
+            .addCase(createRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 

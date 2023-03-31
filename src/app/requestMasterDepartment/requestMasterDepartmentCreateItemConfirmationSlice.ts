@@ -45,9 +45,9 @@ export const requestItemsConfirmationSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(updateRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(updateRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
-            .addCase(updateRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(createRequestItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(createRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
+            .addCase(createRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
             .addCase(updateRequestItemsThunk.pending, (state) => { state.status = 'loading' })
             .addCase(updateRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload; state.status = 'success' })
             .addCase(updateRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
