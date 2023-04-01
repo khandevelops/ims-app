@@ -8,14 +8,12 @@ import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
 import { Box, Drawer } from '@mui/material';
 import MasterForm from './UpdateMasterForm';
-import { selectMasterFormDrawer } from '../app/master/masterFormDrawerUpdateSlice';
 import { useAppSelector } from '../app/hooks';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
 import RequestList from '../pages/RequestMasterAdmin';
 import RequestMake from '../pages/RequestMasterDepartment';
 
 const Layout = () => {
-    const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
     const isAuthenticated = useIsAuthenticated();
 
     return (
@@ -24,9 +22,6 @@ const Layout = () => {
                 <Navbar />
             </AuthenticatedTemplate> */}
             <NavbarTop />
-            <Drawer anchor="right" open={rightDrawerSelector.open}>
-                <MasterForm />
-            </Drawer>
 
             <Routes>
                 {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}

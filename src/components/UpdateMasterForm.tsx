@@ -2,8 +2,9 @@ import { Box, Button, InputAdornment, Stack, TextField } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addMasterItem, populateMasterItem, selectMasterForm, updateMasterItem } from '../app/master/masterFormSlice';
-import { setForm, selectMasterFormDrawer, toggleDrawer } from '../app/master/masterFormDrawerUpdateSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
+import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { drawerToggleType } from '../common/constants';
 
 const defaultMasterItem = {
     id: 0,
@@ -26,36 +27,34 @@ const defaultMasterItem = {
 
 const MasterForm = () => {
     const masterFormSelector = useAppSelector(selectMasterForm);
-    const formDrawerSelector = useAppSelector(selectMasterFormDrawer);
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const [masterItem, setMasterItem] = useState<IMasterItem>(defaultMasterItem);
 
     useEffect(() => {
-        if (formDrawerSelector.form === 'add') {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM) {
             setMasterItem(defaultMasterItem);
             return;
         }
-        if (formDrawerSelector.form === 'update') {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM) {
             setMasterItem(masterFormSelector.masterItem);
             return;
         }
-    }, [masterFormSelector, formDrawerSelector.form]);
+    }, [drawerToggleTypeSelector, masterFormSelector]);
 
     const handleSubmit = () => {
-        if (formDrawerSelector.form === 'add') {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM) {
             dispatch(addMasterItem(masterItem));
         }
-        if (formDrawerSelector.form === 'update') {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM) {
             dispatch(updateMasterItem({ id: masterItem.id, masterItem: masterItem }));
         }
-        dispatch(toggleDrawer(false));
-        dispatch(setForm('idle'));
+        dispatch(toggleDrawer(''));
         setMasterItem(defaultMasterItem);
     };
 
     const handleCancel = () => {
-        dispatch(toggleDrawer(false));
-        dispatch(setForm('idle'));
+        dispatch(toggleDrawer('')); 
         setMasterItem(defaultMasterItem);
         dispatch(populateMasterItem(defaultMasterItem));
     };
@@ -84,7 +83,7 @@ const MasterForm = () => {
             noValidate
             autoComplete="off">
             <Stack spacing={2} direction="column">
-                {formDrawerSelector.form === 'update' && (
+                { drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM && (
                     <TextField
                         sx={{ width: 500 }}
                         id=""
@@ -241,7 +240,7 @@ const MasterForm = () => {
 
             <Stack spacing={2} direction="row" sx={{ marginTop: 2 }}>
                 <Button variant="outlined" fullWidth onClick={handleSubmit}>
-                    {formDrawerSelector.form === 'add' ? 'ADD' : 'UPDATE'}
+                    {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM ? 'ADD' : 'UPDATE'}
                 </Button>
                 <Button variant="outlined" fullWidth color="secondary" onClick={handleCancel}>
                     CANCEL

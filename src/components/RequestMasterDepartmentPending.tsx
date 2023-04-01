@@ -14,10 +14,8 @@ import {
     TextField,
     Zoom
 } from '@mui/material';
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import {
-    changeCheckbox,
-    changeRequestItems,
     getRequestMasterDepartmentItemsThunk,
     IRequestMasterDepartmentItem,
     selectRequestMasterDepartmentItems,
@@ -25,8 +23,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Navigation';
-import { changeTab } from '../app/common/requestTabSlice';
-import { updateRequestItemsThunk } from '../app/requestMasterDepartment/requestMasterDepartmentCreateItemConfirmationSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -35,7 +31,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'order_quantity', headerName: 'Order Quantity' },
     { field: 'custom_text', headerName: 'Custom Text' },
     { field: 'status', headerName: 'Status' },
-    { field: 'comment', headerName: 'Comment' }
+    { field: 'detail', headerName: 'Detail' }
 ];
 
 const RequestMasterDepartmentPending = () => {
@@ -112,12 +108,9 @@ const RequestMasterDepartmentPending = () => {
     };
 
     return (
-        <Stack
-            direction="column"
-            justifyContent="space-between"
-            alignItems="stretch"
-            sx={{ padding: 2, height: '100%' }}>
-            <TableContainer component={Paper}>
+        <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <Paper elevation={3}>
+                <TableContainer sx={{ height: 600 }}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
@@ -188,25 +181,8 @@ const RequestMasterDepartmentPending = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Zoom
-                in={
-                    requestMasterDepartmentItemsSelector.response.content.length > 0 &&
-                    requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0
-                }
-                style={{
-                    transitionDelay:
-                    requestMasterDepartmentItemsSelector.response.content.length > 0 &&
-                    requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true).length > 0
-                            ? '500ms'
-                            : '0ms'
-                }}>
-                <Box>
-                    <Fab color="primary" aria-label="add">
-                        <SendIcon onClick={handleSendClick} />
-                    </Fab>
-                </Box>
-            </Zoom>
-        </Stack>
+        </Paper>
+        </Box>
     );
 };
 

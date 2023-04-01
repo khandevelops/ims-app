@@ -6,7 +6,7 @@ const baseUrl = process.env.REACT_APP_BASE_URL
 
 
 export const getRequestMasterDepartmentItems = (params: { pathName: string, page: number }) => {
-    return axios.get(`${baseUrl}${params.pathName}/list/trasnformed?page=${params.page}`)
+    return axios.get(`${baseUrl}${params.pathName}/list/transformed?page=${params.page}`)
 }
 export interface IRequestMasterDepartmentItem {
     item: string,

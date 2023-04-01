@@ -20,10 +20,12 @@ import {
 } from '@mui/material';
 import { getDepartmentMasterThunk, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
-import QuantityUpdateForm from '../components/UpdateQuantityForm';
+import UpdateQuantityForm from '../components/UpdateQuantityForm';
 import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../app/master/quantityFormDrawerSlice';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
 import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
+import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { drawerToggleType } from '../common/constants';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -55,6 +57,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DepartmentExperience = () => {
     const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const pageSelector = useAppSelector(selectPage);
     const updateTotalQuantityFormDrawerSelector = useAppSelector(selectUpdateTotalQuantityFormDrawer);
     const dispatch = useAppDispatch();
@@ -150,8 +153,8 @@ const DepartmentExperience = () => {
                     showLastButton={true}
                 />
             </Paper>
-            <Drawer anchor="bottom" open={updateTotalQuantityFormDrawerSelector.open}>
-                <QuantityUpdateForm />
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM}>
+                <UpdateQuantityForm />
             </Drawer>
         </Box>
     );

@@ -1,13 +1,14 @@
 export interface IRequestItem {
     id: number,
-    order_quantity: number,
+    item_id: number,
+    quantity: number,
     department: string,
     status: string,
     location: string,
-    time_requested: Date,
-    time_updated: Date,
-    confirmation: string,
+    time_requested: string,
+    time_update: string,
+    confiration: string,
     user: string,
-    comment: string,
+    detail: string,
     custom_text: string
 }

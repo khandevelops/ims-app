@@ -6,13 +6,13 @@ import { IDepartmentItem } from '../department/departmentItemsSlice';
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getMasterItems = (pagination: { page: number, size: number }) => {
-    return axios.get(`${baseUrl}/master/list?page=${pagination.page}&size=${pagination.size}`)
+export const getMasterItems = (page: number) => {
+    return axios.get(`${baseUrl}/master/list?page=${page}`)
 }
 
-export const getMasterFilterItems = (params: {item: string, page: number, size: number}) => {
-    return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${params.page}&size=${params.size}`)
-}
+// export const getMasterFilterItems = (page: number) => {
+//     return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${page}`)
+// }
 
 export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
     return axios.put(`${baseUrl}/master/${params.id}`, params.masterItem)
@@ -132,19 +132,19 @@ const initialState: IMasterState = {
 
 export const getMasterItemsThunk = createAsyncThunk(
     'getMasterItemsThunk',
-    async (pagination: { page: number, size: number }) => {
-        const response = await getMasterItems({ page: pagination.page, size: pagination.size })
+    async (page: number) => {
+        const response = await getMasterItems(page)
         return response.data
     }
 )
 
-export const getMasterItemsFilterThunk = createAsyncThunk(
-    'getMasterItemsFilterThunk',
-    async (params: {item: string, page: number, size: number }) => {
-        const response = await getMasterFilterItems(params)
-        return response.data
-    }
-)
+// export const getMasterItemsFilterThunk = createAsyncThunk(
+//     'getMasterItemsFilterThunk',
+//     async (params: {item: string, page: number, size: number }) => {
+//         const response = await getMasterFilterItems(params)
+//         return response.data
+//     }
+// )
 
 export const masterItemsSlice = createSlice({
     name: 'master',
@@ -161,16 +161,16 @@ export const masterItemsSlice = createSlice({
             .addCase(getMasterItemsThunk.rejected, (state) => {
                 state.status = 'failed'
             })
-            .addCase(getMasterItemsFilterThunk.pending, (state) => {
-                state.status = 'loading'
-            })
-            .addCase(getMasterItemsFilterThunk.fulfilled, (state, action) => {
-                state.status = 'success';
-                state.response = action.payload
-            })
-            .addCase(getMasterItemsFilterThunk.rejected, (state) => {
-                state.status = 'failed'
-            })
+            // .addCase(getMasterItemsFilterThunk.pending, (state) => {
+            //     state.status = 'loading'
+            // })
+            // .addCase(getMasterItemsFilterThunk.fulfilled, (state, action) => {
+            //     state.status = 'success';
+            //     state.response = action.payload
+            // })
+            // .addCase(getMasterItemsFilterThunk.rejected, (state) => {
+            //     state.status = 'failed'
+            // })
     }
 })
 

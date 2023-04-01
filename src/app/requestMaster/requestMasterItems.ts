@@ -1,32 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IMasterItem } from "../master/masterItemSlice";
 import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getRequestMasterItems = (pathName: string, page: number) => {
-    return axios.get(`${baseUrl}${pathName}/list/transformed/admin?page=${page}`)
-}
 
-export interface IRequestMasterAdminItem {
+export const getRequestMasterItems = (pathName: string, page: number) => {
+    return axios.get(`${baseUrl}${pathName}/list/transformed?page=${page}`)
+}
+export interface IRequestMasterItem {
     item: string,
     request_item_id: number,
     master_item_id: number,
     recent_cn: number,
-    department: string,
-    status: string,
-    quantity: number, 
-    time_requested: Date,
-    time_updated: Date,
+    purchase_unit: string,
+    part_number: string,
     comment: string,
-    custom_text: string,
     checked: boolean
 }
 
 export interface IRequestMasterState {
     response: {
-        content: IRequestMasterAdminItem[],
+        content: IRequestMasterItem[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -89,28 +84,33 @@ const initialState: IRequestMasterState = {
 }
 
 export const getRequestMasterItemsThunk = createAsyncThunk(
-    'getRequestMasterItemsThunk',
-    async (params: { pathName: string, page: number}) => {
+    'getRequestMasterDepartmentItemsThunk',
+    async (params: { pathName: string, page: number }) => {
         const response = await getRequestMasterItems(params.pathName, params.page)
         return response.data
     }
 )
 
 export const requestMasterItemsSlice = createSlice({
-    name: 'requestListSlice',
+    name: 'requestItemsSlice',
     initialState,
     reducers: {
-        updateRequestItemList: (state, action) => { state.response.content = action.payload }
+        changeRequestItems: (state, action) => {
+            state.response = action.payload
+        },
+        changeCheckbox: (state, action) => {
+            state.response.content = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getRequestMasterItemsThunk.pending, (state) => { state.status = 'loading' })
-        builder.addCase(getRequestMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-        builder.addCase(getRequestMasterItemsThunk.rejected, (state) => { state.status = 'failed' })
+            .addCase(getRequestMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMasterItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const { updateRequestItemList } = requestMasterItemsSlice.actions
+export const selectRequestMasterItems = (state: RootState) => state.requestMasterItemsStore
 
-export const selectRequestMasterAdminItems = (state: RootState) => state.requestMasterItemsAdminStore
+export const { changeRequestItems, changeCheckbox } = requestMasterItemsSlice.actions
 
 export default requestMasterItemsSlice.reducer

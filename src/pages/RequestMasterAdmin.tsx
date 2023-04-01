@@ -24,7 +24,7 @@ import { statuses } from '../common/constants';
 import {
     getRequestMasterItemsThunk,
     IRequestMasterAdminItem,
-    selectRequestMasterItems
+    selectRequestMasterAdminItems,
 } from '../app/requestAdminMaster/requestMasterAdminItemsSlice';
 import { changeRequestItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 
@@ -52,7 +52,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 ];
 
 const RequestMasterAdmin = () => {
-    const requestMasterItemsSelector = useAppSelector(selectRequestMasterItems);
+    const requestMasterAdminItemsSelector = useAppSelector(selectRequestMasterAdminItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 
@@ -69,7 +69,7 @@ const RequestMasterAdmin = () => {
     const handleStatusChange = (event: SelectChangeEvent, requestItem: IRequestMasterAdminItem) => {
         dispatch(
             changeRequestItems(
-                requestMasterItemsSelector.response.content.map((item) => ({
+                requestMasterAdminItemsSelector.response.content.map((item) => ({
                     ...item,
                     status: item.request_item_id === requestItem.request_item_id ? event.target.value : item.status
                 }))
@@ -97,8 +97,8 @@ const RequestMasterAdmin = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {requestMasterItemsSelector.response.content.length > 0 &&
-                                requestMasterItemsSelector.response.content.map((requestItem, index) => (
+                            {requestMasterAdminItemsSelector.response.content.length > 0 &&
+                                requestMasterAdminItemsSelector.response.content.map((requestItem, index) => (
                                     <TableRow key={index}>
                                         <StyledTableCell>{requestItem.item && requestItem.item}</StyledTableCell>
                                         <StyledTableCell>
@@ -140,9 +140,9 @@ const RequestMasterAdmin = () => {
                     sx={{ marginTop: 3 }}
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={requestMasterItemsSelector.response.totalElements}
-                    rowsPerPage={requestMasterItemsSelector.response.size}
-                    page={requestMasterItemsSelector.response.number}
+                    count={requestMasterAdminItemsSelector.response.totalElements}
+                    rowsPerPage={requestMasterAdminItemsSelector.response.size}
+                    page={requestMasterAdminItemsSelector.response.number}
                     onPageChange={handleChangePage}
                     showFirstButton={true}
                     showLastButton={true}

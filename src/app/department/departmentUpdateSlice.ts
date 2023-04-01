@@ -23,7 +23,9 @@ export const updateDepartmentItemThunk = createAsyncThunk(
 export const departmentUpdateSlice = createSlice({
     name: 'updateDepartmentSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        
+    },
     extraReducers: (builder) => {
         builder
             .addCase(updateDepartmentItemThunk.pending, (state) => { state.status = 'loading' })

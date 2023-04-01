@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IRequestMasterItem } from "../requestMaster/requestMasterItems";
 import { RootState } from "../store";
+import { IRequestItem } from "./requestItemsSlice";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const updateRequestItems = (pathName: string, requestItems: IRequestMasterItem[]) => {
+export const updateRequestItems = (pathName: string, requestItems: IRequestItem[]) => {
     return axios.patch(`${baseUrl}${pathName}/create`, requestItems)
 }
 
 export interface IRequestMakeItemUpdateState {
-    response: IRequestMasterItem | undefined,
+    response: IRequestItem[] | undefined,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
@@ -21,7 +21,7 @@ const initialState: IRequestMakeItemUpdateState = {
 
 export const updateRequestItemsThunk = createAsyncThunk(
     'confirmRequestMakeItemsThunk',
-    async (params: { pathName: string, requestItems: IRequestMasterItem[] }) => {
+    async (params: { pathName: string, requestItems: IRequestItem[] }) => {
         const response = await updateRequestItems(params.pathName, params.requestItems)
         return response.data
     }

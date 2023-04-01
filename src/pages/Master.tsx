@@ -1,7 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
-import { selectMasterFormDrawer, toggleDrawer, setForm } from '../app/master/masterFormDrawerUpdateSlice';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
     Table,
@@ -15,11 +14,15 @@ import {
     IconButton,
     Paper,
     Box,
-    styled
+    styled,
+    Drawer
 } from '@mui/material';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
+import MasterForm from '../components/UpdateMasterForm';
+import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { drawerToggleType } from '../common/constants';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -54,27 +57,24 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 
 const Master = () => {
     const masterItemsSelector = useAppSelector(selectMasterItems);
-    const rightDrawerSelector = useAppSelector(selectMasterFormDrawer);
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType)
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
-    const [size, setSize] = useState<number>(10);
 
     useEffect(() => {
-        dispatch(getMasterItemsThunk({ page: page, size: size }));
-    }, [dispatch, page, size, rightDrawerSelector]);
+        dispatch(getMasterItemsThunk(page));
+    }, [dispatch, page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setSize(parseInt(event.target.value, 10));
         setPage(0);
     };
 
     const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
-        dispatch(toggleDrawer(true));
-        dispatch(setForm('update'));
+        dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FROM));
         dispatch(populateMasterItem(masterItem));
     };
 
@@ -134,17 +134,19 @@ const Master = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 50, 100]}
+                    rowsPerPageOptions={[]}
                     component="div"
                     count={masterItemsSelector.response.totalElements}
                     rowsPerPage={masterItemsSelector.response.size}
                     page={masterItemsSelector.response.number}
                     onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
                     showFirstButton={true}
                     showLastButton={true}
                 />
             </Paper>
+            <Drawer anchor="right" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM}>
+                <MasterForm />
+            </Drawer>
         </Box>
     );
 };

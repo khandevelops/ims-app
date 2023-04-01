@@ -1,4 +1,5 @@
 import {
+    Box,
     Checkbox,
     Paper,
     Stack,
@@ -24,7 +25,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'status', headerName: 'Status' },
     { field: 'time_revieved', headerName: 'Received Date' },
     { field: 'time_updated', headerName: 'Updated Date' },
-    { field: 'comment', headerName: 'Comment' }
+    { field: 'detail', headerName: 'Detail' }
 ];
 
 const RequestMasterDepartmentComplete = () => {
@@ -48,12 +49,9 @@ const RequestMasterDepartmentComplete = () => {
     };
 
     return (
-        <Stack
-            direction="column"
-            justifyContent="space-between"
-            alignItems="stretch"
-            sx={{ padding: 2, height: '100%' }}>
-            <TableContainer component={Paper}>
+        <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
+            <Paper elevation={3}>
+                <TableContainer sx={{ height: 600 }}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
@@ -91,7 +89,8 @@ const RequestMasterDepartmentComplete = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-        </Stack>
+            </Paper>
+        </Box>
     );
 };
 
