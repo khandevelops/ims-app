@@ -11,7 +11,6 @@ import {
     TextField
 } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
-import { toggleDrawer } from '../app/master/quantityFormDrawerSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -28,6 +27,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
+import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'id', headerName: 'ID' },
@@ -49,7 +49,7 @@ const UpdateQuantityForm = () => {
     const location = useLocation();
 
     const handleClose = () => {
-        dispatch(toggleDrawer(false));
+        dispatch(toggleDrawer(''));
     };
 
     const handleExpirationDateChange = (value: Moment | null, id: number) => {

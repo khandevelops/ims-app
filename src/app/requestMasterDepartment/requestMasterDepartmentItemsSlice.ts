@@ -101,7 +101,7 @@ export const requestMasterDepartmentItemsSlice = createSlice({
     name: 'requestItemsSlice',
     initialState,
     reducers: {
-        changeRequestItems: (state, action) => {
+        changeRequestMasterDepartmentItems: (state, action) => {
             state.response = action.payload
         },
         changeCheckbox: (state, action) => {
@@ -117,6 +117,6 @@ export const requestMasterDepartmentItemsSlice = createSlice({
 
 export const selectRequestMasterDepartmentItems = (state: RootState) => state.requestMasterDepartmentItemsStore
 
-export const { changeRequestItems, changeCheckbox } = requestMasterDepartmentItemsSlice.actions
+export const { changeRequestMasterDepartmentItems, changeCheckbox } = requestMasterDepartmentItemsSlice.actions
 
 export default requestMasterDepartmentItemsSlice.reducer

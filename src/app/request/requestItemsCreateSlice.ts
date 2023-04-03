@@ -5,24 +5,24 @@ import { IRequestItem } from "./requestItemsSlice";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const updateRequestItems = (pathName: string, requestItems: IRequestItem[]) => {
-    return axios.patch(`${baseUrl}${pathName}/create`, requestItems)
+export const createRequestItems = (pathName: string, requestItems: IRequestItem[]) => {
+    return axios.post(`${baseUrl}${pathName}/create`, requestItems)
 }
 
 export interface IRequestItemsUpdateState {
-    response: IRequestItem[] | undefined,
+    response: IRequestItem[],
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: IRequestItemsUpdateState = {
-    response: undefined,
+    response: [],
     status: 'idle'
 }
 
-export const updateRequestItemsThunk = createAsyncThunk(
-    'confirmRequestMakeItemsThunk',
+export const createRequestItemsThunk = createAsyncThunk(
+    'createRequestItemsThunk',
     async (params: { pathName: string, requestItems: IRequestItem[] }) => {
-        const response = await updateRequestItems(params.pathName, params.requestItems)
+        const response = await createRequestItems(params.pathName, params.requestItems)
         return response.data
     }
 )
@@ -33,12 +33,12 @@ export const requestItemsCreateSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(updateRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(updateRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(updateRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
+            .addCase(createRequestItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(createRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(createRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const selectRequestItemsUpdateStore = (state: RootState) => state.requestItemsUpdateStore
+export const selectRequestItemsUpdateStore = (state: RootState) => state.requestItemsCreateStore
 export default requestItemsCreateSlice.reducer
 

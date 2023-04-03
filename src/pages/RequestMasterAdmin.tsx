@@ -26,7 +26,7 @@ import {
     IRequestMasterAdminItem,
     selectRequestMasterAdminItems,
 } from '../app/requestAdminMaster/requestMasterAdminItemsSlice';
-import { changeRequestItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
+import { changeRequestMasterDepartmentItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -68,7 +68,7 @@ const RequestMasterAdmin = () => {
 
     const handleStatusChange = (event: SelectChangeEvent, requestItem: IRequestMasterAdminItem) => {
         dispatch(
-            changeRequestItems(
+            changeRequestMasterDepartmentItems(
                 requestMasterAdminItemsSelector.response.content.map((item) => ({
                     ...item,
                     status: item.request_item_id === requestItem.request_item_id ? event.target.value : item.status

@@ -21,10 +21,9 @@ import {
 import { getDepartmentMasterThunk, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
 import UpdateQuantityForm from '../components/UpdateQuantityForm';
-import { selectUpdateTotalQuantityFormDrawer, toggleDrawer } from '../app/master/quantityFormDrawerSlice';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
 import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
-import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -59,7 +58,6 @@ const DepartmentExperience = () => {
     const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
     const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const pageSelector = useAppSelector(selectPage);
-    const updateTotalQuantityFormDrawerSelector = useAppSelector(selectUpdateTotalQuantityFormDrawer);
     const dispatch = useAppDispatch();
 
     const location = useLocation();
@@ -84,9 +82,9 @@ const DepartmentExperience = () => {
     };
 
     const handleUpdateClick = (id: number, departmentName: string) => {
-        dispatch(getMasterDepartmentItemThunk({ id: id, departmentName: departmentName })).then(() =>
-            dispatch(toggleDrawer(true))
-        );
+        dispatch(getMasterDepartmentItemThunk({ id: id, departmentName: departmentName })).then(() => {
+            dispatch(toggleDrawer(drawerToggleType.UPDATE_QUANTITY_FORM))
+        });
     };
 
     return (
@@ -153,7 +151,7 @@ const DepartmentExperience = () => {
                     showLastButton={true}
                 />
             </Paper>
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM}>
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_QUANTITY_FORM}>
                 <UpdateQuantityForm />
             </Drawer>
         </Box>
