@@ -13,10 +13,13 @@ import {
 import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { changeRequestItems, selectRequestItems } from '../app/request/requestItemsSlice';
 import { useLocation } from 'react-router-dom';
 import { createRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsCreateSlice';
-import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsChecked';
+import {
+    changeRequestItemsChecked,
+    selectRequestMasterItemsChecked
+} from '../app/requestMaster/requestMasterItemsCheckedSlice';
+import { confirmation } from '../common/constants';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -35,7 +38,7 @@ const RequestItemReviewForm = () => {
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
                     custom_text: item.request_item_id === request_item_id ? event.target.value : item.custom_text
@@ -46,7 +49,7 @@ const RequestItemReviewForm = () => {
 
     const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
                     quantity: item.request_item_id === request_item_id ? parseInt(event.target.value) : item.quantity
@@ -59,7 +62,18 @@ const RequestItemReviewForm = () => {
         dispatch(
             createRequestMasterItemsThunk({
                 state: location.state,
-                requestItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked
+                requestMasterItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
+                    quantity: item.quantity,
+                    department: 'EXTRACTIONS',
+                    user: 'Batsaikhan Ulambayar',
+                    detail: 'detail',
+                    confirmation: confirmation.WAITING,
+                    custom_text: 'custom text',
+                    location: 'store room',
+                    request_item_id: item.request_item_id,
+                    master_item_id: item.master_item_id,
+                    item: item.item
+                }))
             })
         );
     };
@@ -78,34 +92,42 @@ const RequestItemReviewForm = () => {
                         {requestMasterItemsCheckedSelector &&
                             requestMasterItemsCheckedSelector.requestMasterItemsChecked &&
                             requestMasterItemsCheckedSelector.requestMasterItemsChecked.length > 0 &&
-                            requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((requestItem, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{requestItem.item}</TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            ref={inputRef}
-                                            sx={{ maxWidth: 120 }}
-                                            type="number"
-                                            size="small"
-                                            value={requestItem.quantity}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleQuantityChange(event, requestItem.request_item_id)
-                                            }
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            ref={inputRef}
-                                            sx={{ minWidth: 300 }}
-                                            size="small"
-                                            value={requestItem.custom_text}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleCustomTextChange(event, requestItem.request_item_id)
-                                            }
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                            requestMasterItemsCheckedSelector.requestMasterItemsChecked.map(
+                                (requestMasterCheckedItem, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{requestMasterCheckedItem.item}</TableCell>
+                                        <TableCell>
+                                            <TextField
+                                                ref={inputRef}
+                                                sx={{ maxWidth: 120 }}
+                                                type="number"
+                                                size="small"
+                                                value={requestMasterCheckedItem.quantity}
+                                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                                    handleQuantityChange(
+                                                        event,
+                                                        requestMasterCheckedItem.request_item_id
+                                                    )
+                                                }
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <TextField
+                                                ref={inputRef}
+                                                sx={{ minWidth: 300 }}
+                                                size="small"
+                                                value={requestMasterCheckedItem.custom_text}
+                                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                                    handleCustomTextChange(
+                                                        event,
+                                                        requestMasterCheckedItem.request_item_id
+                                                    )
+                                                }
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            )}
                     </TableBody>
                 </Table>
             </TableContainer>

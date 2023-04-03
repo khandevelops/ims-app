@@ -22,11 +22,11 @@ import {
     IRequestMasterItem,
     getRequestMasterItemsThunk,
     selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItems';
+} from '../app/requestMaster/requestMasterItemsSlice';
 import {
     changeRequestItemsChecked,
     selectRequestMasterItemsChecked
-} from '../app/requestMaster/requestMasterItemsChecked';
+} from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
 import RequestItemReviewForm from './RequestItemReviewForm';
@@ -63,10 +63,11 @@ const RequestMasterDepartmentItems = () => {
             ).length > 0;
         if (exists) {
             const newRequestMasterItemsChecked = requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter(
-                (item) => item.request_item_id !== departmentMasterItem.request_item_id)
-                dispatch(changeRequestItemsChecked(newRequestMasterItemsChecked))
+                (item) => item.request_item_id !== departmentMasterItem.request_item_id
+            );
+            dispatch(changeRequestItemsChecked(newRequestMasterItemsChecked));
         }
-        if(!exists) {
+        if (!exists) {
             dispatch(
                 changeRequestItemsChecked([
                     ...requestMasterItemsCheckedSelector.requestMasterItemsChecked,

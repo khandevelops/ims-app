@@ -6,10 +6,10 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleBottomToolbarItemClick } from '../app/bottomToolbar/bottomToolbarItems';
 import { bottomToolbarButtons, confirmation, drawerToggleType } from '../common/constants';
-import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsChecked';
-import { IRequestItem, changeRequestItems, selectRequestItems } from '../app/request/requestItemsSlice';
+import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import EditIcon from '@mui/icons-material/Edit';
+import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
 
 const NavbarBottom = () => {
     const [value, setValue] = useState<number>(0);
@@ -21,25 +21,6 @@ const NavbarBottom = () => {
     };
 
     const handleReviewClick = () => {
-        let newRequestItems: IRequestItem[] = [];
-        requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => {
-            const newRequestItem = {
-                quantity: 0,
-                department: 'EXTRACTIONS',
-                user: 'Batsaikhan Ulambayar',
-                detail: 'detail',
-                confirmation: confirmation.WAITING,
-                custom_text: 'cutom text',
-                location: 'store room',
-                request_item_id: item.request_item_id,
-                master_item_id: item.master_item_id,
-                item: item.item
-            };
-            newRequestItems.push(newRequestItem);
-            return newRequestItem;
-        });
-
-        dispatch(changeRequestItems(newRequestItems));
         dispatch(toggleDrawer(drawerToggleType.UPDATE_REQUEST_REVIEW_FORM));
     };
 
@@ -48,25 +29,6 @@ const NavbarBottom = () => {
     };
 
     const handleEditClick = () => {
-        let newRequestItems: IRequestItem[] = [];
-        requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => {
-            const newRequestItem = {
-                quantity: 0,
-                department: 'EXTRACTIONS',
-                user: 'Batsaikhan Ulambayar',
-                detail: 'detail',
-                confirmation: item.confiration,
-                custom_text: 'cutom text',
-                location: 'store room',
-                request_item_id: item.request_item_id,
-                master_item_id: item.master_item_id,
-                item: item.item
-            };
-            newRequestItems.push(newRequestItem);
-            return newRequestItem;
-        });
-
-        dispatch(changeRequestItems(newRequestItems));
         dispatch(toggleDrawer(drawerToggleType.UPDATE_REQUEST_EDIT_FORM));
     };
 

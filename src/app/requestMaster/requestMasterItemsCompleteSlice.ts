@@ -1,31 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
+import { IRequestMasterItem } from "./requestMasterItemsSlice";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 
 export const getRequestMasterItems = (state: string, page: number) => {
-    return axios.get(`${baseUrl}/request-master/${state}/list/transformed?page=${page}`)
-}
-export interface IRequestMasterItem {
-    item: string,
-    request_item_id: number,
-    master_item_id: number,
-    recent_cn: number,
-    purchase_unit: string,
-    part_number: string,
-    quantity: number,
-    department: string,
-    status?: string,
-    location: string,
-    confirmation: string,
-    time_requested?: string,
-    time_updated?: string,
-    confiration?: string,
-    user: string,
-    detail: string,
-    custom_text: string
+    return axios.get(`${baseUrl}/request-master/${state}/list/transformed/complete?page=${page}`)
 }
 
 export interface IRequestMasterState {
@@ -92,7 +74,7 @@ const initialState: IRequestMasterState = {
     status: 'idle'
 }
 
-export const getRequestMasterItemsThunk = createAsyncThunk(
+export const getRequestMasterItemsCompleteThunk = createAsyncThunk(
     'getRequestMasterDepartmentItemsThunk',
     async (params: { state: string, page: number }) => {
         const response = await getRequestMasterItems(params.state, params.page)
@@ -100,7 +82,7 @@ export const getRequestMasterItemsThunk = createAsyncThunk(
     }
 )
 
-export const requestMasterItemsSlice = createSlice({
+export const requestMasterItemsCompleteSlice = createSlice({
     name: 'requestItemsSlice',
     initialState,
     reducers: {
@@ -109,14 +91,14 @@ export const requestMasterItemsSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getRequestMasterItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(getRequestMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(getRequestMasterItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(getRequestMasterItemsCompleteThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(getRequestMasterItemsCompleteThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMasterItemsCompleteThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const selectRequestMasterItems = (state: RootState) => state.requestMasterItemsStore
+export const selectRequestMasterItemsComplete = (state: RootState) => state.requestMasterItemsCompleteStore
 
-export const { changeRequestMasterItems } = requestMasterItemsSlice.actions
+export const { changeRequestMasterItems } = requestMasterItemsCompleteSlice.actions
 
-export default requestMasterItemsSlice.reducer
+export default requestMasterItemsCompleteSlice.reducer

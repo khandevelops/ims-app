@@ -16,15 +16,18 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
+import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
 import {
-    getRequestMasterItemsPendingThunk,
-    selectRequestMasterItemsPending
-} from '../app/requestMasterDepartment/requestMasterItemsPendingSlice';
-import { IRequestMasterItem } from '../app/requestMaster/requestMasterItems';
-import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsChecked';
+    changeRequestItemsChecked,
+    selectRequestMasterItemsChecked
+} from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
 import RequestItemEditForm from './RequestItemEditForm';
+import {
+    getRequestMasterItemsPendingThunk,
+    selectRequestMasterItemsPending
+} from '../app/requestMaster/requestMasterItemsPendingSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,7 +53,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 const RequestMasterDepartmentPending = () => {
     const requestMasterItemsPendingSelector = useAppSelector(selectRequestMasterItemsPending);
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType)
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 

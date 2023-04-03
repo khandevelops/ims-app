@@ -10,11 +10,14 @@ import {
     TablePagination,
     TableRow
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { getRequestMasterItemsCompleteThunk, selectRequestMasterItemsComplete } from '../app/requestMasterDepartment/requestMasterItemsCompleteSlice';
+import {
+    getRequestMasterItemsCompleteThunk,
+    selectRequestMasterItemsComplete
+} from '../app/requestMaster/requestMasterItemsCompleteSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },

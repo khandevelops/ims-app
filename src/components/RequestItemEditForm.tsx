@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import {
     changeRequestItemsChecked,
     selectRequestMasterItemsChecked
-} from '../app/requestMaster/requestMasterItemsChecked';
+} from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { updateRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsUpdateSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -58,12 +58,23 @@ const RequestItemEditForm = () => {
     };
 
     const handleSubmit = () => {
-        dispatch(
-            updateRequestMasterItemsThunk({
-                state: location.state,
-                requestItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked
-            })
-        );
+        // dispatch(
+        //     updateRequestMasterItemsThunk({
+        //         state: location.state,
+        //         requestMasterItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
+        //             quantity: 0,
+        //             department: 'EXTRACTIONS',
+        //             user: 'Batsaikhan Ulambayar',
+        //             detail: 'detail',
+        //             confirmation: item.confiration,
+        //             custom_text: 'cutom text',
+        //             location: 'store room',
+        //             request_item_id: item.request_item_id,
+        //             master_item_id: item.master_item_id,
+        //             item: item.item
+        //         }))
+        //     })
+        // );
     };
 
     return (
@@ -80,18 +91,18 @@ const RequestItemEditForm = () => {
                         {requestMasterItemsCheckedSelector &&
                             requestMasterItemsCheckedSelector.requestMasterItemsChecked &&
                             requestMasterItemsCheckedSelector.requestMasterItemsChecked.length > 0 &&
-                            requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((requestItem, index) => (
+                            requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((requestMasterCheckedItem, index) => (
                                 <TableRow key={index}>
-                                    <TableCell>{requestItem.item}</TableCell>
+                                    <TableCell>{requestMasterCheckedItem.item}</TableCell>
                                     <TableCell>
                                         <TextField
                                             ref={inputRef}
                                             sx={{ maxWidth: 120 }}
                                             type="number"
                                             size="small"
-                                            value={requestItem.quantity}
+                                            value={requestMasterCheckedItem.quantity}
                                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleQuantityChange(event, requestItem.request_item_id)
+                                                handleQuantityChange(event, requestMasterCheckedItem.request_item_id)
                                             }
                                         />
                                     </TableCell>
@@ -100,9 +111,9 @@ const RequestItemEditForm = () => {
                                             ref={inputRef}
                                             sx={{ minWidth: 300 }}
                                             size="small"
-                                            value={requestItem.custom_text}
+                                            value={requestMasterCheckedItem.custom_text}
                                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleCustomTextChange(event, requestItem.request_item_id)
+                                                handleCustomTextChange(event, requestMasterCheckedItem.request_item_id)
                                             }
                                         />
                                     </TableCell>

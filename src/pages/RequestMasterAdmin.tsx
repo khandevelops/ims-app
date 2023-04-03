@@ -24,11 +24,11 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { status } from '../common/constants';
 import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
 import {
+    changeRequestMasterItems,
     getRequestMasterItemsThunk,
     IRequestMasterItem,
     selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItems';
-import { changeRequestItems } from '../app/request/requestItemsSlice';
+} from '../app/requestMaster/requestMasterItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -69,7 +69,7 @@ const RequestMasterAdmin = () => {
 
     const handleStatusChange = (event: SelectChangeEvent, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestMasterItems(
                 requestMasterItemsSelector.response.content.map((item) => ({
                     ...item,
                     status: item.request_item_id === request_item_id ? event.target.value : item.status
@@ -80,7 +80,7 @@ const RequestMasterAdmin = () => {
 
     const handleDetailChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestMasterItems(
                 requestMasterItemsSelector.response.content.map((item) => ({
                     ...item,
                     detail: item.request_item_id === request_item_id ? event.target.value : item.detail

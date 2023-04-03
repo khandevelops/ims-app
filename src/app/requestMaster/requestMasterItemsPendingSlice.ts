@@ -1,32 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
+import { IRequestMasterItem } from "./requestMasterItemsSlice";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 
-export const getRequestMasterDepartmentItems = (params: { pathName: string, page: number }) => {
-    return axios.get(`${baseUrl}${params.pathName}/list/transformed?page=${params.page}`)
-}
-export interface IRequestMasterDepartmentItem {
-    item: string,
-    request_item_id: number,
-    master_item_id: number,
-    recent_cn: number,
-    purchase_unit: string,
-    part_number: string,
-    status: string,
-    quantity: number, 
-    time_requested: Date,
-    time_updated: Date,
-    detail: string,
-    custom_text: string,
-    checked: boolean
+export const getRequestMasterItemsPending = (state: string, page: number) => {
+    return axios.get(`${baseUrl}/request-master/${state}/list/transformed/pending?page=${page}`)
 }
 
-export interface IRequestMasterDepartmentState {
+export interface IRequestMasterItemsPendingState {
     response: {
-        content: IRequestMasterDepartmentItem[],
+        content: IRequestMasterItem[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -56,7 +42,7 @@ export interface IRequestMasterDepartmentState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IRequestMasterDepartmentState = {
+const initialState: IRequestMasterItemsPendingState = {
     response: {
         content: [],
         pageable: {
@@ -88,35 +74,31 @@ const initialState: IRequestMasterDepartmentState = {
     status: 'idle'
 }
 
-export const getRequestMasterDepartmentItemsThunk = createAsyncThunk(
+export const getRequestMasterItemsPendingThunk = createAsyncThunk(
     'getRequestMasterDepartmentItemsThunk',
-    async (params: { pathName: string, page: number }) => {
-        const response = await getRequestMasterDepartmentItems(params)
+    async (params: { state: string, page: number }) => {
+        const response = await getRequestMasterItemsPending(params.state, params.page)
         return response.data
     }
 )
 
-
-export const requestMasterDepartmentItemsSlice = createSlice({
+export const requestMasterItemsPendingSlice = createSlice({
     name: 'requestItemsSlice',
     initialState,
     reducers: {
-        changeRequestMasterDepartmentItems: (state, action) => {
+        changeRequestMasterItemsPending: (state, action) => {
             state.response = action.payload
-        },
-        changeCheckbox: (state, action) => {
-            state.response.content = action.payload
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getRequestMasterDepartmentItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(getRequestMasterDepartmentItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(getRequestMasterDepartmentItemsThunk.rejected, (state) => { state.status = 'failed' })
+        builder.addCase(getRequestMasterItemsPendingThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(getRequestMasterItemsPendingThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(getRequestMasterItemsPendingThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 
-export const selectRequestMasterDepartmentItems = (state: RootState) => state.requestMasterDepartmentItemsStore
+export const selectRequestMasterItemsPending = (state: RootState) => state.requestMasterItemsPendingStore
 
-export const { changeRequestMasterDepartmentItems, changeCheckbox } = requestMasterDepartmentItemsSlice.actions
+export const { changeRequestMasterItemsPending } = requestMasterItemsPendingSlice.actions
 
-export default requestMasterDepartmentItemsSlice.reducer
+export default requestMasterItemsPendingSlice.reducer

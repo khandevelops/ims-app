@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { IRequestMasterItem } from "./requestMasterItems";
+import { IRequestMasterItem } from "./requestMasterItemsSlice";
 
 export interface IRequestMasterCheckedState {
     requestMasterItemsChecked: IRequestMasterItem[]

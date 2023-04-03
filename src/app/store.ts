@@ -7,21 +7,22 @@ import pageReducer from './common/pageSlice';
 import departmentUpdateReducer from './department/departmentUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
 import departmentItemsReducer from './department/departmentItemsSlice';
-import requestMasterItemsReducer from './requestMaster/requestMasterItems';
+import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
 import storeRooomMasterItemsReducer from './storeRoom/storeRoomMasterItemsSlice'
 import storeRooomUpdateReducer from './storeRoom/storeRoomUpdateSlice'
-import requestMasterDepartmentItemsReducer from './requestMasterDepartment/requestMasterDepartmentItemsSlice'
-import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdate'
-import requestItemsCreateReducer from './request/requestItemsCreateSlice'
+import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice'
 import requestMasterItemsAdminReducer from './requestAdminMaster/requestMasterAdminItemsSlice'
 import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems'
-import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsChecked'
+import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsCheckedSlice'
 import drawerToggleTypeReducer from './drawerToggle/drawerToggleTypeSlice'
-import requestItemsReducer from './request/requestItemsSlice'
 import requestMasterItemsCreateReducer from './requestMaster/requestMasterItemsCreateSlice'
+import requestMasterItemsCompleteReducer from './requestMaster/requestMasterItemsCompleteSlice'
+import requestMasterItemsPendingReducer from './requestMaster/requestMasterItemsPendingSlice'
+import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice'
+import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice'
 
 export const store = configureStore({
   reducer: {
@@ -39,15 +40,16 @@ export const store = configureStore({
     searchStore: searchReducer,
     storeRooomMasterItemsStore: storeRooomMasterItemsReducer,
     storeRooomUpdateStore: storeRooomUpdateReducer,
-    requestMasterDepartmentItemsStore: requestMasterDepartmentItemsReducer,
     requestItemsUpdateStore: requestItemsUpdateReducer,
-    requestItemsCreateStore: requestItemsCreateReducer,
     requestMasterItemsAdminStore: requestMasterItemsAdminReducer,
     bottomToolbarItemsStore: bottomToolbarItemsReducer,
     requestMasterItemsCheckedStore: requestMasterItemsCheckedReducer,
     drawerToggleTypeStore: drawerToggleTypeReducer,
-    requestItemsStore: requestItemsReducer,
-    requestMasterItemsCreateStore: requestMasterItemsCreateReducer
+    requestMasterItemsCreateStore: requestMasterItemsCreateReducer,
+    requestMasterItemsCompleteStore: requestMasterItemsCompleteReducer,
+    requestMasterItemsPendingStore: requestMasterItemsPendingReducer,
+    requestMasterItemsUpdateStore: requestMasterItemsUpdateReducer,
+    requestMasterItemUpdateStore: requestMasterItemUpdateReducer
   }
 });
 

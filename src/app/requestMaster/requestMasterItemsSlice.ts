@@ -9,23 +9,23 @@ export const getRequestMasterItems = (state: string, page: number) => {
     return axios.get(`${baseUrl}/request-master/${state}/list/transformed?page=${page}`)
 }
 export interface IRequestMasterItem {
-    item: string,
+    item?: string,
     request_item_id: number,
     master_item_id: number,
-    recent_cn: number,
-    purchase_unit: string,
-    part_number: string,
-    quantity: number,
-    department: string,
+    recent_cn?: number,
+    purchase_unit?: string,
+    part_number?: string,
+    quantity?: number,
+    department?: string,
     status?: string,
-    location: string,
-    confirmation: string,
+    location?: string,
+    confirmation?: string,
     time_requested?: string,
     time_updated?: string,
     confiration?: string,
-    user: string,
-    detail: string,
-    custom_text: string
+    user?: string,
+    detail?: string,
+    custom_text?: string
 }
 
 export interface IRequestMasterState {
