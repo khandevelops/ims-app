@@ -1,9 +1,8 @@
 import {
     Box,
     Checkbox,
-    Fab,
+    Drawer,
     Paper,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -11,21 +10,35 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    TextField,
-    Zoom
+    styled,
+    tableCellClasses
 } from '@mui/material';
-import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
-import {
-    getRequestMasterDepartmentItemsThunk,
-    IRequestMasterDepartmentItem,
-    selectRequestMasterDepartmentItems,
-} from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
-import SendIcon from '@mui/icons-material/Navigation';
+import {
+    getRequestMasterItemsPendingThunk,
+    selectRequestMasterItemsPending
+} from '../app/requestMasterDepartment/requestMasterItemsPendingSlice';
+import { IRequestMasterItem } from '../app/requestMaster/requestMasterItems';
+import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsChecked';
+import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { drawerToggleType } from '../common/constants';
+import RequestItemEditForm from './RequestItemEditForm';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: 'WhiteSmoke',
+        fontSize: 13,
+        color: theme.palette.common.black
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 12
+    }
+}));
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
-    { field: 'checkbox', headerName: <Checkbox /> },
+    { field: '', headerName: 'Select' },
     { field: 'item', headerName: 'Item' },
     { field: 'recent_cn', headerName: 'Recent CN' },
     { field: 'order_quantity', headerName: 'Order Quantity' },
@@ -35,153 +48,106 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 ];
 
 const RequestMasterDepartmentPending = () => {
-    const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
+    const requestMasterItemsPendingSelector = useAppSelector(selectRequestMasterItemsPending);
+    const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType)
     const dispatch = useAppDispatch();
-    const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
+    const [page, setPage] = useState<number>(0);
 
     const location = useLocation();
 
     useEffect(() => {
         dispatch(
-            getRequestMasterDepartmentItemsThunk({
-                pathName: location.pathname,
-                page: pagination.page
+            getRequestMasterItemsPendingThunk({
+                state: location.state,
+                page: page
             })
         );
-    }, [dispatch, location.pathname, pagination.page, pagination.size]);
+    }, [dispatch, location.pathname, location.state, page]);
 
     const handleChangePage = (event: any, page: number): void => {
-        setPagination((prevState) => ({ ...prevState, page: page }));
+        setPage(page);
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
-        // dispatch(
-        //     changeRequestItems({
-        //         ...requestMasterDepartmentItemsSelector.response,
-        //         content: requestMasterDepartmentItemsSelector.response.content.map((item) => ({
-        //             ...item,
-        //             order_quantity:
-        //                 event.target.name === 'order_quantity' && item.request_item_id === requestItem.request_item_id
-        //                     ? Number(event.target.value)
-        //                     : item.quantity,
-        //             custom_text:
-        //                 event.target.name === 'custom_text' && item.request_item_id === requestItem.request_item_id
-        //                     ? event.target.value
-        //                     : item.custom_text
-        //         }))
-        //     })
-        // );
-    };
-
-    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
-        // dispatch(
-        //     changeCheckbox([
-        //         ...requestMasterDepartmentItemsSelector.response.content.map((item) => ({
-        //             ...item,
-        //             checked: requestItem.request_item_id === item.request_item_id ? event.target.checked : item.checked
-        //         }))
-        //     ])
-        // );
-    };
-
-    const handleEnterKey = (event: KeyboardEvent<HTMLInputElement>, requestItem: IRequestMasterDepartmentItem) => {
-        // if (event.key === 'Enter') {
-        //     dispatch(updateRequestItemsThunk({ pathName: location.pathname, requestItems: requestItem[] }));
-        // }
-    };
-
-    const handleSendClick = () => {
-        // const checkedItems = requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked === true);
-
-        // if (checkedItems.length > 0) {
-        //     dispatch(confirmRequestMakeItemsThunk({ pathName: location.pathname, requestItems: checkedItems }));
-        //     if (requestMasterDepartmentItemsSelector.status === 'success') {
-        //         dispatch(
-        //             changeRequestItems({
-        //                 ...requestMasterDepartmentItemsSelector.response,
-        //                 content: requestMasterDepartmentItemsSelector.response.content.filter((item) => item.checked !== true)
-        //             })
-        //         );
-        //     }
-        //     dispatch(changeTab(2));
-        // }
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
+        const exists =
+            requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter(
+                (item) => item.request_item_id === departmentMasterItem.request_item_id
+            ).length > 0;
+        if (exists) {
+            const newRequestMasterItemsChecked = requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter(
+                (item) => item.request_item_id !== departmentMasterItem.request_item_id
+            );
+            dispatch(changeRequestItemsChecked(newRequestMasterItemsChecked));
+        }
+        if (!exists) {
+            dispatch(
+                changeRequestItemsChecked([
+                    ...requestMasterItemsCheckedSelector.requestMasterItemsChecked,
+                    departmentMasterItem
+                ])
+            );
+        }
     };
 
     return (
         <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
             <Paper elevation={3}>
                 <TableContainer sx={{ height: 600 }}>
-                <Table size="small">
-                    <TableHead>
-                        <TableRow>
-                            {columns.length > 0 &&
-                                columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {requestMasterDepartmentItemsSelector.response.content.length > 0 &&
-                            requestMasterDepartmentItemsSelector.response.content.map((requestItem, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        <Checkbox
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleCheckbox(event, requestItem)
-                                            }
-                                            checked={requestItem.checked}
-                                        />
-                                    </TableCell>
-                                    <TableCell>{requestItem && requestItem.item}</TableCell>
-                                    <TableCell>{requestItem && requestItem.recent_cn}</TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            id="manufacturer"
-                                            variant="outlined"
-                                            type="number"
-                                            size="small"
-                                            name="order_quantity"
-                                            value={requestItem.quantity === 0 ? '' : requestItem.quantity}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleChange(event, requestItem)
-                                            }
-                                            onKeyDown={(event: KeyboardEvent<HTMLInputElement>) =>
-                                                handleEnterKey(event, requestItem)
-                                            }
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            id="manufacturer"
-                                            variant="outlined"
-                                            size="small"
-                                            name="custom_text"
-                                            value={requestItem.custom_text === null ? '' : requestItem.custom_text}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleChange(event, requestItem)
-                                            }
-                                            onKeyDown={(event: KeyboardEvent<HTMLInputElement>) =>
-                                                handleEnterKey(event, requestItem)
-                                            }
-                                        />
-                                    </TableCell>
-                                    <TableCell>{requestItem.status}</TableCell>
-                                    <TableCell>{requestItem.detail}</TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                sx={{ marginTop: 3 }}
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={requestMasterDepartmentItemsSelector.response.totalElements}
-                rowsPerPage={requestMasterDepartmentItemsSelector.response.size}
-                page={requestMasterDepartmentItemsSelector.response.number}
-                onPageChange={handleChangePage}
-                showFirstButton={true}
-                showLastButton={true}
-            />
-        </Paper>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                {columns.length > 0 &&
+                                    columns.map((column) => (
+                                        <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>
+                                    ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {requestMasterItemsPendingSelector.response.content.length > 0 &&
+                                requestMasterItemsPendingSelector.response.content.map((requestMasterItem, index) => (
+                                    <TableRow key={index}>
+                                        <StyledTableCell>
+                                            <Checkbox
+                                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                                    handleCheckboxChange(event, requestMasterItem)
+                                                }
+                                                checked={
+                                                    requestMasterItemsCheckedSelector.requestMasterItemsChecked.find(
+                                                        (item) =>
+                                                            item.request_item_id === requestMasterItem.request_item_id
+                                                    ) !== undefined
+                                                }
+                                            />
+                                        </StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.item}</StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.recent_cn}</StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.quantity}</StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.custom_text}</StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.status}</StyledTableCell>
+                                        <StyledTableCell>{requestMasterItem.detail}</StyledTableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    sx={{ marginTop: 3 }}
+                    rowsPerPageOptions={[]}
+                    component="div"
+                    count={requestMasterItemsPendingSelector.response.totalElements}
+                    rowsPerPage={requestMasterItemsPendingSelector.response.size}
+                    page={requestMasterItemsPendingSelector.response.number}
+                    onPageChange={handleChangePage}
+                    showFirstButton={true}
+                    showLastButton={true}
+                />
+            </Paper>
+            <Drawer
+                anchor="bottom"
+                open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_REQUEST_EDIT_FORM}>
+                <RequestItemEditForm />
+            </Drawer>
         </Box>
     );
 };

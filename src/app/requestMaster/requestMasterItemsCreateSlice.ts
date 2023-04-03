@@ -5,8 +5,8 @@ import { IRequestMasterItem } from "./requestMasterItems";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const createRequestMasterItems = (pathName: string, requestItems: IRequestMasterItem[]) => {
-    return axios.post(`${baseUrl}/request-master/${pathName}/create`, requestItems)
+export const createRequestMasterItems = (state: string, requestItems: IRequestMasterItem[]) => {
+    return axios.post(`${baseUrl}/request-master/${state}/create`, requestItems)
 }
 
 export interface IRequestMasterItemsCreateState {
@@ -19,10 +19,10 @@ const initialState: IRequestMasterItemsCreateState = {
     status: 'idle'
 }
 
-export const createRequestItemsThunk = createAsyncThunk(
+export const createRequestMasterItemsThunk = createAsyncThunk(
     'createRequestItemsThunk',
-    async (params: {pathName: string, requestItems: IRequestMasterItem[]}) => {
-        const response = await createRequestMasterItems(params.pathName, params.requestItems)
+    async (params: {state: string, requestItems: IRequestMasterItem[]}) => {
+        const response = await createRequestMasterItems(params.state, params.requestItems)
         return response.data
     }
 )
@@ -33,9 +33,9 @@ export const requestMasterItemsCreateSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(createRequestItemsThunk.pending, (state) => { state.status = 'loading' })
-            .addCase(createRequestItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
-            .addCase(createRequestItemsThunk.rejected, (state) => { state.status = 'failed' })
+            .addCase(createRequestMasterItemsThunk.pending, (state) => { state.status = 'loading' })
+            .addCase(createRequestMasterItemsThunk.fulfilled, (state, action) => { state.response = action.payload })
+            .addCase(createRequestMasterItemsThunk.rejected, (state) => { state.status = 'failed' })
     }
 })
 

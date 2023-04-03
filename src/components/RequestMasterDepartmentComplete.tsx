@@ -2,7 +2,6 @@ import {
     Box,
     Checkbox,
     Paper,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -15,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import { getRequestMasterDepartmentItemsThunk, selectRequestMasterDepartmentItems } from '../app/requestMasterDepartment/requestMasterDepartmentItemsSlice';
+import { getRequestMasterItemsCompleteThunk, selectRequestMasterItemsComplete } from '../app/requestMasterDepartment/requestMasterItemsCompleteSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'checkbox', headerName: <Checkbox /> },
@@ -29,66 +28,68 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 ];
 
 const RequestMasterDepartmentComplete = () => {
-    const requestMasterDepartmentItemsSelector = useAppSelector(selectRequestMasterDepartmentItems);
+    const requestMasterItemsCompleteSelector = useAppSelector(selectRequestMasterItemsComplete);
     const dispatch = useAppDispatch();
-    const [pagination, setPagination] = useState<{ page: number; size: number }>({ page: 0, size: 10 });
+    const [page, setPage] = useState<number>(0);
 
     const location = useLocation();
 
     useEffect(() => {
         dispatch(
-            getRequestMasterDepartmentItemsThunk({
-                pathName: location.pathname,
-                page: pagination.page
+            getRequestMasterItemsCompleteThunk({
+                state: location.state,
+                page
             })
         );
-    }, [dispatch, location.pathname, pagination.page]);
+    }, [dispatch, location.state, page]);
 
     const handleChangePage = (event: any, page: number): void => {
-        setPagination((prevState) => ({ ...prevState, page: page }));
+        setPage(page);
     };
 
     return (
         <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
             <Paper elevation={3}>
                 <TableContainer sx={{ height: 600 }}>
-                <Table size="small">
-                    <TableHead>
-                        <TableRow>
-                            {columns.length > 0 &&
-                                columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {requestMasterDepartmentItemsSelector.response.content.length > 0 &&
-                            requestMasterDepartmentItemsSelector.response.content.map((requestItem, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        <Checkbox />
-                                    </TableCell>
-                                    <TableCell>{requestItem && requestItem.item}</TableCell>
-                                    <TableCell>{requestItem && requestItem.recent_cn}</TableCell>
-                                    <TableCell>{requestItem.quantity}</TableCell>
-                                    <TableCell>{requestItem.status}</TableCell>
-                                    <TableCell>{moment(requestItem.time_requested).format('MM/DD/YYYY')}</TableCell>
-                                    <TableCell>{moment(requestItem.time_updated).format('MM/DD/YYYY')}</TableCell>
-                                    <TableCell>{requestItem.detail}</TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                sx={{ marginTop: 3 }}
-                rowsPerPageOptions={[10, 25, 50]}
-                component="div"
-                count={requestMasterDepartmentItemsSelector.response.totalElements}
-                rowsPerPage={requestMasterDepartmentItemsSelector.response.size}
-                page={requestMasterDepartmentItemsSelector.response.number}
-                onPageChange={handleChangePage}
-                showFirstButton={true}
-                showLastButton={true}
-            />
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                {columns.length > 0 &&
+                                    columns.map((column) => (
+                                        <TableCell key={column.field}>{column.headerName}</TableCell>
+                                    ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {requestMasterItemsCompleteSelector.response.content.length > 0 &&
+                                requestMasterItemsCompleteSelector.response.content.map((requestItem, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>
+                                            <Checkbox />
+                                        </TableCell>
+                                        <TableCell>{requestItem && requestItem.item}</TableCell>
+                                        <TableCell>{requestItem && requestItem.recent_cn}</TableCell>
+                                        <TableCell>{requestItem.quantity}</TableCell>
+                                        <TableCell>{requestItem.status}</TableCell>
+                                        <TableCell>{moment(requestItem.time_requested).format('MM/DD/YYYY')}</TableCell>
+                                        <TableCell>{moment(requestItem.time_updated).format('MM/DD/YYYY')}</TableCell>
+                                        <TableCell>{requestItem.detail}</TableCell>
+                                    </TableRow>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    sx={{ marginTop: 3 }}
+                    rowsPerPageOptions={[]}
+                    component="div"
+                    count={requestMasterItemsCompleteSelector.response.totalElements}
+                    rowsPerPage={requestMasterItemsCompleteSelector.response.size}
+                    page={requestMasterItemsCompleteSelector.response.number}
+                    onPageChange={handleChangePage}
+                    showFirstButton={true}
+                    showLastButton={true}
+                />
             </Paper>
         </Box>
     );

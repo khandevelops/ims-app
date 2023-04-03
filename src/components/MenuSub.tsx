@@ -60,16 +60,3 @@ const MenuSub = () => {
 };
 
 export default MenuSub;
-
-{
-    /* <Search>
-<SearchIconWrapper>
-    <SearchIcon />
-</SearchIconWrapper>
-<StyledInputBase
-    placeholder="Search…"
-    inputProps={{ 'aria-label': 'search' }}
-    onChange={handleChange}
-/>
-</Search> */
-}

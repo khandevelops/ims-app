@@ -25,6 +25,7 @@ export default function NavbarTop() {
         <Box>
             {/* {profile.role === 'admin' && <AdminMenu />} */}
             {<MenuDepartment />}
+            <AdminMenu />
             <MenuSub/>
         </Box>
     );

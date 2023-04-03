@@ -11,7 +11,7 @@ import MasterForm from './UpdateMasterForm';
 import { useAppSelector } from '../app/hooks';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
 import RequestList from '../pages/RequestMasterAdmin';
-import RequestMake from '../pages/RequestMasterDepartment';
+import RequestMasterDepartment from '../pages/RequestMasterDepartment';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -47,9 +47,9 @@ const Layout = () => {
                     <Route path="store-room/admin" element={<RequestList />} />
                 </Route>
                 <Route path="request">
-                    <Route path="general" element={<RequestMake />} />
-                    <Route path="office-supply" element={<RequestMake />} />
-                    <Route path="store-room" element={<RequestMake />} />
+                    <Route path="general" element={<RequestMasterDepartment />} />
+                    <Route path="office-supply" element={<RequestMasterDepartment />} />
+                    <Route path="store-room" element={<RequestMasterDepartment />} />
                 </Route>
             </Routes>
 

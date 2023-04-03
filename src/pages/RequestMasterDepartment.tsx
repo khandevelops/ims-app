@@ -1,4 +1,4 @@
-import { AppBar, Box, Drawer, Fab, Tab, Tabs, Toolbar } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
@@ -6,9 +6,6 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import RequestMasterDepartmentPending from '../components/RequestMasterDepartmentPending';
 import RequestMasterDepartmentComplete from '../components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentItems from '../components/RequestMasterDepartmentItems';
-import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { drawerToggleType } from '../common/constants';
-import RequestItemReviewForm from '../components/RequestItemReviewForm';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,7 +40,6 @@ function a11yProps(index: number) {
 
 const RequestMasterDepartment = () => {
     const requestTabSelector = useAppSelector(selectRequestTab);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const location = useLocation();
 

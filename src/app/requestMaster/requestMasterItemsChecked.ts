@@ -14,7 +14,7 @@ export const requestMasterItemsCheckedSlice = createSlice({
     name: 'requestMasterItemsCheckedSlice',
     initialState,
     reducers: {
-        addRequestItemsChecked: (state, action) => {
+        changeRequestItemsChecked: (state, action) => {
             state.requestMasterItemsChecked = action.payload
         }
     },
@@ -22,6 +22,6 @@ export const requestMasterItemsCheckedSlice = createSlice({
 
 export const selectRequestMasterItemsChecked = (state: RootState) => state.requestMasterItemsCheckedStore
 
-export const { addRequestItemsChecked } = requestMasterItemsCheckedSlice.actions
+export const { changeRequestItemsChecked } = requestMasterItemsCheckedSlice.actions
 
 export default requestMasterItemsCheckedSlice.reducer

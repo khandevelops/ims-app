@@ -13,10 +13,12 @@ import {
 import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { changeRequestItems, selectRequestItems } from '../app/request/requestItemsSlice';
 import { useLocation } from 'react-router-dom';
-import { createRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsCreateSlice';
-import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsChecked';
+import {
+    changeRequestItemsChecked,
+    selectRequestMasterItemsChecked
+} from '../app/requestMaster/requestMasterItemsChecked';
+import { updateRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsUpdateSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -24,7 +26,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'custom_text', headerName: 'Cutom Text' }
 ];
 
-const RequestItemReviewForm = () => {
+const RequestItemEditForm = () => {
     const inputRef = useRef<HTMLDivElement | null>(null);
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
     const location = useLocation();
@@ -35,7 +37,7 @@ const RequestItemReviewForm = () => {
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
                     custom_text: item.request_item_id === request_item_id ? event.target.value : item.custom_text
@@ -46,7 +48,7 @@ const RequestItemReviewForm = () => {
 
     const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItems(
+            changeRequestItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
                     quantity: item.request_item_id === request_item_id ? parseInt(event.target.value) : item.quantity
@@ -57,7 +59,7 @@ const RequestItemReviewForm = () => {
 
     const handleSubmit = () => {
         dispatch(
-            createRequestMasterItemsThunk({
+            updateRequestMasterItemsThunk({
                 state: location.state,
                 requestItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked
             })
@@ -121,4 +123,4 @@ const RequestItemReviewForm = () => {
     );
 };
 
-export default RequestItemReviewForm;
+export default RequestItemEditForm;

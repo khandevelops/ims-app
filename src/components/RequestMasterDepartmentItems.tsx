@@ -24,7 +24,7 @@ import {
     selectRequestMasterItems
 } from '../app/requestMaster/requestMasterItems';
 import {
-    addRequestItemsChecked,
+    changeRequestItemsChecked,
     selectRequestMasterItemsChecked
 } from '../app/requestMaster/requestMasterItemsChecked';
 import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
@@ -49,8 +49,8 @@ const RequestMasterDepartmentItems = () => {
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getRequestMasterItemsThunk({ pathName: location.pathname, page: page }));
-    }, [dispatch, location.pathname, page]);
+        dispatch(getRequestMasterItemsThunk({ state: location.state, page: page }));
+    }, [dispatch, location.pathname, location.state, page]);
 
     const handleChangePage = (event: any, page: number): void => {
         setPage(page);
@@ -64,17 +64,16 @@ const RequestMasterDepartmentItems = () => {
         if (exists) {
             const newRequestMasterItemsChecked = requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter(
                 (item) => item.request_item_id !== departmentMasterItem.request_item_id)
-                dispatch(addRequestItemsChecked(newRequestMasterItemsChecked))
+                dispatch(changeRequestItemsChecked(newRequestMasterItemsChecked))
         }
         if(!exists) {
             dispatch(
-                addRequestItemsChecked([
+                changeRequestItemsChecked([
                     ...requestMasterItemsCheckedSelector.requestMasterItemsChecked,
                     departmentMasterItem
                 ])
             );
         }
-
     };
 
     return (

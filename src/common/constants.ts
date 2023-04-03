@@ -14,15 +14,6 @@ export const bottomToolbarButtons = {
     ADD_ITEM: 'ADD_ITEM'
 }
 
-export const statuses = [
-    'COMPLETED',
-    'CANCELLED',
-    'PENDING',
-    'ORDERED',
-    'BACK_ORDERED',
-    'PARTIAL_RECEIPT'
-]
-
 export const status = {
     COMPLETED: 'COMPLETED',
     CANCELLED: 'CANCELLED',
@@ -52,6 +43,7 @@ export const confirmation = {
 export const drawerToggleType = {
     UPDATE_QUANTITY_FORM: 'UPDATE_QUANTITY_FORM',
     UPDATE_REQUEST_REVIEW_FORM: 'UPDATE_REQUEST_REVIEW_FORM',
+    UPDATE_REQUEST_EDIT_FORM: 'UPDATE_REQUEST_EDIT_FORM',
     ADD_MASTER_ITEM_FROM: 'ADD_MASTER_ITEM_FROM',
     UPDATE_MASTER_ITEM_FROM: 'UPDATE_MASTER_ITEM_FROM'
 }

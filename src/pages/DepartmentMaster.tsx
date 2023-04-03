@@ -31,7 +31,6 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'purchase_unit', headerName: 'Purchase Unit' },
     { field: 'part_number', headerName: 'Part Number' },
     { field: 'recent_cn', headerName: 'Recent CN' },
-    { field: 'location', headerName: 'Location' },
     { field: 'total_quantity', headerName: 'Total Qty' },
     { field: 'usage_level', headerName: 'Usage Level' },
     { field: 'min_quantity', headerName: 'Min Qty' },
@@ -112,7 +111,6 @@ const DepartmentExperience = () => {
                                         <StyledTableCell>{departmentMasterItems.purchase_unit}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.part_number}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.recent_cn}</StyledTableCell>
-                                        <StyledTableCell>{departmentMasterItems.location}</StyledTableCell>
                                         <StyledTableCell>
                                             <Button
                                                 variant="outlined"
