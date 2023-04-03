@@ -111,7 +111,7 @@ const RequestMasterDepartmentItems = () => {
                                         <TableCell>{requestMasterItem.recent_cn}</TableCell>
                                         <TableCell>{requestMasterItem.purchase_unit}</TableCell>
                                         <TableCell>{requestMasterItem.part_number}</TableCell>
-                                        <TableCell>{requestMasterItem.comment}</TableCell>
+                                        <TableCell>{requestMasterItem.detail}</TableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>

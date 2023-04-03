@@ -8,7 +8,6 @@ import departmentUpdateReducer from './department/departmentUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
 import departmentItemsReducer from './department/departmentItemsSlice';
 import requestMasterItemsReducer from './requestMaster/requestMasterItems';
-import requestItemsConfirmationReducer from './requestMasterDepartment/requestMasterDepartmentItemsConfirmation';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
@@ -22,6 +21,7 @@ import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems'
 import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsChecked'
 import drawerToggleTypeReducer from './drawerToggle/drawerToggleTypeSlice'
 import requestItemsReducer from './request/requestItemsSlice'
+import requestMasterItemsCreateReducer from './requestMaster/requestMasterItemsCreateSlice'
 
 export const store = configureStore({
   reducer: {
@@ -34,7 +34,6 @@ export const store = configureStore({
     departmentUpdateStore: departmentUpdateReducer,
     departmentItemsStore: departmentItemsReducer,
     requestMasterItemsStore: requestMasterItemsReducer,
-    requestItemsConfirmationStore: requestItemsConfirmationReducer,
     requestTabStore: requestTabReducer,
     profileStore: profileReducer,
     searchStore: searchReducer,
@@ -47,7 +46,8 @@ export const store = configureStore({
     bottomToolbarItemsStore: bottomToolbarItemsReducer,
     requestMasterItemsCheckedStore: requestMasterItemsCheckedReducer,
     drawerToggleTypeStore: drawerToggleTypeReducer,
-    requestItemsStore: requestItemsReducer
+    requestItemsStore: requestItemsReducer,
+    requestMasterItemsCreateStore: requestMasterItemsCreateReducer
   }
 });
 

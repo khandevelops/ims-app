@@ -6,16 +6,16 @@ import { IRequestItem } from "./requestItemsSlice";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const updateRequestItems = (pathName: string, requestItems: IRequestItem[]) => {
-    return axios.patch(`${baseUrl}${pathName}/create`, requestItems)
+    return axios.patch(`${baseUrl}${pathName}/update`, requestItems)
 }
 
 export interface IRequestMakeItemUpdateState {
-    response: IRequestItem[] | undefined,
+    response: IRequestItem[],
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: IRequestMakeItemUpdateState = {
-    response: undefined,
+    response: [],
     status: 'idle'
 }
 

@@ -11,11 +11,11 @@ import {
     TextField
 } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
-import { useAppSelector } from '../app/hooks';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { changeRequestItems, selectRequestItems } from '../app/request/requestItemsSlice';
 import { createRequestItemsThunk } from '../app/request/requestItemsCreateSlice';
+import { useLocation } from 'react-router-dom';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -26,7 +26,8 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 const RequestItemReviewForm = () => {
     const inputRef = useRef<HTMLDivElement | null>(null);
     const requestItemsSelector = useAppSelector(selectRequestItems);
-    const dispatch = useDispatch();
+    const location = useLocation();
+    const dispatch = useAppDispatch();
 
     const handleClose = () => {
         dispatch(toggleDrawer(''));
@@ -54,12 +55,13 @@ const RequestItemReviewForm = () => {
     };
 
     const handleSubmit = () => {
-        dispatch(createRequestItemsThunk({pathName: '', requestItems: []}))
+        dispatch(
+            createRequestItemsThunk({ pathName: location.pathname, requestItems: requestItemsSelector.requestItems })
+        );
     };
 
     return (
         <Stack direction="column" justifyContent="space-between" sx={{ padding: 2, minHeight: 300 }}>
-            {JSON.stringify(requestItemsSelector.requestItems)}
             <TableContainer component={Paper}>
                 <Table size="medium">
                     <TableHead>

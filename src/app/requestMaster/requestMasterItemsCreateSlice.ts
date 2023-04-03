@@ -1,33 +1,33 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
-import { IRequestItem } from "./requestItemsSlice";
+import { IRequestMasterItem } from "./requestMasterItems";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const createRequestItems = (pathName: string, requestItems: IRequestItem[]) => {
-    return axios.post(`${baseUrl}/${pathName}/create`, requestItems)
+export const createRequestMasterItems = (pathName: string, requestItems: IRequestMasterItem[]) => {
+    return axios.post(`${baseUrl}/request-master/${pathName}/create`, requestItems)
 }
 
-export interface IRequestItemsCreateState {
-    response: IRequestItem[],
+export interface IRequestMasterItemsCreateState {
+    response: IRequestMasterItem[],
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IRequestItemsCreateState = {
+const initialState: IRequestMasterItemsCreateState = {
     response: [],
     status: 'idle'
 }
 
 export const createRequestItemsThunk = createAsyncThunk(
     'createRequestItemsThunk',
-    async (params: {pathName: string, requestItems: IRequestItem[]}) => {
-        const response = await createRequestItems(params.pathName, params.requestItems)
+    async (params: {pathName: string, requestItems: IRequestMasterItem[]}) => {
+        const response = await createRequestMasterItems(params.pathName, params.requestItems)
         return response.data
     }
 )
 
-export const requestItemsCreateSlice = createSlice({
+export const requestMasterItemsCreateSlice = createSlice({
     name: 'requestItemsCreateSlice',
     initialState,
     reducers: {},
@@ -39,6 +39,6 @@ export const requestItemsCreateSlice = createSlice({
     }
 })
 
-export const selectRequestItemsCreate = (state: RootState) => state.requestItemsCreateStore
-export default requestItemsCreateSlice.reducer
+export const selectRequestMasterItemsCreate = (state: RootState) => state.requestMasterItemsCreateStore
+export default requestMasterItemsCreateSlice.reducer
 

@@ -19,7 +19,7 @@ export const updateMasterItemById = (params: { id: number, masterItem: IMasterIt
 }
 
 export const createMasterItem = (masterItem: IMasterItem) => {
-    return axios.post(baseUrl || '', masterItem)
+    return axios.post(`baseUrl/create`, masterItem)
 }
 
 export interface IMasterItem {

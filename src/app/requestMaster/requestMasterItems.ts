@@ -15,8 +15,16 @@ export interface IRequestMasterItem {
     recent_cn: number,
     purchase_unit: string,
     part_number: string,
-    comment: string,
-    checked: boolean
+    quantity: number,
+    department: string,
+    status?: string,
+    location: string,
+    time_requested?: string,
+    time_update?: string,
+    confiration?: string,
+    user: string,
+    detail: string,
+    custom_text: string
 }
 
 export interface IRequestMasterState {
