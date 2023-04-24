@@ -28,6 +28,9 @@ import { useLocation } from 'react-router-dom';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { department } from '../common/constants';
+import { selectDepartmentItems } from '../app/department/departmentItemsSlice';
+import { selectDepartmentItemsTransformed } from '../app/departmentMaster/departmentItemsTransformedSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'id', headerName: 'ID' },
@@ -43,7 +46,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 
 const UpdateQuantityForm = () => {
     const masterDepartmentItemSelector = useAppSelector(selectMasterDepartmentItem);
-    const departmentItemsSelector = useAppSelector(selectDepartmentMasterItems);
+    const departmentItemsTransformedSelector = useAppSelector(selectDepartmentItemsTransformed);
     const dispatch = useAppDispatch();
     const inputRef = useRef<HTMLDivElement | null>(null);
     const location = useLocation();
@@ -53,7 +56,7 @@ const UpdateQuantityForm = () => {
     };
 
     const handleExpirationDateChange = (value: Moment | null, id: number) => {
-        if (location.pathname === '/department-master/extractions') {
+        if (location.pathname === '/department/extractions') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -64,7 +67,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/mass-spec') {
+        if (location.pathname === '/department/mass-spec') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -75,7 +78,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/receiving') {
+        if (location.pathname === '/department/receiving') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -86,7 +89,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/rd') {
+        if (location.pathname === '/department/rd') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -97,7 +100,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/screening') {
+        if (location.pathname === '/department/screening') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -108,7 +111,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/shipping') {
+        if (location.pathname === '/department/shipping') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -119,7 +122,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/quality') {
+        if (location.pathname === '/department/quality') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -133,7 +136,7 @@ const UpdateQuantityForm = () => {
     };
 
     const handleReceivedDateChange = (value: Moment | null, id: number) => {
-        if (location.pathname === '/department-master/extractions') {
+        if (location.pathname === '/department/extractions') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -144,7 +147,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/mass-spec') {
+        if (location.pathname === '/department/mass-spec') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -155,7 +158,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/receiving') {
+        if (location.pathname === '/department/receiving') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -166,7 +169,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/rd') {
+        if (location.pathname === '/department/rd') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -177,7 +180,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/screening') {
+        if (location.pathname === '/department/screening') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -188,7 +191,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/shipping') {
+        if (location.pathname === '/department/shipping') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -199,7 +202,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/quality') {
+        if (location.pathname === '/department/quality') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -213,7 +216,8 @@ const UpdateQuantityForm = () => {
     };
 
     const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (location.pathname === '/department-master/extractions') {
+        console.log(event.target.value)
+        if (location.pathname === '/department/extractions') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -224,7 +228,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/mass-spec') {
+        if (location.pathname === '/department/mass-spec') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -235,7 +239,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/receiving') {
+        if (location.pathname === '/department/receiving') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -246,7 +250,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/rd') {
+        if (location.pathname === '/department/rd') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -257,7 +261,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/screening') {
+        if (location.pathname === '/department/screening') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -268,7 +272,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/shipping') {
+        if (location.pathname === '/department/shipping') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -279,7 +283,7 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department-master/quality') {
+        if (location.pathname === '/department/quality') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
@@ -292,26 +296,106 @@ const UpdateQuantityForm = () => {
         }
     };
 
+    const handleLotNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (location.pathname === '/department/extractions') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    extractionsItems: masterDepartmentItemSelector.response?.extractionsItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/mass-spec') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    massSpecItems: masterDepartmentItemSelector.response?.massSpecItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/receiving') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/rd') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    rdItems: masterDepartmentItemSelector.response?.rdItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/screening') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    screeningItems: masterDepartmentItemSelector.response?.screeningItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/shipping') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    shippingItems: masterDepartmentItemSelector.response?.shippingItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+        if (location.pathname === '/department/quality') {
+            dispatch(
+                changeMasterDepartmentItem({
+                    ...masterDepartmentItemSelector.response,
+                    qualityItems: masterDepartmentItemSelector.response?.qualityItems.map((item) => ({
+                        ...item,
+                        lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
+                    }))
+                })
+            );
+        }
+    };
+
     const handleSubmit = () => {
         if (!masterDepartmentItemSelector.response) {
             return;
         }
 
-        if (location.pathname === '/department-master/extractions') {
+        if (location.pathname === '/department/extractions') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.extractionsItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -323,21 +407,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/mass-spec') {
+        if (location.pathname === '/department/mass-spec') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.massSpecItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -349,21 +433,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/receiving') {
+        if (location.pathname === '/department/receiving') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.receivingItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -375,21 +459,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/rd') {
+        if (location.pathname === '/department/rd') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.rdItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -401,21 +485,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/screening') {
+        if (location.pathname === '/department/screening') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.screeningItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -427,21 +511,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/shipping') {
+        if (location.pathname === '/department/shipping') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.shippingItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -453,21 +537,21 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department-master/quality') {
+        if (location.pathname === '/department/quality') {
             dispatch(
                 updateQuantityThunk({
-                    departmentName: location.state,
+                    state: location.state,
                     departmentItems: masterDepartmentItemSelector.response.qualityItems
                 })
             ).then(() => {
-                if (departmentItemsSelector.response) {
+                if (departmentItemsTransformedSelector.response) {
                     dispatch(
                         changeDepartmentExperienceItems({
-                            ...departmentItemsSelector.response,
-                            content: departmentItemsSelector.response.content.map((item) => ({
+                            ...departmentItemsTransformedSelector.response,
+                            content: departmentItemsTransformedSelector.response.content.map((item) => ({
                                 ...item,
                                 total_quantity:
-                                    masterDepartmentItemSelector.response?.id === item.item_id
+                                    masterDepartmentItemSelector.response?.id === item.master_item_id
                                         ? getMasterDepartmentSelectorItems()?.reduce(
                                               (acc, item) => acc + item.quantity,
                                               0
@@ -483,19 +567,19 @@ const UpdateQuantityForm = () => {
 
     const getMasterDepartmentSelectorItems = () => {
         switch (location.pathname) {
-            case '/department-master/extractions':
+            case '/department/extractions':
                 return masterDepartmentItemSelector.response?.extractionsItems;
-            case '/department-master/mass-spec':
+            case '/department/mass-spec':
                 return masterDepartmentItemSelector.response?.massSpecItems;
-            case '/department-master/receiving':
+            case '/departmentreceiving':
                 return masterDepartmentItemSelector.response?.receivingItems;
-            case '/department-master/rd':
+            case '/department/rd':
                 return masterDepartmentItemSelector.response?.rdItems;
-            case '/department-master/screening':
+            case '/department/screening':
                 return masterDepartmentItemSelector.response?.screeningItems;
-            case '/department-master/shipping':
+            case '/department/shipping':
                 return masterDepartmentItemSelector.response?.shippingItems;
-            case '/department-master/quality':
+            case '/department/quality':
                 return masterDepartmentItemSelector.response?.qualityItems;
             default:
                 return [];
@@ -504,19 +588,19 @@ const UpdateQuantityForm = () => {
 
     const getDepartmentItems = (masterDepartmentItem: IMasterDepartmentItem) => {
         switch (location.pathname) {
-            case '/department-master/extractions':
+            case '/department/extractions':
                 return masterDepartmentItem.extractionsItems;
-            case '/department-master/mass-spec':
+            case '/department/mass-spec':
                 return masterDepartmentItem.massSpecItems;
-            case '/department-master/receiving':
+            case '/department/receiving':
                 return masterDepartmentItem.receivingItems;
-            case '/department-master/rd':
+            case '/department/rd':
                 return masterDepartmentItem.rdItems;
-            case '/department-master/screening':
+            case '/department/screening':
                 return masterDepartmentItem.screeningItems;
-            case '/department-master/shipping':
+            case '/department/shipping':
                 return masterDepartmentItem.shippingItems;
-            case '/department-master/quality':
+            case '/department/quality':
                 return masterDepartmentItem.qualityItems;
             default:
                 return [];
@@ -551,16 +635,23 @@ const UpdateQuantityForm = () => {
                                             sx={{ maxWidth: 120 }}
                                             type="number"
                                             size="small"
-                                            name={departmentItem.id.toString()}
-                                            value={departmentItem.quantity}
                                             id={departmentItem.id.toString()}
+                                            value={departmentItem.quantity}
                                             onChange={handleQuantityChange}
                                         />
                                     </TableCell>
                                     <TableCell>{departmentItem.usage_level}</TableCell>
                                     <TableCell>{departmentItem.min_quantity}</TableCell>
                                     <TableCell>{departmentItem.max_quantity}</TableCell>
-                                    <TableCell>{departmentItem.lot_number}</TableCell>
+                                    <TableCell>
+                                        <TextField
+                                            ref={inputRef}
+                                            sx={{ maxWidth: 160 }}
+                                            size="small"
+                                            value={departmentItem.lot_number}
+                                            onChange={handleLotNumberChange}
+                                        />
+                                    </TableCell>
                                     <TableCell>
                                         <LocalizationProvider dateAdapter={AdapterMoment}>
                                             <DateTimePicker

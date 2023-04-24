@@ -50,6 +50,10 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'average_unit_price', headerName: 'Average Unit Price' },
     { field: 'comments', headerName: 'Comments' },
     { field: 'category', headerName: 'Category' },
+    { field: 'drug_class', headerName: 'Drug Class' },
+    { field: 'usage_level', headerName: 'Usage Level' },
+    { field: 'expiration_date', headerName: 'Exp Date' },
+    { field: 'received_date', headerName: 'Rec Date' },
     { field: 'type', headerName: 'Type' },
     { field: 'group', headerName: 'Group' },
     { field: 'nore', headerName: 'More' }
@@ -116,6 +120,10 @@ const Master = () => {
                                         <StyledTableCell>{masterItem.average_unit_price}</StyledTableCell>
                                         <StyledTableCell sx={{fontSize: 12, maxWidth: '200px' }}>{masterItem.comments}</StyledTableCell>
                                         <StyledTableCell>{masterItem.category}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.usage_level}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.expiration_date?.toDateString()}</StyledTableCell>
+                                        <StyledTableCell>{masterItem.received_date?.toDateString() }</StyledTableCell>
                                         <StyledTableCell>{masterItem.type}</StyledTableCell>
                                         <StyledTableCell>{masterItem.group}</StyledTableCell>
                                         <StyledTableCell>

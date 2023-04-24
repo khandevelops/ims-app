@@ -1,10 +1,11 @@
-import * as React from 'react';
+import { ChangeEvent } from 'react';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
-import { TextField } from '@mui/material';
+import { useAppDispatch } from '../app/hooks';
+import { getMasterItemsFilteredThunk } from '../app/master/masterItemSlice';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -44,12 +45,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     }
 }));
 
+
+
 const MenuSub = () => {
+
+    const dispatch = useAppDispatch();
+
+    const handlekeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(getMasterItemsFilteredThunk({page: 0, keyword: event.target.value}))
+    }
+
     return (
         <AppBar position="static" elevation={5} sx={{alignItems: 'center', backgroundColor: '#1347a4'}}>
             <Toolbar variant="dense">
-                <Search >
-                    <SearchIconWrapper>
+                <Search onChange={handlekeywordChange}>
+                    <SearchIconWrapper >
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />

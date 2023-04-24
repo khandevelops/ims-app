@@ -5,8 +5,8 @@ import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const updateQuantity = (departmentName: string, departmentItems: IDepartmentItem[]) => {
-    return axios.patch(`${baseUrl}/departments/${departmentName}/update-quantity`, departmentItems)
+export const updateQuantity = (state: string, departmentItems: IDepartmentItem[]) => {
+    return axios.patch(`${baseUrl}/department/${state}/update-department-items`, departmentItems)
 }
 
 export interface quantityUpdateState {
@@ -21,8 +21,8 @@ const initialState: quantityUpdateState = {
 
 export const updateQuantityThunk = createAsyncThunk(
     'updateQuantity',
-    async (params: {departmentName: string, departmentItems: IDepartmentItem[]}) => {
-        const response = await updateQuantity(params.departmentName, params.departmentItems)
+    async (params: {state: string, departmentItems: IDepartmentItem[]}) => {
+        const response = await updateQuantity(params.state, params.departmentItems)
         return response.data
     }
 )

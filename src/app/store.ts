@@ -4,7 +4,7 @@ import masterFormReducer from "./master/masterFormSlice";
 import departmentMasterReducer from "./departmentMaster/departmentMasterSlice";
 import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
-import departmentUpdateReducer from './department/departmentUpdateSlice';
+import departmentItemUpdateReducer from './department/departmentItemUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
 import departmentItemsReducer from './department/departmentItemsSlice';
 import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
@@ -23,6 +23,8 @@ import requestMasterItemsCompleteReducer from './requestMaster/requestMasterItem
 import requestMasterItemsPendingReducer from './requestMaster/requestMasterItemsPendingSlice'
 import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice'
 import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice'
+import departmentItemsTransformedReducer from './departmentMaster/departmentItemsTransformedSlice'
+import masterDepartmentItemsReducer from './masterDepartment/masterDepartmentItemsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -32,7 +34,7 @@ export const store = configureStore({
     departmentMasterStore: departmentMasterReducer,
     updateQuantityStore: updateQuantityReducer,
     pageStore: pageReducer,
-    departmentUpdateStore: departmentUpdateReducer,
+    departmentItemUpdateStore: departmentItemUpdateReducer,
     departmentItemsStore: departmentItemsReducer,
     requestMasterItemsStore: requestMasterItemsReducer,
     requestTabStore: requestTabReducer,
@@ -49,7 +51,9 @@ export const store = configureStore({
     requestMasterItemsCompleteStore: requestMasterItemsCompleteReducer,
     requestMasterItemsPendingStore: requestMasterItemsPendingReducer,
     requestMasterItemsUpdateStore: requestMasterItemsUpdateReducer,
-    requestMasterItemUpdateStore: requestMasterItemUpdateReducer
+    requestMasterItemUpdateStore: requestMasterItemUpdateReducer,
+    departmentItemsTransformedStore: departmentItemsTransformedReducer,
+    masterDepartmentItemsStore: masterDepartmentItemsReducer
   }
 });
 

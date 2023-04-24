@@ -4,13 +4,13 @@ import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getDepartmentMasterItems = (params: { state: string, page: number, size: number }) => {
-    return axios.get(`${baseUrl}/${params.state}/list?page=${params.page}`)
+export const getDepartmentItemsTransformed = (state: string, page: number) => {
+    return axios.get(`${baseUrl}/department/${state}/list/transformed?page=${page}`)
 }
 
-export interface IDepartmentMasterItem {
-    department_id: number;
-    item_id: number;
+export interface IDepartmenItemTransformed {
+    department_item_id: number;
+    master_item_id: number;
     item: string;
     purchase_unit: string;
     part_number: string
@@ -21,7 +21,7 @@ export interface IDepartmentMasterItem {
     min_quantity: number;
     max_quantity: number;
     order_quantity: number;
-    unit_price: number;
+    average_unit_price: number;
     total_price: number;
     lot_number: number;
     comments: string;
@@ -30,9 +30,9 @@ export interface IDepartmentMasterItem {
     category: string;
 }
 
-export interface IDepartmentMasterState {
+export interface IDepartmentItemTransformedState {
     response: {
-        content: IDepartmentMasterItem[],
+        content: IDepartmenItemTransformed[],
         last: boolean,
         totalPages: number,
         totalElements: number,
@@ -46,7 +46,7 @@ export interface IDepartmentMasterState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IDepartmentMasterState = {
+const initialState: IDepartmentItemTransformedState = {
     response: {
         content: [],
         last: false,
@@ -62,15 +62,15 @@ const initialState: IDepartmentMasterState = {
     status: 'idle'
 }
 
-export const getDepartmentMasterThunk = createAsyncThunk(
-    'getDepartmentMasterThunk',
-    async (params: { state: string, page: number, size: number }) => {
-        const response = await getDepartmentMasterItems(params)
+export const getDepartmentItemsTransformedThunk = createAsyncThunk(
+    'getDepartmentItemsTransformedThunk',
+    async (params: { state: string, page: number }) => {
+        const response = await getDepartmentItemsTransformed(params.state, params.page)
         return response.data
     }
 )
 
-export const departmentMasterSlice = createSlice({
+export const departmentItemsTransformedSlice = createSlice({
     name: 'transformedSlice',
     initialState,
     reducers: {
@@ -79,17 +79,17 @@ export const departmentMasterSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getDepartmentMasterThunk.pending, (state) => {
+        builder.addCase(getDepartmentItemsTransformedThunk.pending, (state) => {
             state.status = 'loading'
-        }).addCase(getDepartmentMasterThunk.fulfilled, (state, action) => {
+        }).addCase(getDepartmentItemsTransformedThunk.fulfilled, (state, action) => {
             state.status = 'success'
             state.response = action.payload
-        }).addCase(getDepartmentMasterThunk.rejected, (state) => {
+        }).addCase(getDepartmentItemsTransformedThunk.rejected, (state) => {
             state.status = 'failed'
         })
     }
 })
 
-export const selectDepartmentMasterItems = (state: RootState) => state.departmentMasterStore
-export const { changeDepartmentExperienceItems } = departmentMasterSlice.actions
-export default departmentMasterSlice.reducer
+export const selectDepartmentItemsTransformed = (state: RootState) => state.departmentItemsTransformedStore
+export const { changeDepartmentExperienceItems } = departmentItemsTransformedSlice.actions
+export default departmentItemsTransformedSlice.reducer

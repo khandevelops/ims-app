@@ -10,9 +10,9 @@ export const getMasterItems = (page: number) => {
     return axios.get(`${baseUrl}/master/list?page=${page}`)
 }
 
-// export const getMasterFilterItems = (page: number) => {
-//     return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${page}`)
-// }
+export const getMasterItemsFiltered = (page: number, keyword: string) => {
+    return axios.get(`${baseUrl}/master/list/filter?keyword=${keyword}&page=${page}`)
+}
 
 export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
     return axios.put(`${baseUrl}/master/${params.id}`, params.masterItem)
@@ -39,6 +39,10 @@ export interface IMasterItem {
     comments: string;
     type: string;
     group: string;
+    drug_class: string;
+    usage_level: string;
+    expiration_date: Date | null;
+    received_date: Date | null;
 }
 
 export interface IMasterState {
@@ -138,13 +142,13 @@ export const getMasterItemsThunk = createAsyncThunk(
     }
 )
 
-// export const getMasterItemsFilterThunk = createAsyncThunk(
-//     'getMasterItemsFilterThunk',
-//     async (params: {item: string, page: number, size: number }) => {
-//         const response = await getMasterFilterItems(params)
-//         return response.data
-//     }
-// )
+export const getMasterItemsFilteredThunk = createAsyncThunk(
+    'getMasterItemsFilteredThunk',
+    async (params: {page: number, keyword: string }) => {
+        const response = await getMasterItemsFiltered(params.page, params.keyword)
+        return response.data
+    }
+)
 
 export const masterItemsSlice = createSlice({
     name: 'master',
@@ -161,16 +165,16 @@ export const masterItemsSlice = createSlice({
             .addCase(getMasterItemsThunk.rejected, (state) => {
                 state.status = 'failed'
             })
-            // .addCase(getMasterItemsFilterThunk.pending, (state) => {
-            //     state.status = 'loading'
-            // })
-            // .addCase(getMasterItemsFilterThunk.fulfilled, (state, action) => {
-            //     state.status = 'success';
-            //     state.response = action.payload
-            // })
-            // .addCase(getMasterItemsFilterThunk.rejected, (state) => {
-            //     state.status = 'failed'
-            // })
+            .addCase(getMasterItemsFilteredThunk.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(getMasterItemsFilteredThunk.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.response = action.payload
+            })
+            .addCase(getMasterItemsFilteredThunk.rejected, (state) => {
+                state.status = 'failed'
+            })
     }
 })
 

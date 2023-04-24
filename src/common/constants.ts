@@ -1,13 +1,3 @@
-export const departments = {
-    'EXTRACTIONS': 'EXTRACTIONS',
-    'mass-spec': 'MASS-SPEC',
-    'receiving': 'RECEIVING',
-    'rd': 'RD',
-    'screening': 'SCREENING',
-    'shipping': 'SHIPPING',
-    'quality': 'QUALITY'
-}
-
 export const bottomToolbarButtons = {
     DOWNLOAD: 'DOWNLOAD',
     REQUEST_REVIEW: 'REQUEST_REVIEW',
@@ -46,5 +36,18 @@ export const drawerToggleType = {
     UPDATE_REQUEST_EDIT_FORM: 'UPDATE_REQUEST_EDIT_FORM',
     ADD_MASTER_ITEM_FROM: 'ADD_MASTER_ITEM_FROM',
     UPDATE_MASTER_ITEM_FROM: 'UPDATE_MASTER_ITEM_FROM'
+}
+
+export const category = {
+    GC: 'GC',
+    LC: 'LC',
+    COLUMNS: 'COLUMNS',
+    GENERAL: 'GENERAL',
+    GASES: 'GASES',
+    SOLVENTS: 'SOLVENTS',
+    LDTD: 'LDTD',
+    SCIEX: 'SCIEX',
+    BREAK_ROOM: 'BREAK_ROOM',
+    OFFICE_SUPPLY: 'OFFICE_SUPPLY'
 }
 

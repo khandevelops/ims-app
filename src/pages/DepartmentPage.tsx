@@ -18,13 +18,13 @@ import {
     tableCellClasses,
     styled
 } from '@mui/material';
-import { getDepartmentMasterThunk, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
 import { useLocation } from 'react-router-dom';
 import UpdateQuantityForm from '../components/UpdateQuantityForm';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
 import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
+import { getDepartmentItemsTransformedThunk, selectDepartmentItemsTransformed } from '../app/departmentMaster/departmentItemsTransformedSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -36,13 +36,10 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'min_quantity', headerName: 'Min Qty' },
     { field: 'max_quantity', headerName: 'Max Qty' },
     { field: 'order_quantity', headerName: 'Order Qty' },
-    { field: 'unit_price', headerName: 'Unit Price' },
+    { field: 'average_unit_price', headerName: 'Unit Price' },
     { field: 'total_price', headerName: 'Total Price' },
     { field: 'comments', headerName: 'Comments' },
-    { field: 'category', headerName: 'Category' },
-    { field: 'lot_number', headerName: 'Lot No' },
-    { field: 'expiration_date', headerName: 'ED' },
-    { field: 'received_date', headerName: 'RD' }
+    { field: 'category', headerName: 'Category' }
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -56,8 +53,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const DepartmentExperience = () => {
-    const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
+const DepartmentPage = () => {
+    const departmentItemsTransformedSelector = useAppSelector(selectDepartmentItemsTransformed);
     const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const pageSelector = useAppSelector(selectPage);
     const dispatch = useAppDispatch();
@@ -66,13 +63,12 @@ const DepartmentExperience = () => {
 
     useEffect(() => {
         dispatch(
-            getDepartmentMasterThunk({
+            getDepartmentItemsTransformedThunk({
                 state: location.state,
-                page: pageSelector.page,
-                size: pageSelector.size
+                page: pageSelector.page
             })
         );
-    }, [dispatch, location.state, pageSelector.page, pageSelector.size]);
+    }, [dispatch, location.state, pageSelector.page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
         dispatch(handlePage(newPage));
@@ -107,8 +103,8 @@ const DepartmentExperience = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {departmentMasterItemsSelector.response.content.length > 0 &&
-                                departmentMasterItemsSelector.response.content.map((departmentMasterItems, index) => (
+                            {departmentItemsTransformedSelector.response.content.length > 0 &&
+                                departmentItemsTransformedSelector.response.content.map((departmentMasterItems, index) => (
                                     <TableRow key={index}>
                                         <StyledTableCell>{departmentMasterItems.item}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.purchase_unit}</StyledTableCell>
@@ -119,7 +115,7 @@ const DepartmentExperience = () => {
                                                 variant="outlined"
                                                 endIcon={<ChevronRightIcon />}
                                                 onClick={() =>
-                                                    handleUpdateClick(departmentMasterItems.item_id, location.state)
+                                                    handleUpdateClick(departmentMasterItems.master_item_id, location.state)
                                                 }
                                                 sx={{ minWidth: 80 }}
                                                 disabled={false}>
@@ -130,13 +126,10 @@ const DepartmentExperience = () => {
                                         <StyledTableCell>{departmentMasterItems.min_quantity}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.max_quantity}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.order_quantity}</StyledTableCell>
-                                        <StyledTableCell>{departmentMasterItems.unit_price}</StyledTableCell>
+                                        <StyledTableCell>{departmentMasterItems.average_unit_price}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.total_price}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.comments}</StyledTableCell>
                                         <StyledTableCell>{departmentMasterItems.category}</StyledTableCell>
-                                        <StyledTableCell>{departmentMasterItems.lot_number}</StyledTableCell>
-                                        <StyledTableCell>{departmentMasterItems.expiration_date}</StyledTableCell>
-                                        <StyledTableCell>{departmentMasterItems.received_date}</StyledTableCell>
                                     </TableRow>
                                 ))}
                         </TableBody>
@@ -146,9 +139,9 @@ const DepartmentExperience = () => {
                     sx={{ marginTop: 3 }}
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={departmentMasterItemsSelector.response.totalElements}
-                    rowsPerPage={departmentMasterItemsSelector.response.size}
-                    page={departmentMasterItemsSelector.response.number}
+                    count={departmentItemsTransformedSelector.response.totalElements}
+                    rowsPerPage={departmentItemsTransformedSelector.response.size}
+                    page={departmentItemsTransformedSelector.response.number}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     showFirstButton={true}
@@ -162,4 +155,4 @@ const DepartmentExperience = () => {
     );
 };
 
-export default DepartmentExperience;
+export default DepartmentPage;

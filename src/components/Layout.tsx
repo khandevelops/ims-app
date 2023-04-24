@@ -12,6 +12,8 @@ import { useAppSelector } from '../app/hooks';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
 import RequestList from '../pages/RequestMasterAdmin';
 import RequestMasterDepartment from '../pages/RequestMasterDepartment';
+import DepartmentPage from '../pages/DepartmentPage';
+import Departments from '../pages/Departments';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -35,6 +37,24 @@ const Layout = () => {
                     <Route path="screening" element={<DepartmentExperience />} />
                     <Route path="shipping" element={<DepartmentExperience />} />
                     <Route path="quality" element={<DepartmentExperience />} />
+                </Route>
+                <Route path="department">
+                    <Route path="extractions" element={<Departments />} />
+                    <Route path="mass-spec" element={<DepartmentPage />} />
+                    <Route path="receiving" element={<DepartmentPage />} />
+                    <Route path="rd" element={<DepartmentPage />} />
+                    <Route path="screening" element={<DepartmentPage />} />
+                    <Route path="shipping" element={<DepartmentPage />} />
+                    <Route path="quality" element={<DepartmentPage />} />
+                </Route>
+                <Route path="departments">
+                    <Route path="extractions" element={<Departments />} />
+                    <Route path="mass-spec" element={<Departments />} />
+                    <Route path="receiving" element={<Departments />} />
+                    <Route path="rd" element={<Departments />} />
+                    <Route path="screening" element={<Departments />} />
+                    <Route path="shipping" element={<Departments />} />
+                    <Route path="quality" element={<Departments />} />
                 </Route>
                 <Route path="master" element={<Master />} />
                 <Route path="store-room-master" element={<StoreRoomMaster />} />

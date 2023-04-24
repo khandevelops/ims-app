@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
+import { act } from "react-dom/test-utils";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -24,9 +25,8 @@ export interface IDepartmentItem {
     max_quantity: number,
     usage_level: string,
     lot_number: string,
-    expiration_date: string,
-    received_date: string,
-    order_quantity: number
+    expiration_date: Date,
+    received_date: Date
 }
 
 export interface IDepartmentState {
@@ -70,7 +70,7 @@ const initialState: IDepartmentState = {
 export const getDepartmentItemsThunk = createAsyncThunk(
     'getDepartmentItemsThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getDepartmentItems({pathName: params.pathName, page: params.page, size: params.size})
+        const response = await getDepartmentItems({ pathName: params.pathName, page: params.page, size: params.size })
         return response.data
     }
 )
@@ -78,7 +78,11 @@ export const getDepartmentItemsThunk = createAsyncThunk(
 export const dpeartmentItemsSlice = createSlice({
     name: 'departmentMaster',
     initialState,
-    reducers: {},
+    reducers: {
+        changeDepartmentItems: (state, action) => {
+            state.response = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getDepartmentItemsThunk.pending, (state) => {
             state.status = 'loading'
@@ -89,6 +93,8 @@ export const dpeartmentItemsSlice = createSlice({
         })
     }
 })
+
+export const { changeDepartmentItems } = dpeartmentItemsSlice.actions;
 
 export const selectDepartmentItems = (state: RootState) => state.departmentItemsStore
 

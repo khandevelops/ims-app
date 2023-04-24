@@ -25,7 +25,11 @@ export const initialState: IMasterFormState = {
         'category': '',
         'comments': '',
         'type': '',
-        'group': ''
+        'group': '',
+        'drug_class': '',
+        'usage_level': '',
+        'expiration_date': null,
+        'received_date': null
     },
     status: 'idle'
 }
