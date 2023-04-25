@@ -25,6 +25,7 @@ import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsU
 import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice'
 import departmentItemsTransformedReducer from './departmentMaster/departmentItemsTransformedSlice'
 import masterDepartmentItemsReducer from './masterDepartment/masterDepartmentItemsSlice'
+import masterItemUpdateReducer from './master/masterItemUpdateSlice'
 
 export const store = configureStore({
   reducer: {
@@ -53,7 +54,8 @@ export const store = configureStore({
     requestMasterItemsUpdateStore: requestMasterItemsUpdateReducer,
     requestMasterItemUpdateStore: requestMasterItemUpdateReducer,
     departmentItemsTransformedStore: departmentItemsTransformedReducer,
-    masterDepartmentItemsStore: masterDepartmentItemsReducer
+    masterDepartmentItemsStore: masterDepartmentItemsReducer,
+    masterItemUpdateStore: masterItemUpdateReducer
   }
 });
 

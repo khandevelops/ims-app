@@ -10,11 +10,13 @@ import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
+import { useLocation } from 'react-router-dom';
 
 const NavbarBottom = () => {
     const [value, setValue] = useState<number>(0);
     const dispatch = useAppDispatch();
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
+    const location = useLocation();
 
     const handleAddClick = () => {
         dispatch(toggleDrawer(drawerToggleType.ADD_MASTER_ITEM_FROM));
@@ -46,8 +48,16 @@ const NavbarBottom = () => {
                     icon={<RestoreIcon />}
                     disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0}
                 />
+                {(location.pathname === '/departments/extractions' || 
+                location.pathname === '/departments/mass-spec' || 
+                location.pathname === '/departments/receiving' || 
+                location.pathname === '/departments/rd' || 
+                location.pathname === '/departments/screening' || 
+                location.pathname === '/departments/shipping' || 
+                location.pathname === '/departments/quality') && 
+                <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />}
                 <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
-                <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />
+                
                 <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} />
             </BottomNavigation>
         </Paper>

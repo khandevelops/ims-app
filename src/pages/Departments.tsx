@@ -13,8 +13,6 @@ import { drawerToggleType } from '../common/constants';
 import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/masterDepartment/masterDepartmentItemsSlice';
 import { IDepartmentItem } from '../app/department/departmentItemsSlice';
 import { updateDepartmentItemThunk } from '../app/department/departmentItemUpdateSlice';
-import moment from 'moment';
-import { IMasterDepartmentItem } from '../app/masterDepartment/masterDepartmentSlice';
 
 const columns: { field: string; tooltipName: string | JSX.Element; headerName: string }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item' },
@@ -23,16 +21,12 @@ const columns: { field: string; tooltipName: string | JSX.Element; headerName: s
     { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN' },
     { field: 'recent_vendor', tooltipName: 'Recent Vendor', headerName: 'RV' },
     { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC' },
-    { field: 'minimum_quantity', tooltipName: 'Minimum Quantity', headerName: 'MinQ' },
-    { field: 'maximum_quantity', tooltipName: 'Maximum Quantity', headerName: 'MaxQ' },
     { field: 'total_quantity', tooltipName: 'Total Qty', headerName: 'TQ' },
     { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ' },
     { field: 'average_unit_price', tooltipName: 'Unit Price', headerName: 'UP' },
     { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP' },
     { field: 'comment', tooltipName: 'Comment', headerName: 'Comment' },
-    { field: 'category', tooltipName: 'Category', headerName: 'C' },
-    { field: 'expiration_date', tooltipName: 'Expiration Date', headerName: 'ED' },
-    { field: 'received_date', tooltipName: 'Received Date', headerName: 'RD' }
+    { field: 'category', tooltipName: 'Category', headerName: 'C' }
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -124,7 +118,7 @@ const Departments = () => {
         );
     };
 
-    const handleExpirationDateChange = (value: Date | null, masterDepartmentItemId: number) => {
+    const handleExpirationDateChange = (value: Date | null, masterDepartmentItemId: number, departmentItemId: number) => {
         dispatch(
             changeMasterDepartmentItems(
                 masterDepartmentItemsSelector.response.content.map((masterDepartmentItem) => ({
@@ -164,8 +158,8 @@ const Departments = () => {
         }
     };
 
-    const handleClose = (masterDepartmentItem: IMasterDepartmentItem) => {
-        // dispatch(updateDepartmentItemThunk({ pathname: location.pathname, masterDepartmentItem: IMasterDepartmentItem }));
+    const handleClose = (departmentItem: IDepartmentItem) => {
+        dispatch(updateDepartmentItemThunk({ pathname: location.pathname, departmentItem: departmentItem }));
     };
 
     const getTotalQuantity = (departmentItems: IDepartmentItem[]) => {
@@ -211,69 +205,25 @@ const Departments = () => {
                                     <Fragment key={index}>
                                         <StyledTableRow>
                                             <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.item}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.part_number}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.recent_cn}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.minimum_quantity}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.maximum_quantity}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.part_number}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_cn}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>
                                                 {getOrderQuantity(masterDepartmentItem.minimum_quantity, masterDepartmentItem.maximum_quantity, getTotalQuantity(masterDepartmentItem.departmentItems))}
                                             </StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.average_unit_price}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.average_unit_price}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>
                                                 {getTotalPrice(masterDepartmentItem.average_unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
                                             </StyledTableCell>
-                                            <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.comment}</StyledTableCell>
-                                            <StyledTableCell sx={{ width: 100 }}>{masterDepartmentItem.category}</StyledTableCell>
-                                            <StyledTableCell align="right">
-                                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                                    <DateTimePicker
-                                                        value={masterDepartmentItem.expiration_date}
-                                                        onChange={(value: Date | null) => handleExpirationDateChange(value, masterDepartmentItem.id)}
-                                                        renderInput={(params) => (
-                                                            <TextField
-                                                                {...params}
-                                                                variant="standard"
-                                                                sx={{
-                                                                    '.MuiInputBase-input': {
-                                                                        padding: 0,
-                                                                        fontSize: 14
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                        onClose={() => handleClose(masterDepartmentItem)}
-                                                    />
-                                                </LocalizationProvider>
-                                            </StyledTableCell>
-                                            <StyledTableCell align="right">
-                                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                                    <DateTimePicker
-                                                        value={masterDepartmentItem.received_date}
-                                                        onChange={(value: Date | null) => handleReceivedDateChange(value, masterDepartmentItem.id)}
-                                                        renderInput={(params) => (
-                                                            <TextField
-                                                                {...params}
-                                                                variant="standard"
-                                                                sx={{
-                                                                    '.MuiInputBase-input': {
-                                                                        padding: 0,
-                                                                        fontSize: 14
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                        onClose={() => handleClose(masterDepartmentItem)}
-                                                    />
-                                                </LocalizationProvider>
-                                            </StyledTableCell>
+                                            <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.comment}</StyledTableCell>
+                                            <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.category}</StyledTableCell>
                                         </StyledTableRow>
                                         <TableRow>
-                                            <TableCell colSpan={2} />
-                                            <TableCell colSpan={12}>
+                                            <TableCell colSpan={1} />
+                                            <TableCell colSpan={11}>
                                                 <Paper sx={{ margin: 3 }} elevation={1} square>
                                                     <Table size="small">
                                                         <TableHead>
@@ -285,16 +235,17 @@ const Departments = () => {
                                                                 <StyledSubTableCell align="right">Usage Level</StyledSubTableCell>
                                                                 <StyledSubTableCell>Qty</StyledSubTableCell>
                                                                 <StyledSubTableCell align="right">Lot #</StyledSubTableCell>
+                                                                <StyledSubTableCell align="right">Expiration Date</StyledSubTableCell>
+                                                                <StyledSubTableCell align="right">Received Date</StyledSubTableCell>
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
                                                             {masterDepartmentItem.departmentItems.map((departmentItem, index) => (
                                                                 <TableRow key={index}>
                                                                     <StyledSubTableCell>{departmentItem.location}</StyledSubTableCell>
-                                                                    <StyledSubTableCell>{masterDepartmentItem.minimum_quantity}</StyledSubTableCell>
-                                                                    <StyledSubTableCell>{masterDepartmentItem.maximum_quantity}</StyledSubTableCell>
-
-                                                                    <StyledSubTableCell align="right">{departmentItem.usage_level}</StyledSubTableCell>
+                                                                    <StyledSubTableCell align="right">{masterDepartmentItem.minimum_quantity}</StyledSubTableCell>
+                                                                    <StyledSubTableCell align="right">{masterDepartmentItem.maximum_quantity}</StyledSubTableCell>
+                                                                    <StyledSubTableCell align="right">{masterDepartmentItem.usage_level}</StyledSubTableCell>
                                                                     <StyledSubTableCell align="right" sx={{ width: 80 }}>
                                                                         <TextField
                                                                             ref={inputRef}
@@ -333,6 +284,48 @@ const Departments = () => {
                                                                             }}
                                                                             onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, departmentItem)}
                                                                         />
+                                                                    </StyledSubTableCell>
+                                                                    <StyledSubTableCell align="right">
+                                                                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                                            <DateTimePicker
+                                                                                value={departmentItem.expiration_date}
+                                                                                onChange={(value: Date | null) => handleExpirationDateChange(value, masterDepartmentItem.id, departmentItem.id)}
+                                                                                renderInput={(params) => (
+                                                                                    <TextField
+                                                                                        {...params}
+                                                                                        variant="standard"
+                                                                                        sx={{
+                                                                                            '.MuiInputBase-input': {
+                                                                                                padding: 0,
+                                                                                                fontSize: 14
+                                                                                            }
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                                onClose={() => handleClose(departmentItem)}
+                                                                            />
+                                                                        </LocalizationProvider>
+                                                                    </StyledSubTableCell>
+                                                                    <StyledSubTableCell align="right">
+                                                                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                                                                            <DateTimePicker
+                                                                                value={departmentItem.received_date}
+                                                                                onChange={(value: Date | null) => handleReceivedDateChange(value, masterDepartmentItem.id, departmentItem.id)}
+                                                                                renderInput={(params) => (
+                                                                                    <TextField
+                                                                                        {...params}
+                                                                                        variant="standard"
+                                                                                        sx={{
+                                                                                            '.MuiInputBase-input': {
+                                                                                                padding: 0,
+                                                                                                fontSize: 14
+                                                                                            }
+                                                                                        }}
+                                                                                    />
+                                                                                )}
+                                                                                onClose={() => handleClose(departmentItem)}
+                                                                            />
+                                                                        </LocalizationProvider>
                                                                     </StyledSubTableCell>
                                                                 </TableRow>
                                                             ))}

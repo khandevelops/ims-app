@@ -23,13 +23,9 @@ export interface IMasterDepartmentItem {
     purchase_unit: string;
     average_unit_price: number;
     category: string;
-    total_quantity: number;
-    order_quantity: number;
-    total_price: number;
+    usage_level: string;
     minimum_quantity: number;
     maximum_quantity: number;
-    expiration_date: Date;
-    received_date: Date;
     comment: string;
     type: string;
     group: string;
