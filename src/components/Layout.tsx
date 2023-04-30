@@ -1,8 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
 import DepartmentExperience from '../pages/DepartmentMaster';
-import { useIsAuthenticated } from '@azure/msal-react';
-import Home from '../pages/Home';
+import { AuthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
@@ -10,21 +9,21 @@ import RequestList from '../pages/RequestMasterAdmin';
 import RequestMasterDepartment from '../pages/RequestMasterDepartment';
 import DepartmentPage from '../pages/DepartmentPage';
 import Departments from '../pages/Departments';
+import Auth from '../pages/Auth';
+import Dashboard from '../pages/Dashboard';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
 
     return (
         <div>
-            {/* <AuthenticatedTemplate>
-                <Navbar />
-            </AuthenticatedTemplate> */}
-            <NavbarTop />
+            <AuthenticatedTemplate>
+                <NavbarTop />
+            </AuthenticatedTemplate>
 
             <Routes>
-                {/* <Route path="auth" element={isAuthenticated ? <Home/> : <Auth /> } /> */}
-                {/* <Route path="*" element={<Navigate to="auth" />} /> */}
-                <Route path="/" element={<Home />} />
+                <Route path="*" element={isAuthenticated ? <Dashboard /> : <Auth />} />
+                <Route path="dashboard" element={<Dashboard/>} />
                 <Route path="department-master">
                     <Route path="extractions" element={<DepartmentExperience />} />
                     <Route path="mass-spec" element={<DepartmentExperience />} />
@@ -68,8 +67,9 @@ const Layout = () => {
                     <Route path="store-room" element={<RequestMasterDepartment />} />
                 </Route>
             </Routes>
-
-            <NavbarBottom />
+            <AuthenticatedTemplate>
+                <NavbarBottom />
+            </AuthenticatedTemplate>
         </div>
     );
 };

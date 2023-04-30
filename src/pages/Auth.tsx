@@ -1,45 +1,39 @@
 import { useMsal } from '@azure/msal-react';
-import { Box, Button, Container } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Typography } from '@mui/material';
 import React from 'react';
 import { loginRequest } from '../config/authConfig';
+import { Login, Person } from '@microsoft/mgt-react';
+import PersonIcon from '@mui/icons-material/Person';
+import { Fingerprint } from '@mui/icons-material';
+import backgroundImage from '../images/wave-haikei3.svg'
 
 const Auth = () => {
     const { instance } = useMsal();
 
     const handleLogin = () => {
-        instance.loginPopup(loginRequest).catch();
+        instance.loginRedirect(loginRequest).catch();
     };
 
     return (
-        <Container sx={{textAlign: 'center'}}>
-            <Box
-                sx={{
-                    padding: 20
-                }}>
-                <h3>WELCOME TO THE USDTL INVENTORY SYSTEM</h3>
-                <h6>A PROGRAM DESIGNED TO TRACK AND PROCURE INVENTORY</h6>
-            </Box>
-            <Box
-            sx={{
-
-            }}>
-                <Button variant="outlined" onClick={handleLogin}>
-                    Single Sign-On Button
-                </Button>
-            </Box>
-
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    paddingBottom: 8,
-                    margin: 'auto'
-                }}>
-                Copyright © 2021 United States Drug Testing Laboratories Inc. All rights reserved.
-            </Box>
-        </Container>
+        <Grid container direction="column" sx={{ height: '100vh', backgroundImage: `url(${backgroundImage})`, backgroundRepeat: 'no-repeat', backgroundSize: '100vw' }}>
+            <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                
+            </Grid>
+            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h2" color="common.white">WELCOME TO THE USDTL INVENTORY SYSTEM</Typography>
+                    <Typography variant="subtitle1" color="common.white">A PROGRAM DESIGNED TO TRACK AND PROCURE INVENTORY</Typography>
+                </Box>
+            </Grid>
+            <Grid item sx={{ textAlign: 'center' }} xs={4} sm={4} md={4} lg={5} xl={4}>
+                <IconButton aria-label="fingerprint" size="large" sx={{color: 'common.white'}} onClick={handleLogin}>
+                    <Fingerprint sx={{ fontSize: 80 }} />
+                </IconButton>
+            </Grid>
+            <Grid item sx={{ textAlign: 'center', paddingBottom: 2, position: 'absolute', bottom: 0, width: '100%' }} xs={4} sm={4} md={4} lg={4} xl={4}>
+                <Typography variant="body2">Copyright © 2021 United States Drug Testing Laboratories Inc. All rights reserved.</Typography>
+            </Grid>
+        </Grid>
     );
 };
 

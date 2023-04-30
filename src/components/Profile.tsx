@@ -1,34 +1,24 @@
 import { useMsal } from '@azure/msal-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { loginRequest } from '../config/authConfig';
-import { callMsGraph } from '../config/graph';
+import { callMeMsGraph } from '../config/graph';
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { getProfile, selectProfile } from '../app/profileSlice';
+import { Avatar } from '@mui/material';
 
 const Profile = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const { instance, accounts } = useMsal();
-    const [graphData, setGraphData] = useState<string | null>(null);
+    const dispatch = useAppDispatch();
+    const profileSelector = useAppSelector(selectProfile);
 
-    const name = accounts[0] && accounts[0].name;
-
-    function RequestProfileData() {
+    useEffect(() => {
         const request = {
             ...loginRequest,
             account: accounts[0]
@@ -38,37 +28,55 @@ const Profile = () => {
         instance
             .acquireTokenSilent(request)
             .then((response) => {
-                callMsGraph(response.accessToken).then((response) => setGraphData(response));
+                callMeMsGraph(response.accessToken).then((response) => dispatch(getProfile(response)));
             })
             .catch((e) => {
                 instance.acquireTokenPopup(request).then((response) => {
-                    callMsGraph(response.accessToken).then((response) => setGraphData(response));
+                    callMeMsGraph(response.accessToken).then((error) => console.error(error));
                 });
             });
-    }
+    }, [accounts, dispatch, instance]);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
-      };
-      const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    };
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
-      };
-    
-      const handleCloseNavMenu = () => {
+    };
+
+    const handleCloseNavMenu = () => {
         setAnchorElNav(null);
-      };
-    
-      const handleCloseUserMenu = () => {
+    };
+
+    const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-      };
+    };
+
+    const handleLogout = async () => {
+        const currentAccount = instance.getAccountByHomeId(accounts[0].homeAccountId);
+        // The account's ID Token must contain the login_hint optional claim to avoid the account picker
+        await instance.logoutRedirect({ account: currentAccount });
+        setAnchorElUser(null);
+    };
+
+    const stringAvatar = (name: string) => {
+        if (name) {
+            return {
+                sx: {
+                    bgcolor: 'white',
+                    color: 'black',
+                    fontSize: 15,
+                    width: 30,
+                    height: 30
+                },
+                children: name !== '' ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : ''
+            };
+        }
+    };
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-            </Tooltip>
+            <Avatar {...stringAvatar(profileSelector.profile ? profileSelector.profile.displayName : '')} onClick={handleOpenUserMenu} color="inherit" />
             <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
@@ -84,14 +92,15 @@ const Profile = () => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}>
-                {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                    </MenuItem>
-                ))}
+                <MenuItem key="name">
+                    <Typography textAlign="center">{profileSelector && profileSelector.profile && profileSelector.profile.displayName}</Typography>
+                </MenuItem>
+                <MenuItem key="logout" onClick={handleLogout}>
+                    <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
             </Menu>
         </Box>
     );
-}
+};
 
 export default Profile;

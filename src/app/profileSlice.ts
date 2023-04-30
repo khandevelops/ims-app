@@ -2,18 +2,25 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 
 export interface iProfile {
-    name: string
+    displayName: string;
+    givenName: string;
+    jobTitle: string;
+    mail: string;
+    mobilePhone: string;
+    officeLocation: string;
+    preferredLanguage: string;
+    surname: string;
+    userPrincipalName: string;
+    id: string;
 }
 
 export interface iProfileState {
-    profile: iProfile,
+    profile: iProfile | null,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: iProfileState = {
-    profile: {
-        name: ''
-    },
+    profile: null,
     status: 'idle'
 }
 

@@ -1,8 +1,8 @@
 export const msalConfig = {
     auth: {
-        clientId: "b6c43931-ffbb-4274-9021-df0a1fa99d7e",
+        clientId: "5d2f4288-f82a-465e-8617-05eec47d831e",
         authority: "https://login.microsoftonline.com/7919f319-6639-492e-9220-0e48e9023e27",
-        redirectUri: "http://localhost",
+        redirectUri: "http://localhost:3000",
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
@@ -16,6 +16,10 @@ export const loginRequest = {
 };
 
 // Add the endpoints here for Microsoft Graph API services you'd like to use.
-export const graphConfig = {
-    graphMeEndpoint: "Enter_the_Graph_Endpoint_Here/v1.0/me"
+export const meGraphConfig = {
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
+};
+
+export const usersGraphConfig = {
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/users?$top=500"
 };

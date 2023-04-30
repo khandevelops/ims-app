@@ -35,30 +35,24 @@ const NavbarBottom = () => {
     };
 
     return (
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, height: 100 }} elevation={3}>
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, height: 80 }} elevation={3}>
             <BottomNavigation
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}>
-                <BottomNavigationAction
-                    label="Review"
-                    onClick={handleReviewClick}
-                    icon={<RestoreIcon />}
-                    disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0}
-                />
-                {(location.pathname === '/departments/extractions' || 
-                location.pathname === '/departments/mass-spec' || 
-                location.pathname === '/departments/receiving' || 
-                location.pathname === '/departments/rd' || 
-                location.pathname === '/departments/screening' || 
-                location.pathname === '/departments/shipping' || 
-                location.pathname === '/departments/quality') && 
-                <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />}
-                <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
-                
-                <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} />
+                {/* <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<RestoreIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} /> */}
+                {(location.pathname === '/departments/extractions' ||
+                    location.pathname === '/departments/mass-spec' ||
+                    location.pathname === '/departments/receiving' ||
+                    location.pathname === '/departments/rd' ||
+                    location.pathname === '/departments/screening' ||
+                    location.pathname === '/departments/shipping' ||
+                    location.pathname === '/departments/quality') && <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />}
+                {/* <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
+
+                <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} /> */}
             </BottomNavigation>
         </Paper>
     );

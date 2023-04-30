@@ -216,7 +216,6 @@ const UpdateQuantityForm = () => {
     };
 
     const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value)
         if (location.pathname === '/department/extractions') {
             dispatch(
                 changeMasterDepartmentItem({
