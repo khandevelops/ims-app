@@ -24,7 +24,7 @@ import { loginRequest } from '../../config/authConfig';
 import { callProflesMsGraph } from '../../config/graph';
 import { useMsal } from '@azure/msal-react';
 import { getProfiles, selectProfiles } from '../../app/profilesSlice';
-import { changeProfileDetails, createProfileDetailsThunk, getProfileDetailsThunk, selectProfileDetails } from '../../app/profileDetail/profileDetailsSlice';
+import { changeProfileDetails, createProfileDetailsThunk, getProfileDetailsThunk, selectProfileDetails, syncProfileDetailsThunk } from '../../app/profileDetail/profileDetailsSlice';
 import { department, permission, role } from '../../common/constants';
 import { iProfileDetail, updateProfileDetailThunk } from '../../app/profileDetail/profileDetailSlice';
 
@@ -68,7 +68,7 @@ const DashboardAdmin = () => {
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
                     response.value = response.value.map((user: any) => ({ id: user.id }));
-                    dispatch(createProfileDetailsThunk(response.value));
+                    dispatch(syncProfileDetailsThunk(response.value));
                 });
             });
     };
@@ -103,7 +103,7 @@ const DashboardAdmin = () => {
         const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id === id)
         if(profileDetail) {
             const profileDetailRequest = {...profileDetail, permission: event.target.value}
-            dispatch(updateProfileDetailThunk({ profileDetail: profileDetailRequest, id: id })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ id: id, profileDetail: profileDetailRequest })).then((profileDetailResponse) => {
                 dispatch(changeProfileDetails(profileDetailsSelector.profileDetails.map((profileDetail) => ({
                         ...profileDetail,
                         permission: profileDetail.id === id ? profileDetailResponse.payload.permission : profileDetail.permission

@@ -29,7 +29,7 @@ import {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: 'WhiteSmoke',
+        backgroundColor: '#ffd740',
         fontSize: 13,
         color: theme.palette.common.black
     },

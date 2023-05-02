@@ -22,46 +22,43 @@ const Layout = () => {
         <div>
             <AuthenticatedTemplate>
                 <NavbarTop />
-            </AuthenticatedTemplate>
-
-            <Routes>
-                <Route path="*" element={isAuthenticated ? <Dashboard /> : <Auth />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="department">
-                    <Route path="extractions" element={profileDetailSelector.profileDetail?.department === department.EXTRACTIONS && <DepartmentExperience />} />
-                    <Route path="mass-spec" element={profileDetailSelector.profileDetail?.department === department.MASS_SPEC && <DepartmentExperience />} />
-                    <Route path="receiving" element={profileDetailSelector.profileDetail?.department === department.RECEIVING && <DepartmentExperience />} />
-                    <Route path="rd" element={profileDetailSelector.profileDetail?.department === department.RD && <DepartmentExperience />} />
-                    <Route path="screening" element={profileDetailSelector.profileDetail?.department === department.SCREENING && <DepartmentExperience />} />
-                    <Route path="shipping" element={profileDetailSelector.profileDetail?.department === department.SHIPPING && <DepartmentExperience />} />
-                    <Route path="quality" element={profileDetailSelector.profileDetail?.department === department.QUALITY && <DepartmentExperience />} />
-                </Route>
-                <Route path="departments">
-                    <Route path="extractions" element={<Departments />} />
-                    <Route path="mass-spec" element={<Departments />} />
-                    <Route path="receiving" element={<Departments />} />
-                    <Route path="rd" element={<Departments />} />
-                    <Route path="screening" element={<Departments />} />
-                    <Route path="shipping" element={<Departments />} />
-                    <Route path="quality" element={<Departments />} />
-                </Route>
-                <Route path="master" element={<Master />} />
-                <Route path="store-room" element={<StoreRoomMaster />} />
-                <Route path="request">
-                    <Route path="admin"></Route>
-                </Route>
-                <Route path="request-master">
-                    <Route path="general/admin" element={<RequestList />} />
-                    <Route path="office-supply/admin" element={<RequestList />} />
-                    <Route path="store-room/admin" element={<RequestList />} />
-                </Route>
-                <Route path="request">
-                    <Route path="general" element={<RequestMasterDepartment />} />
-                    <Route path="office-supply" element={<RequestMasterDepartment />} />
-                    <Route path="store-room" element={<RequestMasterDepartment />} />
-                </Route>
-            </Routes>
-            <AuthenticatedTemplate>
+                <Routes>
+                    <Route path="*" element={isAuthenticated ? <Dashboard /> : <Auth />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="department">
+                        <Route path="extractions" element={<DepartmentExperience />} />
+                        <Route path="mass-spec" element={<DepartmentExperience />} />
+                        <Route path="receiving" element={<DepartmentExperience />} />
+                        <Route path="rd" element={<DepartmentExperience />} />
+                        <Route path="screening" element={<DepartmentExperience />} />
+                        <Route path="shipping" element={<DepartmentExperience />} />
+                        <Route path="quality" element={<DepartmentExperience />} />
+                    </Route>
+                    <Route path="departments">
+                        <Route path="extractions" element={<Departments />} />
+                        <Route path="mass-spec" element={<Departments />} />
+                        <Route path="receiving" element={<Departments />} />
+                        <Route path="rd" element={<Departments />} />
+                        <Route path="screening" element={<Departments />} />
+                        <Route path="shipping" element={<Departments />} />
+                        <Route path="quality" element={<Departments />} />
+                    </Route>
+                    <Route path="master" element={<Master />} />
+                    <Route path="store-room" element={<StoreRoomMaster />} />
+                    <Route path="request">
+                        <Route path="admin"></Route>
+                    </Route>
+                    <Route path="request-master">
+                        <Route path="general/admin" element={<RequestList />} />
+                        <Route path="office-supply/admin" element={<RequestList />} />
+                        <Route path="store-room/admin" element={<RequestList />} />
+                    </Route>
+                    <Route path="request">
+                        <Route path="general" element={<RequestMasterDepartment />} />
+                        <Route path="office-supply" element={<RequestMasterDepartment />} />
+                        <Route path="store-room" element={<RequestMasterDepartment />} />
+                    </Route>
+                </Routes>
                 <NavbarBottom />
             </AuthenticatedTemplate>
         </div>

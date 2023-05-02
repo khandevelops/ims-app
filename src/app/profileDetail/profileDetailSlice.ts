@@ -8,7 +8,7 @@ export const createProfileDetail = (profileDetail: iProfileDetail) => {
     return axios.post(`${baseUrl}/profile-details/create`, profileDetail)
 }
 
-export const updateProfileDetail = (profileDetail: iProfileDetail, id: string) => {
+export const updateProfileDetail = (id: string, profileDetail: iProfileDetail ) => {
     return axios.patch(`${baseUrl}/profile-details/${id}/update`, profileDetail)
 }
 
@@ -52,7 +52,7 @@ export const createProfileDetailThunk = createAsyncThunk(
 export const updateProfileDetailThunk = createAsyncThunk(
     'updateProfileDetailThunk',
     async (params: { profileDetail: iProfileDetail, id: string }) => {
-        const response = await updateProfileDetail(params.profileDetail, params.id)
+        const response = await updateProfileDetail(params.id, params.profileDetail)
         return response.data
     }
 )

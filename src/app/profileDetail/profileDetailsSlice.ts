@@ -11,6 +11,10 @@ export const createProfileDetails = (users: iProfileDetail[]) => {
     return axios.post(`${baseUrl}/profile-details/create`, users)
 }
 
+export const syncProfileDetails = (users: iProfileDetail[]) => {
+    return axios.post(`${baseUrl}/profile-details/sync`, users)
+}
+
 export const getProfileDetails = () => {
     return axios.get(`${baseUrl}/profile-details/list`)
 }
@@ -37,6 +41,14 @@ export const createProfileDetailsThunk = createAsyncThunk(
     'createProfileDetailsThunk',
     async (profileDetails: iProfileDetail[]) => {
         const response = await createProfileDetails(profileDetails)
+        return response.data
+    }
+)
+
+export const syncProfileDetailsThunk = createAsyncThunk(
+    'createProfileDetailsThunk',
+    async (profileDetails: iProfileDetail[]) => {
+        const response = await syncProfileDetails(profileDetails)
         return response.data
     }
 )
