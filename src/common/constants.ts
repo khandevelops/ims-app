@@ -52,10 +52,7 @@ export const category = {
 }
 
 export const role = {
-    MANAGER: 'MANAGER',
-    EMPLOYEE: 'EMPLOYEE',
     ADMINISTRATION: 'ADMINISTRATION',
-    IT: 'IT',
     USER: 'USER'
 } 
 

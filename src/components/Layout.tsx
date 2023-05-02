@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
 import DepartmentExperience from '../pages/DepartmentMaster';
-import { AuthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
 import NavbarBottom from './NavbarBottom';
 import NavbarTop from './NavbarTop';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
@@ -20,10 +20,12 @@ const Layout = () => {
 
     return (
         <div>
+            <UnauthenticatedTemplate>
+                <Auth />
+            </UnauthenticatedTemplate>
             <AuthenticatedTemplate>
                 <NavbarTop />
                 <Routes>
-                    <Route path="*" element={isAuthenticated ? <Dashboard /> : <Auth />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="department">
                         <Route path="extractions" element={<DepartmentExperience />} />
