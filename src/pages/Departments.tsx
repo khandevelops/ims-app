@@ -31,7 +31,7 @@ const columns: { field: string; tooltipName: string | JSX.Element; headerName: s
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: '#bfd3e4',
+        backgroundColor: '#ffd740',
         fontSize: 14,
         fontWeight: 700,
         color: theme.palette.common.black
@@ -55,7 +55,7 @@ const StyledSubTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: '#e5edf4'
+        backgroundColor: '#FFFFCE'
     },
     // hide last border
     '&:last-child td, &:last-child th': {

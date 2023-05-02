@@ -51,3 +51,18 @@ export const category = {
     OFFICE_SUPPLY: 'OFFICE_SUPPLY'
 }
 
+export const role = {
+    MANAGER: 'MANAGER',
+    EMPLOYEE: 'EMPLOYEE',
+    ADMINISTRATION: 'ADMINISTRATION',
+    IT: 'IT',
+    USER: 'USER'
+} 
+
+export const permission = {
+    ALLOW: 'ALLOW',
+    DENY: 'DENY'
+} 
+
+
+

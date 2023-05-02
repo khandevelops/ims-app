@@ -1,32 +1,18 @@
-import { useLocation } from 'react-router-dom';
-import { AuthenticatedTemplate, useMsal } from '@azure/msal-react';
-import { useState } from 'react';
 import AdminMenu from './MenuAdmin';
-
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getSearchValue, selectSearchValue } from '../app/search';
+import { useAppSelector } from '../app/hooks';
 import MenuSub from './MenuSub';
 import { Box } from '@mui/material';
 import MenuDepartment from './MenuDepartment';
+import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
+import { role } from '../common/constants';
 
 export default function NavbarTop() {
-    const dispatch = useAppDispatch();
-    const searchValueSelector = useAppSelector(selectSearchValue);
-    const { instance } = useMsal();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [profile, setProfile] = useState<{ role: string; department: string }>({
-        role: 'admin',
-        department: 'extractions'
-    });
-
-    const location = useLocation();
+    const profileDetailSelector = useAppSelector(selectProfileDetail);
 
     return (
         <Box>
-            {/* {profile.role === 'admin' && <AdminMenu />} */}
-            {<MenuDepartment />}
-            {/* <AdminMenu /> */}
-            <MenuSub/>
+            {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <AdminMenu /> : <MenuDepartment />}
+            <MenuSub />
         </Box>
     );
 }

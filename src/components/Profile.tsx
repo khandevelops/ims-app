@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { getProfile, selectProfile } from '../app/profileSlice';
+import { getProfile, iProfile, selectProfile } from '../app/profileSlice';
 import { Avatar } from '@mui/material';
+import { getProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
 
 const Profile = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -28,7 +29,10 @@ const Profile = () => {
         instance
             .acquireTokenSilent(request)
             .then((response) => {
-                callMeMsGraph(response.accessToken).then((response) => dispatch(getProfile(response)));
+                callMeMsGraph(response.accessToken).then((response) => {
+                    dispatch(getProfile(response));
+                    dispatch(getProfileDetailThunk(response.id));
+                });
             })
             .catch((e) => {
                 instance.acquireTokenPopup(request).then((response) => {

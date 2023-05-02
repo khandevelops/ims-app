@@ -1,9 +1,6 @@
 import { useMsal } from '@azure/msal-react';
-import { Box, Button, Container, Grid, IconButton, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { loginRequest } from '../config/authConfig';
-import { Login, Person } from '@microsoft/mgt-react';
-import PersonIcon from '@mui/icons-material/Person';
 import { Fingerprint } from '@mui/icons-material';
 import backgroundImage from '../images/wave-haikei3.svg'
 

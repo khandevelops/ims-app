@@ -1,40 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import axios from "axios";
+import { iProfileDetail } from "./profileDetailSlice";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
-export const updateUser = (id: number, user: iUser) => {
+export const updateProfileDetail = (id: number, user: iProfileDetail) => {
     return axios.patch(`${baseUrl}/ims/api/v1/users/${id}/update`, user)
 }
 
-export interface iUser {
-    id: string;
-    department: string;
-    role: string;
-    group: string;
-}
 
-export interface iUpdateUserState {
-    user: iUser | null,
+export interface iUpdateDetailState {
+    user: iProfileDetail | null,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: iUpdateUserState = {
+const initialState: iUpdateDetailState = {
     user: null,
     status: 'idle'
 }
 
 export const updateUserThunk = createAsyncThunk(
     'updateUserThunk',
-    async (params: {id: number, user: iUser}) => {
-        const response = await updateUser(params.id, params.user)
+    async (params: {id: number, user: iProfileDetail}) => {
+        const response = await updateProfileDetail(params.id, params.user)
         return response.data
     }
 )
 
-export const updateUserSlice = createSlice({
-    name: 'updateUserSlice',
+export const profileDetailSlice = createSlice({
+    name: 'profileDetailSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -52,6 +47,6 @@ export const updateUserSlice = createSlice({
     }
 })
 
-export const {  } = updateUserSlice.actions
-export const selectUpdateUsers = (state: RootState) => state.updateUserStore;
-export default updateUserSlice.reducer;
+export const {  } = profileDetailSlice.actions
+export const selectUpdateProfileDetail = (state: RootState) => state.updateProfileDetailStore;
+export default profileDetailSlice.reducer;

@@ -1,5 +1,5 @@
 import { meGraphConfig } from "./authConfig";
-import { usersGraphConfig } from "./authConfig";
+import { profilesGraphConfig } from "./authConfig";
 
 /**
  * Attaches a given access token to a Microsoft Graph API call. Returns information about the user
@@ -20,7 +20,7 @@ export async function callMeMsGraph(accessToken: string) {
         .catch(error => console.log(error));
 }
 
-export async function callUsersMsGraph(accessToken: string) {
+export async function callProflesMsGraph(accessToken: string) {
     const headers = new Headers();
     const bearer = `Bearer ${accessToken}`;
 
@@ -31,7 +31,7 @@ export async function callUsersMsGraph(accessToken: string) {
         headers: headers
     };
 
-    return fetch(usersGraphConfig.graphMeEndpoint, options)
+    return fetch(profilesGraphConfig.graphMeEndpoint, options)
         .then(response => response.json())
         .catch(error => console.log(error));
 }

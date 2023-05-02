@@ -7,13 +7,16 @@ import NavbarTop from './NavbarTop';
 import StoreRoomMaster from '../pages/StoreRoomMaster';
 import RequestList from '../pages/RequestMasterAdmin';
 import RequestMasterDepartment from '../pages/RequestMasterDepartment';
-import DepartmentPage from '../pages/DepartmentPage';
 import Departments from '../pages/Departments';
 import Auth from '../pages/Auth';
 import Dashboard from '../pages/Dashboard';
+import { useAppSelector } from '../app/hooks';
+import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
+import { department } from '../common/constants';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
+    const profileDetailSelector = useAppSelector(selectProfileDetail);
 
     return (
         <div>
@@ -23,24 +26,15 @@ const Layout = () => {
 
             <Routes>
                 <Route path="*" element={isAuthenticated ? <Dashboard /> : <Auth />} />
-                <Route path="dashboard" element={<Dashboard/>} />
-                <Route path="department-master">
-                    <Route path="extractions" element={<DepartmentExperience />} />
-                    <Route path="mass-spec" element={<DepartmentExperience />} />
-                    <Route path="receiving" element={<DepartmentExperience />} />
-                    <Route path="rd" element={<DepartmentExperience />} />
-                    <Route path="screening" element={<DepartmentExperience />} />
-                    <Route path="shipping" element={<DepartmentExperience />} />
-                    <Route path="quality" element={<DepartmentExperience />} />
-                </Route>
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="department">
-                    <Route path="extractions" element={<Departments />} />
-                    <Route path="mass-spec" element={<DepartmentPage />} />
-                    <Route path="receiving" element={<DepartmentPage />} />
-                    <Route path="rd" element={<DepartmentPage />} />
-                    <Route path="screening" element={<DepartmentPage />} />
-                    <Route path="shipping" element={<DepartmentPage />} />
-                    <Route path="quality" element={<DepartmentPage />} />
+                    <Route path="extractions" element={profileDetailSelector.profileDetail?.department === department.EXTRACTIONS && <DepartmentExperience />} />
+                    <Route path="mass-spec" element={profileDetailSelector.profileDetail?.department === department.MASS_SPEC && <DepartmentExperience />} />
+                    <Route path="receiving" element={profileDetailSelector.profileDetail?.department === department.RECEIVING && <DepartmentExperience />} />
+                    <Route path="rd" element={profileDetailSelector.profileDetail?.department === department.RD && <DepartmentExperience />} />
+                    <Route path="screening" element={profileDetailSelector.profileDetail?.department === department.SCREENING && <DepartmentExperience />} />
+                    <Route path="shipping" element={profileDetailSelector.profileDetail?.department === department.SHIPPING && <DepartmentExperience />} />
+                    <Route path="quality" element={profileDetailSelector.profileDetail?.department === department.QUALITY && <DepartmentExperience />} />
                 </Route>
                 <Route path="departments">
                     <Route path="extractions" element={<Departments />} />
@@ -52,7 +46,7 @@ const Layout = () => {
                     <Route path="quality" element={<Departments />} />
                 </Route>
                 <Route path="master" element={<Master />} />
-                <Route path="store-room-master" element={<StoreRoomMaster />} />
+                <Route path="store-room" element={<StoreRoomMaster />} />
                 <Route path="request">
                     <Route path="admin"></Route>
                 </Route>

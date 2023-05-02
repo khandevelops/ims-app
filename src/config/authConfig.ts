@@ -2,7 +2,7 @@ export const msalConfig = {
     auth: {
         clientId: "5d2f4288-f82a-465e-8617-05eec47d831e",
         authority: "https://login.microsoftonline.com/7919f319-6639-492e-9220-0e48e9023e27",
-        redirectUri: "http://localhost:3000",
+        redirectUri: process.env.REACT_APP_UI_URL,
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
@@ -20,6 +20,6 @@ export const meGraphConfig = {
     graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
 };
 
-export const usersGraphConfig = {
-    graphMeEndpoint: "https://graph.microsoft.com/v1.0/users?$top=500"
+export const profilesGraphConfig = {
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/users?$size=1"
 };

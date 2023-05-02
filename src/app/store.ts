@@ -26,8 +26,10 @@ import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpd
 import departmentItemsTransformedReducer from './departmentMaster/departmentItemsTransformedSlice'
 import masterDepartmentItemsReducer from './masterDepartment/masterDepartmentItemsSlice'
 import masterItemUpdateReducer from './master/masterItemUpdateSlice'
-import usersReducer from './users/usersSlice'
-import updateUserReducer from './users/updateUserSlice'
+import profileDetailsReducer from './profileDetail/profileDetailsSlice'
+import updateProfileDetailReducer from './profileDetail/updateProfileDetailSlice'
+import profilesReducer from './profilesSlice'
+import profileDetailReducer from './profileDetail/profileDetailSlice'
 
 export const store = configureStore({
   reducer: {
@@ -58,8 +60,10 @@ export const store = configureStore({
     departmentItemsTransformedStore: departmentItemsTransformedReducer,
     masterDepartmentItemsStore: masterDepartmentItemsReducer,
     masterItemUpdateStore: masterItemUpdateReducer,
-    usersStore: usersReducer,
-    updateUserStore: updateUserReducer
+    profileDetailsStore: profileDetailsReducer,
+    updateProfileDetailStore: updateProfileDetailReducer,
+    profilesStore: profilesReducer,
+    profileDetailStore: profileDetailReducer
   }
 });
 
