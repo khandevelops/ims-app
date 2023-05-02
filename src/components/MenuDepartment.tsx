@@ -11,10 +11,6 @@ const MenuDepartment = () => {
     const location = useLocation();
     const profileDetailSelector = useAppSelector(selectProfileDetail);
 
-    useEffect(() => {
-        console.log(profileDetailSelector)
-    }, [])
-
     return (
         <AppBar position="static" elevation={5} sx={{ backgroundColor: '#1347a4' }}>
 
