@@ -18,7 +18,7 @@ import {
     Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { loginRequest } from '../config/authConfig';
 import { callProflesMsGraph } from '../config/graph';
@@ -40,6 +40,7 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
     const profilesSelector = useAppSelector(selectProfiles);
     const profileDetailsSelector = useAppSelector(selectProfileDetails);
+    const [profiles, setProfiles] = useState<{ id: string; displayName: string; mail: string }[]>([]);
 
     useEffect(() => {
         instance
@@ -49,14 +50,16 @@ const Dashboard = () => {
             })
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
+                    console.log(response.value)
+                    setProfiles(response.value);
                     dispatch(getProfiles(response.value));
                 });
             });
         dispatch(getProfileDetailsThunk());
     }, [accounts, dispatch, instance]);
 
-    const getProfileDetail = (id: string) => {
-        return profileDetailsSelector.profileDetails.find((profile) => profile.id === id);
+    const getProfileDetail = (email: string) => {
+        return profileDetailsSelector.profileDetails.find((profile) => profile.email === email);
     };
 
     const requestProfileData = () => {
@@ -67,22 +70,20 @@ const Dashboard = () => {
             })
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
-                    response.value = response.value.map((user: any) => ({ id: user.id }));
                     dispatch(syncProfileDetailsThunk(response.value));
                 });
             });
     };
 
-    const handleDepartmentChange = (event: SelectChangeEvent, id: string) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id === id);
+    const handleDepartmentChange = (email: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email === email);
         if (profileDetail) {
-            const profileDetailRequest = { ...profileDetail, department: event.target.value };
-            dispatch(updateProfileDetailThunk({ profileDetail: profileDetailRequest, id: id })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, department: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            department: profileDetail.id === id ? profileDetailResponse.payload.department : profileDetail.department
+                            department: profileDetail.email === email ? profileDetailResponse.payload.department : profileDetail.department
                         }))
                     )
                 );
@@ -90,16 +91,15 @@ const Dashboard = () => {
         }
     };
 
-    const handleRoleChange = (event: SelectChangeEvent, id: string) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id === id);
+    const handleRoleChange = (email: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email);
         if (profileDetail) {
-            const profileDetailRequest = { ...profileDetail, role: event.target.value };
-            dispatch(updateProfileDetailThunk({ profileDetail: profileDetailRequest, id: id })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, role: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            role: profileDetail.id === id ? profileDetailResponse.payload.role : profileDetail.role
+                            role: profileDetail.email ? profileDetailResponse.payload.role : profileDetail.role
                         }))
                     )
                 );
@@ -107,16 +107,15 @@ const Dashboard = () => {
         }
     };
 
-    const handlePermissionChange = (event: SelectChangeEvent, id: string) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id === id);
+    const handlePermissionChange = (email: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email);
         if (profileDetail) {
-            const profileDetailRequest = { ...profileDetail, permission: event.target.value };
-            dispatch(updateProfileDetailThunk({ id: id, profileDetail: profileDetailRequest })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, permission: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            permission: profileDetail.id === id ? profileDetailResponse.payload.permission : profileDetail.permission
+                            permission: profileDetail.email ? profileDetailResponse.payload.permission : profileDetail.permission
                         }))
                     )
                 );
@@ -166,10 +165,9 @@ const Dashboard = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {profilesSelector &&
-                                    profilesSelector.profiles &&
-                                    profilesSelector.profiles.length > 0 &&
-                                    profilesSelector.profiles.map((profile, index) => (
+                                {profiles &&
+                                    profiles.length > 0 &&
+                                    profiles.map((profile, index) => (
                                         <Fragment key={index}>
                                             <TableRow>
                                                 <TableCell sx={{ width: 500 }}>{profile.displayName}</TableCell>
@@ -181,7 +179,7 @@ const Dashboard = () => {
                                                             id={profile.mail}
                                                             name="department"
                                                             value={getProfileDetail(profile.id)?.department}
-                                                            onChange={(event: SelectChangeEvent) => handleDepartmentChange(event, profile.id)}>
+                                                            onChange={(event: SelectChangeEvent) => handleDepartmentChange(profile.mail, event)}>
                                                             {Object.values(department).map((department, index) => (
                                                                 <MenuItem key={index} value={department}>
                                                                     <Typography sx={{ fontSize: '10pt' }}>{department}</Typography>
@@ -197,7 +195,7 @@ const Dashboard = () => {
                                                             size="small"
                                                             id={profile.mail}
                                                             value={getProfileDetail(profile.id)?.role}
-                                                            onChange={(event: SelectChangeEvent) => handleRoleChange(event, profile.id)}>
+                                                            onChange={(event: SelectChangeEvent) => handleRoleChange(profile.mail, event)}>
                                                             {Object.values(role).map((role, index) => (
                                                                 <MenuItem key={index} value={role}>
                                                                     <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
@@ -213,7 +211,7 @@ const Dashboard = () => {
                                                             size="small"
                                                             id={profile.mail}
                                                             value={getProfileDetail(profile.id)?.permission}
-                                                            onChange={(event: SelectChangeEvent) => handlePermissionChange(event, profile.id)}>
+                                                            onChange={(event: SelectChangeEvent) => handlePermissionChange(profile.mail, event)}>
                                                             {Object.values(permission).map((role, index) => (
                                                                 <MenuItem key={index} value={role}>
                                                                     <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>

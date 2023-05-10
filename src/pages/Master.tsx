@@ -6,7 +6,6 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Check
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
-import MasterForm from '../components/UpdateMasterForm';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
 
@@ -69,48 +68,50 @@ const Master = () => {
     };
 
     return (
-        <TableContainer sx={{border: '2px solid black', height: '100%'}}>
-            <Table stickyHeader size="small" sx={{border: '2px solid black', height: '94%'}}>
-                <TableHead sx={{ backgroundColor: 'grey' }}>
-                    <TableRow>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
-                </TableHead>
-                <TableBody>
-                    {masterItemsSelector.response.content.length > 0 &&
-                        masterItemsSelector.response.content.map((masterItem, index) => (
-                            <TableRow key={index}>
-                                <StyledTableCell>
-                                    <Checkbox />
-                                </StyledTableCell>
-                                <StyledTableCell>{masterItem.item}</StyledTableCell>
-                                <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
-                                <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
-                                <StyledTableCell>{masterItem.part_number}</StyledTableCell>
-                                <StyledTableCell>{masterItem.recent_vendor}</StyledTableCell>
-                                <StyledTableCell>{masterItem.fisher_cn}</StyledTableCell>
-                                <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
-                                <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
-                                <StyledTableCell>{masterItem.next_advance_cn}</StyledTableCell>
-                                <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
-                                <StyledTableCell>{masterItem.average_unit_price}</StyledTableCell>
-                                <StyledTableCell sx={{ fontSize: 12, maxWidth: '200px' }}>{masterItem.comments}</StyledTableCell>
-                                <StyledTableCell>{masterItem.category}</StyledTableCell>
-                                <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
-                                <StyledTableCell>{masterItem.usage_level}</StyledTableCell>
-                                <StyledTableCell>{masterItem.expiration_date?.toDateString()}</StyledTableCell>
-                                <StyledTableCell>{masterItem.received_date?.toDateString()}</StyledTableCell>
-                                <StyledTableCell>{masterItem.type}</StyledTableCell>
-                                <StyledTableCell>{masterItem.group}</StyledTableCell>
-                                <StyledTableCell>
-                                    <IconButton aria-label="more" id="long-button" onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                </StyledTableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-            </Table>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
+            <TableContainer sx={{ height: '70vh' }}>
+                <Table stickyHeader size="small">
+                    <TableHead sx={{ backgroundColor: 'grey' }}>
+                        <TableRow>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {masterItemsSelector.response.content.length > 0 &&
+                            masterItemsSelector.response.content.map((masterItem, index) => (
+                                <TableRow key={index}>
+                                    <StyledTableCell>
+                                        <Checkbox />
+                                    </StyledTableCell>
+                                    <StyledTableCell>{masterItem.item}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.part_number}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.recent_vendor}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.fisher_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.next_advance_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.average_unit_price}</StyledTableCell>
+                                    <StyledTableCell sx={{ fontSize: 12, maxWidth: '200px' }}>{masterItem.comments}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.category}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.usage_level}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.expiration_date?.toDateString()}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.received_date?.toDateString()}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.type}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.group}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <IconButton aria-label="more" id="long-button" onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
+                                            <MoreVertIcon />
+                                        </IconButton>
+                                    </StyledTableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <TablePagination
-                sx={{height: '6%'}}
+                sx={{ marginTop: 'auto' }}
                 rowsPerPageOptions={[]}
                 component="div"
                 count={masterItemsSelector.response.totalElements}
@@ -120,7 +121,7 @@ const Master = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-        </TableContainer>
+        </Box>
     );
 };
 

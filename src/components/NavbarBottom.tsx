@@ -85,7 +85,7 @@ const NavbarBottom = () => {
     };
 
     return (
-        <Paper>
+        <Paper variant='elevation' elevation={5} sx={{height: 75}}>
             <BottomNavigation
                 showLabels
                 value={value}

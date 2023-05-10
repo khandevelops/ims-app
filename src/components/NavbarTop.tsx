@@ -11,9 +11,7 @@ export default function NavbarTop() {
 
     return (
         <Box>
-            <div>{profileDetailSelector.profileDetail?.role}</div>
-            {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <AdminMenu /> : <MenuDepartment />}
-            <MenuSub />
+
         </Box>
     );
 }

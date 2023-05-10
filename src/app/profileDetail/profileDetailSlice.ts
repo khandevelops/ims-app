@@ -8,8 +8,8 @@ export const createProfileDetail = (profileDetail: iProfileDetail) => {
     return axios.post(`${baseUrl}/profile-details/create`, profileDetail)
 }
 
-export const updateProfileDetail = (id: string, profileDetail: iProfileDetail ) => {
-    return axios.patch(`${baseUrl}/profile-details/${id}/update`, profileDetail)
+export const updateProfileDetail = (email: string, profileDetail: iProfileDetail ) => {
+    return axios.patch(`${baseUrl}/profile-details/${email}/update`, profileDetail)
 }
 
 export const fetchProfileDetail = (id: string) => {
@@ -17,7 +17,7 @@ export const fetchProfileDetail = (id: string) => {
 }
 
 export interface iProfileDetail {
-    id?: string;
+    email?: string;
     department?: string;
     role?: string;
     permission?: string;
@@ -51,8 +51,8 @@ export const createProfileDetailThunk = createAsyncThunk(
 
 export const updateProfileDetailThunk = createAsyncThunk(
     'updateProfileDetailThunk',
-    async (params: { profileDetail: iProfileDetail, id: string }) => {
-        const response = await updateProfileDetail(params.id, params.profileDetail)
+    async (params: {email: string, profileDetail: iProfileDetail }) => {
+        const response = await updateProfileDetail(params.email, params.profileDetail)
         return response.data
     }
 )

@@ -13,7 +13,6 @@ const MenuDepartment = () => {
 
     return (
         <AppBar position="static" elevation={5} sx={{ backgroundColor: '#1347a4' }}>
-
             <Toolbar sx={{ margin: 'auto' }}>
                 <Box sx={{ position: 'fixed', left: 20 }}>
                     <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />

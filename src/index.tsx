@@ -6,7 +6,6 @@ import App from './App';
 import './index.css';
 import { MsalProvider } from '@azure/msal-react';
 import { PublicClientApplication } from '@azure/msal-browser';
-import { BrowserRouter } from 'react-router-dom';
 import { msalConfig } from './config/authConfig';
 
 const container = document.getElementById('root')!;

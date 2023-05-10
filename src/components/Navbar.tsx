@@ -88,7 +88,6 @@ const Navbar = () => {
     return (
         <Container>
             <Box>
-                <div>{profileDetailSelector.profileDetail?.role}</div>
                 {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <MenuAdmin /> : <MenuDepartment />}
             </Box>
             <AppBar position="static" elevation={5} sx={{ alignItems: 'center', backgroundColor: '#1347a4' }}>

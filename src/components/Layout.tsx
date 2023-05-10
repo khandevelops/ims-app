@@ -1,41 +1,28 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
-import Master from '../pages/Master';
-import DepartmentExperience from '../pages/DepartmentMaster';
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
+import { Outlet } from 'react-router-dom';
 import NavbarBottom from './NavbarBottom';
-import NavbarTop from './NavbarTop';
-import StoreRoomMaster from '../pages/StoreRoomMaster';
-import RequestList from '../pages/RequestMasterAdmin';
-import RequestMasterDepartment from '../pages/RequestMasterDepartment';
-import Departments from '../pages/Departments';
-import Auth from '../pages/Auth';
-import Dashboard from '../pages/Dashboard';
-import { useAppSelector } from '../app/hooks';
+import { Box } from '@mui/material';
+import MenuSub from './MenuSub';
+import MenuAdmin from './MenuAdmin';
+import MenuDepartment from './MenuDepartment';
 import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
-import { department } from '../common/constants';
-import { Container, Grid } from '@mui/material';
+import { useAppSelector } from '../app/hooks'
+import { role } from '../common/constants';
 
 const Layout = () => {
-    const isAuthenticated = useIsAuthenticated();
     const profileDetailSelector = useAppSelector(selectProfileDetail);
-
+    
     return (
-        <div style={{display: 'grid', gridTemplateRows: 'auto 1fr auto', border: '2px solid red', height: '100vh'}}>
-            <div>
-                <NavbarTop/>
-            </div>
-            <div>
-                <Outlet/>
-            </div>
-            <div>
-                <NavbarBottom/>
-            </div>
-        </div>
-        // <Grid container direction="column" justifyContent="space-between" sx={{ border: '2px solid red', height: '100vh' }} alignItems="stretch">
-        //     <Grid item sx={{ border: '2px solid green', height: 50 }}></Grid>
-        //     <Grid item xl='auto' sx={{ border: '2px solid blue' }} justifySelf='stretch'></Grid>
-        //     <Grid item sx={{ border: '2px solid orange', height: 50 }}></Grid>
-        // </Grid>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+            {profileDetailSelector.profileDetail?.role}
+            <Box>
+                {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <MenuAdmin /> : <MenuDepartment />}
+                <MenuSub />
+            </Box>
+            <Box sx={{ padding: 1, flex: 1 }}>
+                <Outlet />
+            </Box>
+            <NavbarBottom />
+        </Box>
     );
 };
 
