@@ -107,7 +107,6 @@ const MenuDepartment = () => {
                     <Profile />
                 </Box>
             </Toolbar>
-            <Outlet />
         </AppBar>
     );
 };

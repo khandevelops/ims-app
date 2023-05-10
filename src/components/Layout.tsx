@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import Master from '../pages/Master';
 import DepartmentExperience from '../pages/DepartmentMaster';
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated } from '@azure/msal-react';
@@ -13,57 +13,29 @@ import Dashboard from '../pages/Dashboard';
 import { useAppSelector } from '../app/hooks';
 import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
 import { department } from '../common/constants';
+import { Container, Grid } from '@mui/material';
 
 const Layout = () => {
     const isAuthenticated = useIsAuthenticated();
     const profileDetailSelector = useAppSelector(selectProfileDetail);
 
     return (
-        <div>
-            <UnauthenticatedTemplate>
-                <Auth />
-            </UnauthenticatedTemplate>
-            <AuthenticatedTemplate>
-                <NavbarTop />
-                <Routes>
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="department">
-                        <Route path="extractions" element={<DepartmentExperience />} />
-                        <Route path="mass-spec" element={<DepartmentExperience />} />
-                        <Route path="receiving" element={<DepartmentExperience />} />
-                        <Route path="rd" element={<DepartmentExperience />} />
-                        <Route path="screening" element={<DepartmentExperience />} />
-                        <Route path="shipping" element={<DepartmentExperience />} />
-                        <Route path="quality" element={<DepartmentExperience />} />
-                    </Route>
-                    <Route path="departments">
-                        <Route path="extractions" element={<Departments />} />
-                        <Route path="mass-spec" element={<Departments />} />
-                        <Route path="receiving" element={<Departments />} />
-                        <Route path="rd" element={<Departments />} />
-                        <Route path="screening" element={<Departments />} />
-                        <Route path="shipping" element={<Departments />} />
-                        <Route path="quality" element={<Departments />} />
-                    </Route>
-                    <Route path="master" element={<Master />} />
-                    <Route path="store-room" element={<StoreRoomMaster />} />
-                    <Route path="request">
-                        <Route path="admin"></Route>
-                    </Route>
-                    <Route path="request-master">
-                        <Route path="general/admin" element={<RequestList />} />
-                        <Route path="office-supply/admin" element={<RequestList />} />
-                        <Route path="store-room/admin" element={<RequestList />} />
-                    </Route>
-                    <Route path="request">
-                        <Route path="general" element={<RequestMasterDepartment />} />
-                        <Route path="office-supply" element={<RequestMasterDepartment />} />
-                        <Route path="store-room" element={<RequestMasterDepartment />} />
-                    </Route>
-                </Routes>
-                <NavbarBottom />
-            </AuthenticatedTemplate>
+        <div style={{display: 'grid', gridTemplateRows: 'auto 1fr auto', border: '2px solid red', height: '100vh'}}>
+            <div>
+                <NavbarTop/>
+            </div>
+            <div>
+                <Outlet/>
+            </div>
+            <div>
+                <NavbarBottom/>
+            </div>
         </div>
+        // <Grid container direction="column" justifyContent="space-between" sx={{ border: '2px solid red', height: '100vh' }} alignItems="stretch">
+        //     <Grid item sx={{ border: '2px solid green', height: 50 }}></Grid>
+        //     <Grid item xl='auto' sx={{ border: '2px solid blue' }} justifySelf='stretch'></Grid>
+        //     <Grid item sx={{ border: '2px solid orange', height: 50 }}></Grid>
+        // </Grid>
     );
 };
 

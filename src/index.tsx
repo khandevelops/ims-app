@@ -17,9 +17,7 @@ root.render(
     <React.StrictMode>
         <Provider store={store}>
             <MsalProvider instance={msalInstance}>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
+                <App />
             </MsalProvider>
         </Provider>
     </React.StrictMode>
