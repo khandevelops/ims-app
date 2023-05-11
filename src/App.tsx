@@ -11,6 +11,8 @@ import Layout from './components/Layout';
 import { Box } from '@mui/material';
 import Auth from './pages/Auth';
 import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
+import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
+import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -37,9 +39,19 @@ const router = createBrowserRouter(
             </Route>
             <Route path="general-request" element={<RequestMasterDepartment />}>
                 <Route path="list" element={<RequestMasterDepartmentItems />} />
+                <Route path="confirmation" element={<RequestMasterDepartmentPending />} />
+                <Route path="status" element={<RequestMasterDepartmentComplete />} />
             </Route>
-            <Route path="office-supply-request" element={<RequestMasterDepartment />} />
-            <Route path="store-room-request" element={<RequestMasterDepartment />} />
+            <Route path="office-supply-request" element={<RequestMasterDepartment />}>
+                <Route path="list" element={<RequestMasterDepartmentItems />} />
+                <Route path="confirmation" element={<RequestMasterDepartmentPending />} />
+                <Route path="status" element={<RequestMasterDepartmentComplete />} />
+            </Route>
+            <Route path="store-room-request" element={<RequestMasterDepartment />}>
+                <Route path="list" element={<RequestMasterDepartmentItems />} />
+                <Route path="confirmation" element={<RequestMasterDepartmentPending />} />
+                <Route path="status" element={<RequestMasterDepartmentComplete />} />
+            </Route>
         </Route>
     )
 );
