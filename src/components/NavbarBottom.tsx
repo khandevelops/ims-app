@@ -85,14 +85,13 @@ const NavbarBottom = () => {
     };
 
     return (
-        <Paper variant='elevation' elevation={5} sx={{height: 75}}>
+        <Paper variant="elevation" elevation={5} sx={{ height: 75 }}>
             <BottomNavigation
                 showLabels
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}>
-                {/* <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<RestoreIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} /> */}
                 {(location.pathname === '/departments/extractions' ||
                     location.pathname === '/departments/mass-spec' ||
                     location.pathname === '/departments/receiving' ||
@@ -100,9 +99,12 @@ const NavbarBottom = () => {
                     location.pathname === '/departments/screening' ||
                     location.pathname === '/departments/shipping' ||
                     location.pathname === '/departments/quality') && <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />}
-                {/* <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
-
-                <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} /> */}
+                {location.pathname === '/master' && (
+                    <Box>
+                        <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
+                        <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} />
+                    </Box>
+                )}
             </BottomNavigation>
         </Paper>
     );

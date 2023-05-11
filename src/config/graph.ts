@@ -17,7 +17,7 @@ export async function callMeMsGraph(accessToken: string) {
 
     return fetch(meGraphConfig.graphMeEndpoint, options)
         .then(response => response.json())
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
 }
 
 export async function callProflesMsGraph(accessToken: string) {
@@ -33,5 +33,5 @@ export async function callProflesMsGraph(accessToken: string) {
 
     return fetch(profilesGraphConfig.graphMeEndpoint, options)
         .then(response => response.json())
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
 }

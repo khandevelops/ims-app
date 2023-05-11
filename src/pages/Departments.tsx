@@ -4,7 +4,24 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, Drawer, tableCellClasses, styled, Divider, TextField, Tooltip } from '@mui/material';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TablePagination,
+    Paper,
+    Box,
+    Drawer,
+    tableCellClasses,
+    styled,
+    Divider,
+    TextField,
+    Tooltip,
+    Typography
+} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import UpdateQuantityForm from '../components/UpdateQuantityForm';
 import { handlePage, selectPage } from '../app/common/pageSlice';
@@ -32,13 +49,13 @@ const columns: { field: string; tooltipName: string | JSX.Element; headerName: s
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 13,
-        fontWeight: 600
+        fontSize: 14,
+        fontWeight: 700
     }
 }));
 
@@ -168,13 +185,13 @@ const Departments = () => {
 
     const getOrderQuantity = (minimum_quantity: number, maximum_quantity: number, totalQuantity: number) => {
         if (!minimum_quantity || !maximum_quantity) {
-            return null;
-        }
-        if (minimum_quantity === 1 && maximum_quantity === 1 && totalQuantity < 1) {
-            return 1;
-        }
-        if (totalQuantity < minimum_quantity) {
-            return maximum_quantity - minimum_quantity;
+            return { orderQuantity: null, color: 'yellow' };
+        } else if (minimum_quantity === 1 && maximum_quantity === 1 && totalQuantity < 1) {
+            return { orderQuantity: 1, color: 'red' };
+        } else if (totalQuantity < minimum_quantity) {
+            return { orderQuantity: maximum_quantity - minimum_quantity, color: 'red' };
+        } else {
+            return { orderQuantity: 0, color: 'green' };
         }
     };
 
@@ -187,7 +204,7 @@ const Departments = () => {
             <TableContainer sx={{ height: '70vh' }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{height: 50}}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
                                     <StyledTableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -209,13 +226,26 @@ const Departments = () => {
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_cn}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>
-                                            {getOrderQuantity(masterDepartmentItem.minimum_quantity, masterDepartmentItem.maximum_quantity, getTotalQuantity(masterDepartmentItem.departmentItems))}
+                                        <StyledTableCell sx={{ width: 80, backgroundColor: '#BF40BF', textAlign: 'center', color: 'white' }}>
+                                            <Typography sx={{fontWeight: 900}}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</Typography>
                                         </StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.average_unit_price}</StyledTableCell>
+                                        <StyledTableCell
+                                            sx={{
+                                                width: 80,
+                                                backgroundColor: getOrderQuantity(
+                                                    masterDepartmentItem.minimum_quantity,
+                                                    masterDepartmentItem.maximum_quantity,
+                                                    getTotalQuantity(masterDepartmentItem.departmentItems)
+                                                ).color
+                                            }}>
+                                            {
+                                                getOrderQuantity(masterDepartmentItem.minimum_quantity, masterDepartmentItem.maximum_quantity, getTotalQuantity(masterDepartmentItem.departmentItems))
+                                                    .orderQuantity
+                                            }
+                                        </StyledTableCell>
+                                        <StyledTableCell sx={{ width: 80 }}>${masterDepartmentItem.average_unit_price}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>
-                                            {getTotalPrice(masterDepartmentItem.average_unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
+                                            ${getTotalPrice(masterDepartmentItem.average_unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
                                         </StyledTableCell>
                                         <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.comment}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.category}</StyledTableCell>

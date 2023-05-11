@@ -2,8 +2,6 @@ import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../images/logo.png';
 import Profile from './Profile';
-import NavbarTop from './NavbarTop';
-import NavbarBottom from './Navbar';
 
 const MenuAdmin = () => {
     return (

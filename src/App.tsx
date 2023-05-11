@@ -10,6 +10,7 @@ import RequestMasterAdmin from './pages/RequestMasterAdmin';
 import Layout from './components/Layout';
 import { Box } from '@mui/material';
 import Auth from './pages/Auth';
+import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,11 +35,11 @@ const router = createBrowserRouter(
                 <Route path="office-supply/admin" element={<RequestMasterAdmin />} />
                 <Route path="store-room/admin" element={<RequestMasterAdmin />} />
             </Route>
-            <Route path="request">
-                <Route path="general" element={<RequestMasterDepartment />} />
-                <Route path="office-supply" element={<RequestMasterDepartment />} />
-                <Route path="store-room" element={<RequestMasterDepartment />} />
+            <Route path="general-request" element={<RequestMasterDepartment />}>
+                <Route path="list" element={<RequestMasterDepartmentItems />} />
             </Route>
+            <Route path="office-supply-request" element={<RequestMasterDepartment />} />
+            <Route path="store-room-request" element={<RequestMasterDepartment />} />
         </Route>
     )
 );
@@ -47,7 +48,7 @@ const App = () => {
     return (
         <Box>
             <UnauthenticatedTemplate>
-                <Auth/>
+                <Auth />
             </UnauthenticatedTemplate>
             <AuthenticatedTemplate>
                 <RouterProvider router={router} />

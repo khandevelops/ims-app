@@ -23,12 +23,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { status } from '../common/constants';
 import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
-import {
-    changeRequestMasterItems,
-    getRequestMasterItemsThunk,
-    IRequestMasterItem,
-    selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItemsSlice';
+import { changeRequestMasterItems, getRequestMasterItemsThunk, IRequestMasterItem, selectRequestMasterItems } from '../app/requestMaster/requestMasterItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -94,84 +89,63 @@ const RequestMasterAdmin = () => {
     };
 
     return (
-        <Box sx={{ paddingTop: 3, paddingLeft: 1, paddingRight: 1 }}>
-            <Paper elevation={3}>
-                <TableContainer sx={{ height: 600 }}>
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                {columns.length > 0 &&
-                                    columns.map((column) => (
-                                        <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>
-                                    ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {requestMasterItemsSelector.response.content.length > 0 &&
-                                requestMasterItemsSelector.response.content.map((requestMasterItem, index) => (
-                                    <TableRow key={index}>
-                                        <StyledTableCell>
-                                            {requestMasterItem.item && requestMasterItem.item}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {requestMasterItem.recent_cn && requestMasterItem.recent_cn}
-                                        </StyledTableCell>
-                                        <StyledTableCell>{requestMasterItem.quantity}</StyledTableCell>
-                                        <StyledTableCell>
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    id={requestMasterItem.item}
-                                                    value={requestMasterItem.status}
-                                                    onChange={(event: SelectChangeEvent) =>
-                                                        handleStatusChange(event, requestMasterItem.request_item_id)
-                                                    }>
-                                                    {Object.values(status).map((status, index) => (
-                                                        <MenuItem key={index} value={status}>
-                                                            <Typography sx={{ fontSize: '10pt' }}>{status}</Typography>
-                                                        </MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {moment(requestMasterItem.time_requested).format('MM/DD/YYYY')}
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            {moment(requestMasterItem.time_updated).format('MM/DD/YYYY')}
-                                        </StyledTableCell>
-                                        <StyledTableCell>{requestMasterItem.department}</StyledTableCell>
-                                        <StyledTableCell>{requestMasterItem.custom_text}</StyledTableCell>
-                                        <StyledTableCell>
-                                            <TextField
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
+            <TableContainer sx={{ height: '70vh' }}>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {requestMasterItemsSelector.response.content.length > 0 &&
+                            requestMasterItemsSelector.response.content.map((requestMasterItem, index) => (
+                                <TableRow key={index}>
+                                    <StyledTableCell>{requestMasterItem.item && requestMasterItem.item}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.recent_cn && requestMasterItem.recent_cn}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.quantity}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <FormControl fullWidth>
+                                            <Select
                                                 size="small"
-                                                variant="outlined"
-                                                value={requestMasterItem.detail}
-                                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                    handleDetailChange(event, requestMasterItem.request_item_id)
-                                                }
-                                                onKeyDown={(event: KeyboardEvent) =>
-                                                    handleEnterKey(event, requestMasterItem)
-                                                }
-                                            />
-                                        </StyledTableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    sx={{ marginTop: 3 }}
-                    rowsPerPageOptions={[]}
-                    component="div"
-                    count={requestMasterItemsSelector.response.totalElements}
-                    rowsPerPage={requestMasterItemsSelector.response.size}
-                    page={requestMasterItemsSelector.response.number}
-                    onPageChange={handleChangePage}
-                    showFirstButton={true}
-                    showLastButton={true}
-                />
-            </Paper>
+                                                id={requestMasterItem.item}
+                                                value={requestMasterItem.status}
+                                                onChange={(event: SelectChangeEvent) => handleStatusChange(event, requestMasterItem.request_item_id)}>
+                                                {Object.values(status).map((status, index) => (
+                                                    <MenuItem key={index} value={status}>
+                                                        <Typography sx={{ fontSize: '10pt' }}>{status}</Typography>
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </StyledTableCell>
+                                    <StyledTableCell>{moment(requestMasterItem.time_requested).format('MM/DD/YYYY')}</StyledTableCell>
+                                    <StyledTableCell>{moment(requestMasterItem.time_updated).format('MM/DD/YYYY')}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.department}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.custom_text}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <TextField
+                                            size="small"
+                                            variant="outlined"
+                                            value={requestMasterItem.detail}
+                                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleDetailChange(event, requestMasterItem.request_item_id)}
+                                            onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, requestMasterItem)}
+                                        />
+                                    </StyledTableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                sx={{ marginTop: 3 }}
+                rowsPerPageOptions={[]}
+                component="div"
+                count={requestMasterItemsSelector.response.totalElements}
+                rowsPerPage={requestMasterItemsSelector.response.size}
+                page={requestMasterItemsSelector.response.number}
+                onPageChange={handleChangePage}
+                showFirstButton={true}
+                showLastButton={true}
+            />
         </Box>
     );
 };

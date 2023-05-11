@@ -14,6 +14,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
+    TablePagination,
     TableRow,
     Typography
 } from '@mui/material';
@@ -24,9 +25,9 @@ import { loginRequest } from '../config/authConfig';
 import { callProflesMsGraph } from '../config/graph';
 import { useMsal } from '@azure/msal-react';
 import { getProfiles, selectProfiles } from '../app/profilesSlice';
-import { changeProfileDetails, createProfileDetailsThunk, getProfileDetailsThunk, selectProfileDetails, syncProfileDetailsThunk } from '../app/profileDetail/profileDetailsSlice';
+import { changeProfileDetails, getProfileDetailsThunk, selectProfileDetails, syncProfileDetailsThunk } from '../app/profileDetail/profileDetailsSlice';
 import { department, permission, role } from '../common/constants';
-import { iProfileDetail, updateProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
+import { updateProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
 
 const columns: { field: string; headerName: string }[] = [
     { field: 'displayName', headerName: 'Name' },
@@ -50,7 +51,6 @@ const Dashboard = () => {
             })
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
-                    console.log(response.value)
                     setProfiles(response.value);
                     dispatch(getProfiles(response.value));
                 });
@@ -58,8 +58,8 @@ const Dashboard = () => {
         dispatch(getProfileDetailsThunk());
     }, [accounts, dispatch, instance]);
 
-    const getProfileDetail = (email: string) => {
-        return profileDetailsSelector.profileDetails.find((profile) => profile.email === email);
+    const getProfileDetail = (id: string) => {
+        return profileDetailsSelector.profileDetails.find((profile) => profile.id === id);
     };
 
     const requestProfileData = () => {
@@ -75,15 +75,15 @@ const Dashboard = () => {
             });
     };
 
-    const handleDepartmentChange = (email: string, event: SelectChangeEvent) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email === email);
+    const handleDepartmentChange = (id: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id === id);
         if (profileDetail) {
-            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, department: event.target.value } })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ id: id, profileDetail: { ...profileDetail, department: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            department: profileDetail.email === email ? profileDetailResponse.payload.department : profileDetail.department
+                            department: profileDetail.id === id ? profileDetailResponse.payload.department : profileDetail.department
                         }))
                     )
                 );
@@ -91,15 +91,15 @@ const Dashboard = () => {
         }
     };
 
-    const handleRoleChange = (email: string, event: SelectChangeEvent) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email);
+    const handleRoleChange = (id: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id);
         if (profileDetail) {
-            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, role: event.target.value } })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ id: id, profileDetail: { ...profileDetail, role: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            role: profileDetail.email ? profileDetailResponse.payload.role : profileDetail.role
+                            role: profileDetail.id === id ? profileDetailResponse.payload.role : profileDetail.role
                         }))
                     )
                 );
@@ -107,15 +107,15 @@ const Dashboard = () => {
         }
     };
 
-    const handlePermissionChange = (email: string, event: SelectChangeEvent) => {
-        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.email);
+    const handlePermissionChange = (id: string, event: SelectChangeEvent) => {
+        const profileDetail = profileDetailsSelector.profileDetails.find((profileDetail) => profileDetail.id);
         if (profileDetail) {
-            dispatch(updateProfileDetailThunk({ email: email, profileDetail: { ...profileDetail, permission: event.target.value } })).then((profileDetailResponse) => {
+            dispatch(updateProfileDetailThunk({ id: id, profileDetail: { ...profileDetail, permission: event.target.value } })).then((profileDetailResponse) => {
                 dispatch(
                     changeProfileDetails(
                         profileDetailsSelector.profileDetails.map((profileDetail) => ({
                             ...profileDetail,
-                            permission: profileDetail.email ? profileDetailResponse.payload.permission : profileDetail.permission
+                            permission: profileDetail.id ? profileDetailResponse.payload.permission : profileDetail.permission
                         }))
                     )
                 );
@@ -124,9 +124,9 @@ const Dashboard = () => {
     };
 
     return (
-        <Grid container>
-            <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ padding: 2 }}>
-                <Grid container>
+        <Grid container sx={{ height: '100%' }}>
+            <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ padding: 5 }}>
+                <Grid container justifyContent='stretch' alignItems='stretch' sx={{ height: '100%' }}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Card>
                             <CardContent sx={{ textAlign: 'center' }}>
@@ -134,99 +134,112 @@ const Dashboard = () => {
                                     IMPORTANT!
                                 </Typography>
                             </CardContent>
-                            <CardActions sx={{ textAlign: 'center', width: '100%' }}>
+                            <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                                 <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
-                    <Grid item xs={12} sm={12} md={6} lg={4} xl={4}></Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <Card>
+                            <CardContent sx={{ textAlign: 'center' }}>
+                                <Typography variant="h6" color="text.secondary">
+                                    IMPORTANT!
+                                </Typography>
+                            </CardContent>
+                            <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                                <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                        <Card>
+                            <CardContent sx={{ textAlign: 'center' }}>
+                                <Typography variant="h6" color="text.secondary">
+                                    IMPORTANT!
+                                </Typography>
+                            </CardContent>
+                            <CardActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                                <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
+                            </CardActions>
+                        </Card>
+                    </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={8} xl={8} sx={{ padding: 2 }}>
-                {' '}
-                <Paper elevation={8}>
-                    <TableContainer sx={{ height: '70vh' }}>
-                        <Table stickyHeader>
-                            <TableHead>
-                                <TableRow>
-                                    {columns.length > 0 &&
-                                        columns.map((column) => (
-                                            <TableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                <Box>{column.headerName}</Box>
-                                            </TableCell>
-                                        ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {profiles &&
-                                    profiles.length > 0 &&
-                                    profiles.map((profile, index) => (
-                                        <Fragment key={index}>
-                                            <TableRow>
-                                                <TableCell sx={{ width: 500 }}>{profile.displayName}</TableCell>
-                                                <TableCell sx={{ width: 200 }}>
-                                                    <FormControl fullWidth>
-                                                        <Select
-                                                            variant="standard"
-                                                            size="small"
-                                                            id={profile.mail}
-                                                            name="department"
-                                                            value={getProfileDetail(profile.id)?.department}
-                                                            onChange={(event: SelectChangeEvent) => handleDepartmentChange(profile.mail, event)}>
-                                                            {Object.values(department).map((department, index) => (
-                                                                <MenuItem key={index} value={department}>
-                                                                    <Typography sx={{ fontSize: '10pt' }}>{department}</Typography>
-                                                                </MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                                <TableCell sx={{ width: 200 }}>
-                                                    <FormControl fullWidth>
-                                                        <Select
-                                                            variant="standard"
-                                                            size="small"
-                                                            id={profile.mail}
-                                                            value={getProfileDetail(profile.id)?.role}
-                                                            onChange={(event: SelectChangeEvent) => handleRoleChange(profile.mail, event)}>
-                                                            {Object.values(role).map((role, index) => (
-                                                                <MenuItem key={index} value={role}>
-                                                                    <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
-                                                                </MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                                <TableCell sx={{ width: 200 }}>
-                                                    <FormControl fullWidth>
-                                                        <Select
-                                                            variant="standard"
-                                                            size="small"
-                                                            id={profile.mail}
-                                                            value={getProfileDetail(profile.id)?.permission}
-                                                            onChange={(event: SelectChangeEvent) => handlePermissionChange(profile.mail, event)}>
-                                                            {Object.values(permission).map((role, index) => (
-                                                                <MenuItem key={index} value={role}>
-                                                                    <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
-                                                                </MenuItem>
-                                                            ))}
-                                                        </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                            </TableRow>
-                                        </Fragment>
+            <Grid item xs={12} sm={12} md={12} lg={8} xl={8} sx={{padding: 5}}>
+                <TableContainer sx={{ height: '100%' }} component={Paper} elevation={3}>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                {columns.length > 0 &&
+                                    columns.map((column) => (
+                                        <TableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <Box>{column.headerName}</Box>
+                                        </TableCell>
                                     ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Paper>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {profiles &&
+                                profiles.length > 0 &&
+                                profiles.map((profile, index) => (
+                                    <Fragment key={index}>
+                                        <TableRow>
+                                            <TableCell sx={{ width: 500 }}>{profile.displayName}</TableCell>
+                                            <TableCell sx={{ width: 200 }}>
+                                                <FormControl fullWidth>
+                                                    <Select
+                                                        variant="standard"
+                                                        size="small"
+                                                        id={profile.mail}
+                                                        name="department"
+                                                        value={getProfileDetail(profile.id)?.department}
+                                                        onChange={(event: SelectChangeEvent) => handleDepartmentChange(profile.id, event)}>
+                                                        {Object.values(department).map((department, index) => (
+                                                            <MenuItem key={index} value={department}>
+                                                                <Typography sx={{ fontSize: '10pt' }}>{department}</Typography>
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </TableCell>
+                                            <TableCell sx={{ width: 200 }}>
+                                                <FormControl fullWidth>
+                                                    <Select
+                                                        variant="standard"
+                                                        size="small"
+                                                        id={profile.mail}
+                                                        value={getProfileDetail(profile.id)?.role}
+                                                        onChange={(event: SelectChangeEvent) => handleRoleChange(profile.id, event)}>
+                                                        {Object.values(role).map((role, index) => (
+                                                            <MenuItem key={index} value={role}>
+                                                                <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </TableCell>
+                                            <TableCell sx={{ width: 200 }}>
+                                                <FormControl fullWidth>
+                                                    <Select
+                                                        variant="standard"
+                                                        size="small"
+                                                        id={profile.mail}
+                                                        value={getProfileDetail(profile.id)?.permission}
+                                                        onChange={(event: SelectChangeEvent) => handlePermissionChange(profile.id, event)}>
+                                                        {Object.values(permission).map((role, index) => (
+                                                            <MenuItem key={index} value={role}>
+                                                                <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </TableCell>
+                                        </TableRow>
+                                    </Fragment>
+                                ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Grid>
         </Grid>
     );

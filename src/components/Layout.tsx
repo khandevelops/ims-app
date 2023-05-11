@@ -13,7 +13,6 @@ const Layout = () => {
     
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-            {profileDetailSelector.profileDetail?.role}
             <Box>
                 {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <MenuAdmin /> : <MenuDepartment />}
                 <MenuSub />
