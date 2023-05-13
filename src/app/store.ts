@@ -30,6 +30,7 @@ import profileDetailsReducer from './profileDetail/profileDetailsSlice'
 import updateProfileDetailReducer from './profileDetail/updateProfileDetailSlice'
 import profilesReducer from './profilesSlice'
 import profileDetailReducer from './profileDetail/profileDetailSlice'
+import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice'
 
 export const store = configureStore({
   reducer: {
@@ -63,7 +64,8 @@ export const store = configureStore({
     profileDetailsStore: profileDetailsReducer,
     updateProfileDetailStore: updateProfileDetailReducer,
     profilesStore: profilesReducer,
-    profileDetailStore: profileDetailReducer
+    profileDetailStore: profileDetailReducer,
+    requestMasterItemsPendingCheckedStore: requestMasterItemsPendingCheckedReducer
   }
 });
 

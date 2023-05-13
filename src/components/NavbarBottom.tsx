@@ -8,7 +8,6 @@ import { handleBottomToolbarItemClick } from '../app/bottomToolbar/bottomToolbar
 import { bottomToolbarButtons, confirmation, drawerToggleType } from '../common/constants';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
-import EditIcon from '@mui/icons-material/Edit';
 import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
 import { useLocation } from 'react-router-dom';
 import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
@@ -20,6 +19,8 @@ import { getMasterItemsFilteredThunk } from '../app/master/masterItemSlice';
 import SendIcon from '@mui/icons-material/Send';
 import MenuAdmin from './MenuAdmin';
 import PreviewIcon from '@mui/icons-material/Preview';
+import { selectRequestMasterItemsPendingChecked } from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -64,6 +65,7 @@ const NavbarBottom = () => {
     const [value, setValue] = useState<number>(0);
     const dispatch = useAppDispatch();
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
+    const requestMasterItemsPendingCheckedSelector = useAppSelector(selectRequestMasterItemsPendingChecked);
     const location = useLocation();
 
     const handleAddClick = () => {
@@ -104,8 +106,11 @@ const NavbarBottom = () => {
                 {(location.pathname === '/general-request/list' || location.pathname === '/office-supply-request/list' || location.pathname === '/store-room-request/list') && (
                     <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<PreviewIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} />
                 )}
+                      {(location.pathname === '/general-request/confirmation' || location.pathname === '/office-supply-request/confirmation' || location.pathname === '/store-room-request/confirmation') && (
+                    <BottomNavigationAction label="Send" onClick={handleEditClick} icon={<EditIcon />} disabled={requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.length === 0} />
+                )}
                 {(location.pathname === '/general-request/confirmation' || location.pathname === '/office-supply-request/confirmation' || location.pathname === '/store-room-request/confirmation') && (
-                    <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<SendIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} />
+                    <BottomNavigationAction label="Send" onClick={handleEditClick} icon={<SendIcon />} disabled={requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.length === 0} />
                 )}
                 {location.pathname === '/master' && (
                     <Box>
