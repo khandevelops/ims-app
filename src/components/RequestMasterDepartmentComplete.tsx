@@ -17,7 +17,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
-    { field: 'checkbox', headerName: <Checkbox /> },
     { field: 'item', headerName: 'Item' },
     { field: 'recent_cn', headerName: 'Recent CN' },
     { field: 'order_quantity', headerName: 'Order Quantity' },
@@ -49,8 +48,8 @@ const RequestMasterDepartmentComplete = () => {
 
     return (
         <Box component={Paper} elevation={3}>
-            <TableContainer sx={{ height: '65vh' }}>
-                <Table size="small">
+            <TableContainer sx={{ height: '60vh' }}>
+                <Table stickyHeader >
                     <TableHead>
                         <TableRow sx={{ height: 50 }}>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
                     </TableHead>
@@ -58,9 +57,6 @@ const RequestMasterDepartmentComplete = () => {
                         {requestMasterItemsCompleteSelector.response.content.length > 0 &&
                             requestMasterItemsCompleteSelector.response.content.map((requestItem, index) => (
                                 <TableRow key={index}>
-                                    <StyledTableCell>
-                                        <Checkbox />
-                                    </StyledTableCell>
                                     <StyledTableCell>{requestItem && requestItem.item}</StyledTableCell>
                                     <StyledTableCell>{requestItem && requestItem.recent_cn}</StyledTableCell>
                                     <StyledTableCell>{requestItem.quantity}</StyledTableCell>

@@ -166,7 +166,7 @@ const Dashboard = () => {
                 </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={8} xl={8} sx={{padding: 5}}>
-                <TableContainer sx={{ height: '100%' }} component={Paper} elevation={3}>
+                <TableContainer sx={{ height: '70vh' }} component={Paper} elevation={3}>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>

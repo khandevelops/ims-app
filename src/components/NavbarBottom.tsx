@@ -17,7 +17,9 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { getMasterItemsFilteredThunk } from '../app/master/masterItemSlice';
+import SendIcon from '@mui/icons-material/Send';
 import MenuAdmin from './MenuAdmin';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -99,6 +101,12 @@ const NavbarBottom = () => {
                     location.pathname === '/departments/screening' ||
                     location.pathname === '/departments/shipping' ||
                     location.pathname === '/departments/quality') && <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon />} />}
+                {(location.pathname === '/general-request/list' || location.pathname === '/office-supply-request/list' || location.pathname === '/store-room-request/list') && (
+                    <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<PreviewIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} />
+                )}
+                {(location.pathname === '/general-request/confirmation' || location.pathname === '/office-supply-request/confirmation' || location.pathname === '/store-room-request/confirmation') && (
+                    <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<SendIcon />} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} />
+                )}
                 {location.pathname === '/master' && (
                     <Box>
                         <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />

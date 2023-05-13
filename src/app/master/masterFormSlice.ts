@@ -23,7 +23,7 @@ export const initialState: IMasterFormState = {
         'purchase_unit': '',
         'average_unit_price': 0,
         'category': '',
-        'comments': '',
+        'comment': '',
         'type': '',
         'group': '',
         'drug_class': '',
@@ -69,7 +69,7 @@ const masterFormSlice = createSlice({
             state.masterItem.purchase_unit = action.payload.purchase_unit ? action.payload.purchase_unit : ''
             state.masterItem.average_unit_price = action.payload.average_unit_price ? action.payload.average_unit_price : 0
             state.masterItem.category = action.payload.category ? action.payload.category : ''
-            state.masterItem.comments = action.payload.comments ? action.payload.comments : ''
+            state.masterItem.comment = action.payload.comment ? action.payload.comment : ''
             state.masterItem.type = action.payload.type ? action.payload.type : ''
             state.masterItem.group = action.payload.group ? action.payload.group : ''
         }

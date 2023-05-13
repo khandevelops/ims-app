@@ -15,6 +15,7 @@ import {
     TablePagination,
     TableRow,
     TextField,
+    Tooltip,
     Typography
 } from '@mui/material';
 import { KeyboardEvent, ChangeEvent, useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
         fontSize: 13,
+        fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
@@ -93,7 +95,14 @@ const RequestMasterAdmin = () => {
             <TableContainer sx={{ height: '70vh' }}>
                 <Table size="small">
                     <TableHead>
-                        <TableRow>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
+                        <TableRow sx={{ height: 50 }}>
+                            {columns.length > 0 &&
+                                columns.map((column) => (
+                                    <StyledTableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <Box>{column.headerName}</Box>
+                                    </StyledTableCell>
+                                ))}
+                        </TableRow>
                     </TableHead>
                     <TableBody>
                         {requestMasterItemsSelector.response.content.length > 0 &&

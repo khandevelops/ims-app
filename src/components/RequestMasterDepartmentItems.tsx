@@ -39,29 +39,29 @@ const RequestMasterDepartmentItems = () => {
 
     useEffect(() => {
         dispatch(getRequestMasterItemsThunk({ state: location.state, page: page }));
-    }, [dispatch, location.pathname, location.state, page]);
+    }, [dispatch, location.pathname, location.state, page, useAppSelector]);
 
     const handleChangePage = (event: any, page: number): void => {
         setPage(page);
     };
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
-        const exists = requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter((item) => item.request_item_id === departmentMasterItem.request_item_id).length > 0;
+        const exists = requestMasterItemsCheckedSelector.requestMasterItemsChecked.some((item) => item.request_item_id === departmentMasterItem.request_item_id);
         if (exists) {
-            const newRequestMasterItemsChecked = requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter((item) => item.request_item_id !== departmentMasterItem.request_item_id);
-            dispatch(changeRequestItemsChecked(newRequestMasterItemsChecked));
+            dispatch(changeRequestItemsChecked(requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter((item) => item.request_item_id !== departmentMasterItem.request_item_id)));
         }
         if (!exists) {
             dispatch(changeRequestItemsChecked([...requestMasterItemsCheckedSelector.requestMasterItemsChecked, departmentMasterItem]));
         }
+        console.log(requestMasterItemsCheckedSelector.requestMasterItemsChecked);
     };
 
     return (
         <Box component={Paper} elevation={3}>
-            <TableContainer sx={{ height: '65vh' }}>
-                <Table size="small">
+            <TableContainer sx={{ height: '60vh' }}>
+                <Table size="small" stickyHeader>
                     <TableHead>
-                        <TableRow sx={{height: 50}}>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
+                        <TableRow sx={{ height: 50 }}>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
                     </TableHead>
                     <TableBody>
                         {requestMasterItemsSelector.response.content.length > 0 &&

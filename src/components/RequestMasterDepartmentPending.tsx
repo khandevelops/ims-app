@@ -65,8 +65,8 @@ const RequestMasterDepartmentPending = () => {
 
     return (
         <Box component={Paper} elevation={3}>
-            <TableContainer sx={{ height: '65vh' }}>
-                <Table size="small">
+            <TableContainer sx={{ height: '60vh' }}>
+                <Table size="small" stickyHeader>
                     <TableHead>
                         <TableRow sx={{ height: 50 }}>{columns.length > 0 && columns.map((column) => <StyledTableCell key={column.field}>{column.headerName}</StyledTableCell>)}</TableRow>
                     </TableHead>

@@ -20,7 +20,7 @@ const defaultMasterItem = {
     purchase_unit: '',
     average_unit_price: 0,
     category: '',
-    comments: '',
+    comment: '',
     type: '',
     group: '',
     drug_class: '',
@@ -219,7 +219,7 @@ const MasterForm = () => {
                     size="small"
                     multiline
                     rows={4}
-                    value={masterItem.comments}
+                    value={masterItem.comment}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'comments')}
                 />
                 <TextField

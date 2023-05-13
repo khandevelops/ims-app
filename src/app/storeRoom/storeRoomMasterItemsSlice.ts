@@ -25,7 +25,7 @@ export interface IStoreRoomMasterItem {
     total_price: number;
     issued: number;
     received: number;
-    comments: string;
+    comment: string;
 }
 
 export interface IStoreRoomMasterState {

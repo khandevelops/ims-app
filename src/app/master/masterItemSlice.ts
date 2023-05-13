@@ -36,7 +36,7 @@ export interface IMasterItem {
     purchase_unit: string;
     average_unit_price: number;
     category: string;
-    comments: string;
+    comment: string;
     type: string;
     group: string;
     drug_class: string;

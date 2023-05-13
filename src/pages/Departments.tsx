@@ -49,12 +49,12 @@ const columns: { field: string; tooltipName: string | JSX.Element; headerName: s
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 15,
+        fontSize: 14,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+        fontSize: 13,
         fontWeight: 700
     }
 }));
@@ -227,7 +227,7 @@ const Departments = () => {
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80, backgroundColor: '#BF40BF', textAlign: 'center', color: 'white' }}>
-                                            <Typography sx={{fontWeight: 900}}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</Typography>
+                                            <Typography variant='inherit' sx={{fontWeight: 800}}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</Typography>
                                         </StyledTableCell>
                                         <StyledTableCell
                                             sx={{
@@ -247,7 +247,7 @@ const Departments = () => {
                                         <StyledTableCell sx={{ width: 80 }}>
                                             ${getTotalPrice(masterDepartmentItem.average_unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
                                         </StyledTableCell>
-                                        <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.comment}</StyledTableCell>
+                                        <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.comment}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.category}</StyledTableCell>
                                     </StyledTableRow>
                                     <TableRow>
@@ -285,6 +285,7 @@ const Departments = () => {
                                                                             '.MuiInputBase-input': {
                                                                                 padding: 0,
                                                                                 textAlign: 'right',
+                                                                                fontWeight: 900,
                                                                                 fontSize: 14
                                                                             }
                                                                         }}

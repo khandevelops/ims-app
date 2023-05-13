@@ -22,5 +22,5 @@ export const meGraphConfig = {
 };
 
 export const profilesGraphConfig = {
-    graphMeEndpoint: "https://graph.microsoft.com/v1.0/users?$top=10"
+    graphMeEndpoint: "https://graph.microsoft.com/v1.0/users?$top=999"
 };

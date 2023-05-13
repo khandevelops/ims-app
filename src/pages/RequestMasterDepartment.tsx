@@ -1,12 +1,15 @@
-import { Box, Step, StepButton, StepLabel, Stepper, Tab, Tabs, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Box, Step, StepButton, Stepper } from '@mui/material';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import RequestMasterDepartmentPending from '../components/RequestMasterDepartmentPending';
 import RequestMasterDepartmentComplete from '../components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentItems from '../components/RequestMasterDepartmentItems';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import Filter1Icon from '@mui/icons-material/Filter1';
+import Filter2Icon from '@mui/icons-material/Filter2';
+import Filter3Icon from '@mui/icons-material/Filter3';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -35,14 +38,17 @@ function a11yProps(index: number) {
 }
 
 const RequestMasterDepartment = () => {
-    const requestTabSelector = useAppSelector(selectRequestTab);
+    const location = useLocation();
+    const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const dispatch = useAppDispatch();
-    const location = useLocation();
 
-    useEffect(() => {}, [location.pathname]);
+    useEffect(() => {
+        navigate(`/${location.state}-request/list`, { state: location.state });
+        setActiveStep(0)
+    }, [location.state]);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (event: SyntheticEvent, newValue: number) => {
         dispatch(changeTab(newValue));
     };
 
@@ -52,55 +58,44 @@ const RequestMasterDepartment = () => {
 
     const handleStep = (step: number) => () => {
         setActiveStep(step);
-      };
+    };
 
     return (
         <Box sx={{ width: '100%', padding: 2 }}>
             <Stepper activeStep={2} sx={{ marginBottom: 4 }}>
                 <Step>
-                    <StepButton icon={<DoneOutlineIcon/>} onClick={handleStep(0)} component={Link} to={`/${location.state}-request/list`} state={location.state}>List</StepButton>
+                    <StepButton
+                        icon={activeStep === 0 ? <BorderColorIcon color="secondary" /> : <Filter1Icon color="primary" />}
+                        onClick={handleStep(0)}
+                        component={Link}
+                        to={`/${location.state}-request/list`}
+                        state={location.state}>
+                        List
+                    </StepButton>
                 </Step>
                 <Step>
-                    <StepButton onClick={handleStep(1)} component={Link} to={`/${location.state}-request/confirmation`} state={location.state}>Confirmation</StepButton>
+                    <StepButton
+                        icon={activeStep === 1 ? <BorderColorIcon color="secondary" /> : <Filter2Icon color="primary" />}
+                        onClick={handleStep(1)}
+                        component={Link}
+                        to={`/${location.state}-request/confirmation`}
+                        state={location.state}>
+                        Confirmation
+                    </StepButton>
                 </Step>
                 <Step>
-                    <StepButton onClick={handleStep(2)} component={Link} to={`/${location.state}-request/status`} state={location.state}>Status</StepButton>
+                    <StepButton
+                        icon={activeStep === 2 ? <BorderColorIcon color="secondary" /> : <Filter3Icon color="primary" />}
+                        onClick={handleStep(2)}
+                        component={Link}
+                        to={`/${location.state}-request/status`}
+                        state={location.state}>
+                        Status
+                    </StepButton>
                 </Step>
-                {/* {steps.map((label, index) => {
-                    const labelProps: {
-                        optional?: React.ReactNode;
-                        error?: boolean;
-                    } = {};
-                    if (isStepFailed(index)) {
-                        labelProps.optional = (
-                            <Typography variant="caption" color="error">
-                                Alert message
-                            </Typography>
-                        );
-                        labelProps.error = true;
-                    }
-
-                    return (
-                        <Step key={label}>
-                            <StepButton {...labelProps} component={Link} to='/general-request/list' state="general">
-                                {label}
-                            </StepButton>
-                        </Step>
-                    );
-                })} */}
             </Stepper>
             <Outlet />
         </Box>
-        // <Box sx={{ padding: 2 }}>
-        //     <Box sx={{ borderBottom: 2, borderColor: 'divider', marginBottom: 2 }}>
-        //         <Tabs value={requestTabSelector.value} onChange={handleChange}>
-        //             <Tab label="List" {...a11yProps(0)} component={Link} to='/general-request/list' state="general"/>
-        //             <Tab label="Confirmation" {...a11yProps(1)} component={Link} to='/general-request/confirmation' state="office-supply"/>
-        //             <Tab label="Status" {...a11yProps(2)} component={Link} to='/general-request/status' state="store-room"/>
-        //         </Tabs>
-        //     </Box>
-        //     <Outlet/>
-        // </Box>
     );
 };
 
