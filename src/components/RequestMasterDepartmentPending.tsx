@@ -9,7 +9,6 @@ import RequestItemEditForm from './RequestItemEditForm';
 import { changeRequestMasterItemsPending, getRequestMasterItemsPendingThunk, selectRequestMasterItemsPending } from '../app/requestMaster/requestMasterItemsPendingSlice';
 import { changeRequestItemsPendingChecked, selectRequestMasterItemsPendingChecked } from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
 import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
-import { IDepartmentMasterItem } from '../app/departmentMaster/departmentMasterSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -83,7 +82,25 @@ const RequestMasterDepartmentPending = () => {
         if (event.key === 'Enter') {
             dispatch(updateRequestMasterItemThunk({ state: location.state, requestMasterItem: requestMasterItem }));
         }
-    }
+    };
+
+    const handleChangeCustomText = (event: ChangeEvent<HTMLInputElement>, id: number) => {
+        dispatch(
+            changeRequestMasterItemsPending({
+                ...requestMasterItemsPendingSelector.response,
+                content: requestMasterItemsPendingSelector.response.content.map((requestMasterItemPending) => ({
+                    ...requestMasterItemPending,
+                    custom_text: requestMasterItemPending.request_item_id === id ? parseInt(event.target.value) : requestMasterItemPending.custom_text
+                }))
+            })
+        );
+    };
+
+    const handleUpdateCustomText = (event: KeyboardEvent, requestMasterItem: IRequestMasterItem) => {
+        if (event.key === 'Enter') {
+            dispatch(updateRequestMasterItemThunk({ state: location.state, requestMasterItem: requestMasterItem }));
+        }
+    };
 
     return (
         <Box component={Paper} elevation={3}>
@@ -107,10 +124,9 @@ const RequestMasterDepartmentPending = () => {
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.item}</StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.recent_cn}</StyledTableCell>
-                                    <StyledTableCell>
-                                        {' '}
+                                    <StyledTableCell width={100}>
                                         <TextField
-                                            sx={{ width: 70 }}
+                                            variant="standard"
                                             size="small"
                                             type="number"
                                             id={requestMasterItem.request_item_id.toString()}
@@ -119,7 +135,17 @@ const RequestMasterDepartmentPending = () => {
                                             onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeQuantity(event, requestMasterItem.request_item_id)}
                                         />
                                     </StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.custom_text}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <TextField
+                                            variant="standard"
+                                            sx={{ width: 150 }}
+                                            size="small"
+                                            id={requestMasterItem.request_item_id.toString()}
+                                            value={requestMasterItem.custom_text}
+                                            onKeyDown={(event: React.KeyboardEvent) => handleUpdateCustomText(event, requestMasterItem)}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeCustomText(event, requestMasterItem.request_item_id)}
+                                        />
+                                    </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.detail}</StyledTableCell>
                                 </TableRow>
                             ))}
