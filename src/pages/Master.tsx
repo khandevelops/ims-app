@@ -8,6 +8,7 @@ import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { drawerToggleType } from '../common/constants';
+import MasterForm from '../components/UpdateMasterForm';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

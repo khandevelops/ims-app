@@ -1,12 +1,24 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { IMasterItem } from "./masterItemSlice";
-import { createMasterItem, updateMasterItemById } from "./masterItemSlice";
+import { updateMasterItemById } from "./masterItemSlice";
+import axios from "axios";
 
+const baseUrl = process.env.REACT_APP_BASE_URL
+
+export const createMasterItem = (props: {masterItem: IMasterItem, departments: string[]}) => {
+    return axios.post(`${baseUrl}/create`, props)
+}
+
+export const updateMasterItem = (params: { id: number, masterItem: IMasterItem }) => {
+    return axios.put(`${baseUrl}/${params.id}`, params.masterItem)
+}
 interface IMasterFormState {
     masterItem: IMasterItem,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
+
+
 
 export const initialState: IMasterFormState = {
     masterItem: {
@@ -34,18 +46,18 @@ export const initialState: IMasterFormState = {
     status: 'idle'
 }
 
-export const updateMasterItem = createAsyncThunk(
-    'updateMasterItemsById',
+export const updateMasterItemThunk = createAsyncThunk(
+    'updateMasterItemThunk',
     async (params: { id: number, masterItem: IMasterItem }) => {
         const response = await updateMasterItemById(params)
         return response.data
     }
 )
 
-export const addMasterItem = createAsyncThunk(
-    'addMasterItem',
-    async (masterItem: IMasterItem) => {
-        const response = await createMasterItem(masterItem)
+export const createMasterItemThunk = createAsyncThunk(
+    'createMasterItemThunk',
+    async (props: {masterItem: IMasterItem, departments: string[]}) => {
+        const response = await createMasterItem(props)
         return response.data
     }
 )
@@ -76,24 +88,24 @@ const masterFormSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(updateMasterItem.pending, (state) => {
+            .addCase(updateMasterItemThunk.pending, (state) => {
                 state.status = 'loading'
             })
-            .addCase(updateMasterItem.fulfilled, (state, action) => {
+            .addCase(updateMasterItemThunk.fulfilled, (state, action) => {
                 state.status = 'success';
                 state.masterItem = action.payload
             })
-            .addCase(updateMasterItem.rejected, (state) => {
+            .addCase(updateMasterItemThunk.rejected, (state) => {
                 state.status = 'failed'
             })
-            .addCase(addMasterItem.pending, (state) => {
+            .addCase(createMasterItemThunk.pending, (state) => {
                 state.status = 'loading'
             })
-            .addCase(addMasterItem.fulfilled, (state, action) => {
+            .addCase(createMasterItemThunk.fulfilled, (state, action) => {
                 state.status = 'success';
                 state.masterItem = action.payload
             })
-            .addCase(addMasterItem.rejected, (state) => {
+            .addCase(createMasterItemThunk.rejected, (state) => {
                 state.status = 'failed'
             })
     }

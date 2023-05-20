@@ -2,19 +2,24 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react';
 import Dashboard from './pages/Dashboard';
 import DepartmentExperience from './pages/DepartmentMaster';
+import { useAppSelector, useAppDispatch } from './app/hooks';
 import Departments from './pages/Departments';
 import Master from './pages/Master';
 import StoreRoomMaster from './pages/StoreRoomMaster';
 import RequestMasterDepartment from './pages/RequestMasterDepartment';
 import RequestMasterAdmin from './pages/RequestMasterAdmin';
 import Layout from './components/Layout';
-import { Box } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import Auth from './pages/Auth';
 import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
 import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
+import MasterForm from './components/UpdateMasterForm';
+import { drawerToggleType } from './common/constants';
+import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
 
 const router = createBrowserRouter(
+
     createRoutesFromElements(
         <Route path="/" element={<Layout />}>
             <Route path="dashboard" element={<Dashboard />} />
@@ -57,8 +62,16 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
+    
     return (
         <Box>
+            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM}>
+                <MasterForm />
+            </Drawer>
+            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM}>
+                <MasterForm />
+            </Drawer>
             <UnauthenticatedTemplate>
                 <Auth />
             </UnauthenticatedTemplate>
