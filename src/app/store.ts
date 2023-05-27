@@ -6,7 +6,7 @@ import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
 import departmentItemUpdateReducer from './department/departmentItemUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
-import departmentItemsReducer from './department/departmentItemsSlice';
+import departmentItemsReducer from './departments/departmentItemsSlice';
 import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';

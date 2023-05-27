@@ -44,7 +44,7 @@ const RequestMasterDepartment = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        navigate(`/${location.state}-request/list`, { state: location.state });
+        navigate(`/departments/${location.state}-request/list`, { state: location.state });
         setActiveStep(0)
     }, [location.state]);
 
@@ -68,7 +68,7 @@ const RequestMasterDepartment = () => {
                         icon={activeStep === 0 ? <BorderColorIcon color="secondary" /> : <Filter1Icon color="primary" />}
                         onClick={handleStep(0)}
                         component={Link}
-                        to={`/${location.state}-request/list`}
+                        to={`/departments/${location.state}-request/list`}
                         state={location.state}>
                         List
                     </StepButton>
@@ -78,7 +78,7 @@ const RequestMasterDepartment = () => {
                         icon={activeStep === 1 ? <BorderColorIcon color="secondary" /> : <Filter2Icon color="primary" />}
                         onClick={handleStep(1)}
                         component={Link}
-                        to={`/${location.state}-request/confirmation`}
+                        to={`/departments/${location.state}-request/confirmation`}
                         state={location.state}>
                         Confirmation
                     </StepButton>
@@ -88,7 +88,7 @@ const RequestMasterDepartment = () => {
                         icon={activeStep === 2 ? <BorderColorIcon color="secondary" /> : <Filter3Icon color="primary" />}
                         onClick={handleStep(2)}
                         component={Link}
-                        to={`/${location.state}-request/status`}
+                        to={`/departments/${location.state}-request/status`}
                         state={location.state}>
                         Status
                     </StepButton>

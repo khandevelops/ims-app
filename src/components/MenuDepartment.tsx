@@ -82,23 +82,23 @@ const MenuDepartment = () => {
                     </Button>
                 )}
                 <Button
-                    sx={{ color: location.pathname === '/request/general' ? 'yellow' : '#fff', fontWeight: location.pathname === '/request/general' ? 'bolder' : 'normal' }}
+                    sx={{ color: location.pathname === '/departments/request/general' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/request/general' ? 'bolder' : 'normal' }}
                     component={Link}
-                    to="/general-request/list"
+                    to="/departments/general-request/list"
                     state="general">
                     general-request
                 </Button>
                 <Button
-                    sx={{ color: location.pathname === '/request/office-supply' ? 'yellow' : '#fff', fontWeight: location.pathname === '/request/office-supply' ? 'bolder' : 'normal' }}
+                    sx={{ color: location.pathname === '/departments/request/office-supply' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/request/office-supply' ? 'bolder' : 'normal' }}
                     component={Link}
-                    to="/office-supply-request/list"
+                    to="/departments/office-supply-request/list"
                     state="office-supply">
                     office-supply-request
                 </Button>
                 <Button
-                    sx={{ color: location.pathname === '/request/store-room' ? 'yellow' : '#fff', fontWeight: location.pathname === '/request/store-room' ? 'bolder' : 'normal' }}
+                    sx={{ color: location.pathname === '/departments/request/store-room' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/request/store-room' ? 'bolder' : 'normal' }}
                     component={Link}
-                    to="/store-room-request/list"
+                    to="/departments/store-room-request/list"
                     state="store-room">
                     store-room-request
                 </Button>

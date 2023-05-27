@@ -1,7 +1,6 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
     Table,
     TableBody,
@@ -21,12 +20,13 @@ import {
     Typography,
     Button
 } from '@mui/material';
-import { populateMasterItem } from '../app/master/masterFormSlice';
+import { assignMasterItemThunk, populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { department, drawerToggleType } from '../common/constants';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -61,7 +61,7 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'type', tooltipName: 'Type', headerName: 'Type' },
     { field: 'group', tooltipName: 'Group', headerName: 'Group' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment' },
-    { field: 'more', tooltipName: 'More', headerName: 'More' },
+    { field: 'more', tooltipName: 'Edit', headerName: 'Edit' },
     { field: 'assing', tooltipName: 'Assign', headerName: 'Assing' }
 ];
 
@@ -70,10 +70,8 @@ const Master = () => {
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 
-    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [masterItemId, setMasterItemId] = useState<number>(0);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
         dispatch(getMasterItemsThunk(page));
@@ -88,17 +86,17 @@ const Master = () => {
         dispatch(populateMasterItem(masterItem));
     };
 
-    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {};
-
-    const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
+    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItemId: number) => {
+        setMasterItemId(masterItemId);
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
+        dispatch(assignMasterItemThunk({department: department, masterItemId: masterItemId}))
+        setAnchorElUser(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseDepartmentMenu = () => {
         setAnchorElUser(null);
     };
 
@@ -146,12 +144,12 @@ const Master = () => {
                                     <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
                                     <StyledTableCell>
                                         <IconButton aria-label="more" id="long-button" onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
-                                            <MoreVertIcon />
+                                            <ModeEditIcon color='primary'/>
                                         </IconButton>
                                     </StyledTableCell>
                                     <TableCell>
-                                        <IconButton onClick={handleOpenUserMenu}>
-                                            <AssignmentIcon />
+                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
+                                            <AddCircleOutlineIcon color='primary'/>
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>
@@ -171,8 +169,8 @@ const Master = () => {
                 showLastButton={true}
             />
             <Menu
-                key='menu'
-                id='menu'
+                key="menu"
+                id="menu"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                     vertical: 'top',
@@ -183,9 +181,9 @@ const Master = () => {
                     horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}>
+                onClose={handleCloseDepartmentMenu}>
                 {Object.values(department).map((department, index) => (
-                    <MenuItem key={index}>
+                    <MenuItem key={index} onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
                         <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
                     </MenuItem>
                 ))}

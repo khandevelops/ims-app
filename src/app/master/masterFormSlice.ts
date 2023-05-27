@@ -3,11 +3,16 @@ import { RootState } from "../store";
 import { IMasterItem } from "./masterItemSlice";
 import { updateMasterItemById } from "./masterItemSlice";
 import axios from "axios";
+import { department } from "../../common/constants";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const createMasterItem = (props: {masterItem: IMasterItem, departments: string[]}) => {
     return axios.post(`${baseUrl}/master/create`, props)
+}
+
+export const assignMasterItem = (props: {department: string, masterItemId: number}) => {
+    return axios.post(`${baseUrl}/master/assign`, props)
 }
 
 export const updateMasterItem = (params: { id: number, masterItem: IMasterItem }) => {
@@ -17,8 +22,6 @@ interface IMasterFormState {
     masterItem: IMasterItem,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
-
-
 
 export const initialState: IMasterFormState = {
     masterItem: {
@@ -58,6 +61,14 @@ export const createMasterItemThunk = createAsyncThunk(
     'createMasterItemThunk',
     async (props: {masterItem: IMasterItem, departments: string[]}) => {
         const response = await createMasterItem(props)
+        return response.data
+    }
+)
+
+export const assignMasterItemThunk = createAsyncThunk(
+    'assignMasterItemThunk',
+    async (props: {department: string, masterItemId: number}) => {
+        const response = await assignMasterItem(props)
         return response.data
     }
 )
@@ -106,6 +117,16 @@ const masterFormSlice = createSlice({
                 state.masterItem = action.payload
             })
             .addCase(createMasterItemThunk.rejected, (state) => {
+                state.status = 'failed'
+            })
+            .addCase(assignMasterItemThunk.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(assignMasterItemThunk.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.masterItem = action.payload
+            })
+            .addCase(assignMasterItemThunk.rejected, (state) => {
                 state.status = 'failed'
             })
     }
