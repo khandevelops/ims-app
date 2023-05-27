@@ -2,13 +2,31 @@ import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, IconButton, Paper, Box, styled, Drawer, Tooltip } from '@mui/material';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Checkbox,
+    TablePagination,
+    IconButton,
+    Paper,
+    Box,
+    styled,
+    Tooltip,
+    Menu,
+    MenuItem,
+    Typography,
+    Button
+} from '@mui/material';
 import { populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { drawerToggleType } from '../common/constants';
-import MasterForm from '../components/UpdateMasterForm';
+import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { department, drawerToggleType } from '../common/constants';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,14 +61,19 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'type', tooltipName: 'Type', headerName: 'Type' },
     { field: 'group', tooltipName: 'Group', headerName: 'Group' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment' },
-    { field: 'nore', tooltipName: 'More', headerName: 'More' }
+    { field: 'more', tooltipName: 'More', headerName: 'More' },
+    { field: 'assing', tooltipName: 'Assign', headerName: 'Assing' }
 ];
 
 const Master = () => {
     const masterItemsSelector = useAppSelector(selectMasterItems);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
+
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
         dispatch(getMasterItemsThunk(page));
@@ -60,13 +83,23 @@ const Master = () => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setPage(0);
+    const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
+        dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
+        dispatch(populateMasterItem(masterItem));
     };
 
-    const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
-        dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FROM));
-        dispatch(populateMasterItem(masterItem));
+    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {};
+
+    const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
     };
 
     return (
@@ -116,6 +149,11 @@ const Master = () => {
                                             <MoreVertIcon />
                                         </IconButton>
                                     </StyledTableCell>
+                                    <TableCell>
+                                        <IconButton onClick={handleOpenUserMenu}>
+                                            <AssignmentIcon />
+                                        </IconButton>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -132,6 +170,26 @@ const Master = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
+            <Menu
+                key='menu'
+                id='menu'
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}>
+                {Object.values(department).map((department, index) => (
+                    <MenuItem key={index}>
+                        <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
+                    </MenuItem>
+                ))}
+            </Menu>
         </Box>
     );
 };

@@ -17,6 +17,7 @@ import RequestMasterDepartmentPending from './components/RequestMasterDepartment
 import MasterForm from './components/UpdateMasterForm';
 import { drawerToggleType } from './common/constants';
 import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
+import AssignItemForm from './components/AssignItemForm';
 
 const router = createBrowserRouter(
 
@@ -66,12 +67,6 @@ const App = () => {
     
     return (
         <Box>
-            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM}>
-                <MasterForm />
-            </Drawer>
-            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM}>
-                <MasterForm />
-            </Drawer>
             <UnauthenticatedTemplate>
                 <Auth />
             </UnauthenticatedTemplate>

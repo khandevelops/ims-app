@@ -1,4 +1,4 @@
-import { AppBar, BottomNavigation, BottomNavigationAction, Box, Container, Paper, Toolbar } from '@mui/material';
+import { AppBar, BottomNavigation, BottomNavigationAction, Box, Container, Drawer, Paper, Toolbar } from '@mui/material';
 import RestoreIcon from '@mui/icons-material/Restore';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { handleBottomToolbarItemClick } from '../app/bottomToolbar/bottomToolbarItems';
 import { bottomToolbarButtons, confirmation, drawerToggleType } from '../common/constants';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
 import { useLocation } from 'react-router-dom';
@@ -21,6 +21,9 @@ import MenuAdmin from './MenuAdmin';
 import PreviewIcon from '@mui/icons-material/Preview';
 import { selectRequestMasterItemsPendingChecked } from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
 import EditIcon from '@mui/icons-material/Edit';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import MasterForm from './UpdateMasterForm';
+import AssignItemForm from './AssignItemForm';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -61,6 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavbarBottom = () => {
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType)
     const profileDetailSelector = useAppSelector(selectProfileDetail);
     const [value, setValue] = useState<number>(0);
     const dispatch = useAppDispatch();
@@ -69,8 +73,12 @@ const NavbarBottom = () => {
     const location = useLocation();
 
     const handleAddClick = () => {
-        dispatch(toggleDrawer(drawerToggleType.ADD_MASTER_ITEM_FROM));
+        dispatch(toggleDrawer(drawerToggleType.ADD_MASTER_ITEM_FORM));
     };
+
+    const handleAssignClick = () => {
+        dispatch(toggleDrawer(drawerToggleType.ASSIGN_MASTER_ITEM_FORM));
+    }
 
     const handleReviewClick = () => {
         dispatch(toggleDrawer(drawerToggleType.UPDATE_REQUEST_REVIEW_FORM));
@@ -114,11 +122,20 @@ const NavbarBottom = () => {
                 )}
                 {location.pathname === '/master' && (
                     <Box>
-                        <BottomNavigationAction label="Edit" onClick={handleEditClick} icon={<EditIcon />} />
+                        <BottomNavigationAction label="Edit" onClick={handleAssignClick} icon={<AssignmentIcon />} />
                         <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon />} />
                     </Box>
                 )}
             </BottomNavigation>
+            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FORM}>
+                <MasterForm />
+            </Drawer>
+            <Drawer anchor='bottom' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM}>
+                <MasterForm />
+            </Drawer>
+            <Drawer anchor='right' open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ASSIGN_MASTER_ITEM_FORM}>
+                <AssignItemForm />
+            </Drawer>
         </Paper>
     );
 };

@@ -7,7 +7,7 @@ import axios from "axios";
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const createMasterItem = (props: {masterItem: IMasterItem, departments: string[]}) => {
-    return axios.post(`${baseUrl}/create`, props)
+    return axios.post(`${baseUrl}/master/create`, props)
 }
 
 export const updateMasterItem = (params: { id: number, masterItem: IMasterItem }) => {

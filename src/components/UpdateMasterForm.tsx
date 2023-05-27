@@ -1,10 +1,10 @@
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid, InputAdornment, Stack, TextField } from '@mui/material';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { createMasterItemThunk, populateMasterItem, selectMasterForm, updateMasterItemThunk } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { department, drawerToggleType } from '../common/constants';
+import { category, department, drawerToggleType } from '../common/constants';
 
 const defaultMasterItem = {
     id: 0,
@@ -38,21 +38,21 @@ const MasterForm = () => {
     const [departments, setDepartments] = useState<string[]>([]);
 
     useEffect(() => {
-        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM) {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM) {
             setMasterItem(defaultMasterItem);
             return;
         }
-        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM) {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
             setMasterItem(masterFormSelector.masterItem);
             return;
         }
     }, [drawerToggleTypeSelector, masterFormSelector]);
 
     const handleSubmit = () => {
-        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM) {
-            dispatch(createMasterItemThunk({masterItem: masterItem, departments: departments}));
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM) {
+            dispatch(createMasterItemThunk({ masterItem: masterItem, departments: departments }));
         }
-        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FROM) {
+        if (drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
             dispatch(updateMasterItemThunk({ id: masterItem.id, masterItem: masterItem }));
         }
         dispatch(toggleDrawer(''));
@@ -81,10 +81,14 @@ const MasterForm = () => {
         }
     };
 
+    const handleCategoryChange = (event: SelectChangeEvent) => {
+        setMasterItem({...masterItem, category: event.target.value})
+    };
+
     return (
         <Box sx={{ padding: 5 }}>
             <Grid container>
-                {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM && (
+                {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM && (
                     <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                         <TextField sx={{ width: '100%' }} id="" label="ID" variant="outlined" size="small" value={masterItem.id} disabled />
                     </Grid>
@@ -236,16 +240,11 @@ const MasterForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    {' '}
-                    <TextField
-                        sx={{ width: '100%' }}
-                        id="category"
-                        label="CATEGORY"
-                        variant="outlined"
-                        size="small"
-                        value={masterItem.category}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'category')}
-                    />
+                    <Select id="category" value={masterItem.category} onChange={handleCategoryChange} sx={{width: '100%'}} size='small'>
+                        {Object.keys(category).map((category) => (
+                            <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
+                        ))}
+                    </Select>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
@@ -277,19 +276,19 @@ const MasterForm = () => {
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ padding: 1 }}>
                     <TextField
                         sx={{ width: '100%', marginTop: 2 }}
-                        id="comments"
-                        label="COMMENTS"
+                        id="comment"
+                        label="COMMENT"
                         variant="outlined"
                         size="small"
                         multiline
                         rows={4}
                         value={masterItem.comment}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'comments')}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'comment')}
                     />
                 </Grid>
             </Grid>
 
-            {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM && (
+            {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM && (
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="center">
                         <FormGroup sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', paddingTop: 3 }}>
@@ -308,7 +307,7 @@ const MasterForm = () => {
             <Grid container gap={5} sx={{ paddingTop: 10 }} justifyContent="center">
                 <Grid item>
                     <Button variant="outlined" onClick={handleSubmit} sx={{ width: 200 }}>
-                        {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FROM ? 'ADD' : 'UPDATE'}
+                        {drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM ? 'ADD' : 'UPDATE'}
                     </Button>
                 </Grid>
                 <Grid item>
