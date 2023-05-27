@@ -19,6 +19,7 @@ import { selectRequestMasterItemsPendingChecked } from '../app/requestMaster/req
 import EditIcon from '@mui/icons-material/Edit';
 import MasterForm from './UpdateMasterForm';
 import AssignItemForm from './AssignItemForm';
+import { downloadDepartmentMasterItemsThunk } from '../app/download/downloadDepartmentMasterItemsSlice';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -80,6 +81,7 @@ const NavbarBottom = () => {
     };
 
     const handleDownloadClick = () => {
+        dispatch(downloadDepartmentMasterItemsThunk({state: location.state}));
         dispatch(handleBottomToolbarItemClick(bottomToolbarButtons.DOWNLOAD));
     };
 
@@ -139,9 +141,16 @@ const NavbarBottom = () => {
                         location.pathname === '/departments/rd' ||
                         location.pathname === '/departments/screening' ||
                         location.pathname === '/departments/shipping' ||
-                        location.pathname === '/departments/quality') && <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon  color="primary" sx={{fontSize: 40}}/>} />}
+                        location.pathname === '/departments/quality') && (
+                        <BottomNavigationAction label="Download" onClick={handleDownloadClick} icon={<DownloadIcon color="primary" sx={{ fontSize: 40 }} />} />
+                    )}
                     {(location.pathname === '/general-request/list' || location.pathname === '/office-supply-request/list' || location.pathname === '/store-room-request/list') && (
-                        <BottomNavigationAction label="Review" onClick={handleReviewClick} icon={<PreviewIcon  color="primary" sx={{fontSize: 40}}/>} disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0} />
+                        <BottomNavigationAction
+                            label="Review"
+                            onClick={handleReviewClick}
+                            icon={<PreviewIcon color="primary" sx={{ fontSize: 40 }} />}
+                            disabled={requestMasterItemsCheckedSelector.requestMasterItemsChecked.length === 0}
+                        />
                     )}
                     {(location.pathname === '/general-request/confirmation' ||
                         location.pathname === '/office-supply-request/confirmation' ||
@@ -149,7 +158,7 @@ const NavbarBottom = () => {
                         <BottomNavigationAction
                             label="Send"
                             onClick={handleEditClick}
-                            icon={<EditIcon  color="primary" sx={{fontSize: 40}}/>}
+                            icon={<EditIcon color="primary" sx={{ fontSize: 40 }} />}
                             disabled={requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.length === 0}
                         />
                     )}
@@ -163,7 +172,7 @@ const NavbarBottom = () => {
                             disabled={requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.length === 0}
                         />
                     )}
-                    {location.pathname === '/master' && <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon color="primary" sx={{fontSize: 40}}/>} />}
+                    {location.pathname === '/master' && <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon color="primary" sx={{ fontSize: 40 }} />} />}
                 </Box>
             </BottomNavigation>
             <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FORM}>
