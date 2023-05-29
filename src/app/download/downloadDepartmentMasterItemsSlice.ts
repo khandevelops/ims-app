@@ -4,8 +4,15 @@ import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const downloadDepartmentMasterItems = (params: {state: string}) => {
-    return axios.get(`${baseUrl}/download/${params.state}/list`)
+export const downloadDepartmentMasterItems = (params: { state: string }) => {
+    return axios.get(`${baseUrl}/download/${params.state}/list`, {
+        headers:
+        {
+            'Content-Disposition': "attachment; filename=template.xlsx",
+            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        },
+        responseType: 'blob',
+    })
 }
 
 export interface IDownloadDepartmentMasterItemsState {
@@ -20,7 +27,7 @@ export const initialState: IDownloadDepartmentMasterItemsState = {
 
 export const downloadDepartmentMasterItemsThunk = createAsyncThunk(
     'downloadDepartmentMasterItemsThunk',
-    async (params: {state: string}) => {
+    async (params: { state: string }) => {
         const response = await downloadDepartmentMasterItems(params)
         return response.data
     }
