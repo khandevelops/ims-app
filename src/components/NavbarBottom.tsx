@@ -20,6 +20,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MasterForm from './UpdateMasterForm';
 import AssignItemForm from './AssignItemForm';
 import { downloadDepartmentMasterItemsThunk } from '../app/download/downloadDepartmentMasterItemsSlice';
+import axios from 'axios';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -67,6 +68,7 @@ const NavbarBottom = () => {
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
     const requestMasterItemsPendingCheckedSelector = useAppSelector(selectRequestMasterItemsPendingChecked);
     const location = useLocation();
+    const baseUrl = process.env.REACT_APP_BASE_URL;
 
     const handleAddClick = () => {
         dispatch(toggleDrawer(drawerToggleType.ADD_MASTER_ITEM_FORM));
@@ -81,8 +83,7 @@ const NavbarBottom = () => {
     };
 
     const handleDownloadClick = () => {
-        dispatch(downloadDepartmentMasterItemsThunk({state: location.state}));
-        dispatch(handleBottomToolbarItemClick(bottomToolbarButtons.DOWNLOAD));
+        axios.get(`${baseUrl}/download/${location.state}/list`);
     };
 
     const handleEditClick = () => {
