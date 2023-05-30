@@ -18,10 +18,6 @@ export const updateMasterItemById = (params: { id: number, masterItem: IMasterIt
     return axios.put(`${baseUrl}/master/${params.id}`, params.masterItem)
 }
 
-export const createMasterItem = (masterItem: IMasterItem) => {
-    return axios.post(`baseUrl/create`, masterItem)
-}
-
 export interface IMasterItem {
     id: number;
     item: string;

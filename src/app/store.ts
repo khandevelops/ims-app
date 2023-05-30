@@ -6,7 +6,7 @@ import updateQuantityReducer from './departmentMaster/updateQuantitySlice';
 import pageReducer from './common/pageSlice';
 import departmentItemUpdateReducer from './department/departmentItemUpdateSlice';
 import masterDepartmentReducer from './masterDepartment/masterDepartmentSlice';
-import departmentItemsReducer from './department/departmentItemsSlice';
+import departmentItemsReducer from './departments/departmentItemsSlice';
 import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
@@ -31,6 +31,7 @@ import updateProfileDetailReducer from './profileDetail/updateProfileDetailSlice
 import profilesReducer from './profilesSlice'
 import profileDetailReducer from './profileDetail/profileDetailSlice'
 import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice'
+import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -65,7 +66,8 @@ export const store = configureStore({
     updateProfileDetailStore: updateProfileDetailReducer,
     profilesStore: profilesReducer,
     profileDetailStore: profileDetailReducer,
-    requestMasterItemsPendingCheckedStore: requestMasterItemsPendingCheckedReducer
+    requestMasterItemsPendingCheckedStore: requestMasterItemsPendingCheckedReducer,
+    downloadDepartmentMasterItemsStore: downloadDepartmentMasterItemsReducer
   }
 });
 

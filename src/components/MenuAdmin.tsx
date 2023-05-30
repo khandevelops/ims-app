@@ -1,5 +1,5 @@
-import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
-import { Link, Outlet } from 'react-router-dom';
+import { AppBar, Box, Button, Toolbar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import logo from '../images/logo.png';
 import Profile from './Profile';
 
@@ -11,10 +11,10 @@ const MenuAdmin = () => {
                         <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
                     </Box>
 
-                    <Button sx={{ color: '#fff' }} component={Link} to="store-room">
+                    <Button sx={{ color: '#fff' }} component={Link} to="admin/store-room">
                         store-room
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="master">
+                    <Button sx={{ color: '#fff' }} component={Link} to="admin/master">
                         master
                     </Button>
                     <Button sx={{ color: '#fff' }} component={Link} to="departments/extractions" state="extractions">
@@ -38,13 +38,13 @@ const MenuAdmin = () => {
                     <Button sx={{ color: '#fff' }} component={Link} to="departments/quality" state="quality">
                         quality
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="/request-master/general/admin" state="general">
+                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/general" state="general">
                         general-request
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="/request-master/office-supply/admin" state="office-supply">
+                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/office-supply" state="office-supply">
                         office-supply-request
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="/request-master/store-room/admin" state="store-room">
+                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/store-room" state="store-room">
                         store-room-request
                     </Button>
                     <Box sx={{ position: 'fixed', right: 20 }}>

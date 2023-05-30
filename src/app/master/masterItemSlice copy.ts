@@ -14,7 +14,7 @@ export const getMasterFilterItems = (params: {item: string, page: number, size: 
     return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${params.page}&size=${params.size}`)
 }
 
-export const updateMasterItemById = (params: { id: number, masterItem: IMasterItem }) => {
+export const updateMasterItem = (params: { id: number, masterItem: IMasterItem }) => {
     return axios.put(`${baseUrl}/${params.id}`, params.masterItem)
 }
 
