@@ -21,6 +21,7 @@ import MasterForm from './UpdateMasterForm';
 import AssignItemForm from './AssignItemForm';
 import { downloadDepartmentMasterItemsThunk } from '../app/download/downloadDepartmentMasterItemsSlice';
 import axios from 'axios';
+import FileSaver from 'file-saver';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -83,7 +84,10 @@ const NavbarBottom = () => {
     };
 
     const handleDownloadClick = () => {
-        axios.get(`${baseUrl}/download/${location.state}/list`);
+        return axios.get(`${baseUrl}/download/${location.state}/list`).then(response => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+            FileSaver.saveAs(blob, `${location.state}.xlsx`)
+        });
     };
 
     const handleEditClick = () => {
