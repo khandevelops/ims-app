@@ -10,7 +10,7 @@ export const getMasterItems = (pagination: { page: number, size: number }) => {
     return axios.get(`${baseUrl}/master/list?page=${pagination.page}&size=${pagination.size}`)
 }
 
-export const getMasterFilterItems = (params: {item: string, page: number, size: number}) => {
+export const getMasterFilterItems = (params: { item: string, page: number, size: number }) => {
     return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${params.page}&size=${params.size}`)
 }
 
@@ -32,9 +32,9 @@ export interface IMasterItem {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     comments: string;
     type: string;
@@ -85,7 +85,7 @@ export interface IMasterExperience {
     lab_source_cn: string
     next_advance_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     comments: string;
     type: string;
@@ -140,7 +140,7 @@ export const getMasterItemsThunk = createAsyncThunk(
 
 export const getMasterItemsFilterThunk = createAsyncThunk(
     'getMasterItemsFilterThunk',
-    async (params: {item: string, page: number, size: number }) => {
+    async (params: { item: string, page: number, size: number }) => {
         const response = await getMasterFilterItems(params)
         return response.data
     }

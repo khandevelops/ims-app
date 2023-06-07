@@ -21,12 +21,12 @@ export interface IDepartmenItemTransformed {
     min_quantity: number;
     max_quantity: number;
     order_quantity: number;
-    average_unit_price: number;
+    unit_price: number;
     total_price: number;
     lot_number: number;
     comments: string;
-    expiration_date: string;
-    received_date: string;
+    expiration_date: Date;
+    received_date: Date;
     category: string;
 }
 

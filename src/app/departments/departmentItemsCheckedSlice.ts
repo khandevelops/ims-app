@@ -24,8 +24,8 @@ export interface IDepartmentItem {
     max_quantity: number,
     usage_level: string,
     lot_number: string,
-    expiration_date: string,
-    received_date: string,
+    expiration_date: Date,
+    received_date: Date,
     order_quantity: number
 }
 
@@ -70,7 +70,7 @@ const initialState: IDepartmentState = {
 export const getDepartmentItemsThunk = createAsyncThunk(
     'getDepartmentItemsThunk',
     async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getDepartmentItems({pathName: params.pathName, page: params.page, size: params.size})
+        const response = await getDepartmentItems({ pathName: params.pathName, page: params.page, size: params.size })
         return response.data
     }
 )

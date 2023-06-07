@@ -25,8 +25,8 @@ export interface IDepartmentMasterItem {
     total_price: number;
     lot_number: number;
     comments: string;
-    expiration_date: string;
-    received_date: string;
+    expiration_date: Date;
+    received_date: Date;
     category: string;
 }
 

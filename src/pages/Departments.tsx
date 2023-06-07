@@ -22,7 +22,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'min_quantity', headerName: 'Min Qty' },
     { field: 'max_quantity', headerName: 'Max Qty' },
     { field: 'order_quantity', headerName: 'Order Qty' },
-    { field: 'average_unit_price', headerName: 'Unit Price' },
+    { field: 'unit_price', headerName: 'Unit Price' },
     { field: 'total_price', headerName: 'Total Price' },
     { field: 'comments', headerName: 'Comments' },
     { field: 'category', headerName: 'Category' }
@@ -88,7 +88,8 @@ const Departments = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {departmentItemsSelector.response && departmentItemsSelector.response.content.length > 0 &&
+                        {departmentItemsSelector.response &&
+                            departmentItemsSelector.response.content.length > 0 &&
                             departmentItemsSelector.response.content.map((departmentItem, index) => (
                                 <TableRow key={index}>
                                     <StyledTableCell>{departmentItem.location}</StyledTableCell>

@@ -1,25 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Checkbox,
-    TablePagination,
-    IconButton,
-    Paper,
-    Box,
-    styled,
-    Tooltip,
-    Menu,
-    MenuItem,
-    Typography,
-    Button
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, IconButton, Paper, Box, styled, Menu, MenuItem, Typography } from '@mui/material';
 import { assignMasterItemThunk, populateMasterItem } from '../app/master/masterFormSlice';
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
@@ -31,7 +13,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: 700,
         color: theme.palette.common.black
     },
@@ -40,29 +22,28 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const columns: { field: string; tooltipName: string; headerName: string | JSX.Element }[] = [
-    { field: 'checkbox', tooltipName: 'Select', headerName: 'Select' },
-    { field: 'item', tooltipName: 'Item', headerName: 'Item' },
-    { field: 'manufacturer', tooltipName: 'Manufacturer', headerName: 'M' },
-    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN' },
-    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN' },
-    { field: 'recent_vendor', tooltipName: 'Recent Vendor', headerName: 'RV' },
-    { field: 'fisher_cn', tooltipName: 'Fisher CN', headerName: 'FCN' },
-    { field: 'vwr_cn', tooltipName: 'VWR CN', headerName: 'VCN' },
-    { field: 'lab_source_cn', tooltipName: 'Lab Source CN', headerName: 'LSCN' },
-    { field: 'next_advance_cn', tooltipName: 'Other CN', headerName: 'OCN' },
-    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU' },
-    { field: 'average_unit_price', tooltipName: 'Average Unit Price', headerName: 'AUP' },
-    { field: 'category', tooltipName: 'Category', headerName: 'Ca' },
-    { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC' },
-    { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL' },
-    { field: 'expiration_date', tooltipName: 'Exp Date', headerName: 'ED' },
-    { field: 'received_date', tooltipName: 'Rec Date', headerName: 'RD' },
-    { field: 'type', tooltipName: 'Type', headerName: 'Type' },
-    { field: 'group', tooltipName: 'Group', headerName: 'Group' },
-    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment' },
-    { field: 'more', tooltipName: 'Edit', headerName: 'Edit' },
-    { field: 'assing', tooltipName: 'Assign', headerName: 'Assing' }
+const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
+    // { field: 'checkbox', tooltipName: 'Select', headerName: 'Select' },
+    { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
+    { field: 'manufacturer', tooltipName: 'Manufacturer', headerName: 'M', align: 'left' },
+    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN', align: 'left' },
+    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN', align: 'left' },
+    { field: 'recent_vendor', tooltipName: 'Recent Vendor', headerName: 'RV', align: 'left' },
+    { field: 'fisher_cn', tooltipName: 'Fisher CN', headerName: 'FCN', align: 'left' },
+    { field: 'vwr_cn', tooltipName: 'VWR CN', headerName: 'VCN', align: 'left' },
+    { field: 'lab_source_cn', tooltipName: 'Lab Source CN', headerName: 'LSCN', align: 'left' },
+    { field: 'next_advance_cn', tooltipName: 'Other CN', headerName: 'OCN', align: 'left' },
+    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
+    { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'AUP', align: 'left' },
+    { field: 'category', tooltipName: 'Category', headerName: 'Ca', align: 'left' },
+    { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC', align: 'left' },
+    { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL', align: 'left' },
+    { field: 'expiration_date', tooltipName: 'Exp Date', headerName: 'ED', align: 'left' },
+    { field: 'received_date', tooltipName: 'Rec Date', headerName: 'RD', align: 'left' },
+    { field: 'type', tooltipName: 'Type', headerName: 'Type', align: 'left' },
+    { field: 'group', tooltipName: 'Group', headerName: 'Group', align: 'left' },
+    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
+    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
 ];
 
 const Master = () => {
@@ -92,7 +73,7 @@ const Master = () => {
     };
 
     const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
-        dispatch(assignMasterItemThunk({department: department, masterItemId: masterItemId}))
+        dispatch(assignMasterItemThunk({ department: department, masterItemId: masterItemId }));
         setAnchorElUser(null);
     };
 
@@ -108,10 +89,8 @@ const Master = () => {
                         <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <Tooltip title={column.tooltipName}>
-                                            <Box>{column.headerName}</Box>
-                                        </Tooltip>
+                                    <StyledTableCell key={column.field} align={column.align}>
+                                        <Box>{column.tooltipName}</Box>
                                     </StyledTableCell>
                                 ))}
                         </TableRow>
@@ -119,10 +98,10 @@ const Master = () => {
                     <TableBody>
                         {masterItemsSelector.response.content.length > 0 &&
                             masterItemsSelector.response.content.map((masterItem, index) => (
-                                <TableRow key={index}>
-                                    <StyledTableCell>
+                                <TableRow key={index} hover>
+                                    {/* <StyledTableCell>
                                         <Checkbox />
-                                    </StyledTableCell>
+                                    </StyledTableCell> */}
                                     <StyledTableCell>{masterItem.item}</StyledTableCell>
                                     <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
                                     <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
@@ -131,9 +110,9 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.fisher_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.next_advance_cn}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.other_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.average_unit_price}</StyledTableCell>
+                                    <StyledTableCell>${masterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>{masterItem.category}</StyledTableCell>
                                     <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
                                     <StyledTableCell>{masterItem.usage_level}</StyledTableCell>
@@ -141,17 +120,17 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.received_date?.toDateString()}</StyledTableCell>
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
-                                    <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
+                                    <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
                                     <StyledTableCell>
-                                        <IconButton aria-label="more" id="long-button" onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
-                                            <ModeEditIcon color='primary'/>
-                                        </IconButton>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
+                                                <ModeEditIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
+                                                <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                        </Box>
                                     </StyledTableCell>
-                                    <TableCell>
-                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
-                                            <AddCircleOutlineIcon color='primary'/>
-                                        </IconButton>
-                                    </TableCell>
                                 </TableRow>
                             ))}
                     </TableBody>

@@ -19,9 +19,9 @@ export interface IMasterDepartmentItem {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     usage_level: string;
     minimum_quantity: number;
@@ -67,7 +67,7 @@ const initialState: IMasterDepartmentItemsState = {
 
 export const getMasterDepartmentItemsThunk = createAsyncThunk(
     'getMasterDepartmentItemThunk',
-    async (params: {state: string, page: number }) => {
+    async (params: { state: string, page: number }) => {
         const response = await getMasterDepartmentItems(params.state, params.page)
         return response.data
     })

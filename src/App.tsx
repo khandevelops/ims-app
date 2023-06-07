@@ -31,10 +31,12 @@ const router = createBrowserRouter(
                 <Route path="departments">
                     <Route path="extractions" element={<DepartmentPage />} />
                     <Route path="mass-spec" element={<DepartmentPage />} />
-                    <Route path="receiving" element={<DepartmentPage />} />
+                    <Route path="specimen-processing" element={<DepartmentPage />} />
                     <Route path="rd" element={<DepartmentPage />} />
                     <Route path="screening" element={<DepartmentPage />} />
                     <Route path="shipping" element={<DepartmentPage />} />
+                    <Route path="shipping" element={<DepartmentPage />} />
+                    <Route path="qc-internal-standards" element={<DepartmentPage />} />
                     <Route path="quality" element={<DepartmentPage />} />
                     <Route path="store-room" element={<StoreRoom />} />
                 </Route>
@@ -43,11 +45,14 @@ const router = createBrowserRouter(
             <Route path="departments">
                 <Route path="extractions" element={<Departments />} />
                 <Route path="mass-spec" element={<Departments />} />
-                <Route path="receiving" element={<Departments />} />
+                <Route path="specimen-processing" element={<Departments />} />
                 <Route path="rd" element={<Departments />} />
                 <Route path="screening" element={<Departments />} />
                 <Route path="shipping" element={<Departments />} />
+                <Route path="shipping" element={<Departments />} />
+                <Route path="qc-internal-standards" element={<Departments />} />
                 <Route path="quality" element={<Departments />} />
+                <Route path="store-room" element={<StoreRoom />} />
                 <Route path="general-request" element={<RequestMasterDepartment />}>
                     <Route path="list" element={<RequestMasterDepartmentItems />} />
                     <Route path="confirmation" element={<RequestMasterDepartmentPending />} />

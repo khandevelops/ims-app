@@ -16,13 +16,15 @@ export const status = {
 export const department = {
     EXTRACTIONS: 'EXTRACTIONS',
     MASS_SPEC: 'MASS_SPEC',
-    RECEIVING: 'RECEIVING',
     RD: 'RD',
     SCREENING: 'SCREENING',
     SHIPPING: 'SHIPPING',
+    SPECIMEN_PROCESSING: 'SPECIMEN_PROCESSING',
+    STORE_ROOM: 'STORE_ROOM',
     QUALITY: 'QUALITY',
-    ACCOUNTING: 'ACCOUNTING',
-    LABORATORY: 'LABORATORY'
+    QC_INTERNAL_STANDARDS: 'QC_INTERNAL_STANDARDS',
+    GENERAL: 'GENERAL',
+    OFFICE_SUPPLY: 'OFFICE_SUPPLY',
 }
 
 export const confirmation = {
@@ -55,12 +57,12 @@ export const category = {
 export const role = {
     ADMINISTRATION: 'ADMINISTRATION',
     USER: 'USER'
-} 
+}
 
 export const permission = {
     ALLOW: 'ALLOW',
     DENY: 'DENY'
-} 
+}
 
 
 

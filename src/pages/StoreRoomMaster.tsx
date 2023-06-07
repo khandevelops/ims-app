@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, MouseEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, TextField, styled, tableCellClasses, Tooltip } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, TextField, styled, tableCellClasses, Tooltip, IconButton } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { changeStoreRoomMasterItems, getStoreRoomMasterItemsThunk, selectStoreRoomMasterItemsItems } from '../app/storeRoom/storeRoomMasterItemsSlice';
 import { IStoreRoomItem, updateStoreRoomUpdateThunk } from '../app/storeRoom/storeRoomUpdateSlice';
@@ -10,31 +10,31 @@ import { IStoreRoomItem, updateStoreRoomUpdateThunk } from '../app/storeRoom/sto
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 13
+        fontSize: 12
     }
 }));
 
-const columns: { field: string; tooltipName: string; headerName: string | JSX.Element }[] = [
-    { field: 'item', tooltipName: 'Item', headerName: 'Item' },
-    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU' },
-    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN' },
-    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN' },
-    { field: 'location', tooltipName: 'Location', headerName: 'L' },
-    { field: 'total_quantity', tooltipName: 'Total Quantity', headerName: 'TQ' },
-    { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL' },
-    { field: 'min_quantity', tooltipName: 'Min Qty', headerName: 'MinQ' },
-    { field: 'max_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ' },
-    { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ' },
-    { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'UP' },
-    { field: 'issued', tooltipName: 'Issued', headerName: 'Iss' },
-    { field: 'received', tooltipName: 'Received', headerName: 'Rec' },
-    { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP' },
-    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment' }
+const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
+    { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
+    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
+    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN', align: 'left' },
+    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN', align: 'left' },
+    { field: 'location', tooltipName: 'Location', headerName: 'L', align: 'left' },
+    { field: 'total_quantity', tooltipName: 'Total Quantity', headerName: 'TQ', align: 'left' },
+    { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL', align: 'left' },
+    { field: 'min_quantity', tooltipName: 'Min Qty', headerName: 'MinQ', align: 'left' },
+    { field: 'max_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ', align: 'left' },
+    { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ', align: 'left' },
+    { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'UP', align: 'left' },
+    { field: 'issued', tooltipName: 'Issued', headerName: 'Iss', align: 'left' },
+    { field: 'received', tooltipName: 'Received', headerName: 'Rec', align: 'left' },
+    { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
+    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' }
 ];
 
 const StoreRoomMaster = () => {
@@ -89,14 +89,12 @@ const StoreRoomMaster = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
                 <Table stickyHeader size="small">
-                <TableHead>
-                        <TableRow sx={{height: 50}}>
+                    <TableHead>
+                        <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <Tooltip title={column.tooltipName}>
-                                            <Box>{column.headerName}</Box>
-                                        </Tooltip>
+                                    <StyledTableCell key={column.field} align={column.align}>
+                                        <Box>{column.tooltipName}</Box>
                                     </StyledTableCell>
                                 ))}
                         </TableRow>
@@ -105,7 +103,7 @@ const StoreRoomMaster = () => {
                         {storeRoomMasterItemsSelector.response &&
                             storeRoomMasterItemsSelector.response.content.length > 0 &&
                             storeRoomMasterItemsSelector.response.content.map((storeRoomMasterItem, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} hover>
                                     <StyledTableCell>{storeRoomMasterItem.item}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.purchase_unit}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.part_number}</StyledTableCell>
@@ -115,7 +113,9 @@ const StoreRoomMaster = () => {
                                         <TextField
                                             sx={{ width: 70 }}
                                             size="small"
-                                            type="number"
+                                            InputProps={{
+                                                inputProps: { min: 0 }
+                                            }}
                                             id={storeRoomMasterItem.store_room_item_id.toString()}
                                             value={storeRoomMasterItem.total_quantity}
                                             onKeyDown={(event: React.KeyboardEvent) => handleUpdateTotalQty(storeRoomMasterItem.store_room_item_id, event)}

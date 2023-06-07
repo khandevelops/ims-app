@@ -1,57 +1,116 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.png';
 import Profile from './Profile';
 
 const MenuAdmin = () => {
-    return (
-            <AppBar position="static" elevation={5} sx={{ backgroundColor: '#1347a4' }}>
-                <Toolbar sx={{ margin: 'auto' }}>
-                    <Box sx={{ position: 'fixed', left: 20 }}>
-                        <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
-                    </Box>
+    const location = useLocation();
 
-                    <Button sx={{ color: '#fff' }} component={Link} to="admin/store-room">
-                        store-room
-                    </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="admin/master">
+    return (
+        <AppBar position="static" elevation={5} sx={{ backgroundColor: '#1347a4' }}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Box>
+                    <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
+                </Box>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button size="small" sx={{ color: location.pathname === '/admin/master' ? 'yellow' : '#fff', fontWeight: '900' }} component={Link} to="admin/master">
                         master
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/extractions" state="extractions">
+                    <Button size="small" sx={{ color: location.pathname === '/admin/store-room' ? 'yellow' : '#fff', fontWeight: '900' }} component={Link} to="admin/store-room">
+                        store room
+                    </Button>
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/extractions' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/extractions"
+                        state="extractions">
                         extractions
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/mass-spec" state="mass-spec">
-                        mass-spec
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/mass-spec' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/mass-spec"
+                        state="mass-spec">
+                        mass spec
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/receiving/" state="receiving">
-                        receiving
-                    </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/rd" state="rd">
+                    <Button size="small" sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: '900' }} component={Link} to="departments/rd" state="rd">
                         r&d
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/screening" state="screening">
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/screening' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/screening"
+                        state="screening">
                         screening
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/shipping" state="shipping">
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/shipping"
+                        state="shipping">
                         shipping
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="departments/quality" state="quality">
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/specimen-processing"
+                        state="specimen-processing">
+                        specimen processing
+                    </Button>
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/shipping"
+                        state="shipping">
+                        shipping
+                    </Button>
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/departments/qc-internal-standards' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="departments/qc-internal-standards"
+                        state="qc-internal-standards">
+                        qc internal standards
+                    </Button>
+                    <Button size="small" sx={{ color: location.pathname === '/departments/quality' ? 'yellow' : '#fff', fontWeight: '900' }} component={Link} to="departments/quality" state="quality">
                         quality
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/general" state="general">
-                        general-request
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/admin/request/general' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="admin/request/general"
+                        state="general">
+                        general
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/office-supply" state="office-supply">
-                        office-supply-request
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/admin/request/office-supply' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="admin/request/office-supply"
+                        state="office-supply">
+                        office supply
                     </Button>
-                    <Button sx={{ color: '#fff' }} component={Link} to="admin/request/store-room" state="store-room">
-                        store-room-request
+                    <Button
+                        size="small"
+                        sx={{ color: location.pathname === '/admin/request/store-room' ? 'yellow' : '#fff', fontWeight: '900' }}
+                        component={Link}
+                        to="admin/request/store-room"
+                        state="store-room">
+                        store room
                     </Button>
-                    <Box sx={{ position: 'fixed', right: 20 }}>
-                        <Profile />
-                    </Box>
-                </Toolbar>
-            </AppBar>
+                </Box>
+                <Box>
+                    <Profile />
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };
 

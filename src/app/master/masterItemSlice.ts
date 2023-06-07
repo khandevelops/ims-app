@@ -28,9 +28,9 @@ export interface IMasterItem {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     comment: string;
     type: string;
@@ -83,9 +83,9 @@ export interface IMasterExperience {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     comments: string;
     type: string;
@@ -140,7 +140,7 @@ export const getMasterItemsThunk = createAsyncThunk(
 
 export const getMasterItemsFilteredThunk = createAsyncThunk(
     'getMasterItemsFilteredThunk',
-    async (params: {page: number, keyword: string }) => {
+    async (params: { page: number, keyword: string }) => {
         const response = await getMasterItemsFiltered(params.page, params.keyword)
         return response.data
     }

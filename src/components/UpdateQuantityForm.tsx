@@ -1,29 +1,11 @@
-import {
-    Button,
-    Paper,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TextField
-} from '@mui/material';
+import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { updateQuantityThunk } from '../app/departmentMaster/updateQuantitySlice';
-import {
-    changeDepartmentExperienceItems,
-    selectDepartmentMasterItems
-} from '../app/departmentMaster/departmentMasterSlice';
-import {
-    changeMasterDepartmentItem,
-    IMasterDepartmentItem,
-    selectMasterDepartmentItem
-} from '../app/masterDepartment/masterDepartmentSlice';
+import { changeDepartmentExperienceItems, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
+import { changeMasterDepartmentItem, IMasterDepartmentItem, selectMasterDepartmentItem } from '../app/masterDepartment/masterDepartmentSlice';
 import { useLocation } from 'react-router-dom';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
@@ -78,11 +60,11 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department/receiving') {
+        if (location.pathname === '/department/specimen-processing') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
-                    receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
+                    specimenProcessingItems: masterDepartmentItemSelector.response?.specimenProcessingItems.map((item) => ({
                         ...item,
                         expiration_date: item.id === id ? value?.date() : item.expiration_date
                     }))
@@ -158,11 +140,11 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department/receiving') {
+        if (location.pathname === '/department/specimen-processing') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
-                    receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
+                    specimenProcessingItems: masterDepartmentItemSelector.response?.specimenProcessingItems.map((item) => ({
                         ...item,
                         received_date: item.id === id ? value?.date() : item.received_date
                     }))
@@ -238,11 +220,11 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department/receiving') {
+        if (location.pathname === '/department/specimen-processing') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
-                    receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
+                    specimenProcessingItems: masterDepartmentItemSelector.response?.specimenProcessingItems.map((item) => ({
                         ...item,
                         quantity: item.id === parseInt(event.target.id) ? parseInt(event.target.value) : item.quantity
                     }))
@@ -318,11 +300,11 @@ const UpdateQuantityForm = () => {
                 })
             );
         }
-        if (location.pathname === '/department/receiving') {
+        if (location.pathname === '/department/specimen-processing') {
             dispatch(
                 changeMasterDepartmentItem({
                     ...masterDepartmentItemSelector.response,
-                    receivingItems: masterDepartmentItemSelector.response?.receivingItems.map((item) => ({
+                    specimenProcessingItems: masterDepartmentItemSelector.response?.specimenProcessingItems.map((item) => ({
                         ...item,
                         lot_number: item.id === parseInt(event.target.id) ? event.target.value : item.lot_number
                     }))
@@ -395,10 +377,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -421,10 +400,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -432,11 +408,11 @@ const UpdateQuantityForm = () => {
                 }
             });
         }
-        if (location.pathname === '/department/receiving') {
+        if (location.pathname === '/department/specimen-processing') {
             dispatch(
                 updateQuantityThunk({
                     state: location.state,
-                    departmentItems: masterDepartmentItemSelector.response.receivingItems
+                    departmentItems: masterDepartmentItemSelector.response.specimenProcessingItems
                 })
             ).then(() => {
                 if (departmentItemsTransformedSelector.response) {
@@ -447,10 +423,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -473,10 +446,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -499,10 +469,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -525,10 +492,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -551,10 +515,7 @@ const UpdateQuantityForm = () => {
                                 ...item,
                                 total_quantity:
                                     masterDepartmentItemSelector.response?.id === item.master_item_id
-                                        ? getMasterDepartmentSelectorItems()?.reduce(
-                                              (acc, item) => acc + item.quantity,
-                                              0
-                                          )
+                                        ? getMasterDepartmentSelectorItems()?.reduce((acc, item) => acc + item.quantity, 0)
                                         : item.total_quantity
                             }))
                         })
@@ -570,8 +531,8 @@ const UpdateQuantityForm = () => {
                 return masterDepartmentItemSelector.response?.extractionsItems;
             case '/department/mass-spec':
                 return masterDepartmentItemSelector.response?.massSpecItems;
-            case '/departmentreceiving':
-                return masterDepartmentItemSelector.response?.receivingItems;
+            case '/department/specimen-processing':
+                return masterDepartmentItemSelector.response?.specimenProcessingItems;
             case '/department/rd':
                 return masterDepartmentItemSelector.response?.rdItems;
             case '/department/screening':
@@ -591,8 +552,8 @@ const UpdateQuantityForm = () => {
                 return masterDepartmentItem.extractionsItems;
             case '/department/mass-spec':
                 return masterDepartmentItem.massSpecItems;
-            case '/department/receiving':
-                return masterDepartmentItem.receivingItems;
+            case '/department/specimen-processing':
+                return masterDepartmentItem.specimenProcessingItems;
             case '/department/rd':
                 return masterDepartmentItem.rdItems;
             case '/department/screening':
@@ -607,18 +568,11 @@ const UpdateQuantityForm = () => {
     };
 
     return (
-        <Stack
-            direction="column"
-            justifyContent="space-between"
-            alignItems="stretch"
-            sx={{ padding: 2, height: '100%' }}>
+        <Stack direction="column" justifyContent="space-between" alignItems="stretch" sx={{ padding: 2, height: '100%' }}>
             <TableContainer component={Paper}>
                 <Table size="medium">
                     <TableHead>
-                        <TableRow>
-                            {columns.length > 0 &&
-                                columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}
-                        </TableRow>
+                        <TableRow>{columns.length > 0 && columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}</TableRow>
                     </TableHead>
                     <TableBody>
                         {masterDepartmentItemSelector &&
@@ -633,6 +587,9 @@ const UpdateQuantityForm = () => {
                                             ref={inputRef}
                                             sx={{ maxWidth: 120 }}
                                             type="number"
+                                            InputProps={{
+                                                inputProps: { min: 0 }
+                                            }}
                                             size="small"
                                             id={departmentItem.id.toString()}
                                             value={departmentItem.quantity}
@@ -643,22 +600,14 @@ const UpdateQuantityForm = () => {
                                     <TableCell>{departmentItem.min_quantity}</TableCell>
                                     <TableCell>{departmentItem.max_quantity}</TableCell>
                                     <TableCell>
-                                        <TextField
-                                            ref={inputRef}
-                                            sx={{ maxWidth: 160 }}
-                                            size="small"
-                                            value={departmentItem.lot_number}
-                                            onChange={handleLotNumberChange}
-                                        />
+                                        <TextField ref={inputRef} sx={{ maxWidth: 160 }} size="small" value={departmentItem.lot_number} onChange={handleLotNumberChange} />
                                     </TableCell>
                                     <TableCell>
                                         <LocalizationProvider dateAdapter={AdapterMoment}>
                                             <DateTimePicker
                                                 inputFormat="MM/DD/YYYY HH:MM"
                                                 value={departmentItem.expiration_date}
-                                                onChange={(value: Moment | null) =>
-                                                    handleExpirationDateChange(value, departmentItem.id)
-                                                }
+                                                onChange={(value: Moment | null) => handleExpirationDateChange(value, departmentItem.id)}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
                                         </LocalizationProvider>
@@ -668,9 +617,7 @@ const UpdateQuantityForm = () => {
                                             <DateTimePicker
                                                 inputFormat="MM/DD/YYYY HH:MM"
                                                 value={departmentItem.received_date}
-                                                onChange={(value: Moment | null) =>
-                                                    handleReceivedDateChange(value, departmentItem.id)
-                                                }
+                                                onChange={(value: Moment | null) => handleReceivedDateChange(value, departmentItem.id)}
                                                 renderInput={(params) => <TextField {...params} />}
                                             />
                                         </LocalizationProvider>
@@ -680,11 +627,7 @@ const UpdateQuantityForm = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Stack
-                direction="row"
-                justifyContent="space-around"
-                alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}>
+            <Stack direction="row" justifyContent="space-around" alignItems="stretch" sx={{ padding: 2, height: '100%' }}>
                 <Button onClick={handleSubmit}>SUBMIT </Button>
                 <Button onClick={handleClose}>CLOSE </Button>
             </Stack>

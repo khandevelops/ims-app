@@ -5,6 +5,9 @@ import { createMasterItemThunk, populateMasterItem, selectMasterForm, updateMast
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { category, department, drawerToggleType } from '../common/constants';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { Moment } from 'moment';
 
 const defaultMasterItem = {
     id: 0,
@@ -16,9 +19,9 @@ const defaultMasterItem = {
     fisher_cn: '',
     vwr_cn: '',
     lab_source_cn: '',
-    next_advance_cn: '',
+    other_cn: '',
     purchase_unit: '',
-    average_unit_price: 0,
+    unit_price: 0,
     category: '',
     comment: '',
     type: '',
@@ -82,7 +85,16 @@ const MasterForm = () => {
     };
 
     const handleCategoryChange = (event: SelectChangeEvent) => {
-        setMasterItem({...masterItem, category: event.target.value})
+        setMasterItem({ ...masterItem, category: event.target.value });
+    };
+
+    const handleDateChange = (value: Date | null, columnName: string) => {
+        if (columnName === 'expiration_date') {
+            setMasterItem({ ...masterItem, expiration_date: value });
+        }
+        if (columnName === 'received_date') {
+            setMasterItem({ ...masterItem, received_date: value });
+        }
     };
 
     return (
@@ -189,7 +201,7 @@ const MasterForm = () => {
                     <TextField
                         sx={{ width: '100%' }}
                         id="lab_source_cn"
-                        label="SOURCE CN"
+                        label="LAB SOURCE CN"
                         variant="outlined"
                         size="small"
                         value={masterItem.lab_source_cn}
@@ -201,12 +213,12 @@ const MasterForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="next_advance_cn"
-                        label="NEXT ADVANCE CN"
+                        id="other_cn"
+                        label="OTHER CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.next_advance_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'next_advance_cn')}
+                        value={masterItem.other_cn}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'other_cn')}
                     />
                 </Grid>
 
@@ -227,24 +239,77 @@ const MasterForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="average_unit_price"
-                        label="AVERAGE UNIT PRICE"
+                        id="unit_price"
+                        label="UNIT PRICE"
                         variant="outlined"
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
                         size="small"
-                        value={masterItem.average_unit_price}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'average_unit_price')}
+                        value={masterItem.unit_price}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unit_price')}
                     />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    <Select id="category" value={masterItem.category} onChange={handleCategoryChange} sx={{width: '100%'}} size='small'>
-                        {Object.keys(category).map((category) => (
-                            <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
-                        ))}
-                    </Select>
+                    <FormControl fullWidth>
+                        <InputLabel id="category">Category</InputLabel>
+                        <Select id="category" labelId="category" label="Category" value={masterItem.category} onChange={handleCategoryChange} sx={{ width: '100%' }} size="small">
+                            {Object.keys(category).map((category) => (
+                                <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+                    {' '}
+                    <TextField
+                        sx={{ width: '100%' }}
+                        id="drug_class"
+                        label="DRUG CLASS"
+                        variant="outlined"
+                        size="small"
+                        value={masterItem.drug_class}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'drug_class')}
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+                    {' '}
+                    <TextField
+                        sx={{ width: '100%' }}
+                        id="usage_level"
+                        label="USAGE LEVEL"
+                        variant="outlined"
+                        size="small"
+                        value={masterItem.usage_level}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'usage_level')}
+                    />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DateTimePicker
+                            label="Expiration Date"
+                            inputFormat="MM/DD/YYYY HH:MM"
+                            value={masterItem.expiration_date}
+                            onChange={(value: Date | null) => handleDateChange(value, 'expiration_date')}
+                            renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <DateTimePicker
+                            label="Received Date"
+                            inputFormat="MM/DD/YYYY HH:MM"
+                            value={masterItem.received_date}
+                            onChange={(value: Date | null) => handleDateChange(value, 'received_date')}
+                            renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
+                        />
+                    </LocalizationProvider>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>

@@ -4,65 +4,46 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TablePagination,
-    Paper,
-    Box,
-    Drawer,
-    tableCellClasses,
-    styled,
-    Divider,
-    TextField,
-    Tooltip,
-    Typography
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, tableCellClasses, styled, TextField, Tooltip, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import UpdateQuantityForm from '../components/UpdateQuantityForm';
 import { handlePage, selectPage } from '../app/common/pageSlice';
-import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { drawerToggleType } from '../common/constants';
 import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/masterDepartment/masterDepartmentItemsSlice';
 import { IDepartmentItem } from '../app/department/departmentItemsSlice';
 import { updateDepartmentItemThunk } from '../app/department/departmentItemUpdateSlice';
 
-const columns: { field: string; tooltipName: string | JSX.Element; headerName: string }[] = [
-    { field: 'item', tooltipName: 'Item', headerName: 'Item' },
-    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU' },
-    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN' },
-    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN' },
-    { field: 'recent_vendor', tooltipName: 'Recent Vendor', headerName: 'RV' },
-    { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC' },
-    { field: 'total_quantity', tooltipName: 'Total Qty', headerName: 'TQ' },
-    { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ' },
-    { field: 'average_unit_price', tooltipName: 'Unit Price', headerName: 'UP' },
-    { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP' },
-    { field: 'comment', tooltipName: 'Comment', headerName: 'Comment' },
-    { field: 'category', tooltipName: 'Category', headerName: 'C' }
+const columns: { field: string; tooltipName: string | JSX.Element; headerName: string; align: 'left' | 'center' | 'right' }[] = [
+    { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
+    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
+    { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN', align: 'left' },
+    { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN', align: 'left' },
+    { field: 'recent_vendor', tooltipName: 'Recent Vendor', headerName: 'RV', align: 'left' },
+    { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC', align: 'left' },
+    { field: 'total_quantity', tooltipName: 'Total Qty', headerName: 'TQ', align: 'left' },
+    { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ', align: 'left' },
+    { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'UP', align: 'left' },
+    { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
+    { field: 'comment', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
+    { field: 'category', tooltipName: 'Category', headerName: 'C', align: 'left' }
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 13,
-        fontWeight: 700
+        fontSize: 12,
+        fontWeight: 600
     }
 }));
 
 const StyledSubTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#f8fafc',
-        fontSize: 13,
+        fontSize: 12,
+        fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
@@ -82,7 +63,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const DepartmentsMaster = () => {
     const masterDepartmentItemsSelector = useAppSelector(selectMasterDepartmentItems);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     const pageSelector = useAppSelector(selectPage);
     const dispatch = useAppDispatch();
     const inputRef = useRef<HTMLDivElement | null>(null);
@@ -195,8 +175,8 @@ const DepartmentsMaster = () => {
         }
     };
 
-    const getTotalPrice = (average_unit_price: number, totalQuantity: number) => {
-        return average_unit_price * totalQuantity;
+    const getTotalPrice = (unit_price: number, totalQuantity: number) => {
+        return unit_price * totalQuantity;
     };
 
     return (
@@ -204,13 +184,11 @@ const DepartmentsMaster = () => {
             <TableContainer sx={{ height: '70vh' }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
-                        <TableRow sx={{height: 50}}>
+                        <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <Tooltip title={column.tooltipName}>
-                                            <Box>{column.headerName}</Box>
-                                        </Tooltip>
+                                    <StyledTableCell key={column.field}>
+                                        <Box>{column.tooltipName}</Box>
                                     </StyledTableCell>
                                 ))}
                         </TableRow>
@@ -219,15 +197,17 @@ const DepartmentsMaster = () => {
                         {masterDepartmentItemsSelector.response.content.length > 0 &&
                             masterDepartmentItemsSelector.response.content.map((masterDepartmentItem, index) => (
                                 <Fragment key={index}>
-                                    <StyledTableRow>
+                                    <StyledTableRow hover>
                                         <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.item}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.part_number}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_cn}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80, backgroundColor: '#BF40BF', textAlign: 'center', color: 'white' }}>
-                                            <Typography variant='inherit' sx={{fontWeight: 800}}>{getTotalQuantity(masterDepartmentItem.departmentItems)}</Typography>
+                                        <StyledTableCell sx={{ width: 80, textAlign: 'center' }}>
+                                            <Typography variant="inherit" sx={{ fontWeight: 900 }}>
+                                                {getTotalQuantity(masterDepartmentItem.departmentItems)}
+                                            </Typography>
                                         </StyledTableCell>
                                         <StyledTableCell
                                             sx={{
@@ -243,9 +223,9 @@ const DepartmentsMaster = () => {
                                                     .orderQuantity
                                             }
                                         </StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>${masterDepartmentItem.average_unit_price}</StyledTableCell>
+                                        <StyledTableCell sx={{ width: 80 }}>${masterDepartmentItem.unit_price}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>
-                                            ${getTotalPrice(masterDepartmentItem.average_unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
+                                            ${getTotalPrice(masterDepartmentItem.unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
                                         </StyledTableCell>
                                         <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.comment}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.category}</StyledTableCell>
@@ -259,35 +239,36 @@ const DepartmentsMaster = () => {
                                                         <TableRow>
                                                             <StyledSubTableCell>Location</StyledSubTableCell>
 
-                                                            <StyledSubTableCell align="right">Min Qty</StyledSubTableCell>
-                                                            <StyledSubTableCell align="right">Max Qty</StyledSubTableCell>
-                                                            <StyledSubTableCell align="right">Usage Level</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Min Qty</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Max Qty</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Usage Level</StyledSubTableCell>
                                                             <StyledSubTableCell>Qty</StyledSubTableCell>
-                                                            <StyledSubTableCell align="right">Lot #</StyledSubTableCell>
-                                                            <StyledSubTableCell align="right">Expiration Date</StyledSubTableCell>
-                                                            <StyledSubTableCell align="right">Received Date</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Lot #</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Expiration Date</StyledSubTableCell>
+                                                            <StyledSubTableCell align="left">Received Date</StyledSubTableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
                                                         {masterDepartmentItem.departmentItems.map((departmentItem, index) => (
-                                                            <TableRow key={index}>
+                                                            <TableRow key={index} hover>
                                                                 <StyledSubTableCell>{departmentItem.location}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">{masterDepartmentItem.minimum_quantity}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">{masterDepartmentItem.maximum_quantity}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">{masterDepartmentItem.usage_level}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="right" sx={{ width: 80 }}>
+                                                                <StyledSubTableCell align="left">{masterDepartmentItem.minimum_quantity}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left">{masterDepartmentItem.maximum_quantity}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left">{masterDepartmentItem.usage_level}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left" sx={{ width: 100 }}>
                                                                     <TextField
                                                                         ref={inputRef}
-                                                                        variant="standard"
                                                                         type="number"
                                                                         name="quantity"
                                                                         sx={{
                                                                             '.MuiInputBase-input': {
-                                                                                padding: 0,
-                                                                                textAlign: 'right',
+                                                                                padding: 1,
                                                                                 fontWeight: 900,
                                                                                 fontSize: 14
                                                                             }
+                                                                        }}
+                                                                        InputProps={{
+                                                                            inputProps: { min: 0 }
                                                                         }}
                                                                         size="small"
                                                                         value={departmentItem.quantity === null ? 0 : departmentItem.quantity}
@@ -295,25 +276,23 @@ const DepartmentsMaster = () => {
                                                                         onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, departmentItem)}
                                                                     />
                                                                 </StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">
+                                                                <StyledSubTableCell align="left">
                                                                     <TextField
                                                                         ref={inputRef}
                                                                         size="small"
-                                                                        variant="standard"
                                                                         name="lot_number"
                                                                         value={departmentItem.lot_number === null ? '' : departmentItem.lot_number}
                                                                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleLotNumberChange(event, masterDepartmentItem.id, departmentItem.id)}
                                                                         sx={{
                                                                             '.MuiInputBase-input': {
-                                                                                padding: 0,
-                                                                                textAlign: 'right',
+                                                                                padding: 1,
                                                                                 fontSize: 14
                                                                             }
                                                                         }}
                                                                         onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, departmentItem)}
                                                                     />
                                                                 </StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">
+                                                                <StyledSubTableCell align="left">
                                                                     <LocalizationProvider dateAdapter={AdapterMoment}>
                                                                         <DateTimePicker
                                                                             value={departmentItem.expiration_date}
@@ -321,10 +300,9 @@ const DepartmentsMaster = () => {
                                                                             renderInput={(params) => (
                                                                                 <TextField
                                                                                     {...params}
-                                                                                    variant="standard"
                                                                                     sx={{
                                                                                         '.MuiInputBase-input': {
-                                                                                            padding: 0,
+                                                                                            padding: 1,
                                                                                             fontSize: 14
                                                                                         }
                                                                                     }}
@@ -334,7 +312,7 @@ const DepartmentsMaster = () => {
                                                                         />
                                                                     </LocalizationProvider>
                                                                 </StyledSubTableCell>
-                                                                <StyledSubTableCell align="right">
+                                                                <StyledSubTableCell align="left">
                                                                     <LocalizationProvider dateAdapter={AdapterMoment}>
                                                                         <DateTimePicker
                                                                             value={departmentItem.received_date}
@@ -342,10 +320,9 @@ const DepartmentsMaster = () => {
                                                                             renderInput={(params) => (
                                                                                 <TextField
                                                                                     {...params}
-                                                                                    variant="standard"
                                                                                     sx={{
                                                                                         '.MuiInputBase-input': {
-                                                                                            padding: 0,
+                                                                                            padding: 1,
                                                                                             fontSize: 14
                                                                                         }
                                                                                     }}

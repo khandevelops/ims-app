@@ -1,23 +1,9 @@
-import {
-    Button,
-    Paper,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TextField
-} from '@mui/material';
+import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
-import {
-    changeRequestItemsChecked,
-    selectRequestMasterItemsChecked
-} from '../app/requestMaster/requestMasterItemsCheckedSlice';
+import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { updateRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsUpdateSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -82,10 +68,7 @@ const RequestItemEditForm = () => {
             <TableContainer component={Paper}>
                 <Table size="medium">
                     <TableHead>
-                        <TableRow>
-                            {columns.length > 0 &&
-                                columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}
-                        </TableRow>
+                        <TableRow>{columns.length > 0 && columns.map((column) => <TableCell key={column.field}>{column.headerName}</TableCell>)}</TableRow>
                     </TableHead>
                     <TableBody>
                         {requestMasterItemsCheckedSelector &&
@@ -99,11 +82,12 @@ const RequestItemEditForm = () => {
                                             ref={inputRef}
                                             sx={{ maxWidth: 120 }}
                                             type="number"
+                                            InputProps={{
+                                                inputProps: { min: 0 }
+                                            }}
                                             size="small"
                                             value={requestMasterCheckedItem.quantity}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleQuantityChange(event, requestMasterCheckedItem.request_item_id)
-                                            }
+                                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleQuantityChange(event, requestMasterCheckedItem.request_item_id)}
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -112,9 +96,7 @@ const RequestItemEditForm = () => {
                                             sx={{ minWidth: 300 }}
                                             size="small"
                                             value={requestMasterCheckedItem.custom_text}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleCustomTextChange(event, requestMasterCheckedItem.request_item_id)
-                                            }
+                                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleCustomTextChange(event, requestMasterCheckedItem.request_item_id)}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -122,11 +104,7 @@ const RequestItemEditForm = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Stack
-                direction="row"
-                justifyContent="space-around"
-                alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}>
+            <Stack direction="row" justifyContent="space-around" alignItems="stretch" sx={{ padding: 2, height: '100%' }}>
                 <Button onClick={handleSubmit}>SUBMIT </Button>
                 <Button onClick={handleClose}>CLOSE </Button>
             </Stack>

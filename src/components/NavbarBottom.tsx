@@ -84,9 +84,9 @@ const NavbarBottom = () => {
     };
 
     const handleDownloadClick = () => {
-        return axios.get(`${baseUrl}/download/${location.state}/list`).then(response => {
-            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
-            FileSaver.saveAs(blob, `${location.state}.xlsx`)
+        return axios.get(`${baseUrl}/download/${location.state}/list`).then((response) => {
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            FileSaver.saveAs(blob, `${location.state}.xlsx`);
         });
     };
 
@@ -117,8 +117,8 @@ const NavbarBottom = () => {
                             <Button component={Link} to="admin/departments/mass-spec" state="mass-spec">
                                 mass-spec
                             </Button>
-                            <Button component={Link} to="admin/departments/receiving/" state="receiving">
-                                receiving
+                            <Button component={Link} to="admin/departments/specimen-processing" state="specimen-processing">
+                                specimen processing
                             </Button>
                             <Button component={Link} to="admin/departments/rd" state="rd">
                                 r&d
@@ -142,7 +142,7 @@ const NavbarBottom = () => {
                 <Box sx={{ width: 10 }}>
                     {(location.pathname === '/departments/extractions' ||
                         location.pathname === '/departments/mass-spec' ||
-                        location.pathname === '/departments/receiving' ||
+                        location.pathname === '/departments/specimen-processing' ||
                         location.pathname === '/departments/rd' ||
                         location.pathname === '/departments/screening' ||
                         location.pathname === '/departments/shipping' ||

@@ -19,16 +19,16 @@ export interface IMasterDepartmentItem {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     comments: string;
     type: string;
     group: string;
     extractionsItems: IDepartmentItem[];
     massSpecItems: IDepartmentItem[];
-    receivingItems: IDepartmentItem[];
+    specimenProcessingItems: IDepartmentItem[];
     rdItems: IDepartmentItem[];
     screeningItems: IDepartmentItem[];
     shippingItems: IDepartmentItem[];

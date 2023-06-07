@@ -20,9 +20,9 @@ export interface IMasterItem {
     fisher_cn: string
     vwr_cn: string
     lab_source_cn: string
-    next_advance_cn: string
+    other_cn: string
     purchase_unit: string;
-    average_unit_price: number;
+    unit_price: number;
     category: string;
     minimum_quantity: number;
     maximum_quantity: number;

@@ -129,6 +129,9 @@ const RequestMasterDepartmentPending = () => {
                                             variant="standard"
                                             size="small"
                                             type="number"
+                                            InputProps={{
+                                                inputProps: { min: 0 }
+                                            }}
                                             id={requestMasterItem.request_item_id.toString()}
                                             value={requestMasterItem.quantity}
                                             onKeyDown={(event: React.KeyboardEvent) => handleUpdateQuantity(event, requestMasterItem)}

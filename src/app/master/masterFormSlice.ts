@@ -7,11 +7,11 @@ import { department } from "../../common/constants";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const createMasterItem = (props: {masterItem: IMasterItem, departments: string[]}) => {
+export const createMasterItem = (props: { masterItem: IMasterItem, departments: string[] }) => {
     return axios.post(`${baseUrl}/master/create`, props)
 }
 
-export const assignMasterItem = (props: {department: string, masterItemId: number}) => {
+export const assignMasterItem = (props: { department: string, masterItemId: number }) => {
     return axios.post(`${baseUrl}/master/assign`, props)
 }
 
@@ -34,9 +34,9 @@ export const initialState: IMasterFormState = {
         'fisher_cn': '',
         'vwr_cn': '',
         'lab_source_cn': '',
-        'next_advance_cn': '',
+        'other_cn': '',
         'purchase_unit': '',
-        'average_unit_price': 0,
+        'unit_price': 0,
         'category': '',
         'comment': '',
         'type': '',
@@ -59,7 +59,7 @@ export const updateMasterItemThunk = createAsyncThunk(
 
 export const createMasterItemThunk = createAsyncThunk(
     'createMasterItemThunk',
-    async (props: {masterItem: IMasterItem, departments: string[]}) => {
+    async (props: { masterItem: IMasterItem, departments: string[] }) => {
         const response = await createMasterItem(props)
         return response.data
     }
@@ -67,7 +67,7 @@ export const createMasterItemThunk = createAsyncThunk(
 
 export const assignMasterItemThunk = createAsyncThunk(
     'assignMasterItemThunk',
-    async (props: {department: string, masterItemId: number}) => {
+    async (props: { department: string, masterItemId: number }) => {
         const response = await assignMasterItem(props)
         return response.data
     }
@@ -88,9 +88,9 @@ const masterFormSlice = createSlice({
             state.masterItem.fisher_cn = action.payload.fisher_cn ? action.payload.fisher_cn : ''
             state.masterItem.vwr_cn = action.payload.vwr_cn ? action.payload.vwr_cn : ''
             state.masterItem.lab_source_cn = action.payload.lab_source_cn ? action.payload.lab_source_cn : ''
-            state.masterItem.next_advance_cn = action.payload.next_advance_cn ? action.payload.next_advance_cn : ''
+            state.masterItem.other_cn = action.payload.other_cn ? action.payload.other_cn : ''
             state.masterItem.purchase_unit = action.payload.purchase_unit ? action.payload.purchase_unit : ''
-            state.masterItem.average_unit_price = action.payload.average_unit_price ? action.payload.average_unit_price : 0
+            state.masterItem.unit_price = action.payload.unit_price ? action.payload.unit_price : 0
             state.masterItem.category = action.payload.category ? action.payload.category : ''
             state.masterItem.comment = action.payload.comment ? action.payload.comment : ''
             state.masterItem.type = action.payload.type ? action.payload.type : ''
