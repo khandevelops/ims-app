@@ -6,6 +6,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Table
 import { useLocation } from 'react-router-dom';
 import { changeStoreRoomMasterItems, getStoreRoomMasterItemsThunk, selectStoreRoomMasterItemsItems } from '../app/storeRoom/storeRoomMasterItemsSlice';
 import { IStoreRoomItem, updateStoreRoomUpdateThunk } from '../app/storeRoom/storeRoomUpdateSlice';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -34,7 +36,8 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'issued', tooltipName: 'Issued', headerName: 'Iss', align: 'left' },
     { field: 'received', tooltipName: 'Received', headerName: 'Rec', align: 'left' },
     { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
-    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' }
+    { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
+    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
 ];
 
 const StoreRoomMaster = () => {
@@ -85,6 +88,20 @@ const StoreRoomMaster = () => {
         );
     };
 
+    const getTotalPrice = (unit_price: number, quantity: number) => {
+        return unit_price * quantity;
+    };
+
+    const handleMoreClick = (event: MouseEvent<HTMLElement>) => {
+        // dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
+        // dispatch(populateMasterItem(masterItem));
+    };
+
+    const handleAssignClick = (event: MouseEvent<HTMLElement>) => {
+        // setMasterItemId(masterItemId);
+        // setAnchorElUser(event.currentTarget);
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
@@ -130,7 +147,18 @@ const StoreRoomMaster = () => {
                                     <StyledTableCell>{storeRoomMasterItem.issued}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.received}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.total_price}</StyledTableCell>
+                                    <StyledTableCell>{getTotalPrice(storeRoomMasterItem.unit_price, storeRoomMasterItem.total_quantity)}</StyledTableCell>
                                     <StyledTableCell width={200}>{storeRoomMasterItem.comment}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event)}>
+                                                <ModeEditIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event)}>
+                                                <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                        </Box>
+                                    </StyledTableCell>
                                 </TableRow>
                             ))}
                     </TableBody>

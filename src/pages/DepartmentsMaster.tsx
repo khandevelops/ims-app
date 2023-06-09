@@ -1,15 +1,17 @@
 import { ChangeEvent, Fragment, useRef, KeyboardEvent } from 'react';
-import { useEffect } from 'react';
+import { useEffect, MouseEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, tableCellClasses, styled, TextField, Tooltip, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, tableCellClasses, styled, TextField, Tooltip, Typography, IconButton } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { handlePage, selectPage } from '../app/common/pageSlice';
 import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/masterDepartment/masterDepartmentItemsSlice';
 import { IDepartmentItem } from '../app/department/departmentItemsSlice';
 import { updateDepartmentItemThunk } from '../app/department/departmentItemUpdateSlice';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const columns: { field: string; tooltipName: string | JSX.Element; headerName: string; align: 'left' | 'center' | 'right' }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
@@ -23,7 +25,8 @@ const columns: { field: string; tooltipName: string | JSX.Element; headerName: s
     { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'UP', align: 'left' },
     { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
     { field: 'comment', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
-    { field: 'category', tooltipName: 'Category', headerName: 'C', align: 'left' }
+    { field: 'category', tooltipName: 'Category', headerName: 'C', align: 'left' },
+    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -179,6 +182,16 @@ const DepartmentsMaster = () => {
         return unit_price * totalQuantity;
     };
 
+    const handleMoreClick = (event: MouseEvent<HTMLElement>) => {
+        // dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
+        // dispatch(populateMasterItem(masterItem));
+    };
+
+    const handleAssignClick = (event: MouseEvent<HTMLElement>) => {
+        // setMasterItemId(masterItemId);
+        // setAnchorElUser(event.currentTarget);
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
@@ -187,7 +200,7 @@ const DepartmentsMaster = () => {
                         <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field}>
+                                    <StyledTableCell key={column.field} align={column.align}>
                                         <Box>{column.tooltipName}</Box>
                                     </StyledTableCell>
                                 ))}
@@ -198,20 +211,19 @@ const DepartmentsMaster = () => {
                             masterDepartmentItemsSelector.response.content.map((masterDepartmentItem, index) => (
                                 <Fragment key={index}>
                                     <StyledTableRow hover>
-                                        <StyledTableCell sx={{ width: 300 }}>{masterDepartmentItem.item}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.part_number}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_cn}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.drug_class}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80, textAlign: 'center' }}>
+                                        <StyledTableCell sx={{ width: 400 }}>{masterDepartmentItem.item}</StyledTableCell>
+                                        <StyledTableCell sx={{ width: 120 }}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
+                                        <StyledTableCell>{masterDepartmentItem.part_number}</StyledTableCell>
+                                        <StyledTableCell>{masterDepartmentItem.recent_cn}</StyledTableCell>
+                                        <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
+                                        <StyledTableCell>{masterDepartmentItem.drug_class}</StyledTableCell>
+                                        <StyledTableCell sx={{ textAlign: 'center' }}>
                                             <Typography variant="inherit" sx={{ fontWeight: 900 }}>
                                                 {getTotalQuantity(masterDepartmentItem.departmentItems)}
                                             </Typography>
                                         </StyledTableCell>
                                         <StyledTableCell
                                             sx={{
-                                                width: 80,
                                                 backgroundColor: getOrderQuantity(
                                                     masterDepartmentItem.minimum_quantity,
                                                     masterDepartmentItem.maximum_quantity,
@@ -223,16 +235,24 @@ const DepartmentsMaster = () => {
                                                     .orderQuantity
                                             }
                                         </StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>${masterDepartmentItem.unit_price}</StyledTableCell>
-                                        <StyledTableCell sx={{ width: 80 }}>
-                                            ${getTotalPrice(masterDepartmentItem.unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}
-                                        </StyledTableCell>
+                                        <StyledTableCell>${masterDepartmentItem.unit_price}</StyledTableCell>
+                                        <StyledTableCell>${getTotalPrice(masterDepartmentItem.unit_price, getTotalQuantity(masterDepartmentItem.departmentItems)).toFixed(2)}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 200 }}>{masterDepartmentItem.comment}</StyledTableCell>
                                         <StyledTableCell sx={{ width: 80 }}>{masterDepartmentItem.category}</StyledTableCell>
+                                        <StyledTableCell sx={{ width: 40 }}>
+                                            <Box sx={{ display: 'flex' }}>
+                                                <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event)}>
+                                                    <ModeEditIcon color="primary" fontSize="small" />
+                                                </IconButton>
+                                                <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event)}>
+                                                    <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                                </IconButton>
+                                            </Box>
+                                        </StyledTableCell>
                                     </StyledTableRow>
                                     <TableRow>
                                         <TableCell colSpan={1} />
-                                        <TableCell colSpan={11}>
+                                        <TableCell colSpan={12}>
                                             <Paper sx={{ margin: 3 }} elevation={1} square>
                                                 <Table size="small">
                                                     <TableHead>
