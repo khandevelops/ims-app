@@ -25,6 +25,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
     // { field: 'checkbox', tooltipName: 'Select', headerName: 'Select' },
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
+    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
     { field: 'manufacturer', tooltipName: 'Manufacturer', headerName: 'M', align: 'left' },
     { field: 'recent_cn', tooltipName: 'Recent CN', headerName: 'RCN', align: 'left' },
     { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN', align: 'left' },
@@ -33,7 +34,6 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'vwr_cn', tooltipName: 'VWR CN', headerName: 'VCN', align: 'left' },
     { field: 'lab_source_cn', tooltipName: 'Lab Source CN', headerName: 'LSCN', align: 'left' },
     { field: 'next_advance_cn', tooltipName: 'Other CN', headerName: 'OCN', align: 'left' },
-    { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
     { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'AUP', align: 'left' },
     { field: 'category', tooltipName: 'Category', headerName: 'Ca', align: 'left' },
     { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC', align: 'left' },
@@ -103,6 +103,7 @@ const Master = () => {
                                         <Checkbox />
                                     </StyledTableCell> */}
                                     <StyledTableCell>{masterItem.item}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
                                     <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
                                     <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.part_number}</StyledTableCell>
@@ -111,7 +112,6 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
                                     <StyledTableCell>{masterItem.other_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
                                     <StyledTableCell>${masterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>{masterItem.category}</StyledTableCell>
                                     <StyledTableCell>{masterItem.drug_class}</StyledTableCell>

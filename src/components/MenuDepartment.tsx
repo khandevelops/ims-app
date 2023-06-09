@@ -21,7 +21,7 @@ const MenuDepartment = () => {
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     {profileDetailSelector.profileDetail?.department === department.EXTRACTIONS && (
                         <Button
-                            sx={{ color: location.pathname === '/departments/extractions' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/extractions' ? 'bolder' : 'normal' }}
+                            sx={{ color: location.pathname === '/departments/extractions' ? 'yellow' : '#fff', fontWeight: '700' }}
                             component={Link}
                             to="/departments/extractions"
                             state="extractions">
@@ -29,11 +29,7 @@ const MenuDepartment = () => {
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === department.MASS_SPEC && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/mass-spec' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/mass-spec' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/mass-spec"
-                            state="mass-spec">
+                        <Button sx={{ color: location.pathname === '/departments/mass-spec' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/mass-spec" state="mass-spec">
                             mass-spec
                         </Button>
                     )}
@@ -41,7 +37,7 @@ const MenuDepartment = () => {
                         <Button
                             sx={{
                                 color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff',
-                                fontWeight: location.pathname === '/departments/specimen-processing' ? 'bolder' : 'normal'
+                                fontWeight: '700'
                             }}
                             component={Link}
                             to="/departments/specimen-processing"
@@ -50,29 +46,17 @@ const MenuDepartment = () => {
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === department.RD && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/rd' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/rd"
-                            state="rd">
+                        <Button sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/rd" state="rd">
                             r&d
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === department.SCREENING && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/screening' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/screening' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/screening"
-                            state="screening">
+                        <Button sx={{ color: location.pathname === '/departments/screening' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/screening" state="screening">
                             screening
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === department.SHIPPING && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/shipping' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/shipping"
-                            state="shipping">
+                        <Button sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/shipping" state="shipping">
                             shipping
                         </Button>
                     )}
@@ -80,7 +64,7 @@ const MenuDepartment = () => {
                         <Button
                             sx={{
                                 color: location.pathname === '/departments/qc-internal-standards' ? 'yellow' : '#fff',
-                                fontWeight: location.pathname === '/departments/qc-internal-standards' ? 'bolder' : 'normal'
+                                fontWeight: '700'
                             }}
                             component={Link}
                             to="/departments/qc-internal-standards"
@@ -89,25 +73,12 @@ const MenuDepartment = () => {
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === department.QUALITY && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/quality' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/quality' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/quality"
-                            state="quality">
+                        <Button sx={{ color: location.pathname === '/departments/quality' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/quality" state="quality">
                             quality
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.SHIPPING && (
-                        <Button
-                            sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/shipping' ? 'bolder' : 'normal' }}
-                            component={Link}
-                            to="/departments/shipping"
-                            state="shipping">
-                            shipping
-                        </Button>
-                    )}
                     <Button
-                        sx={{ color: location.pathname === '/departments/request/general' ? 'yellow' : '#fff', fontWeight: location.pathname === '/departments/request/general' ? 'bolder' : 'normal' }}
+                        sx={{ color: location.pathname === '/departments/request/general' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
                         to="/departments/general-request/list"
                         state="general">
@@ -116,7 +87,7 @@ const MenuDepartment = () => {
                     <Button
                         sx={{
                             color: location.pathname === '/departments/request/office-supply' ? 'yellow' : '#fff',
-                            fontWeight: location.pathname === '/departments/request/office-supply' ? 'bolder' : 'normal'
+                            fontWeight: '700'
                         }}
                         component={Link}
                         to="/departments/office-supply-request/list"
@@ -126,7 +97,7 @@ const MenuDepartment = () => {
                     <Button
                         sx={{
                             color: location.pathname === '/departments/request/store-room' ? 'yellow' : '#fff',
-                            fontWeight: location.pathname === '/departments/request/store-room' ? 'bolder' : 'normal'
+                            fontWeight: '700'
                         }}
                         component={Link}
                         to="/departments/store-room-request/list"
