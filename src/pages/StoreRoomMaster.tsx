@@ -8,6 +8,10 @@ import { changeStoreRoomMasterItems, getStoreRoomMasterItemsThunk, selectStoreRo
 import { IStoreRoomItem, updateStoreRoomUpdateThunk } from '../app/storeRoom/storeRoomUpdateSlice';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { drawerToggleType } from '../common/constants';
+import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { IDepartmentItem } from '../app/department/departmentItemsSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,15 +33,16 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'location', tooltipName: 'Location', headerName: 'L', align: 'left' },
     { field: 'total_quantity', tooltipName: 'Total Quantity', headerName: 'TQ', align: 'left' },
     { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL', align: 'left' },
-    { field: 'min_quantity', tooltipName: 'Min Qty', headerName: 'MinQ', align: 'left' },
-    { field: 'max_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ', align: 'left' },
+    { field: 'minimum_quantity', tooltipName: 'Min Qty', headerName: 'MinQ', align: 'left' },
+    { field: 'maximum_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ', align: 'left' },
     { field: 'order_quantity', tooltipName: 'Order Qty', headerName: 'OQ', align: 'left' },
     { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'UP', align: 'left' },
     { field: 'issued', tooltipName: 'Issued', headerName: 'Iss', align: 'left' },
     { field: 'received', tooltipName: 'Received', headerName: 'Rec', align: 'left' },
     { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
-    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
+    { field: 'edit', tooltipName: 'Edit', headerName: 'Edit', align: 'center' },
+    { field: 'delete', tooltipName: 'Delete', headerName: 'Delete', align: 'center' }
 ];
 
 const StoreRoomMaster = () => {
@@ -59,20 +64,13 @@ const StoreRoomMaster = () => {
     };
 
     const handleUpdateTotalQty = (store_room_item_id: number, event: React.KeyboardEvent) => {
-        let storeRoomItem: IStoreRoomItem = {};
-        const storeRoomMasterItem = storeRoomMasterItemsSelector.response && storeRoomMasterItemsSelector.response.content.find((item) => item.store_room_item_id === store_room_item_id);
-        if (storeRoomMasterItem) {
-            storeRoomItem = {
-                quantity: storeRoomMasterItem.total_quantity,
-                location: storeRoomMasterItem?.location,
-                min_quantity: storeRoomMasterItem?.min_quantity,
-                max_quantity: storeRoomMasterItem?.max_quantity,
-                usage_level: storeRoomMasterItem?.usage_level
-            };
-        }
-
         if (event.key === 'Enter') {
-            storeRoomMasterItem && dispatch(updateStoreRoomUpdateThunk({ id: store_room_item_id, storeRoomItem: storeRoomItem }));
+            dispatch(
+                updateStoreRoomUpdateThunk({
+                    id: store_room_item_id,
+                    storeRoomItem: { quantity: storeRoomMasterItemsSelector.response?.content.find((item) => item.store_room_item_id === store_room_item_id)?.total_quantity }
+                })
+            );
         }
     };
 
@@ -92,15 +90,11 @@ const StoreRoomMaster = () => {
         return unit_price * quantity;
     };
 
-    const handleMoreClick = (event: MouseEvent<HTMLElement>) => {
-        // dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
-        // dispatch(populateMasterItem(masterItem));
+    const handleEditClick = (event: MouseEvent<HTMLElement>, storeRoomMasterItem: IStoreRoomItem) => {
+        dispatch(toggleDrawer({ draerToggleTYpe: drawerToggleType.UPDATE_DEPARTMENT_ITEM_FORM, storeRoomItem: storeRoomMasterItem }));
     };
 
-    const handleAssignClick = (event: MouseEvent<HTMLElement>) => {
-        // setMasterItemId(masterItemId);
-        // setAnchorElUser(event.currentTarget);
-    };
+    const handleDeleteClick = (event: MouseEvent<HTMLElement>, storeRoomMasterItem: IStoreRoomItem) => {};
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
@@ -140,22 +134,26 @@ const StoreRoomMaster = () => {
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.usage_level}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.min_quantity}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.max_quantity}</StyledTableCell>
+                                    <StyledTableCell>{storeRoomMasterItem.minimum_quantity}</StyledTableCell>
+                                    <StyledTableCell>{storeRoomMasterItem.maximum_quantity}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.order_quantity}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.unit_price}</StyledTableCell>
+                                    <StyledTableCell>${storeRoomMasterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.issued}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.received}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.total_price}</StyledTableCell>
                                     <StyledTableCell>{getTotalPrice(storeRoomMasterItem.unit_price, storeRoomMasterItem.total_quantity)}</StyledTableCell>
                                     <StyledTableCell width={200}>{storeRoomMasterItem.comment}</StyledTableCell>
                                     <StyledTableCell>
                                         <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event)}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, storeRoomMasterItem)}>
                                                 <ModeEditIcon color="primary" fontSize="small" />
                                             </IconButton>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event)}>
-                                                <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                        </Box>
+                                    </StyledTableCell>
+
+                                    <StyledTableCell>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, storeRoomMasterItem)}>
+                                                <DeleteIcon color="primary" fontSize="small" />
                                             </IconButton>
                                         </Box>
                                     </StyledTableCell>

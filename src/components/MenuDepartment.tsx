@@ -78,7 +78,7 @@ const MenuDepartment = () => {
                         </Button>
                     )}
                     <Button
-                        sx={{ color: location.pathname === '/departments/request/general' ? 'yellow' : '#fff', fontWeight: '700' }}
+                        sx={{ color: location.pathname === '/departments/general-request/list' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
                         to="/departments/general-request/list"
                         state="general">
@@ -86,7 +86,7 @@ const MenuDepartment = () => {
                     </Button>
                     <Button
                         sx={{
-                            color: location.pathname === '/departments/request/office-supply' ? 'yellow' : '#fff',
+                            color: location.pathname === '/departments/office-supply-request/list' ? 'yellow' : '#fff',
                             fontWeight: '700'
                         }}
                         component={Link}
@@ -96,7 +96,7 @@ const MenuDepartment = () => {
                     </Button>
                     <Button
                         sx={{
-                            color: location.pathname === '/departments/request/store-room' ? 'yellow' : '#fff',
+                            color: location.pathname === '/departments/store-room-request/list' ? 'yellow' : '#fff',
                             fontWeight: '700'
                         }}
                         component={Link}

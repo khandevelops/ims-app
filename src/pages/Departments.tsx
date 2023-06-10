@@ -19,8 +19,8 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'recent_cn', headerName: 'Recent CN' },
     { field: 'total_quantity', headerName: 'Total Qty' },
     { field: 'usage_level', headerName: 'Usage Level' },
-    { field: 'min_quantity', headerName: 'Min Qty' },
-    { field: 'max_quantity', headerName: 'Max Qty' },
+    { field: 'minimum_quantity', headerName: 'Min Qty' },
+    { field: 'maximum_quantity', headerName: 'Max Qty' },
     { field: 'order_quantity', headerName: 'Order Qty' },
     { field: 'unit_price', headerName: 'Unit Price' },
     { field: 'total_price', headerName: 'Total Price' },
@@ -94,8 +94,8 @@ const Departments = () => {
                                 <TableRow key={index}>
                                     <StyledTableCell>{departmentItem.location}</StyledTableCell>
                                     <StyledTableCell>{departmentItem.lot_number}</StyledTableCell>
-                                    <StyledTableCell>{departmentItem.min_quantity}</StyledTableCell>
-                                    <StyledTableCell>{departmentItem.max_quantity}</StyledTableCell>
+                                    <StyledTableCell>{departmentItem.minimum_quantity}</StyledTableCell>
+                                    <StyledTableCell>{departmentItem.maximum_quantity}</StyledTableCell>
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -113,7 +113,7 @@ const Departments = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_QUANTITY_FORM}>
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.type === drawerToggleType.UPDATE_QUANTITY_FORM}>
                 <UpdateQuantityForm />
             </Drawer>
         </Box>

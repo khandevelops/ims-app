@@ -32,6 +32,7 @@ import profilesReducer from './profilesSlice'
 import profileDetailReducer from './profileDetail/profileDetailSlice'
 import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice'
 import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice'
+import departmentItemReducer from './department/departmentItemSlice'
 
 export const store = configureStore({
   reducer: {
@@ -67,7 +68,8 @@ export const store = configureStore({
     profilesStore: profilesReducer,
     profileDetailStore: profileDetailReducer,
     requestMasterItemsPendingCheckedStore: requestMasterItemsPendingCheckedReducer,
-    downloadDepartmentMasterItemsStore: downloadDepartmentMasterItemsReducer
+    downloadDepartmentMasterItemsStore: downloadDepartmentMasterItemsReducer,
+    departmentItemStore: departmentItemReducer
   }
 });
 

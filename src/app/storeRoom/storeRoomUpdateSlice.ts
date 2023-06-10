@@ -12,9 +12,12 @@ export interface IStoreRoomItem {
     id?: number,
     location?: string,
     quantity?: number,
-    min_quantity?: number,
-    max_quantity?: number,
-    usage_level?: string
+    minimum_quantity?: number,
+    maximum_quantity?: number,
+    usage_level?: string,
+    lot_number?: string,
+    expiration_date?: Date,
+    received_date?: Date
 }
 
 export interface IStoreRoomUpdateState {
@@ -29,7 +32,7 @@ export const initialState: IStoreRoomUpdateState = {
 
 export const updateStoreRoomUpdateThunk = createAsyncThunk(
     'updateStoreRoomUpdateThunk',
-    async (params: {id: number, storeRoomItem: IStoreRoomItem}) => {
+    async (params: { id: number, storeRoomItem: IStoreRoomItem }) => {
         const response = await updateStoreRoomItem(params.id, params.storeRoomItem)
         return response.data
     }
@@ -38,7 +41,11 @@ export const updateStoreRoomUpdateThunk = createAsyncThunk(
 export const storeRoomUpdateSlice = createSlice({
     name: 'storeRoomSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        changeDrawerToggleType: (state, action) => {
+            state = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(updateStoreRoomUpdateThunk.pending, (state) => {
             state.status = 'loading'
@@ -53,7 +60,7 @@ export const storeRoomUpdateSlice = createSlice({
     }
 })
 
-
+export const { changeDrawerToggleType } = storeRoomUpdateSlice.actions;
 export const selectStoreRoomUpdate = (state: RootState) => state.storeRooomUpdateStore
 
 export default storeRoomUpdateSlice.reducer

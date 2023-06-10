@@ -4,16 +4,8 @@ import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getDepartmentItem = (params: { pathName: string, page: number, size: number }) => {
-    return axios.put(`${baseUrl}${params.pathName}/list?page=${params.page}&size=${params.size}`)
-}
-
-export const updateDepartmentItem = (params: { departmentName: string, id: number, departmentItem: IDepartmentItem }) => {
-    return axios.put(`${baseUrl}${params.departmentName}/${params.id}`, params.departmentItem)
-}
-
-export const getDepartmentItems = (params: { pathName: string, page: number, size: number }) => {
-    return axios.get(`${baseUrl}${params.pathName}/list?page=${params.page}&size=${params.size}`)
+export const updateDepartmentItem = (state: string, departmentItemId: Number) => {
+    return axios.get(`${baseUrl}${state}/${departmentItemId}`)
 }
 
 export interface IDepartmentItem {
@@ -25,8 +17,7 @@ export interface IDepartmentItem {
     usage_level: string,
     lot_number: string,
     expiration_date: Date,
-    received_date: Date,
-    order_quantity: number
+    received_date: Date
 }
 
 export interface IDepartmentState {
@@ -67,30 +58,36 @@ const initialState: IDepartmentState = {
 }
 
 
-export const getDepartmentItemsThunk = createAsyncThunk(
-    'getDepartmentItemsThunk',
-    async (params: { pathName: string, page: number, size: number }) => {
-        const response = await getDepartmentItems({ pathName: params.pathName, page: params.page, size: params.size })
+export const getDepartmentItemThunk = createAsyncThunk(
+    'getDepartmentItemThunk',
+    async (params: { state: string, departmentItemId: Number }) => {
+        const response = await updateDepartmentItem(params.state, params.departmentItemId)
         return response.data
     }
 )
 
-export const dpeartmentItemsCheckedSlice = createSlice({
+export const departmentItemSlice = createSlice({
     name: 'departmentMaster',
     initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(getDepartmentItemsThunk.pending, (state) => {
-            state.status = 'loading'
-        }).addCase(getDepartmentItemsThunk.fulfilled, (state, action) => {
+    reducers: {
+        changeDepartmentItems: (state, action) => {
             state.response = action.payload
-        }).addCase(getDepartmentItemsThunk.rejected, (state) => {
+        }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getDepartmentItemThunk.pending, (state) => {
+            state.status = 'loading'
+        }).addCase(getDepartmentItemThunk.fulfilled, (state, action) => {
+            state.response = action.payload
+        }).addCase(getDepartmentItemThunk.rejected, (state) => {
             state.status = 'failed'
         })
     }
 })
 
-export const selectDepartmentItems = (state: RootState) => state.departmentItemsStore
+export const { changeDepartmentItems } = departmentItemSlice.actions;
 
-export default dpeartmentItemsCheckedSlice.reducer
+export const selectDepartmentItem = (state: RootState) => state.departmentItemStore
+
+export default departmentItemSlice.reducer
 

@@ -19,8 +19,8 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'location', headerName: 'Location' },
     { field: 'quantity', headerName: 'Qty' },
     { field: 'usage_level', headerName: 'Usage Level' },
-    { field: 'min_quantity', headerName: 'Min Qty' },
-    { field: 'max_quantity', headerName: 'Max Qty' },
+    { field: 'minimum_quantity', headerName: 'Min Qty' },
+    { field: 'maximum_quantity', headerName: 'Max Qty' },
     { field: 'lot_number', headerName: 'Lot Number' },
     { field: 'expiration_date', headerName: 'Expiration Date' },
     { field: 'received_date', headerName: 'Received Date' }
@@ -597,8 +597,8 @@ const UpdateQuantityForm = () => {
                                         />
                                     </TableCell>
                                     <TableCell>{departmentItem.usage_level}</TableCell>
-                                    <TableCell>{departmentItem.min_quantity}</TableCell>
-                                    <TableCell>{departmentItem.max_quantity}</TableCell>
+                                    <TableCell>{departmentItem.minimum_quantity}</TableCell>
+                                    <TableCell>{departmentItem.maximum_quantity}</TableCell>
                                     <TableCell>
                                         <TextField ref={inputRef} sx={{ maxWidth: 160 }} size="small" value={departmentItem.lot_number} onChange={handleLotNumberChange} />
                                     </TableCell>

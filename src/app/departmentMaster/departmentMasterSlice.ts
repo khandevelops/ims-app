@@ -18,8 +18,8 @@ export interface IDepartmentMasterItem {
     location: string;
     total_quantity: number;
     usage_level: string;
-    min_quantity: number;
-    max_quantity: number;
+    minimum_quantity: number,
+    maximum_quantity: number,
     order_quantity: number;
     unit_price: number;
     total_price: number;

@@ -63,7 +63,7 @@ const Master = () => {
     };
 
     const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
-        dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
+        dispatch(toggleDrawer({ type: drawerToggleType.UPDATE_MASTER_ITEM_FORM, masterItem: masterItem }));
         dispatch(populateMasterItem(masterItem));
     };
 

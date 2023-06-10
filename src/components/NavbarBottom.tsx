@@ -180,15 +180,6 @@ const NavbarBottom = () => {
                     {location.pathname === '/master' && <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon color="primary" sx={{ fontSize: 40 }} />} />}
                 </Box>
             </BottomNavigation>
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.UPDATE_MASTER_ITEM_FORM}>
-                <MasterForm />
-            </Drawer>
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ADD_MASTER_ITEM_FORM}>
-                <MasterForm />
-            </Drawer>
-            <Drawer anchor="right" open={drawerToggleTypeSelector.drawerToggleType === drawerToggleType.ASSIGN_MASTER_ITEM_FORM}>
-                <AssignItemForm />
-            </Drawer>
         </Paper>
     );
 };

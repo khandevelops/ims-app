@@ -24,9 +24,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
     { field: 'location', tooltipName: 'Location', headerName: 'L', align: 'left' },
     { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL', align: 'left' },
-    { field: 'min_quantity', tooltipName: 'Min Qty', headerName: 'MinQ', align: 'left' },
-    { field: 'max_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ', align: 'left' },
-    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
+    { field: 'minimum_quantity', tooltipName: 'Min Qty', headerName: 'MinQ', align: 'left' },
+    { field: 'maximum_quantity', tooltipName: 'Max Qty', headerName: 'MaxQ', align: 'left' },
+    { field: 'more', tooltipName: 'Edit', headerName: 'Edit', align: 'center' },
+    { field: 'more', tooltipName: 'Assign', headerName: 'Assign', align: 'center' },
+    { field: 'more', tooltipName: 'Delete', headerName: 'Delete', align: 'center' }
 ];
 
 const StoreRoom = () => {
@@ -48,20 +50,13 @@ const StoreRoom = () => {
     };
 
     const handleUpdateTotalQty = (store_room_item_id: number, event: React.KeyboardEvent) => {
-        let storeRoomItem: IStoreRoomItem = {};
-        const storeRoomMasterItem = storeRoomMasterItemsSelector.response && storeRoomMasterItemsSelector.response.content.find((item) => item.store_room_item_id === store_room_item_id);
-        if (storeRoomMasterItem) {
-            storeRoomItem = {
-                quantity: storeRoomMasterItem.total_quantity,
-                location: storeRoomMasterItem?.location,
-                min_quantity: storeRoomMasterItem?.min_quantity,
-                max_quantity: storeRoomMasterItem?.max_quantity,
-                usage_level: storeRoomMasterItem?.usage_level
-            };
-        }
-
         if (event.key === 'Enter') {
-            storeRoomMasterItem && dispatch(updateStoreRoomUpdateThunk({ id: store_room_item_id, storeRoomItem: storeRoomItem }));
+            dispatch(
+                updateStoreRoomUpdateThunk({
+                    id: store_room_item_id,
+                    storeRoomItem: { quantity: storeRoomMasterItemsSelector.response?.content.find((item) => item.store_room_item_id === store_room_item_id)?.total_quantity }
+                })
+            );
         }
     };
 
@@ -126,8 +121,8 @@ const StoreRoom = () => {
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.usage_level}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.min_quantity}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.max_quantity}</StyledTableCell>
+                                    <StyledTableCell>{storeRoomMasterItem.minimum_quantity}</StyledTableCell>
+                                    <StyledTableCell>{storeRoomMasterItem.maximum_quantity}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.order_quantity}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.issued}</StyledTableCell>
@@ -139,6 +134,10 @@ const StoreRoom = () => {
                                             <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event)}>
                                                 <ModeEditIcon color="primary" fontSize="small" />
                                             </IconButton>
+                                        </Box>
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        <Box sx={{ display: 'flex' }}>
                                             <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event)}>
                                                 <AddCircleOutlineIcon color="primary" fontSize="small" />
                                             </IconButton>

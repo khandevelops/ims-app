@@ -1,8 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { IDepartmentItem } from "../department/departmentItemsSlice";
+import { IStoreRoomItem } from "../storeRoom/storeRoomUpdateSlice";
+import { IMasterItem } from "../master/masterItemSlice";
+import { drawerToggleType } from "../../common/constants";
 
-export const initialState: {drawerToggleType: string} = {
-    drawerToggleType: ''
+export interface IDrawerToggleType {
+    type: keyof typeof drawerToggleType;
+    storeRoomItem?: IStoreRoomItem | null;
+    departmentItem?: IDepartmentItem | null;
+    masterItem?: IMasterItem | null
+}
+
+export const initialState: IDrawerToggleType = {
+    type: 'NONE'
 }
 
 export const drawerToggleTypeSlice = createSlice({
@@ -10,7 +21,7 @@ export const drawerToggleTypeSlice = createSlice({
     initialState,
     reducers: {
         toggleDrawer: (state, action) => {
-            state.drawerToggleType = action.payload
+            state = action.payload
         }
     }
 })

@@ -51,6 +51,7 @@ const Dashboard = () => {
             })
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
+                    console.log(response);
                     setProfiles(response.value);
                     dispatch(getProfiles(response.value));
                 });
@@ -126,7 +127,7 @@ const Dashboard = () => {
     return (
         <Grid container sx={{ height: '100%' }}>
             <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ padding: 5 }}>
-                <Grid container justifyContent='stretch' alignItems='stretch' sx={{ height: '100%' }}>
+                <Grid container justifyContent="stretch" alignItems="stretch" sx={{ height: '100%' }}>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                         <Card>
                             <CardContent sx={{ textAlign: 'center' }}>
@@ -165,7 +166,7 @@ const Dashboard = () => {
                     </Grid>
                 </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={8} xl={8} sx={{padding: 5}}>
+            <Grid item xs={12} sm={12} md={12} lg={8} xl={8} sx={{ padding: 5 }}>
                 <TableContainer sx={{ height: '70vh' }} component={Paper} elevation={3}>
                     <Table stickyHeader>
                         <TableHead>

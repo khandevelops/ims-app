@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { IDepartmentItem } from "./departmentItemsSlice";
 import axios from "axios";
+import { StaticDateTimePicker } from "@mui/x-date-pickers";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const updateDepartmentItem = (pathname: string, departmentItem: IDepartmentItem) => {
-    return axios.patch(`${baseUrl}${pathname}/${departmentItem.id}/update`, departmentItem)
+export const updateDepartmentItem = (state: string, departmentItem: IDepartmentItem) => {
+    return axios.patch(`${baseUrl}${state}/${departmentItem.id}/update`, departmentItem)
 }
 
 export interface IDepartmentUpdateState {

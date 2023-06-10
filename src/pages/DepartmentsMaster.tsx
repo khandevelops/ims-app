@@ -272,9 +272,9 @@ const DepartmentsMaster = () => {
                                                         {masterDepartmentItem.departmentItems.map((departmentItem, index) => (
                                                             <TableRow key={index} hover>
                                                                 <StyledSubTableCell>{departmentItem.location}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="left">{masterDepartmentItem.minimum_quantity}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="left">{masterDepartmentItem.maximum_quantity}</StyledSubTableCell>
-                                                                <StyledSubTableCell align="left">{masterDepartmentItem.usage_level}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left">{departmentItem.minimum_quantity}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left">{departmentItem.maximum_quantity}</StyledSubTableCell>
+                                                                <StyledSubTableCell align="left">{departmentItem.usage_level}</StyledSubTableCell>
                                                                 <StyledSubTableCell align="left" sx={{ width: 100 }}>
                                                                     <TextField
                                                                         ref={inputRef}

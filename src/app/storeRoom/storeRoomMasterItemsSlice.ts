@@ -18,8 +18,8 @@ export interface IStoreRoomMasterItem {
     location: string;
     total_quantity: number;
     usage_level: string;
-    min_quantity: number;
-    max_quantity: number;
+    minimum_quantity: number,
+    maximum_quantity: number,
     order_quantity: number;
     unit_price: number;
     total_price: number;
@@ -95,7 +95,7 @@ export const storeRoomMasterItemsSlice = createSlice({
     }
 })
 
-export const { changeStoreRoomMasterItems} = storeRoomMasterItemsSlice.actions;
+export const { changeStoreRoomMasterItems } = storeRoomMasterItemsSlice.actions;
 
 
 export const selectStoreRoomMasterItemsItems = (state: RootState) => state.storeRooomMasterItemsStore
