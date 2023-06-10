@@ -12,7 +12,7 @@ import { selectDepartmentItem } from '../../app/department/departmentItemSlice';
 import { changeDrawerToggleType } from '../../app/storeRoom/storeRoomUpdateSlice';
 
 const UpdateItemForm = () => {
-    const { type, storeRoomItem } = useAppSelector(selectDrawerToggleType);
+    const { drawerToggle } = useAppSelector(selectDrawerToggleType);
     const departmentItemSelector = useAppSelector(selectDepartmentItem);
     const dispatch = useAppDispatch();
 
@@ -63,7 +63,7 @@ const UpdateItemForm = () => {
                         label="LOCAITON"
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.location}
+                        value={drawerToggle.storeRoomItem?.location}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event)}
                     />
                 </Grid>
@@ -76,7 +76,7 @@ const UpdateItemForm = () => {
                         label="USAGE LEVEL"
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.usage_level}
+                        value={drawerToggle.storeRoomItem?.usage_level}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -89,13 +89,21 @@ const UpdateItemForm = () => {
                         label="MAXIMUM QUANTITY"
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.maximum_quantity}
+                        value={drawerToggle.storeRoomItem?.maximum_quantity}
                         onChange={handleChange}
                     />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    <TextField sx={{ width: '100%' }} id="minimum_quantity" label="MINIMUM QAUNTITY" variant="outlined" size="small" value={storeRoomItem?.minimum_quantity} onChange={handleChange} />
+                    <TextField
+                        sx={{ width: '100%' }}
+                        id="minimum_quantity"
+                        label="MINIMUM QAUNTITY"
+                        variant="outlined"
+                        size="small"
+                        value={drawerToggle.storeRoomItem?.minimum_quantity}
+                        onChange={handleChange}
+                    />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
@@ -103,7 +111,7 @@ const UpdateItemForm = () => {
                         <DateTimePicker
                             label="Expiration Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={storeRoomItem?.expiration_date}
+                            value={drawerToggle.storeRoomItem?.expiration_date}
                             onChange={(value: Date | null) => handleDateChange(value, 'expiration_date')}
                             renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
                         />
@@ -115,7 +123,7 @@ const UpdateItemForm = () => {
                         <DateTimePicker
                             label="Received Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={storeRoomItem?.received_date}
+                            value={drawerToggle.storeRoomItem?.received_date}
                             onChange={(value: Date | null) => handleDateChange(value, 'received_date')}
                             renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
                         />

@@ -12,8 +12,14 @@ export interface IDrawerToggleType {
     masterItem?: IMasterItem | null
 }
 
-export const initialState: IDrawerToggleType = {
-    type: 'NONE'
+export interface DrawerToggleTypeState {
+    drawerToggle: IDrawerToggleType
+}
+
+export const initialState: DrawerToggleTypeState = {
+    drawerToggle: {
+        type: 'NONE'
+    }
 }
 
 export const drawerToggleTypeSlice = createSlice({
@@ -21,7 +27,7 @@ export const drawerToggleTypeSlice = createSlice({
     initialState,
     reducers: {
         toggleDrawer: (state, action) => {
-            state = action.payload
+            state.drawerToggle = action.payload
         }
     }
 })

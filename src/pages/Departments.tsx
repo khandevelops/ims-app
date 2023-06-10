@@ -113,7 +113,7 @@ const Departments = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.type === drawerToggleType.UPDATE_QUANTITY_FORM}>
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_QUANTITY_FORM}>
                 <UpdateQuantityForm />
             </Drawer>
         </Box>

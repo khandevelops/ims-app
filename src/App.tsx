@@ -15,6 +15,8 @@ import RequestMasterDepartmentComplete from './components/RequestMasterDepartmen
 import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
 import DepartmentPage from './pages/Departments';
 import StoreRoom from './pages/StoreRoom';
+import { drawerToggleType } from './common/constants';
+import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -74,6 +76,7 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
+    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
     return (
         <Box>
             <UnauthenticatedTemplate>
@@ -82,6 +85,7 @@ const App = () => {
             <AuthenticatedTemplate>
                 <RouterProvider router={router} />
             </AuthenticatedTemplate>
+            {drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM}
         </Box>
     );
 };

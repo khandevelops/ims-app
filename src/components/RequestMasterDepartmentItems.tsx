@@ -96,7 +96,7 @@ const RequestMasterDepartmentItems = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.type === drawerToggleType.UPDATE_REQUEST_REVIEW_FORM}>
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_REQUEST_REVIEW_FORM}>
                 <RequestItemReviewForm />
             </Drawer>
         </Box>

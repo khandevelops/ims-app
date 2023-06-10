@@ -166,7 +166,7 @@ const RequestMasterDepartmentPending = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.type === drawerToggleType.UPDATE_REQUEST_EDIT_FORM}>
+            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_REQUEST_EDIT_FORM}>
                 <RequestItemEditForm />
             </Drawer>
         </Box>

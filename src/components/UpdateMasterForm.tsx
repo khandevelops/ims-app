@@ -41,21 +41,21 @@ const MasterForm = () => {
     const [departments, setDepartments] = useState<string[]>([]);
 
     useEffect(() => {
-        if (drawerToggleTypeSelector.type === drawerToggleType.ADD_MASTER_ITEM_FORM) {
+        if (drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.ADD_MASTER_ITEM_FORM) {
             setMasterItem(defaultMasterItem);
             return;
         }
-        if (drawerToggleTypeSelector.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
+        if (drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
             setMasterItem(masterFormSelector.masterItem);
             return;
         }
     }, [drawerToggleTypeSelector, masterFormSelector]);
 
     const handleSubmit = () => {
-        if (drawerToggleTypeSelector.type === drawerToggleType.ADD_MASTER_ITEM_FORM) {
+        if (drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.ADD_MASTER_ITEM_FORM) {
             dispatch(createMasterItemThunk({ masterItem: masterItem, departments: departments }));
         }
-        if (drawerToggleTypeSelector.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
+        if (drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM) {
             dispatch(updateMasterItemThunk({ id: masterItem.id, masterItem: masterItem }));
         }
         dispatch(toggleDrawer(''));
@@ -100,7 +100,7 @@ const MasterForm = () => {
     return (
         <Box sx={{ padding: 5 }}>
             <Grid container>
-                {drawerToggleTypeSelector.type === drawerToggleType.ADD_MASTER_ITEM_FORM && (
+                {drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.ADD_MASTER_ITEM_FORM && (
                     <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                         <TextField sx={{ width: '100%' }} id="" label="ID" variant="outlined" size="small" value={masterItem.id} disabled />
                     </Grid>
@@ -353,7 +353,7 @@ const MasterForm = () => {
                 </Grid>
             </Grid>
 
-            {drawerToggleTypeSelector.type === drawerToggleType.ADD_MASTER_ITEM_FORM && (
+            {drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.ADD_MASTER_ITEM_FORM && (
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="center">
                         <FormGroup sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', paddingTop: 3 }}>
@@ -372,7 +372,7 @@ const MasterForm = () => {
             <Grid container gap={5} sx={{ paddingTop: 10 }} justifyContent="center">
                 <Grid item>
                     <Button variant="outlined" onClick={handleSubmit} sx={{ width: 200 }}>
-                        {drawerToggleTypeSelector.type === drawerToggleType.ADD_MASTER_ITEM_FORM ? 'ADD' : 'UPDATE'}
+                        {drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.ADD_MASTER_ITEM_FORM ? 'ADD' : 'UPDATE'}
                     </Button>
                 </Grid>
                 <Grid item>
