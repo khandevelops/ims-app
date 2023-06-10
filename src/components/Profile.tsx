@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getProfile, iProfile, selectProfile } from '../app/profileSlice';
 import { Avatar } from '@mui/material';
 import { getProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
+import { Navigate } from 'react-router-dom';
 
 const Profile = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -56,10 +57,13 @@ const Profile = () => {
         setAnchorElUser(null);
     };
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         const currentAccount = instance.getAccountByHomeId(accounts[0].homeAccountId);
         // The account's ID Token must contain the login_hint optional claim to avoid the account picker
-        await instance.logoutRedirect({ account: currentAccount });
+        instance
+            .logoutRedirect({ account: currentAccount })
+            .then(() => <Navigate to="/" />)
+            .catch((error: Error) => console.error(error.message));
         setAnchorElUser(null);
     };
 
