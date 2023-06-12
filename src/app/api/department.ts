@@ -21,5 +21,5 @@ export const updateDepartmentItem = (params: { state: string, id: number, depart
 
 
 export const geDepartmentMasterItems = (params: { state: string, page: number }) => {
-    return axios.get(`${baseUrl}/master-department/${params.state}/list?page=${params.page}`)
+    return axios.get(`${baseUrl}/department-master/${params.state}/list?page=${params.page}`)
 }
