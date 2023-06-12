@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { IMasterItem } from "./masterItemSlice";
 import { updateMasterItemById } from "./masterItemSlice";
 import axios from "axios";
-import { department } from "../../common/constants";
+import { DEPARTMENT } from "../../common/constants";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 

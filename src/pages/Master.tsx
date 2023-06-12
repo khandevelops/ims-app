@@ -6,7 +6,7 @@ import { assignMasterItemThunk, populateMasterItem } from '../app/master/masterF
 import { IMasterItem } from '../app/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { department, drawerToggleType } from '../common/constants';
+import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
@@ -63,7 +63,7 @@ const Master = () => {
     };
 
     const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
-        dispatch(toggleDrawer({ type: drawerToggleType.UPDATE_MASTER_ITEM_FORM, masterItem: masterItem }));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM, masterItem: masterItem }));
         dispatch(populateMasterItem(masterItem));
     };
 
@@ -161,7 +161,7 @@ const Master = () => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseDepartmentMenu}>
-                {Object.values(department).map((department, index) => (
+                {Object.values(DEPARTMENT).map((department, index) => (
                     <MenuItem key={index} onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
                         <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
                     </MenuItem>

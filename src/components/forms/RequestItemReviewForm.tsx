@@ -1,11 +1,11 @@
 import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
-import { createRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsCreateSlice';
-import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
-import { confirmation } from '../common/constants';
+import { createRequestMasterItemsThunk } from '../../app/requestMaster/requestMasterItemsCreateSlice';
+import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../../app/requestMaster/requestMasterItemsCheckedSlice';
+import { CONFIRMATION } from '../../common/constants';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -20,7 +20,7 @@ const RequestItemReviewForm = () => {
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
-        dispatch(toggleDrawer(''));
+        dispatch(toggleDrawer({ type: '' }));
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
@@ -53,7 +53,7 @@ const RequestItemReviewForm = () => {
                     department: 'EXTRACTIONS',
                     user: 'Batsaikhan Ulambayar',
                     detail: 'detail',
-                    confirmation: confirmation.WAITING,
+                    confirmation: CONFIRMATION.WAITING,
                     custom_text: 'custom text',
                     location: 'store room',
                     request_item_id: item.request_item_id,

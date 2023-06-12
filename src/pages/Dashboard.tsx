@@ -26,7 +26,7 @@ import { callProflesMsGraph } from '../config/graph';
 import { useMsal } from '@azure/msal-react';
 import { getProfiles, selectProfiles } from '../app/profilesSlice';
 import { changeProfileDetails, getProfileDetailsThunk, selectProfileDetails, syncProfileDetailsThunk } from '../app/profileDetail/profileDetailsSlice';
-import { department, permission, role } from '../common/constants';
+import { DEPARTMENT, PERMISSION, ROLE } from '../common/constants';
 import { updateProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
 
 const columns: { field: string; headerName: string }[] = [
@@ -195,7 +195,7 @@ const Dashboard = () => {
                                                         name="department"
                                                         value={getProfileDetail(profile.id)?.department}
                                                         onChange={(event: SelectChangeEvent) => handleDepartmentChange(profile.id, event)}>
-                                                        {Object.values(department).map((department, index) => (
+                                                        {Object.values(DEPARTMENT).map((department, index) => (
                                                             <MenuItem key={index} value={department}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>{department}</Typography>
                                                             </MenuItem>
@@ -211,7 +211,7 @@ const Dashboard = () => {
                                                         id={profile.mail}
                                                         value={getProfileDetail(profile.id)?.role}
                                                         onChange={(event: SelectChangeEvent) => handleRoleChange(profile.id, event)}>
-                                                        {Object.values(role).map((role, index) => (
+                                                        {Object.values(ROLE).map((role, index) => (
                                                             <MenuItem key={index} value={role}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
                                                             </MenuItem>
@@ -227,7 +227,7 @@ const Dashboard = () => {
                                                         id={profile.mail}
                                                         value={getProfileDetail(profile.id)?.permission}
                                                         onChange={(event: SelectChangeEvent) => handlePermissionChange(profile.id, event)}>
-                                                        {Object.values(permission).map((role, index) => (
+                                                        {Object.values(PERMISSION).map((role, index) => (
                                                             <MenuItem key={index} value={role}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>{role}</Typography>
                                                             </MenuItem>

@@ -8,14 +8,14 @@ import StoreRoomMaster from './pages/StoreRoomMaster';
 import RequestMasterDepartment from './pages/RequestMasterDepartment';
 import RequestMasterAdmin from './pages/RequestMasterAdmin';
 import Layout from './components/Layout';
-import { Box, Drawer } from '@mui/material';
+import { Box } from '@mui/material';
 import Auth from './pages/Auth';
 import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
 import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
 import DepartmentPage from './pages/Departments';
 import StoreRoom from './pages/StoreRoom';
-import { drawerToggleType } from './common/constants';
+import { DRAWER_TOGGLE_TYPE } from './common/constants';
 import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
 
 const router = createBrowserRouter(
@@ -76,7 +76,7 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
+    const { type } = useAppSelector(selectDrawerToggleType);
     return (
         <Box>
             <UnauthenticatedTemplate>
@@ -85,7 +85,7 @@ const App = () => {
             <AuthenticatedTemplate>
                 <RouterProvider router={router} />
             </AuthenticatedTemplate>
-            {drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_MASTER_ITEM_FORM}
+            {type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM}
         </Box>
     );
 };

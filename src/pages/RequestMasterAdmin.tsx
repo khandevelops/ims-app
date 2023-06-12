@@ -22,7 +22,7 @@ import { KeyboardEvent, ChangeEvent, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { status } from '../common/constants';
+import { STATUS } from '../common/constants';
 import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
 import { changeRequestMasterItems, getRequestMasterItemsThunk, IRequestMasterItem, selectRequestMasterItems } from '../app/requestMaster/requestMasterItemsSlice';
 
@@ -118,7 +118,7 @@ const RequestMasterAdmin = () => {
                                                 id={requestMasterItem.item}
                                                 value={requestMasterItem.status}
                                                 onChange={(event: SelectChangeEvent) => handleStatusChange(event, requestMasterItem.request_item_id)}>
-                                                {Object.values(status).map((status, index) => (
+                                                {Object.values(STATUS).map((status, index) => (
                                                     <MenuItem key={index} value={status}>
                                                         <Typography sx={{ fontSize: '10pt' }}>{status}</Typography>
                                                     </MenuItem>

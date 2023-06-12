@@ -39,6 +39,7 @@ export interface IMasterItem {
     comments: string;
     type: string;
     group: string;
+    drug_class: string;
 }
 
 export interface IMasterState {

@@ -1,7 +1,7 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../images/logo.png';
-import Profile from './Profile';
+import logo from '../../images/logo.png';
+import Profile from '../Profile';
 
 const MenuAdmin = () => {
     const location = useLocation();

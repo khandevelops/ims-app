@@ -2,24 +2,24 @@ import { BottomNavigation, BottomNavigationAction, Box, Button, Drawer, Paper } 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DownloadIcon from '@mui/icons-material/Download';
 import { Fragment, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { handleBottomToolbarItemClick } from '../app/bottomToolbar/bottomToolbarItems';
-import { bottomToolbarButtons, drawerToggleType, role } from '../common/constants';
-import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { handleBottomToolbarItemClick } from '../../app/bottomToolbar/bottomToolbarItems';
+import { BOTTOM_TOOLBAR_BUTTONS, DRAWER_TOGGLE_TYPE, ROLE } from '../../common/constants';
+import { selectDrawerToggleType, toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
+import { selectRequestMasterItemsChecked } from '../../app/requestMaster/requestMasterItemsCheckedSlice';
 import { Link, useLocation } from 'react-router-dom';
-import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
+import { selectProfileDetail } from '../../app/profileDetail/profileDetailSlice';
 import { ChangeEvent } from 'react';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
-import { getMasterItemsFilteredThunk } from '../app/master/masterItemSlice';
+import { getMasterItemsFilteredThunk } from '../../app/master/masterItemSlice';
 import SendIcon from '@mui/icons-material/Send';
 import PreviewIcon from '@mui/icons-material/Preview';
-import { selectRequestMasterItemsPendingChecked } from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
+import { selectRequestMasterItemsPendingChecked } from '../../app/requestMaster/requestMasterItemsPendingCheckedSlice';
 import EditIcon from '@mui/icons-material/Edit';
-import MasterForm from './UpdateMasterForm';
-import AssignItemForm from './AssignItemForm';
-import { downloadDepartmentMasterItemsThunk } from '../app/download/downloadDepartmentMasterItemsSlice';
+import MasterForm from '../forms/UpdateMasterForm';
+import AssignItemForm from '../AssignItemForm';
+import { downloadDepartmentMasterItemsThunk } from '../../app/download/downloadDepartmentMasterItemsSlice';
 import axios from 'axios';
 import FileSaver from 'file-saver';
 
@@ -62,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavbarBottom = () => {
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
+    const DRAWER_TOGGLE_TYPESelector = useAppSelector(selectDrawerToggleType);
     const profileDetailSelector = useAppSelector(selectProfileDetail);
     const [value, setValue] = useState<number>(0);
     const dispatch = useAppDispatch();
@@ -72,15 +72,15 @@ const NavbarBottom = () => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
 
     const handleAddClick = () => {
-        dispatch(toggleDrawer(drawerToggleType.ADD_MASTER_ITEM_FORM));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM }));
     };
 
     const handleAssignClick = () => {
-        dispatch(toggleDrawer(drawerToggleType.ASSIGN_MASTER_ITEM_FORM));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.ASSIGN_MASTER_ITEM }));
     };
 
     const handleReviewClick = () => {
-        dispatch(toggleDrawer(drawerToggleType.UPDATE_REQUEST_REVIEW_FORM));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_REQUEST_REVIEW }));
     };
 
     const handleDownloadClick = () => {
@@ -91,7 +91,7 @@ const NavbarBottom = () => {
     };
 
     const handleEditClick = () => {
-        dispatch(toggleDrawer(drawerToggleType.UPDATE_REQUEST_EDIT_FORM));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_REQUEST_EDIT }));
     };
 
     const handlekeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +107,7 @@ const NavbarBottom = () => {
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}>
-                {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION && (
+                {profileDetailSelector.profileDetail?.role === ROLE.ADMINISTRATION && (
                     <Fragment>
                         <Box sx={{ width: 10 }}></Box>
                         <Box sx={{ paddingTop: 1 }}>

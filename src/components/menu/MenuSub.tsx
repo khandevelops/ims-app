@@ -4,8 +4,8 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
-import { useAppDispatch } from '../app/hooks';
-import { getMasterItemsFilteredThunk } from '../app/master/masterItemSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { getMasterItemsFilteredThunk } from '../../app/master/masterItemSlice';
 import { Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -55,7 +55,7 @@ const MenuSub = () => {
     };
 
     return (
-        <AppBar position="static" elevation={5} sx={{ alignItems: 'center', backgroundColor: '#1347a4'}}>
+        <AppBar position="static" elevation={5} sx={{ alignItems: 'center', backgroundColor: '#1347a4' }}>
             <Toolbar variant="dense">
                 <Search onChange={handlekeywordChange}>
                     <SearchIconWrapper>
@@ -63,7 +63,6 @@ const MenuSub = () => {
                     </SearchIconWrapper>
                     <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
                 </Search>
-
             </Toolbar>
         </AppBar>
     );

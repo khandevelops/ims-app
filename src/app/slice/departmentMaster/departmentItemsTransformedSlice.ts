@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 

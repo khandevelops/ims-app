@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
 import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { drawerToggleType } from '../common/constants';
-import RequestItemEditForm from './RequestItemEditForm';
+import { DRAWER_TOGGLE_TYPE } from '../common/constants';
+import RequestItemEditForm from './forms/RequestItemEditForm';
 import { changeRequestMasterItemsPending, getRequestMasterItemsPendingThunk, selectRequestMasterItemsPending } from '../app/requestMaster/requestMasterItemsPendingSlice';
 import { changeRequestItemsPendingChecked, selectRequestMasterItemsPendingChecked } from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
 import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
@@ -33,7 +33,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 const RequestMasterDepartmentPending = () => {
     const requestMasterItemsPendingSelector = useAppSelector(selectRequestMasterItemsPending);
     const requestMasterItemsPendingCheckedSelector = useAppSelector(selectRequestMasterItemsPendingChecked);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
+    const { type } = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 
@@ -166,7 +166,7 @@ const RequestMasterDepartmentPending = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_REQUEST_EDIT_FORM}>
+            <Drawer anchor="bottom" open={type === DRAWER_TOGGLE_TYPE.UPDATE_REQUEST_EDIT}>
                 <RequestItemEditForm />
             </Drawer>
         </Box>

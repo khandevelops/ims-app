@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Grid } from '@mui/material';
 import { useState, ChangeEvent } from 'react';
-import { department } from '../common/constants';
+import { DEPARTMENT } from '../common/constants';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../app/hooks';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
@@ -23,13 +23,13 @@ const AssignItemForm = () => {
     };
 
     const handleCancel = () => {
-        dispatch(toggleDrawer(''))
+        dispatch(toggleDrawer({ type: '' }));
     };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: '100%', padding: 10 }}>
             <FormGroup>
-                {Object.values(department).map((department, index) => (
+                {Object.values(DEPARTMENT).map((department, index) => (
                     <FormControlLabel
                         control={<Checkbox onChange={handleCheckboxChange} checked={departments.some((departmentName) => departmentName === department)} name={department} />}
                         label={department.split('_').join(' ')}

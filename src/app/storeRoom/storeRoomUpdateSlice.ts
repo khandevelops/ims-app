@@ -42,7 +42,7 @@ export const storeRoomUpdateSlice = createSlice({
     name: 'storeRoomSlice',
     initialState,
     reducers: {
-        changeDrawerToggleType: (state, action) => {
+        changeDRAWER_TOGGLE_TYPE: (state, action) => {
             state = action.payload
         }
     },
@@ -60,7 +60,7 @@ export const storeRoomUpdateSlice = createSlice({
     }
 })
 
-export const { changeDrawerToggleType } = storeRoomUpdateSlice.actions;
+export const { changeDRAWER_TOGGLE_TYPE } = storeRoomUpdateSlice.actions;
 export const selectStoreRoomUpdate = (state: RootState) => state.storeRooomUpdateStore
 
 export default storeRoomUpdateSlice.reducer

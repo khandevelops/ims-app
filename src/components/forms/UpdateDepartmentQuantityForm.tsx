@@ -1,18 +1,15 @@
 import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { updateQuantityThunk } from '../app/departmentMaster/updateQuantitySlice';
-import { changeDepartmentExperienceItems, selectDepartmentMasterItems } from '../app/departmentMaster/departmentMasterSlice';
-import { changeMasterDepartmentItem, IMasterDepartmentItem, selectMasterDepartmentItem } from '../app/masterDepartment/masterDepartmentSlice';
+import { changeMasterDepartmentItem, IMasterDepartmentItem, selectMasterDepartmentItem } from '../../app/slice/masterDepartment/masterDepartmentItemSlice';
 import { useLocation } from 'react-router-dom';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { Moment } from 'moment';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { department } from '../common/constants';
-import { selectDepartmentItems } from '../app/department/departmentItemsSlice';
-import { selectDepartmentItemsTransformed } from '../app/departmentMaster/departmentItemsTransformedSlice';
+import { toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
+import { DEPARTMENT } from '../../common/constants';
+import { selectDepartmentItems } from '../../app/department/departmentItemsSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'id', headerName: 'ID' },
@@ -34,7 +31,7 @@ const UpdateQuantityForm = () => {
     const location = useLocation();
 
     const handleClose = () => {
-        dispatch(toggleDrawer(''));
+        dispatch(toggleDrawer({ type: '' }));
     };
 
     const handleExpirationDateChange = (value: Moment | null, id: number) => {

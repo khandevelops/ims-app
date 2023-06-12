@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IDepartmentItem } from "../department/departmentItemsSlice";
-import { RootState } from "../store";
+import { IDepartmentItem } from "../../department/departmentItemsSlice";
+import { RootState } from "../../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -21,7 +21,7 @@ const initialState: quantityUpdateState = {
 
 export const updateQuantityThunk = createAsyncThunk(
     'updateQuantity',
-    async (params: {state: string, departmentItems: IDepartmentItem[]}) => {
+    async (params: { state: string, departmentItems: IDepartmentItem[] }) => {
         const response = await updateQuantity(params.state, params.departmentItems)
         return response.data
     }

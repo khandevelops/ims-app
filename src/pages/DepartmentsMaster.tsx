@@ -183,7 +183,7 @@ const DepartmentsMaster = () => {
     };
 
     const handleMoreClick = (event: MouseEvent<HTMLElement>) => {
-        // dispatch(toggleDrawer(drawerToggleType.UPDATE_MASTER_ITEM_FORM));
+        // dispatch(toggleDrawer(DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM_FORM));
         // dispatch(populateMasterItem(masterItem));
     };
 

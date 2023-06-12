@@ -5,11 +5,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, Button, Drawer, tableCellClasses, styled } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import UpdateQuantityForm from '../components/UpdateQuantityForm';
+import UpdateQuantityForm from '../components/forms/UpdateDepartmentQuantityForm';
 import { handlePage, handleSize, selectPage } from '../app/common/pageSlice';
-import { getMasterDepartmentItemThunk } from '../app/masterDepartment/masterDepartmentSlice';
+import { getMasterDepartmentItemThunk } from '../app/slice/masterDepartment/masterDepartmentItemSlice';
 import { selectDrawerToggleType, toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
-import { drawerToggleType } from '../common/constants';
+import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import { getDepartmentItems, getDepartmentItemsThunk, selectDepartmentItems } from '../app/departments/departmentItemsSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -43,7 +43,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const Departments = () => {
     const departmentItemsSelector = useAppSelector(selectDepartmentItems);
-    const drawerToggleTypeSelector = useAppSelector(selectDrawerToggleType);
+    const { type } = useAppSelector(selectDrawerToggleType);
     const pageSelector = useAppSelector(selectPage);
     const dispatch = useAppDispatch();
 
@@ -69,7 +69,7 @@ const Departments = () => {
 
     const handleUpdateClick = (id: number, departmentName: string) => {
         dispatch(getMasterDepartmentItemThunk({ id: id, departmentName: departmentName })).then(() => {
-            dispatch(toggleDrawer(drawerToggleType.UPDATE_QUANTITY_FORM));
+            dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_DEPARTMENT_ITEM }));
         });
     };
 
@@ -113,7 +113,7 @@ const Departments = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={drawerToggleTypeSelector.drawerToggle.type === drawerToggleType.UPDATE_QUANTITY_FORM}>
+            <Drawer anchor="bottom" open={type === DRAWER_TOGGLE_TYPE.UPDATE_QUANTITY}>
                 <UpdateQuantityForm />
             </Drawer>
         </Box>

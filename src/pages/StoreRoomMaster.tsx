@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useEffect, MouseEvent } from 'react';
+import { useEffect, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, TextField, styled, tableCellClasses, Tooltip, IconButton } from '@mui/material';
@@ -9,9 +9,11 @@ import { IStoreRoomItem, updateStoreRoomUpdateThunk } from '../app/storeRoom/sto
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { drawerToggleType } from '../common/constants';
+import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { IDepartmentItem } from '../app/department/departmentItemsSlice';
+import { selectDepartmentMasterItems } from '../app/slice/departmentMaster/departmentMasterItemsSlice';
+import { IDepartment, IDepartmentMaster } from '../app/properties/IDepartment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -46,7 +48,7 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
 ];
 
 const StoreRoomMaster = () => {
-    const storeRoomMasterItemsSelector = useAppSelector(selectStoreRoomMasterItemsItems);
+    const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<{ page: number }>({ page: 0 });
     const location = useLocation();
@@ -63,12 +65,12 @@ const StoreRoomMaster = () => {
         setPage({ ...page, page: 0 });
     };
 
-    const handleUpdateTotalQty = (store_room_item_id: number, event: React.KeyboardEvent) => {
+    const handleUpdateTotalQty = (id: number, event: KeyboardEvent) => {
         if (event.key === 'Enter') {
             dispatch(
                 updateStoreRoomUpdateThunk({
-                    id: store_room_item_id,
-                    storeRoomItem: { quantity: storeRoomMasterItemsSelector.response?.content.find((item) => item.store_room_item_id === store_room_item_id)?.total_quantity }
+                    id: id,
+                    storeRoomItem: { quantity: departmentMasterItemsSelector.response?.content.find((item) => item.id === id)?.quantity }
                 })
             );
         }
@@ -77,10 +79,10 @@ const StoreRoomMaster = () => {
     const handleChangeTotalQty = (id: number, event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(
             changeStoreRoomMasterItems({
-                ...storeRoomMasterItemsSelector.response,
-                content: storeRoomMasterItemsSelector.response?.content.map((item) => ({
+                ...departmentMasterItemsSelector.response,
+                content: departmentMasterItemsSelector.response?.content.map((item) => ({
                     ...item,
-                    total_quantity: item.store_room_item_id === id ? event.target.value : item.total_quantity
+                    total_quantity: item.id === id ? event.target.value : item.quantity
                 }))
             })
         );
@@ -90,8 +92,25 @@ const StoreRoomMaster = () => {
         return unit_price * quantity;
     };
 
-    const handleEditClick = (event: MouseEvent<HTMLElement>, storeRoomMasterItem: IStoreRoomItem) => {
-        dispatch(toggleDrawer({ draerToggleTYpe: drawerToggleType.UPDATE_DEPARTMENT_ITEM_FORM, storeRoomItem: storeRoomMasterItem }));
+    const handleEditClick = (event: MouseEvent<HTMLElement>, departmentMasterItem: IDepartmentMaster) => {
+        if (departmentMasterItem) {
+            dispatch(
+                toggleDrawer({
+                    type: DRAWER_TOGGLE_TYPE.UPDATE_DEPARTMENT_ITEM,
+                    departmentItem: {
+                        id: departmentMasterItem.id,
+                        location: departmentMasterItem.location,
+                        quantity: departmentMasterItem.quantity,
+                        lot_number: departmentMasterItem.lot_number,
+                        usage_level: departmentMasterItem.usage_level,
+                        minimum_quantity: departmentMasterItem.minimum_quantity,
+                        maximum_quantity: departmentMasterItem.maximum_quantity,
+                        expiration_date: departmentMasterItem.expiration_date,
+                        received_date: departmentMasterItem.received_date
+                    }
+                })
+            );
+        }
     };
 
     const handleDeleteClick = (event: MouseEvent<HTMLElement>, storeRoomMasterItem: IStoreRoomItem) => {};
@@ -111,15 +130,15 @@ const StoreRoomMaster = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {storeRoomMasterItemsSelector.response &&
-                            storeRoomMasterItemsSelector.response.content.length > 0 &&
-                            storeRoomMasterItemsSelector.response.content.map((storeRoomMasterItem, index) => (
+                        {departmentMasterItemsSelector.response &&
+                            departmentMasterItemsSelector.response.content.length > 0 &&
+                            departmentMasterItemsSelector.response.content.map((departmentMasterItem, index) => (
                                 <TableRow key={index} hover>
-                                    <StyledTableCell>{storeRoomMasterItem.item}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.purchase_unit}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.part_number}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.recent_cn}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.location}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.masterItem.item}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.masterItem.purchase_unit}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.masterItem.part_number}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.masterItem.recent_cn}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.location}</StyledTableCell>
                                     <StyledTableCell>
                                         <TextField
                                             sx={{ width: 70 }}
@@ -127,24 +146,24 @@ const StoreRoomMaster = () => {
                                             InputProps={{
                                                 inputProps: { min: 0 }
                                             }}
-                                            id={storeRoomMasterItem.store_room_item_id.toString()}
-                                            value={storeRoomMasterItem.total_quantity}
-                                            onKeyDown={(event: React.KeyboardEvent) => handleUpdateTotalQty(storeRoomMasterItem.store_room_item_id, event)}
-                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeTotalQty(storeRoomMasterItem.store_room_item_id, event)}
+                                            id={departmentMasterItem.id?.toString()}
+                                            value={departmentMasterItem.quantity}
+                                            onKeyDown={(event: KeyboardEvent) => handleUpdateTotalQty(departmentMasterItem.id, event)}
+                                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleChangeTotalQty(departmentMasterItem.id, event)}
                                         />
                                     </StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.usage_level}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.minimum_quantity}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.maximum_quantity}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.order_quantity}</StyledTableCell>
-                                    <StyledTableCell>${storeRoomMasterItem.unit_price}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.issued}</StyledTableCell>
-                                    <StyledTableCell>{storeRoomMasterItem.received}</StyledTableCell>
-                                    <StyledTableCell>{getTotalPrice(storeRoomMasterItem.unit_price, storeRoomMasterItem.total_quantity)}</StyledTableCell>
-                                    <StyledTableCell width={200}>{storeRoomMasterItem.comment}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.usage_level}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.minimum_quantity}</StyledTableCell>
+                                    <StyledTableCell>{departmentMasterItem.maximum_quantity}</StyledTableCell>
+                                    <StyledTableCell>order quantity</StyledTableCell>
+                                    <StyledTableCell>${departmentMasterItem.masterItem.unit_price}</StyledTableCell>
+                                    <StyledTableCell>issued</StyledTableCell>
+                                    <StyledTableCell>received</StyledTableCell>
+                                    <StyledTableCell>{getTotalPrice(departmentMasterItem.masterItem.unit_price, departmentMasterItem.quantity)}</StyledTableCell>
+                                    <StyledTableCell width={200}>{departmentMasterItem.masterItem.comment}</StyledTableCell>
                                     <StyledTableCell>
                                         <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, storeRoomMasterItem)}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, departmentMasterItem)}>
                                                 <ModeEditIcon color="primary" fontSize="small" />
                                             </IconButton>
                                         </Box>
@@ -152,7 +171,7 @@ const StoreRoomMaster = () => {
 
                                     <StyledTableCell>
                                         <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, storeRoomMasterItem)}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, departmentMasterItem)}>
                                                 <DeleteIcon color="primary" fontSize="small" />
                                             </IconButton>
                                         </Box>
@@ -162,14 +181,14 @@ const StoreRoomMaster = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {storeRoomMasterItemsSelector.response && (
+            {departmentMasterItemsSelector.response && (
                 <TablePagination
                     sx={{ marginTop: 3 }}
                     rowsPerPageOptions={[]}
                     component="div"
-                    count={storeRoomMasterItemsSelector.response.totalElements}
-                    rowsPerPage={storeRoomMasterItemsSelector.response.size}
-                    page={storeRoomMasterItemsSelector.response.number}
+                    count={departmentMasterItemsSelector.response.totalElements}
+                    rowsPerPage={departmentMasterItemsSelector.response.size}
+                    page={departmentMasterItemsSelector.response.number}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                     showFirstButton={true}

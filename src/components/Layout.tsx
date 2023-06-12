@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import NavbarBottom from './NavbarBottom';
+import NavbarBottom from './navbar/NavbarBottom';
 import { Box } from '@mui/material';
-import MenuSub from './MenuSub';
-import MenuAdmin from './MenuAdmin';
-import MenuDepartment from './MenuDepartment';
+import MenuSub from './menu/MenuSub';
+import MenuAdmin from './menu/MenuAdmin';
+import MenuDepartment from './menu/MenuDepartment';
 import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
 import { useAppSelector } from '../app/hooks';
-import { role } from '../common/constants';
+import { ROLE } from '../common/constants';
 
 const Layout = () => {
     const profileDetailSelector = useAppSelector(selectProfileDetail);
@@ -14,7 +14,7 @@ const Layout = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
             <Box>
-                {profileDetailSelector.profileDetail?.role === role.ADMINISTRATION ? <MenuAdmin /> : <MenuDepartment />}
+                {profileDetailSelector.profileDetail?.role === ROLE.ADMINISTRATION ? <MenuAdmin /> : <MenuDepartment />}
                 <MenuSub />
             </Box>
             <Box sx={{ padding: 1, flex: 1 }}>

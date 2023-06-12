@@ -1,10 +1,9 @@
 import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
-import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
-import { updateRequestMasterItemsThunk } from '../app/requestMaster/requestMasterItemsUpdateSlice';
+import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../../app/requestMaster/requestMasterItemsCheckedSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -19,7 +18,7 @@ const RequestItemEditForm = () => {
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
-        dispatch(toggleDrawer(''));
+        dispatch(toggleDrawer({ type: '' }));
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(

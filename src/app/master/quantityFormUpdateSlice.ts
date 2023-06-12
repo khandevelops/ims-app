@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { RootState } from "../store";
 import { IDepartmentItem } from "../department/departmentItemsSlice";
-import { getMasterDepartmentItemById, IMasterDepartmentState } from "../masterDepartment/masterDepartmentSlice";
+import { getMasterDepartmentItemById, IMasterDepartmentState } from "../slice/masterDepartment/masterDepartmentItemSlice";
 
 export const updateQuantity = (departmentItems: IDepartmentItem[]) => {
     return axios.put('http://192.168.1.137:8000/api/inventory/services/extractions/update-total-quantity', departmentItems)

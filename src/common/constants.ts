@@ -1,10 +1,10 @@
-export const bottomToolbarButtons = {
+export const BOTTOM_TOOLBAR_BUTTONS = {
     DOWNLOAD: 'DOWNLOAD',
     REQUEST_REVIEW: 'REQUEST_REVIEW',
     ADD_ITEM: 'ADD_ITEM'
 }
 
-export const status = {
+export const STATUS = {
     COMPLETED: 'COMPLETED',
     CANCELLED: 'CANCELLED',
     PENDING: 'PENDING',
@@ -13,7 +13,7 @@ export const status = {
     PARTIAL_RECEIPT: 'PARTIAL_RECEIPT'
 }
 
-export const department = {
+export const DEPARTMENT = {
     EXTRACTIONS: 'EXTRACTIONS',
     MASS_SPEC: 'MASS_SPEC',
     RD: 'RD',
@@ -27,23 +27,22 @@ export const department = {
     OFFICE_SUPPLY: 'OFFICE_SUPPLY',
 }
 
-export const confirmation = {
+export const CONFIRMATION = {
     WAITING: 'WAITING',
     COMPLETE: 'COMPLETE'
 }
 
-export const drawerToggleType = {
-    NONE: 'NONE',
-    UPDATE_QUANTITY_FORM: 'UPDATE_QUANTITY_FORM',
-    UPDATE_REQUEST_REVIEW_FORM: 'UPDATE_REQUEST_REVIEW_FORM',
-    UPDATE_REQUEST_EDIT_FORM: 'UPDATE_REQUEST_EDIT_FORM',
-    ADD_MASTER_ITEM_FORM: 'ADD_MASTER_ITEM_FORM',
-    UPDATE_MASTER_ITEM_FORM: 'UPDATE_MASTER_ITEM_FORM',
-    ASSIGN_MASTER_ITEM_FORM: 'ASSIGN_MASTER_ITEM_FORM',
-    UPDATE_DEPARTMENT_ITEM_FORM: 'UPDATE_DEPARTMENT_ITEM_FORM'
+export const DRAWER_TOGGLE_TYPE = {
+    UPDATE_QUANTITY: 'UPDATE_QUANTITY',
+    UPDATE_REQUEST_REVIEW: 'UPDATE_REQUEST_REVIEW',
+    UPDATE_REQUEST_EDIT: 'UPDATE_REQUEST_EDIT',
+    ADD_MASTER_ITEM: 'ADD_MASTER_ITEM',
+    UPDATE_MASTER_ITEM: 'UPDATE_MASTER_ITEM',
+    ASSIGN_MASTER_ITEM: 'ASSIGN_MASTER_ITE',
+    UPDATE_DEPARTMENT_ITEM: 'UPDATE_DEPARTMENT_ITEM'
 }
 
-export const category = {
+export const CATEGORY = {
     GC: 'GC',
     LC: 'LC',
     COLUMNS: 'COLUMNS',
@@ -56,12 +55,12 @@ export const category = {
     OFFICE_SUPPLY: 'OFFICE_SUPPLY'
 }
 
-export const role = {
+export const ROLE = {
     ADMINISTRATION: 'ADMINISTRATION',
     USER: 'USER'
 }
 
-export const permission = {
+export const PERMISSION = {
     ALLOW: 'ALLOW',
     DENY: 'DENY'
 }

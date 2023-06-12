@@ -1,11 +1,10 @@
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import logo from '../images/logo.png';
-import Profile from './Profile';
-import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
-import { department } from '../common/constants';
-import { useAppSelector } from '../app/hooks';
-import { useEffect } from 'react';
+import logo from '../../images/logo.png';
+import Profile from '../Profile';
+import { selectProfileDetail } from '../../app/profileDetail/profileDetailSlice';
+import { DEPARTMENT } from '../../common/constants';
+import { useAppSelector } from '../../app/hooks';
 
 const MenuDepartment = () => {
     const location = useLocation();
@@ -19,7 +18,7 @@ const MenuDepartment = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                    {profileDetailSelector.profileDetail?.department === department.EXTRACTIONS && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.EXTRACTIONS && (
                         <Button
                             sx={{ color: location.pathname === '/departments/extractions' ? 'yellow' : '#fff', fontWeight: '700' }}
                             component={Link}
@@ -28,12 +27,12 @@ const MenuDepartment = () => {
                             extractions
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.MASS_SPEC && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.MASS_SPEC && (
                         <Button sx={{ color: location.pathname === '/departments/mass-spec' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/mass-spec" state="mass-spec">
                             mass-spec
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.SPECIMEN_PROCESSING && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.SPECIMEN_PROCESSING && (
                         <Button
                             sx={{
                                 color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff',
@@ -45,22 +44,22 @@ const MenuDepartment = () => {
                             Specimen Processing
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.RD && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.RD && (
                         <Button sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/rd" state="rd">
                             r&d
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.SCREENING && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.SCREENING && (
                         <Button sx={{ color: location.pathname === '/departments/screening' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/screening" state="screening">
                             screening
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.SHIPPING && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.SHIPPING && (
                         <Button sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/shipping" state="shipping">
                             shipping
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.SHIPPING && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.SHIPPING && (
                         <Button
                             sx={{
                                 color: location.pathname === '/departments/qc-internal-standards' ? 'yellow' : '#fff',
@@ -72,7 +71,7 @@ const MenuDepartment = () => {
                             qc internal standards
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === department.QUALITY && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.QUALITY && (
                         <Button sx={{ color: location.pathname === '/departments/quality' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/quality" state="quality">
                             quality
                         </Button>
