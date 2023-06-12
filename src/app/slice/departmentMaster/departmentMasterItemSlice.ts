@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { IDepartmentMaster } from "../../properties/IDepartment";
 import { geDepartmentMasterItems } from "../../api/department";
 
-export interface DepartmentMasterItemsState {
+export interface IDepartmentMasterState {
     response: {
-        content: IDepartmentMaster[],
+        content: IDepartmentMasterState[],
         last: boolean,
         totalPages: number,
         totalElements: number,
@@ -15,12 +14,23 @@ export interface DepartmentMasterItemsState {
         sorted: boolean,
         numberOfElements: number,
         empty: boolean
-    } | null;
+    };
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: DepartmentMasterItemsState = {
-    response: null,
+const initialState: IDepartmentMasterState = {
+    response: {
+        content: [],
+        last: false,
+        totalPages: 0,
+        totalElements: 0,
+        first: false,
+        size: 0,
+        number: 0,
+        sorted: false,
+        numberOfElements: 0,
+        empty: false,
+    },
     status: 'idle'
 }
 
@@ -32,7 +42,7 @@ export const getDepartmentMasterItemsThunk = createAsyncThunk(
     }
 )
 
-export const departmentMasterItemsSlice = createSlice({
+export const departmentMasterSlice = createSlice({
     name: 'transformedSlice',
     initialState,
     reducers: {
@@ -53,5 +63,5 @@ export const departmentMasterItemsSlice = createSlice({
 })
 
 export const selectDepartmentMasterItems = (state: RootState) => state.departmentMasterItemsStore
-export const { changeDepartmentMasterItems } = departmentMasterItemsSlice.actions
-export default departmentMasterItemsSlice.reducer
+export const { changeDepartmentMasterItems } = departmentMasterSlice.actions
+export default departmentMasterSlice.reducer

@@ -13,8 +13,6 @@ import Auth from './pages/Auth';
 import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
 import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
-import DepartmentPage from './pages/Departments';
-import StoreRoom from './pages/StoreRoom';
 import { DRAWER_TOGGLE_TYPE } from './common/constants';
 import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
 
@@ -30,18 +28,6 @@ const router = createBrowserRouter(
                     <Route path="office-supply" element={<RequestMasterAdmin />} />
                     <Route path="store-room" element={<RequestMasterAdmin />} />
                 </Route>
-                <Route path="departments">
-                    <Route path="extractions" element={<DepartmentPage />} />
-                    <Route path="mass-spec" element={<DepartmentPage />} />
-                    <Route path="specimen-processing" element={<DepartmentPage />} />
-                    <Route path="rd" element={<DepartmentPage />} />
-                    <Route path="screening" element={<DepartmentPage />} />
-                    <Route path="shipping" element={<DepartmentPage />} />
-                    <Route path="shipping" element={<DepartmentPage />} />
-                    <Route path="qc-internal-standards" element={<DepartmentPage />} />
-                    <Route path="quality" element={<DepartmentPage />} />
-                    <Route path="store-room" element={<StoreRoom />} />
-                </Route>
             </Route>
 
             <Route path="departments">
@@ -54,7 +40,6 @@ const router = createBrowserRouter(
                 <Route path="shipping" element={<Departments />} />
                 <Route path="qc-internal-standards" element={<Departments />} />
                 <Route path="quality" element={<Departments />} />
-                <Route path="store-room" element={<StoreRoom />} />
                 <Route path="general-request" element={<RequestMasterDepartment />}>
                     <Route path="list" element={<RequestMasterDepartmentItems />} />
                     <Route path="confirmation" element={<RequestMasterDepartmentPending />} />

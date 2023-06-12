@@ -1,4 +1,4 @@
-import { IMasterItem } from "./IMaster"
+import { IMaster } from "./IMaster"
 
 export interface IDepartment {
     id: number,
@@ -22,5 +22,5 @@ export interface IDepartmentMaster {
     lot_number: string,
     expiration_date: Date,
     received_date: Date,
-    masterItem: IMasterItem
+    masterItem: IMaster
 }

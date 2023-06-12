@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { IDepartmentItem } from '../app/department/departmentItemsSlice';
-import { selectDepartmentMasterItems } from '../app/slice/departmentMaster/departmentMasterItemsSlice';
+import { getDepartmentMasterItemsThunk, selectDepartmentMasterItems } from '../app/slice/departmentMaster/departmentMasterItemsSlice';
 import { IDepartment, IDepartmentMaster } from '../app/properties/IDepartment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -50,19 +50,19 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
 const StoreRoomMaster = () => {
     const departmentMasterItemsSelector = useAppSelector(selectDepartmentMasterItems);
     const dispatch = useAppDispatch();
-    const [page, setPage] = useState<{ page: number }>({ page: 0 });
+    const [page, setPage] = useState<number>(0);
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getStoreRoomMasterItemsThunk(page.page));
-    }, [dispatch, location.pathname, page]);
+        dispatch(getDepartmentMasterItemsThunk({ state: location.state, page: page }));
+    }, [dispatch, location.state, page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
-        setPage({ ...page, page: newPage });
+        setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setPage({ ...page, page: 0 });
+        setPage(0);
     };
 
     const handleUpdateTotalQty = (id: number, event: KeyboardEvent) => {

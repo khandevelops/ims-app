@@ -20,8 +20,8 @@ export const updateMasterItem = (params: { id: number, masterItem: IMaster }) =>
 }
 
 
-export const getMasterDepartmentItems = (params: { page: number }) => {
-    return axios.get(`${baseUrl}/master-department/list?page=${params.page}`)
+export const getMasterDepartmentItems = (params: { state: string, page: number }) => {
+    return axios.get(`${baseUrl}/master-department/${params.state}/list?page=${params.page}`)
 }
 
 export const getMasterDepartmentItem = (params: { state: string, id: number }) => {

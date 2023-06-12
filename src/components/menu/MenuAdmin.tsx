@@ -13,17 +13,17 @@ const MenuAdmin = () => {
                     <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
                 </Box>
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button size="small" sx={{ color: location.pathname === '/admin/master' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="admin/master">
+                    <Button size="small" sx={{ color: location.pathname === '/admin/master' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/admin/master" state="master">
                         master
                     </Button>
-                    <Button size="small" sx={{ color: location.pathname === '/admin/store-room' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="admin/store-room">
+                    <Button size="small" sx={{ color: location.pathname === '/admin/store-room' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/admin/store-room" state="store-room">
                         store room
                     </Button>
                     <Button
                         size="small"
                         sx={{ color: location.pathname === '/departments/extractions' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="departments/extractions"
+                        to="/departments/extractions"
                         state="extractions">
                         extractions
                     </Button>
@@ -35,14 +35,14 @@ const MenuAdmin = () => {
                         state="mass-spec">
                         mass spec
                     </Button>
-                    <Button size="small" sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="departments/rd" state="rd">
+                    <Button size="small" sx={{ color: location.pathname === '/departments/rd' ? 'yellow' : '#fff', fontWeight: '700' }} component={Link} to="/departments/rd" state="rd">
                         r&d
                     </Button>
                     <Button
                         size="small"
                         sx={{ color: location.pathname === '/departments/screening' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="departments/screening"
+                        to="/departments/screening"
                         state="screening">
                         screening
                     </Button>
@@ -50,7 +50,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/departments/shipping' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="departments/shipping"
+                        to="/departments/shipping"
                         state="shipping">
                         shipping
                     </Button>
@@ -58,7 +58,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="departments/specimen-processing"
+                        to="/departments/specimen-processing"
                         state="specimen-processing">
                         specimen processing
                     </Button>
@@ -66,7 +66,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/departments/qc-internal-standards' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="departments/qc-internal-standards"
+                        to="/departments/qc-internal-standards"
                         state="qc-internal-standards">
                         qc internal standards
                     </Button>
@@ -77,7 +77,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/admin/request/general' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="admin/request/general"
+                        to="/admin/request/general"
                         state="general">
                         general
                     </Button>
@@ -85,7 +85,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/admin/request/office-supply' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="admin/request/office-supply"
+                        to="/admin/request/office-supply"
                         state="office-supply">
                         office supply
                     </Button>
@@ -93,7 +93,7 @@ const MenuAdmin = () => {
                         size="small"
                         sx={{ color: location.pathname === '/admin/request/store-room' ? 'yellow' : '#fff', fontWeight: '700' }}
                         component={Link}
-                        to="admin/request/store-room"
+                        to="/admin/request/store-room"
                         state="store-room">
                         store room
                     </Button>
