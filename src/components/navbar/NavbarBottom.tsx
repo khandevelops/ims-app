@@ -107,38 +107,6 @@ const NavbarBottom = () => {
                 onChange={(event, newValue) => {
                     setValue(newValue);
                 }}>
-                {profileDetailSelector.profileDetail?.role === ROLE.ADMINISTRATION && (
-                    <Fragment>
-                        <Box sx={{ width: 10 }}></Box>
-                        <Box sx={{ paddingTop: 1 }}>
-                            <Button component={Link} to="admin/departments/extractions" state="extractions">
-                                extractions
-                            </Button>
-                            <Button component={Link} to="admin/departments/mass-spec" state="mass-spec">
-                                mass-spec
-                            </Button>
-                            <Button component={Link} to="admin/departments/specimen-processing" state="specimen-processing">
-                                specimen processing
-                            </Button>
-                            <Button component={Link} to="admin/departments/rd" state="rd">
-                                r&d
-                            </Button>
-                            <Button component={Link} to="admin/departments/screening" state="screening">
-                                screening
-                            </Button>
-                            <Button component={Link} to="admin/departments/shipping" state="shipping">
-                                shipping
-                            </Button>
-                            <Button component={Link} to="admin/departments/quality" state="quality">
-                                quality
-                            </Button>
-                            <Button component={Link} to="admin/departments/store-room" state="store-room">
-                                store-room
-                            </Button>
-                        </Box>
-                    </Fragment>
-                )}
-
                 <Box sx={{ width: 10 }}>
                     {(location.pathname === '/departments/extractions' ||
                         location.pathname === '/departments/mass-spec' ||

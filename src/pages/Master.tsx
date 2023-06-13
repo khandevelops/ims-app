@@ -9,6 +9,7 @@ import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
 import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,7 +44,9 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'type', tooltipName: 'Type', headerName: 'Type', align: 'left' },
     { field: 'group', tooltipName: 'Group', headerName: 'Group', align: 'left' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
-    { field: 'more', tooltipName: 'Action', headerName: 'Action', align: 'center' }
+    { field: 'edit', tooltipName: 'Edit', headerName: 'Edit', align: 'center' },
+    { field: 'assign', tooltipName: 'Assign', headerName: 'Assign', align: 'center' },
+    { field: 'delete', tooltipName: 'Delete', headerName: 'Delete', align: 'center' }
 ];
 
 const Master = () => {
@@ -80,6 +83,8 @@ const Master = () => {
     const handleCloseDepartmentMenu = () => {
         setAnchorElUser(null);
     };
+
+    const handleDeleteClick = (event: MouseEvent<HTMLElement>, id: number) => {};
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
@@ -121,13 +126,24 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
                                     <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
-                                    <StyledTableCell>
+                                    <StyledTableCell width={50}>
                                         <Box sx={{ display: 'flex' }}>
                                             <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
                                                 <ModeEditIcon color="primary" fontSize="small" />
                                             </IconButton>
+                                        </Box>
+                                    </StyledTableCell>
+                                    <StyledTableCell width={50}>
+                                        <Box sx={{ display: 'flex' }}>
                                             <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
                                                 <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                        </Box>
+                                    </StyledTableCell>
+                                    <StyledTableCell width={50}>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, masterItem.id)}>
+                                                <DeleteIcon color="primary" fontSize="small" />
                                             </IconButton>
                                         </Box>
                                     </StyledTableCell>
