@@ -1,7 +1,7 @@
 import { Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
 import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
+import { toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
 import { createRequestMasterItemsThunk } from '../../app/requestMaster/requestMasterItemsCreateSlice';
 import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../../app/requestMaster/requestMasterItemsCheckedSlice';

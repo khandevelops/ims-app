@@ -1,9 +1,9 @@
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createMasterItemThunk, populateMasterItem, selectMasterForm, updateMasterItemThunk } from '../../app/master/masterFormSlice';
-import { IMasterItem } from '../../app/master/masterItemSlice';
-import { selectDrawerToggleType, toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
+import { createMasterItemThunk, populateMasterItem, selectMasterForm, updateMasterItemThunk } from '../../app/slice/master/masterFormSlice';
+import { IMasterItem } from '../../app/slice/master/masterItemSlice';
+import { selectDrawerToggleType, toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { CATEGORY, DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../../common/constants';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';

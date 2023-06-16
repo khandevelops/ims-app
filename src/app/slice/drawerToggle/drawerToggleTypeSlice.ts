@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "../../store";
 import { IDepartmentItem } from "../department/departmentItemsSlice";
 import { IMasterItem } from "../master/masterItemSlice";
-import { IStoreRoom } from "../api/properties/IStoreRoom";
+import { IStoreRoom } from "../../api/properties/IStoreRoom";
 
 export interface DrawerToggleTypeState {
     type: string;

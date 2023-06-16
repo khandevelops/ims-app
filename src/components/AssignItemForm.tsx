@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from 'react';
 import { DEPARTMENT } from '../common/constants';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../app/hooks';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 
 const AssignItemForm = () => {
     const dispatch = useAppDispatch();

@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from '../../app/hooks';
-import { getMasterItemsFilteredThunk } from '../../app/master/masterItemSlice';
+import { getMasterItemsFilteredThunk } from '../../app/slice/master/masterItemSlice';
 import { Box, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 

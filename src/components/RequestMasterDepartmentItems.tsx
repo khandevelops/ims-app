@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import { IRequestMasterItem, getRequestMasterItemsThunk, selectRequestMasterItems } from '../app/requestMaster/requestMasterItemsSlice';
 import { changeRequestItemsChecked, selectRequestMasterItemsChecked } from '../app/requestMaster/requestMasterItemsCheckedSlice';
-import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import RequestItemReviewForm from './forms/RequestItemReviewForm';
 

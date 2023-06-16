@@ -1,41 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { IDepartmentItem } from "../department/departmentItemsSlice";
-import { RootState } from "../store";
+import { RootState } from "../../store";
+import { IMasterDepartment } from "../../api/properties/IMaster";
+import { getMasterDepartmentItems } from "../../api/master";
 
-const baseUrl = process.env.REACT_APP_BASE_URL
-
-export const getMasterDepartmentItems = (state: string, page: number) => {
-    return axios.get(`${baseUrl}/master-department/${state}/list?page=${page}`)
-}
-
-export interface IMasterDepartmentItem {
-    id: number;
-    item: string;
-    manufacturer: string
-    recent_cn: string
-    part_number: string
-    recent_vendor: string
-    fisher_cn: string
-    vwr_cn: string
-    lab_source_cn: string
-    other_cn: string
-    purchase_unit: string;
-    unit_price: number;
-    category: string;
-    usage_level: string;
-    minimum_quantity: number;
-    maximum_quantity: number;
-    comment: string;
-    type: string;
-    group: string;
-    drug_class: string;
-    departmentItems: IDepartmentItem[];
-}
-
-export interface IMasterDepartmentItemsState {
+export interface MasterDepartmentItemsState {
     response: {
-        content: IMasterDepartmentItem[],
+        content: IMasterDepartment[],
         last: boolean,
         totalPages: number,
         totalElements: number,
@@ -49,7 +19,7 @@ export interface IMasterDepartmentItemsState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IMasterDepartmentItemsState = {
+const initialState: MasterDepartmentItemsState = {
     response: {
         content: [],
         last: false,
@@ -60,7 +30,7 @@ const initialState: IMasterDepartmentItemsState = {
         number: 0,
         sorted: false,
         numberOfElements: 0,
-        empty: false,
+        empty: false
     },
     status: 'idle'
 }
@@ -68,7 +38,7 @@ const initialState: IMasterDepartmentItemsState = {
 export const getMasterDepartmentItemsThunk = createAsyncThunk(
     'getMasterDepartmentItemThunk',
     async (params: { state: string, page: number }) => {
-        const response = await getMasterDepartmentItems(params.state, params.page)
+        const response = await getMasterDepartmentItems(params)
         return response.data
     })
 
@@ -89,7 +59,5 @@ export const masterDepartmentItemsSlice = createSlice({
 })
 
 export const { changeMasterDepartmentItems } = masterDepartmentItemsSlice.actions
-
 export const selectMasterDepartmentItems = (state: RootState) => state.masterDepartmentItemsStore
-
 export default masterDepartmentItemsSlice.reducer;

@@ -34,7 +34,7 @@ export interface IMasterDepartment {
     purchase_unit: string;
     unit_price: number;
     category: string;
-    comments: string;
+    comment: string;
     type: string;
     group: string;
     drug_class: string;

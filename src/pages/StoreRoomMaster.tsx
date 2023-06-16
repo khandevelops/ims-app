@@ -8,7 +8,7 @@ import { changeStoreRoomMasterItems, getStoreRoomMasterItemsThunk, selectStoreRo
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { updateStoreRoomItemThunk } from '../app/slice/storeRoom/storeRoomUpdateSlice';
 import { IStoreRoomMaster } from '../app/api/properties/IStoreRoom';
 

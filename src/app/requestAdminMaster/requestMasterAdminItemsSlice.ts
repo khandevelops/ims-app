@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IMasterItem } from "../master/masterItemSlice";
+import { IMasterItem } from "../slice/master/masterItemSlice";
 import { RootState } from "../store";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
@@ -16,7 +16,7 @@ export interface IRequestMasterAdminItem {
     recent_cn: number,
     department: string,
     status: string,
-    quantity: number, 
+    quantity: number,
     time_requested: Date,
     time_updated: Date,
     comment: string,
@@ -90,7 +90,7 @@ const initialState: IRequestMasterState = {
 
 export const getRequestMasterItemsThunk = createAsyncThunk(
     'getRequestMasterItemsThunk',
-    async (params: { pathName: string, page: number}) => {
+    async (params: { pathName: string, page: number }) => {
         const response = await getRequestMasterItems(params.pathName, params.page)
         return response.data
     }

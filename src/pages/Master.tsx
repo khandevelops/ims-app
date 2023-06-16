@@ -1,11 +1,11 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { getMasterItemsThunk, selectMasterItems } from '../app/master/masterItemSlice';
+import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemSlice';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, IconButton, Paper, Box, styled, Menu, MenuItem, Typography } from '@mui/material';
-import { assignMasterItemThunk, populateMasterItem } from '../app/master/masterFormSlice';
-import { IMasterItem } from '../app/master/masterItemSlice';
+import { assignMasterItemThunk, populateMasterItem } from '../app/slice/master/masterFormSlice';
+import { IMasterItem } from '../app/slice/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { toggleDrawer } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -107,7 +107,7 @@ const Master = () => {
                                     {/* <StyledTableCell>
                                         <Checkbox />
                                     </StyledTableCell> */}
-                                    <StyledTableCell>{masterItem.item}</StyledTableCell>
+                                    <StyledTableCell width={300}>{masterItem.item}</StyledTableCell>
                                     <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
                                     <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
                                     <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
@@ -125,27 +125,21 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.received_date?.toDateString()}</StyledTableCell>
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
-                                    <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
-                                    <StyledTableCell width={50}>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
-                                                <ModeEditIcon color="primary" fontSize="small" />
-                                            </IconButton>
-                                        </Box>
+                                    <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
+                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
+                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
+                                            <ModeEditIcon color="primary" fontSize="small" />
+                                        </IconButton>
                                     </StyledTableCell>
-                                    <StyledTableCell width={50}>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
-                                                <AddCircleOutlineIcon color="primary" fontSize="small" />
-                                            </IconButton>
-                                        </Box>
+                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
+                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
+                                            <AddCircleOutlineIcon color="primary" fontSize="small" />
+                                        </IconButton>
                                     </StyledTableCell>
-                                    <StyledTableCell width={50}>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, masterItem.id)}>
-                                                <DeleteIcon color="primary" fontSize="small" />
-                                            </IconButton>
-                                        </Box>
+                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
+                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, masterItem.id)}>
+                                            <DeleteIcon color="primary" fontSize="small" />
+                                        </IconButton>
                                     </StyledTableCell>
                                 </TableRow>
                             ))}

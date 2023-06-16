@@ -14,7 +14,7 @@ import RequestMasterDepartmentItems from './components/RequestMasterDepartmentIt
 import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
 import { DRAWER_TOGGLE_TYPE } from './common/constants';
-import { selectDrawerToggleType } from './app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType } from './app/slice/drawerToggle/drawerToggleTypeSlice';
 
 const router = createBrowserRouter(
     createRoutesFromElements(

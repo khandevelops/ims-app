@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '../store';
+import { RootState } from '../../store';
 
 import axios from "axios"
 import { IDepartmentItem } from '../department/departmentItemsSlice';

@@ -1,8 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import masterReducer from './master/masterItemSlice';
-import masterFormReducer from "./master/masterFormSlice";
+import masterReducer from './slice/master/masterItemSlice';
+import masterFormReducer from "./slice/master/masterFormSlice";
 import pageReducer from './common/pageSlice';
-import departmentItemUpdateReducer from './department/departmentItemUpdateSlice';
 import masterDepartmentItemReducer from './slice/masterDepartment/masterDepartmentItemSlice';
 import departmentItemsReducer from './departments/departmentItemsSlice';
 import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
@@ -15,22 +14,23 @@ import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateS
 import requestMasterItemsAdminReducer from './requestAdminMaster/requestMasterAdminItemsSlice'
 import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems'
 import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsCheckedSlice'
-import drawerToggleTypeReducer from './drawerToggle/drawerToggleTypeSlice'
+import drawerToggleTypeReducer from './slice/drawerToggle/drawerToggleTypeSlice'
 import requestMasterItemsCreateReducer from './requestMaster/requestMasterItemsCreateSlice'
 import requestMasterItemsCompleteReducer from './requestMaster/requestMasterItemsCompleteSlice'
 import requestMasterItemsPendingReducer from './requestMaster/requestMasterItemsPendingSlice'
 import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice'
 import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice'
-import masterDepartmentItemsReducer from './masterDepartment/masterDepartmentItemsSlice'
-import masterItemUpdateReducer from './master/masterItemUpdateSlice'
+import masterDepartmentItemsReducer from './slice/master/masterDepartmentItemsSlice'
+import masterItemUpdateReducer from './slice/master/masterItemUpdateSlice'
 import profileDetailsReducer from './profileDetail/profileDetailsSlice'
 import updateProfileDetailReducer from './profileDetail/updateProfileDetailSlice'
 import profilesReducer from './profilesSlice'
 import profileDetailReducer from './profileDetail/profileDetailSlice'
 import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice'
 import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice'
-import departmentItemReducer from './department/departmentItemSlice'
 import departmentMasterItemsReducer from './slice/department/departmentMasterItemsSlice'
+import departmentItemUpdateReducer from './slice/department/departmentItemUpdateSlice'
+import departmentItemReducer from './slice/department/departmentItemSlice'
 
 export const store = configureStore({
   reducer: {
@@ -38,7 +38,6 @@ export const store = configureStore({
     masterFormStore: masterFormReducer,
     masterDepartmentItemStore: masterDepartmentItemReducer,
     pageStore: pageReducer,
-    departmentItemUpdateStore: departmentItemUpdateReducer,
     departmentItemsStore: departmentItemsReducer,
     requestMasterItemsStore: requestMasterItemsReducer,
     requestTabStore: requestTabReducer,
@@ -64,8 +63,9 @@ export const store = configureStore({
     profileDetailStore: profileDetailReducer,
     requestMasterItemsPendingCheckedStore: requestMasterItemsPendingCheckedReducer,
     downloadDepartmentMasterItemsStore: downloadDepartmentMasterItemsReducer,
-    departmentItemStore: departmentItemReducer,
-    departmentMasterItemsStore: departmentMasterItemsReducer
+    departmentMasterItemsStore: departmentMasterItemsReducer,
+    departmentItemUpdateStore: departmentItemUpdateReducer,
+    departmentItemStore: departmentItemReducer
   }
 });
 

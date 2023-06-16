@@ -1,9 +1,10 @@
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectDrawerToggleType, toggleDrawer } from '../../app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType, toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { changeDepartmentItem } from '../../app/slice/department/departmentItemUpdateSlice';
 
 const UpdateItemForm = () => {
     const { departmentItem } = useAppSelector(selectDrawerToggleType);
@@ -21,25 +22,25 @@ const UpdateItemForm = () => {
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.name === 'location') {
-            dispatch(changeDepartmentItem({ storeRoomItem: { location: event.target.value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { location: event.target.value } }));
         }
         if (event.target.name === 'usage_level') {
-            dispatch(changeDRAWER_TOGGLE_TYPE({ storeRoomItem: { usage_level: event.target.value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { usage_level: event.target.value } }));
         }
         if (event.target.name === 'minimum_quantity') {
-            dispatch(changeDRAWER_TOGGLE_TYPE({ storeRoomItem: { minimum_quantity: event.target.value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { minimum_quantity: event.target.value } }));
         }
         if (event.target.name === 'maximum_quantity') {
-            dispatch(changeDRAWER_TOGGLE_TYPE({ storeRoomItem: { maximum_quantity: event.target.value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { maximum_quantity: event.target.value } }));
         }
     };
 
     const handleDateChange = (value: Date | null, columnName: string) => {
         if (columnName === 'expiration_date') {
-            dispatch(changeDRAWER_TOGGLE_TYPE({ storeRoomItem: { expiration_date: value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { expiration_date: value } }));
         }
         if (columnName === 'received_date') {
-            dispatch(changeDRAWER_TOGGLE_TYPE({ storeRoomItem: { expiration_date: value } }));
+            dispatch(changeDepartmentItem({ departmentItem: { expiration_date: value } }));
         }
     };
 

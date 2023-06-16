@@ -15,7 +15,7 @@ const initialState: DepartmentUpdateState = {
 
 export const updateDepartmentItemThunk = createAsyncThunk(
     'updateDepartmentItemThunk',
-    async (params: { pathname: string, departmentItem: IDepartment }) => {
+    async (params: { state: string, departmentItem: IDepartment }) => {
         const response = await updateDepartmentItem(params)
         return response.data
     }
@@ -24,7 +24,11 @@ export const updateDepartmentItemThunk = createAsyncThunk(
 export const departmentItemUpdateSlice = createSlice({
     name: 'updateDepartmentSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        changeDepartmentItem: (state, action) => {
+            state.response = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(updateDepartmentItemThunk.pending, (state) => { state.status = 'loading' })
@@ -33,6 +37,6 @@ export const departmentItemUpdateSlice = createSlice({
     }
 })
 
+export const { changeDepartmentItem } = departmentItemUpdateSlice.actions;
 export const selectDepartmentItemUpdate = (state: RootState) => state.departmentItemUpdateStore
-
 export default departmentItemUpdateSlice.reducer

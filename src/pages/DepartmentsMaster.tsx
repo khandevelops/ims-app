@@ -4,14 +4,14 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, tableCellClasses, styled, TextField, Tooltip, Typography, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, tableCellClasses, styled, TextField, Typography, IconButton } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { handlePage, selectPage } from '../app/common/pageSlice';
-import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/masterDepartment/masterDepartmentItemsSlice';
-import { IDepartmentItem } from '../app/department/departmentItemsSlice';
-import { updateDepartmentItemThunk } from '../app/department/departmentItemUpdateSlice';
+import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/slice/master/masterDepartmentItemsSlice';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { IDepartment } from '../app/api/properties/IDepartment';
+import { updateDepartmentItemThunk } from '../app/slice/department/departmentItemUpdateSlice';
 
 const columns: { field: string; tooltipName: string | JSX.Element; headerName: string; align: 'left' | 'center' | 'right' }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
@@ -152,17 +152,17 @@ const DepartmentsMaster = () => {
         );
     };
 
-    const handleEnterKey = (event: KeyboardEvent, departmentItem: IDepartmentItem) => {
+    const handleEnterKey = (event: KeyboardEvent, departmentItem: IDepartment) => {
         if (event.key === 'Enter') {
-            dispatch(updateDepartmentItemThunk({ pathname: location.pathname, departmentItem: departmentItem }));
+            dispatch(updateDepartmentItemThunk({ state: location.state, departmentItem: departmentItem }));
         }
     };
 
-    const handleClose = (departmentItem: IDepartmentItem) => {
-        dispatch(updateDepartmentItemThunk({ pathname: location.pathname, departmentItem: departmentItem }));
+    const handleClose = (departmentItem: IDepartment) => {
+        dispatch(updateDepartmentItemThunk({ state: location.state, departmentItem: departmentItem }));
     };
 
-    const getTotalQuantity = (departmentItems: IDepartmentItem[]) => {
+    const getTotalQuantity = (departmentItems: IDepartment[]) => {
         return departmentItems.reduce((acc, departmentItem) => acc + departmentItem.quantity, 0);
     };
 
@@ -225,14 +225,17 @@ const DepartmentsMaster = () => {
                                         <StyledTableCell
                                             sx={{
                                                 backgroundColor: getOrderQuantity(
-                                                    masterDepartmentItem.minimum_quantity,
-                                                    masterDepartmentItem.maximum_quantity,
+                                                    masterDepartmentItem.departmentItems[0].minimum_quantity,
+                                                    masterDepartmentItem.departmentItems[0].maximum_quantity,
                                                     getTotalQuantity(masterDepartmentItem.departmentItems)
                                                 ).color
                                             }}>
                                             {
-                                                getOrderQuantity(masterDepartmentItem.minimum_quantity, masterDepartmentItem.maximum_quantity, getTotalQuantity(masterDepartmentItem.departmentItems))
-                                                    .orderQuantity
+                                                getOrderQuantity(
+                                                    masterDepartmentItem.departmentItems[0].minimum_quantity,
+                                                    masterDepartmentItem.departmentItems[0].maximum_quantity,
+                                                    getTotalQuantity(masterDepartmentItem.departmentItems)
+                                                ).orderQuantity
                                             }
                                         </StyledTableCell>
                                         <StyledTableCell>${masterDepartmentItem.unit_price}</StyledTableCell>
@@ -370,7 +373,7 @@ const DepartmentsMaster = () => {
                 component="div"
                 count={masterDepartmentItemsSelector.response.totalElements}
                 rowsPerPage={masterDepartmentItemsSelector.response.size}
-                page={masterDepartmentItemsSelector.response.number}
+                page={masterDepartmentItemsSelector?.response.number}
                 onPageChange={handleChangePage}
                 showFirstButton={true}
                 showLastButton={true}

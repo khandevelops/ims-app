@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState, KeyboardEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
 import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
-import { selectDrawerToggleType } from '../app/drawerToggle/drawerToggleTypeSlice';
+import { selectDrawerToggleType } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import RequestItemEditForm from './forms/RequestItemEditForm';
 import { changeRequestMasterItemsPending, getRequestMasterItemsPendingThunk, selectRequestMasterItemsPending } from '../app/requestMaster/requestMasterItemsPendingSlice';
