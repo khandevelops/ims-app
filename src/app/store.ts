@@ -9,8 +9,8 @@ import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
-import storeRooomMasterItemsReducer from './storeRoom/storeRoomMasterItemsSlice'
-import storeRooomUpdateReducer from './storeRoom/storeRoomUpdateSlice'
+import storeRooomMasterItemsReducer from './slice/storeRoom/storeRoomMasterItemsSlice'
+import storeRooomUpdateReducer from './slice/storeRoom/storeRoomUpdateSlice'
 import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice'
 import requestMasterItemsAdminReducer from './requestAdminMaster/requestMasterAdminItemsSlice'
 import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems'
@@ -30,7 +30,7 @@ import profileDetailReducer from './profileDetail/profileDetailSlice'
 import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice'
 import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice'
 import departmentItemReducer from './department/departmentItemSlice'
-import departmentMasterItemsReducer from './slice/departmentMaster/departmentMasterItemsSlice'
+import departmentMasterItemsReducer from './slice/department/departmentMasterItemsSlice'
 
 export const store = configureStore({
   reducer: {

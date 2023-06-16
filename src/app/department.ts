@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IDepartment } from "./properties/IDepartment";
+import { IDepartment } from "./api/properties/IDepartment";
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 

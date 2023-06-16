@@ -1,36 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { RootState } from "../store";
+import { RootState } from "../../store";
+import { IStoreRoomMaster } from "../../api/properties/IStoreRoom";
+import { getStoreRoomMasterItems } from "../../api/storeRoom";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const getStoreRoomMasterItems = (page: number) => {
-    return axios.get(`${baseUrl}/store-room-master/list/transformed?page=${page}`)
-}
-
-export interface IStoreRoomMasterItem {
-    store_room_item_id: number;
-    master_item_id: number;
-    item: string;
-    purchase_unit: string;
-    part_number: string;
-    recent_cn: string;
-    location: string;
-    total_quantity: number;
-    usage_level: string;
-    minimum_quantity: number,
-    maximum_quantity: number,
-    order_quantity: number;
-    unit_price: number;
-    total_price: number;
-    issued: number;
-    received: number;
-    comment: string;
-}
-
-export interface IStoreRoomMasterState {
+export interface StoreRoomMasterState {
     response: null | {
-        content: IStoreRoomMasterItem[],
+        content: IStoreRoomMaster[],
         pageable: {
             sort: {
                 empty: boolean,
@@ -60,7 +35,7 @@ export interface IStoreRoomMasterState {
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-export const initialState: IStoreRoomMasterState = {
+export const initialState: StoreRoomMasterState = {
     response: null,
     status: 'idle'
 }
@@ -96,10 +71,7 @@ export const storeRoomMasterItemsSlice = createSlice({
 })
 
 export const { changeStoreRoomMasterItems } = storeRoomMasterItemsSlice.actions;
-
-
-export const selectStoreRoomMasterItemsItems = (state: RootState) => state.storeRooomMasterItemsStore
-
+export const selectStoreRoomMasterItems = (state: RootState) => state.storeRooomMasterItemsStore
 export default storeRoomMasterItemsSlice.reducer
 
 

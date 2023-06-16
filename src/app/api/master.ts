@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IMaster } from "../properties/IMaster"
+import { IMaster } from "./properties/IMaster"
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 

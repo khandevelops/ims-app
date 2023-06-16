@@ -1,8 +1,8 @@
 import { Box, Step, StepButton, Stepper } from '@mui/material';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { changeTab, selectRequestTab } from '../app/common/requestTabSlice';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { changeTab } from '../app/common/requestTabSlice';
+import { useAppDispatch } from '../app/hooks';
 import RequestMasterDepartmentPending from '../components/RequestMasterDepartmentPending';
 import RequestMasterDepartmentComplete from '../components/RequestMasterDepartmentComplete';
 import RequestMasterDepartmentItems from '../components/RequestMasterDepartmentItems';
@@ -45,7 +45,7 @@ const RequestMasterDepartment = () => {
 
     useEffect(() => {
         navigate(`/departments/${location.state}-request/list`, { state: location.state });
-        setActiveStep(0)
+        setActiveStep(0);
     }, [location.state]);
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {

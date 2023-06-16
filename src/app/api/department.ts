@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IDepartment } from "../properties/IDepartment"
+import { IDepartment } from "./properties/IDepartment"
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
@@ -15,8 +15,8 @@ export const createDepartmentItem = (params: { state: string, departmentItem: ID
     return axios.post(`${baseUrl}${params.state}`, params.departmentItem)
 }
 
-export const updateDepartmentItem = (params: { state: string, id: number, departmentItem: IDepartment }) => {
-    return axios.put(`${baseUrl}${params.state}/${params.id}`, params.departmentItem)
+export const updateDepartmentItem = (params: { state: string, departmentItem: IDepartment }) => {
+    return axios.put(`${baseUrl}${params.state}/${params.departmentItem.id}`, params.departmentItem)
 }
 
 

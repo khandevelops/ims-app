@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { IDepartmentMaster } from "../../properties/IDepartment";
+import { IDepartmentMaster } from "../../api/properties/IDepartment";
 import { geDepartmentMasterItems } from "../../api/department";
 
 export interface DepartmentMasterItemsState {

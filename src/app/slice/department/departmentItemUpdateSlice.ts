@@ -1,29 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { IDepartmentItem } from "./departmentItemsSlice";
-import axios from "axios";
-import { StaticDateTimePicker } from "@mui/x-date-pickers";
+import { RootState } from "../../store";
+import { IDepartment } from "../../api/properties/IDepartment";
+import { updateDepartmentItem } from "../../api/department";
 
-const baseUrl = process.env.REACT_APP_BASE_URL
-
-export const updateDepartmentItem = (state: string, departmentItem: IDepartmentItem) => {
-    return axios.patch(`${baseUrl}${state}/${departmentItem.id}/update`, departmentItem)
-}
-
-export interface IDepartmentUpdateState {
-    response: IDepartmentItem | undefined,
+export interface DepartmentUpdateState {
+    response: IDepartment | null,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IDepartmentUpdateState = {
-    response: undefined,
+const initialState: DepartmentUpdateState = {
+    response: null,
     status: 'idle'
 }
 
 export const updateDepartmentItemThunk = createAsyncThunk(
     'updateDepartmentItemThunk',
-    async (params: { pathname: string, departmentItem: IDepartmentItem }) => {
-        const response = await updateDepartmentItem(params.pathname, params.departmentItem)
+    async (params: { pathname: string, departmentItem: IDepartment }) => {
+        const response = await updateDepartmentItem(params)
         return response.data
     }
 )
