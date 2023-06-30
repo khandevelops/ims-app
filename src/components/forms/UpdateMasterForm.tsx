@@ -1,77 +1,38 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { ChangeEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createMasterItemThunk, populateMasterItem, selectMasterForm, updateMasterItemThunk } from '../../app/slice/master/masterFormSlice';
-import { IMasterItem } from '../../app/slice/master/masterItemSlice';
 import { selectDrawerToggleType, toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { CATEGORY, DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../../common/constants';
-import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { Moment } from 'moment';
-
-const defaultMasterItem = {
-    id: 0,
-    item: '',
-    manufacturer: '',
-    recent_cn: '',
-    part_number: '',
-    recent_vendor: '',
-    fisher_cn: '',
-    vwr_cn: '',
-    lab_source_cn: '',
-    other_cn: '',
-    purchase_unit: '',
-    unit_price: 0,
-    category: '',
-    comment: '',
-    type: '',
-    group: '',
-    drug_class: '',
-    usage_level: '',
-    expiration_date: null,
-    received_date: null
-};
+import { updateMasterItemThunk } from '../../app/slice/master/masterItemUpdateSlice';
+import { createMasterItemThunk } from '../../app/slice/master/masterItemCreateSlice';
 
 const MasterForm = () => {
-    const masterFormSelector = useAppSelector(selectMasterForm);
-    const { type } = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
-    const [masterItem, setMasterItem] = useState<IMasterItem>(defaultMasterItem);
+    const drawer = useAppSelector(selectDrawerToggleType);
+    const { type, masterItem} = drawer;
 
     const [departments, setDepartments] = useState<string[]>([]);
 
-    useEffect(() => {
-        if (type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM) {
-            setMasterItem(defaultMasterItem);
-            return;
-        }
-        if (type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM) {
-            setMasterItem(masterFormSelector.masterItem);
-            return;
-        }
-    }, [masterFormSelector, type]);
-
     const handleSubmit = () => {
-        if (type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM) {
-            dispatch(createMasterItemThunk({ masterItem: masterItem, departments: departments }));
+        if(masterItem) {
+            if (type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM) {
+                dispatch(createMasterItemThunk({ masterItem: masterItem, departments: departments }));
+            }
+            if (type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM) {
+                dispatch(updateMasterItemThunk(masterItem));
+            }
+            dispatch(toggleDrawer({ type: '' }));
         }
-        if (type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM) {
-            dispatch(updateMasterItemThunk({ id: masterItem.id, masterItem: masterItem }));
-        }
-        dispatch(toggleDrawer({ type: '' }));
-        setMasterItem(defaultMasterItem);
     };
 
     const handleCancel = () => {
         dispatch(toggleDrawer({ type: '' }));
-        setMasterItem(defaultMasterItem);
-        dispatch(populateMasterItem(defaultMasterItem));
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>, masterItemKey: string) => {
-        Object.keys(masterItem).forEach((key) => {
+        masterItem && Object.keys(masterItem).forEach((key) => {
             if (key === masterItemKey) {
-                setMasterItem((previousMasterItem) => ({ ...previousMasterItem, [key]: event.target.value }));
+                dispatch(toggleDrawer({ ...drawer, masterItem: {...masterItem, [key]: event.target.value} }));
             }
         });
     };
@@ -85,15 +46,8 @@ const MasterForm = () => {
     };
 
     const handleCategoryChange = (event: SelectChangeEvent) => {
-        setMasterItem({ ...masterItem, category: event.target.value });
-    };
-
-    const handleDateChange = (value: Date | null, columnName: string) => {
-        if (columnName === 'expiration_date') {
-            setMasterItem({ ...masterItem, expiration_date: value });
-        }
-        if (columnName === 'received_date') {
-            setMasterItem({ ...masterItem, received_date: value });
+        if(masterItem) {
+            dispatch(toggleDrawer({ ...drawer, masterItem: {...masterItem, category: event.target.value} }));
         }
     };
 
@@ -102,7 +56,7 @@ const MasterForm = () => {
             <Grid container>
                 {type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM && (
                     <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                        <TextField sx={{ width: '100%' }} id="" label="ID" variant="outlined" size="small" value={masterItem.id} disabled />
+                        <TextField sx={{ width: '100%' }} id="" label="ID" variant="outlined" size="small" value={masterItem && masterItem.id} disabled />
                     </Grid>
                 )}
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
@@ -113,7 +67,7 @@ const MasterForm = () => {
                         label="ITEM"
                         variant="outlined"
                         size="small"
-                        value={masterItem.item}
+                        value={masterItem && masterItem.item}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'item')}
                     />
                 </Grid>
@@ -126,7 +80,7 @@ const MasterForm = () => {
                         label="MANUFACTURER"
                         variant="outlined"
                         size="small"
-                        value={masterItem.manufacturer}
+                        value={masterItem && masterItem.manufacturer}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'manufacturer')}
                     />
                 </Grid>
@@ -139,7 +93,7 @@ const MasterForm = () => {
                         label="RECENT CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.recent_cn}
+                        value={masterItem && masterItem.recent_cn}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_cn')}
                     />
                 </Grid>
@@ -152,7 +106,7 @@ const MasterForm = () => {
                         label="PART NUMBER"
                         variant="outlined"
                         size="small"
-                        value={masterItem.part_number}
+                        value={masterItem && masterItem.part_number}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'part_number')}
                     />
                 </Grid>
@@ -165,7 +119,7 @@ const MasterForm = () => {
                         label="RECENT VENDOR"
                         variant="outlined"
                         size="small"
-                        value={masterItem.recent_vendor}
+                        value={masterItem && masterItem.recent_vendor}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_vendor')}
                     />
                 </Grid>
@@ -178,7 +132,7 @@ const MasterForm = () => {
                         label="FISHER CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.fisher_cn}
+                        value={masterItem && masterItem.fisher_cn}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'fisher_cn')}
                     />
                 </Grid>
@@ -191,7 +145,7 @@ const MasterForm = () => {
                         label="VWR CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.vwr_cn}
+                        value={masterItem && masterItem.vwr_cn}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'vwr_cn')}
                     />
                 </Grid>
@@ -204,7 +158,7 @@ const MasterForm = () => {
                         label="LAB SOURCE CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.lab_source_cn}
+                        value={masterItem && masterItem.lab_source_cn}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'lab_source_cn')}
                     />
                 </Grid>
@@ -217,7 +171,7 @@ const MasterForm = () => {
                         label="OTHER CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem.other_cn}
+                        value={masterItem && masterItem.other_cn}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'other_cn')}
                     />
                 </Grid>
@@ -230,7 +184,7 @@ const MasterForm = () => {
                         label="PURCHASE UNIT"
                         variant="outlined"
                         size="small"
-                        value={masterItem.purchase_unit}
+                        value={masterItem && masterItem.purchase_unit}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'purchase_unit')}
                     />
                 </Grid>
@@ -246,7 +200,7 @@ const MasterForm = () => {
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
                         size="small"
-                        value={masterItem.unit_price}
+                        value={masterItem && masterItem.unit_price}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unit_price')}
                     />
                 </Grid>
@@ -254,7 +208,7 @@ const MasterForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <FormControl fullWidth>
                         <InputLabel id="category">Category</InputLabel>
-                        <Select id="category" labelId="category" label="Category" value={masterItem.category} onChange={handleCategoryChange} sx={{ width: '100%' }} size="small">
+                        <Select id="category" labelId="category" label="Category" value={masterItem && masterItem.category} onChange={handleCategoryChange} sx={{ width: '100%' }} size="small">
                             {Object.keys(CATEGORY).map((category) => (
                                 <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
                             ))}
@@ -270,46 +224,9 @@ const MasterForm = () => {
                         label="DRUG CLASS"
                         variant="outlined"
                         size="small"
-                        value={masterItem.drug_class}
+                        value={masterItem && masterItem.drug_class}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'drug_class')}
                     />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    {' '}
-                    <TextField
-                        sx={{ width: '100%' }}
-                        id="usage_level"
-                        label="USAGE LEVEL"
-                        variant="outlined"
-                        size="small"
-                        value={masterItem.usage_level}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'usage_level')}
-                    />
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DateTimePicker
-                            label="Expiration Date"
-                            inputFormat="MM/DD/YYYY HH:MM"
-                            value={masterItem.expiration_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'expiration_date')}
-                            renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                    <LocalizationProvider dateAdapter={AdapterMoment}>
-                        <DateTimePicker
-                            label="Received Date"
-                            inputFormat="MM/DD/YYYY HH:MM"
-                            value={masterItem.received_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'received_date')}
-                            renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
-                        />
-                    </LocalizationProvider>
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
@@ -320,7 +237,7 @@ const MasterForm = () => {
                         label="TYPE"
                         variant="outlined"
                         size="small"
-                        value={masterItem.type}
+                        value={masterItem && masterItem.type}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'type')}
                     />
                 </Grid>
@@ -333,7 +250,7 @@ const MasterForm = () => {
                         label="GROUP"
                         variant="outlined"
                         size="small"
-                        value={masterItem.group}
+                        value={masterItem && masterItem.group}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'group')}
                     />
                 </Grid>
@@ -347,7 +264,7 @@ const MasterForm = () => {
                         size="small"
                         multiline
                         rows={4}
-                        value={masterItem.comment}
+                        value={masterItem && masterItem.comment}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'comment')}
                     />
                 </Grid>

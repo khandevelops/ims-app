@@ -1,6 +1,5 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import masterReducer from './slice/master/masterItemSlice';
-import masterFormReducer from "./slice/master/masterFormSlice";
 import pageReducer from './common/pageSlice';
 import masterDepartmentItemReducer from './slice/masterDepartment/masterDepartmentItemSlice';
 import departmentItemsReducer from './departments/departmentItemsSlice';
@@ -31,11 +30,14 @@ import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentM
 import departmentMasterItemsReducer from './slice/department/departmentMasterItemsSlice'
 import departmentItemUpdateReducer from './slice/department/departmentItemUpdateSlice'
 import departmentItemReducer from './slice/department/departmentItemSlice'
+import masterItemCreateReducer from './slice/master/masterItemCreateSlice'
+import masterItemAssignReducer from './slice/master/masterItemAssignSlice'
 
 export const store = configureStore({
   reducer: {
+    masterItemAssignStore: masterItemAssignReducer,
     masterItemsStore: masterReducer,
-    masterFormStore: masterFormReducer,
+    masterItemCreateStore: masterItemCreateReducer,
     masterDepartmentItemStore: masterDepartmentItemReducer,
     pageStore: pageReducer,
     departmentItemsStore: departmentItemsReducer,

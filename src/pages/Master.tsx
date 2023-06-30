@@ -1,8 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemSlice';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, TablePagination, IconButton, Paper, Box, styled, Menu, MenuItem, Typography } from '@mui/material';
-import { assignMasterItemThunk, populateMasterItem } from '../app/slice/master/masterFormSlice';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, IconButton, Paper, Box, styled, Menu, MenuItem, Typography } from '@mui/material';
 import { IMasterItem } from '../app/slice/master/masterItemSlice';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
@@ -10,6 +9,7 @@ import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -24,7 +24,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
-    // { field: 'checkbox', tooltipName: 'Select', headerName: 'Select' },
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
     { field: 'manufacturer', tooltipName: 'Manufacturer', headerName: 'M', align: 'left' },
@@ -38,15 +37,10 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'unit_price', tooltipName: 'Unit Price', headerName: 'AUP', align: 'left' },
     { field: 'category', tooltipName: 'Category', headerName: 'Ca', align: 'left' },
     { field: 'drug_class', tooltipName: 'Drug Class', headerName: 'DC', align: 'left' },
-    { field: 'usage_level', tooltipName: 'Usage Level', headerName: 'UL', align: 'left' },
-    { field: 'expiration_date', tooltipName: 'Exp Date', headerName: 'ED', align: 'left' },
-    { field: 'received_date', tooltipName: 'Rec Date', headerName: 'RD', align: 'left' },
     { field: 'type', tooltipName: 'Type', headerName: 'Type', align: 'left' },
     { field: 'group', tooltipName: 'Group', headerName: 'Group', align: 'left' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
-    { field: 'edit', tooltipName: 'Edit', headerName: 'Edit', align: 'center' },
-    { field: 'assign', tooltipName: 'Assign', headerName: 'Assign', align: 'center' },
-    { field: 'delete', tooltipName: 'Delete', headerName: 'Delete', align: 'center' }
+    { field: '', tooltipName: 'Edit | Assign | Delete', headerName: 'Edit Assign Delete', align: 'right' }
 ];
 
 const Master = () => {
@@ -65,9 +59,8 @@ const Master = () => {
         setPage(newPage);
     };
 
-    const handleMoreClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
+    const handleEditClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
         dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM, masterItem: masterItem }));
-        dispatch(populateMasterItem(masterItem));
     };
 
     const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItemId: number) => {
@@ -76,7 +69,7 @@ const Master = () => {
     };
 
     const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
-        dispatch(assignMasterItemThunk({ department: department, masterItemId: masterItemId }));
+        dispatch(assignMasterItemThunk({ masterItemId: masterItemId, department: department }));
         setAnchorElUser(null);
     };
 
@@ -104,9 +97,6 @@ const Master = () => {
                         {masterItemsSelector.response.content.length > 0 &&
                             masterItemsSelector.response.content.map((masterItem, index) => (
                                 <TableRow key={index} hover>
-                                    {/* <StyledTableCell>
-                                        <Checkbox />
-                                    </StyledTableCell> */}
                                     <StyledTableCell width={300}>{masterItem.item}</StyledTableCell>
                                     <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
                                     <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
@@ -120,23 +110,16 @@ const Master = () => {
                                     <StyledTableCell>${masterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>{masterItem.category}</StyledTableCell>
                                     <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.usage_level}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.expiration_date?.toDateString()}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.received_date?.toDateString()}</StyledTableCell>
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
                                     <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
-                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
-                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleMoreClick(event, masterItem)}>
+                                    <StyledTableCell align="right" width={200}>
+                                    <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, masterItem)}>
                                             <ModeEditIcon color="primary" fontSize="small" />
                                         </IconButton>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
-                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)}>
+                                    <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)} sx={{marginLeft: '0.7rem', marginRight: '0.7rem'}}>
                                             <AddCircleOutlineIcon color="primary" fontSize="small" />
                                         </IconButton>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center" sx={{ margin: 0, padding: 0 }}>
                                         <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, masterItem.id)}>
                                             <DeleteIcon color="primary" fontSize="small" />
                                         </IconButton>

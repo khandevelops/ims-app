@@ -70,7 +70,6 @@ const App = () => {
             <AuthenticatedTemplate>
                 <RouterProvider router={router} />
             </AuthenticatedTemplate>
-            {type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM}
         </Box>
     );
 };

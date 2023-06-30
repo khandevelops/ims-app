@@ -62,8 +62,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavbarBottom = () => {
-    const DRAWER_TOGGLE_TYPESelector = useAppSelector(selectDrawerToggleType);
-    const profileDetailSelector = useAppSelector(selectProfileDetail);
     const [value, setValue] = useState<number>(0);
     const dispatch = useAppDispatch();
     const requestMasterItemsCheckedSelector = useAppSelector(selectRequestMasterItemsChecked);
@@ -72,7 +70,24 @@ const NavbarBottom = () => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
 
     const handleAddClick = () => {
-        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM }));
+        dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM, masterItem: {
+            item: '',
+            manufacturer: '',
+            recent_cn: '',
+            part_number: '',
+            recent_vendor: '',
+            fisher_cn: '',
+            vwr_cn: '',
+            lab_source_cn: '',
+            other_cn: '',
+            purchase_unit: '',
+            unit_price: 0,
+            category: '',
+            comment: '',
+            type: '',
+            group: '',
+            drug_class: '',
+        } }));
     };
 
     const handleAssignClick = () => {
@@ -145,7 +160,7 @@ const NavbarBottom = () => {
                             disabled={requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.length === 0}
                         />
                     )}
-                    {location.pathname === '/master' && <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon color="primary" sx={{ fontSize: 40 }} />} />}
+                    {location.pathname === '/admin/master' && <BottomNavigationAction label="Add Item" onClick={handleAddClick} icon={<AddBoxIcon color="primary" sx={{ fontSize: 40 }} />} />}
                 </Box>
             </BottomNavigation>
         </Paper>

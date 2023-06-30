@@ -166,9 +166,7 @@ const RequestMasterDepartmentPending = () => {
                 showFirstButton={true}
                 showLastButton={true}
             />
-            <Drawer anchor="bottom" open={type === DRAWER_TOGGLE_TYPE.UPDATE_REQUEST_EDIT}>
-                <RequestItemEditForm />
-            </Drawer>
+
         </Box>
     );
 };

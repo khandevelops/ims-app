@@ -1,7 +1,7 @@
 import { IDepartment } from "./IDepartment";
 
 export interface IMaster {
-    id: number;
+    id?: number;
     item: string;
     manufacturer: string
     recent_cn: string
@@ -21,7 +21,7 @@ export interface IMaster {
 }
 
 export interface IMasterDepartment {
-    id: number;
+    id?: number;
     item: string;
     manufacturer: string
     recent_cn: string

@@ -11,12 +11,16 @@ export const getMasterFilterItems = (params: { item: string, page: number, size:
     return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${params.page}&size=${params.size}`)
 }
 
-export const createMasterItem = (params: { state: string, masterItem: IMaster }) => {
-    return axios.post(`${baseUrl}${params.state}`, params.masterItem)
+export const createMasterItem = (params: { masterItem: IMaster, departments: string[] }) => {
+    return axios.post(`${baseUrl}/master/create`, params)
 }
 
-export const updateMasterItem = (params: { id: number, masterItem: IMaster }) => {
-    return axios.put(`${baseUrl}/${params.id}`, params.masterItem)
+export const updateMasterItem = (masterItem: IMaster) => {
+    return axios.put(`${baseUrl}/${masterItem.id}`, masterItem)
+}
+
+export const updateMasterItemAssign = (params: { masterItemId: number, department: string }) => {
+    return axios.put(`${baseUrl}/${params.masterItemId}`, params)
 }
 
 

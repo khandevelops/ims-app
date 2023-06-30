@@ -7,6 +7,7 @@ import MenuDepartment from './menu/MenuDepartment';
 import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
 import { useAppSelector } from '../app/hooks';
 import { ROLE } from '../common/constants';
+import Drawer from './drawers/Drawers';
 
 const Layout = () => {
     const profileDetailSelector = useAppSelector(selectProfileDetail);
@@ -19,6 +20,7 @@ const Layout = () => {
             </Box>
             <Box sx={{ padding: 1, flex: 1 }}>
                 <Outlet />
+                <Drawer/>
             </Box>
             <NavbarBottom />
         </Box>

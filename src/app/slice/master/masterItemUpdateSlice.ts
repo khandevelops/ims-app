@@ -1,41 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../store';
-
-import axios from "axios"
-import { IDepartmentItem } from '../department/departmentItemsSlice';
-
-const baseUrl = process.env.REACT_APP_BASE_URL
-
-export const updateMasterItem = (masterItem: IMasterItem) => {
-    return axios.patch(`${baseUrl}/master/${masterItem.id}/update`, masterItem)
-}
-
-export interface IMasterItem {
-    id: number;
-    item: string;
-    manufacturer: string
-    recent_cn: string
-    part_number: string
-    recent_vendor: string
-    fisher_cn: string
-    vwr_cn: string
-    lab_source_cn: string
-    other_cn: string
-    purchase_unit: string;
-    unit_price: number;
-    category: string;
-    minimum_quantity: number;
-    maximum_quantity: number;
-    expiration_date: Date;
-    received_date: Date;
-    comment: string;
-    type: string;
-    group: string;
-    drug_class: string;
-}
+import { IMaster } from '../../api/properties/IMaster';
+import { updateMasterItem } from '../../api/master';
 
 export interface IMasterItemState {
-    masterItem: IMasterItem | undefined,
+    masterItem: IMaster | undefined,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
@@ -45,8 +14,8 @@ const initialState: IMasterItemState = {
 }
 
 export const updateMasterItemThunk = createAsyncThunk(
-    'getMasterItemsFilterThunk',
-    async (masterItem: IMasterItem) => {
+    'updateMasterItemThunk',
+    async (masterItem: IMaster) => {
         const response = await updateMasterItem(masterItem)
         return response.data
     }
