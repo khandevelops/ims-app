@@ -3,12 +3,12 @@ import { IMaster } from "./properties/IMaster"
 
 const baseUrl = process.env.REACT_APP_BASE_URL
 
-export const getMasterItems = (params: { page: number }) => {
-    return axios.get(`${baseUrl}/master/list?page=${params.page}`)
+export const getMasterItems = (page: number) => {
+    return axios.get(`${baseUrl}/master/list?page=${page}`)
 }
 
-export const getMasterFilterItems = (params: { item: string, page: number, size: number }) => {
-    return axios.get(`${baseUrl}/master/list/filter?item=${params.item}&page=${params.page}&size=${params.size}`)
+export const filterMasterItems = (params: { keyword: string, page: number }) => {
+    return axios.get(`${baseUrl}/master/filter?keyword=${params.keyword}&page=${params.page}`)
 }
 
 export const createMasterItem = (params: { masterItem: IMaster, departments: string[] }) => {
@@ -16,13 +16,12 @@ export const createMasterItem = (params: { masterItem: IMaster, departments: str
 }
 
 export const updateMasterItem = (masterItem: IMaster) => {
-    return axios.put(`${baseUrl}/${masterItem.id}`, masterItem)
+    return axios.patch(`${baseUrl}/master/${masterItem.id}/update`, masterItem)
 }
 
 export const updateMasterItemAssign = (params: { masterItemId: number, department: string }) => {
     return axios.put(`${baseUrl}/${params.masterItemId}`, params)
 }
-
 
 export const getMasterDepartmentItems = (params: { state: string, page: number }) => {
     return axios.get(`${baseUrl}/master-department/${params.state}/list?page=${params.page}`)

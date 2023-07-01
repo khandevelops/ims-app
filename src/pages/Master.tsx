@@ -1,8 +1,22 @@
 import { MouseEvent, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
-import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemSlice';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, IconButton, Paper, Box, styled, Menu, MenuItem, Typography } from '@mui/material';
-import { IMasterItem } from '../app/slice/master/masterItemSlice';
+import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemsSlice';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TablePagination,
+    IconButton,
+    Paper,
+    Box,
+    styled,
+    Menu,
+    MenuItem,
+    Typography
+} from '@mui/material';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
@@ -10,6 +24,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
+import { IMaster } from '../app/api/properties/IMaster';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -23,7 +38,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
+const columns: {
+    field: string;
+    tooltipName: string;
+    headerName: string | JSX.Element;
+    align: 'left' | 'center' | 'right';
+}[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
     { field: 'manufacturer', tooltipName: 'Manufacturer', headerName: 'M', align: 'left' },
@@ -59,13 +79,16 @@ const Master = () => {
         setPage(newPage);
     };
 
-    const handleEditClick = (event: MouseEvent<HTMLElement>, masterItem: IMasterItem) => {
+    const handleEditClick = (event: MouseEvent<HTMLElement>, masterItem: IMaster) => {
         dispatch(toggleDrawer({ type: DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM, masterItem: masterItem }));
     };
 
-    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItemId: number) => {
-        setMasterItemId(masterItemId);
-        setAnchorElUser(event.currentTarget);
+    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItemId: number | undefined) => {
+        if(masterItemId) {
+            setMasterItemId(masterItemId);
+            setAnchorElUser(event.currentTarget);
+        }
+ 
     };
 
     const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
@@ -77,7 +100,7 @@ const Master = () => {
         setAnchorElUser(null);
     };
 
-    const handleDeleteClick = (event: MouseEvent<HTMLElement>, id: number) => {};
+    const handleDeleteClick = (event: MouseEvent<HTMLElement>, id: number | undefined) => {};
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
@@ -114,13 +137,23 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
                                     <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
                                     <StyledTableCell align="right" width={200}>
-                                    <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, masterItem)}>
+                                        <IconButton
+                                            onClick={(event: MouseEvent<HTMLElement>) =>
+                                                handleEditClick(event, masterItem)
+                                            }>
                                             <ModeEditIcon color="primary" fontSize="small" />
                                         </IconButton>
-                                    <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleAssignClick(event, masterItem.id)} sx={{marginLeft: '0.7rem', marginRight: '0.7rem'}}>
+                                        <IconButton
+                                            onClick={(event: MouseEvent<HTMLElement>) =>
+                                                handleAssignClick(event, masterItem.id)
+                                            }
+                                            sx={{ marginLeft: '0.7rem', marginRight: '0.7rem' }}>
                                             <AddCircleOutlineIcon color="primary" fontSize="small" />
                                         </IconButton>
-                                        <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, masterItem.id)}>
+                                        <IconButton
+                                            onClick={(event: MouseEvent<HTMLElement>) =>
+                                                handleDeleteClick(event, masterItem.id)
+                                            }>
                                             <DeleteIcon color="primary" fontSize="small" />
                                         </IconButton>
                                     </StyledTableCell>
@@ -130,16 +163,16 @@ const Master = () => {
                 </Table>
             </TableContainer>
             <TablePagination
-                sx={{ marginTop: 'auto' }}
-                rowsPerPageOptions={[]}
-                component="div"
-                count={masterItemsSelector.response.totalElements}
-                rowsPerPage={masterItemsSelector.response.size}
-                page={masterItemsSelector.response.number}
-                onPageChange={handleChangePage}
-                showFirstButton={true}
-                showLastButton={true}
-            />
+            sx={{ marginTop: 'auto' }}
+            rowsPerPageOptions={[]}
+            component="div"
+            count={masterItemsSelector.response.totalElements}
+            rowsPerPage={masterItemsSelector.response.size}
+            page={masterItemsSelector.response.number}
+            onPageChange={handleChangePage}
+            showFirstButton={true}
+            showLastButton={true}
+        />
             <Menu
                 key="menu"
                 id="menu"
@@ -155,7 +188,9 @@ const Master = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseDepartmentMenu}>
                 {Object.values(DEPARTMENT).map((department, index) => (
-                    <MenuItem key={index} onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
+                    <MenuItem
+                        key={index}
+                        onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
                         <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
                     </MenuItem>
                 ))}

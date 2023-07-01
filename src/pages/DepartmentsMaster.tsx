@@ -1,5 +1,5 @@
 import { ChangeEvent, Fragment, useRef, KeyboardEvent } from 'react';
-import { useEffect, MouseEvent } from 'react';
+import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers';
@@ -8,10 +8,10 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Table
 import { useLocation } from 'react-router-dom';
 import { handlePage, selectPage } from '../app/common/pageSlice';
 import { changeMasterDepartmentItems, getMasterDepartmentItemsThunk, selectMasterDepartmentItems } from '../app/slice/master/masterDepartmentItemsSlice';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { IDepartment } from '../app/api/properties/IDepartment';
 import { updateDepartmentItemThunk } from '../app/slice/department/departmentItemUpdateSlice';
+import totalAmount, { getTotalAmount } from '../app/slice/totalAmount';
+import { IMasterDepartment } from '../app/api/properties/IMaster';
 
 const columns: { field: string; tooltipName: string | JSX.Element; headerName: string; align: 'left' | 'center' | 'right' }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
@@ -76,7 +76,17 @@ const DepartmentsMaster = () => {
                 state: location.state,
                 page: pageSelector.page
             })
-        );
+        )
+            .then((response) => {
+                const total = response.payload.content.reduce(
+                    (total: number, masterDepartmentItem: IMasterDepartment) => total + masterDepartmentItem.unit_price * getTotalQuantity(masterDepartmentItem.departmentItems),
+                    0
+                );
+
+                dispatch(getTotalAmount({ totalAmount: total }));
+            })
+
+            .catch((error: Error) => console.error(error.message));
     }, [dispatch, location.state, pageSelector.page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
@@ -236,7 +246,7 @@ const DepartmentsMaster = () => {
         } else if (minimum_quantity === 1 && maximum_quantity === 1 && totalQuantity < 1) {
             return { orderQuantity: 1, color: '#FF0000' };
         } else if (totalQuantity < minimum_quantity) {
-            return { orderQuantity: maximum_quantity - minimum_quantity, color: 'red' };
+            return { orderQuantity: maximum_quantity - totalQuantity, color: 'red' };
         } else {
             return { orderQuantity: 0, color: '#3CB371' };
         }
@@ -318,7 +328,7 @@ const DepartmentsMaster = () => {
                                                         {masterDepartmentItem.departmentItems.map((departmentItem, index) => (
                                                             <TableRow key={index} hover>
                                                                 <StyledSubTableCell sx={{ width: 300 }}>
-                                                                <TextField
+                                                                    <TextField
                                                                         ref={inputRef}
                                                                         size="small"
                                                                         name="location"
@@ -332,12 +342,13 @@ const DepartmentsMaster = () => {
                                                                             }
                                                                         }}
                                                                         onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, departmentItem)}
-                                                                    /></StyledSubTableCell>
+                                                                    />
+                                                                </StyledSubTableCell>
                                                                 <StyledSubTableCell align="left" sx={{ width: 100 }}>
-                                                                <TextField
+                                                                    <TextField
                                                                         ref={inputRef}
                                                                         size="small"
-                                                                        type='number'
+                                                                        type="number"
                                                                         name="minimum_quantity"
                                                                         value={departmentItem.minimum_quantity}
                                                                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleMinimumQtyChange(event, masterDepartmentItem.id, departmentItem.id)}
@@ -348,7 +359,8 @@ const DepartmentsMaster = () => {
                                                                             }
                                                                         }}
                                                                         onKeyDown={(event: KeyboardEvent) => handleEnterKey(event, departmentItem)}
-                                                                    /></StyledSubTableCell>
+                                                                    />
+                                                                </StyledSubTableCell>
                                                                 <StyledSubTableCell align="left" sx={{ width: 100 }}>
                                                                     <TextField
                                                                         ref={inputRef}

@@ -1,5 +1,5 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import masterReducer from './slice/master/masterItemSlice';
+import masterReducer from './slice/master/masterItemsSlice';
 import pageReducer from './common/pageSlice';
 import masterDepartmentItemReducer from './slice/masterDepartment/masterDepartmentItemSlice';
 import departmentItemsReducer from './departments/departmentItemsSlice';
@@ -32,6 +32,8 @@ import departmentItemUpdateReducer from './slice/department/departmentItemUpdate
 import departmentItemReducer from './slice/department/departmentItemSlice'
 import masterItemCreateReducer from './slice/master/masterItemCreateSlice'
 import masterItemAssignReducer from './slice/master/masterItemAssignSlice'
+import totalAmountReducer from './slice/totalAmount'
+import masterItemsFilterReducer from './slice/master/masterItemsFilterSlice'
 
 export const store = configureStore({
   reducer: {
@@ -67,7 +69,9 @@ export const store = configureStore({
     downloadDepartmentMasterItemsStore: downloadDepartmentMasterItemsReducer,
     departmentMasterItemsStore: departmentMasterItemsReducer,
     departmentItemUpdateStore: departmentItemUpdateReducer,
-    departmentItemStore: departmentItemReducer
+    departmentItemStore: departmentItemReducer,
+    totalAmountStore: totalAmountReducer,
+    masterItemsFilterStore: masterItemsFilterReducer
   }
 });
 

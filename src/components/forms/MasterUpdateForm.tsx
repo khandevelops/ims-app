@@ -1,25 +1,53 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {
+    Box,
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    TextField
+} from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectDrawerToggleType, toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { CATEGORY, DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../../common/constants';
 import { updateMasterItemThunk } from '../../app/slice/master/masterItemUpdateSlice';
 import { createMasterItemThunk } from '../../app/slice/master/masterItemCreateSlice';
+import { changeMasterItems, selectMasterItems } from '../../app/slice/master/masterItemsSlice';
 
-const MasterForm = () => {
+const MasterUpdateForm = () => {
     const dispatch = useAppDispatch();
+    const masterItemsSelector = useAppSelector(selectMasterItems);
     const drawer = useAppSelector(selectDrawerToggleType);
-    const { type, masterItem} = drawer;
+    const { type, masterItem } = drawer;
 
     const [departments, setDepartments] = useState<string[]>([]);
 
     const handleSubmit = () => {
-        if(masterItem) {
+        if (masterItem) {
             if (type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM) {
                 dispatch(createMasterItemThunk({ masterItem: masterItem, departments: departments }));
             }
             if (type === DRAWER_TOGGLE_TYPE.UPDATE_MASTER_ITEM) {
-                dispatch(updateMasterItemThunk(masterItem));
+                dispatch(updateMasterItemThunk(masterItem))
+                    .then((response) => {
+                        dispatch(
+                            changeMasterItems(
+                                masterItemsSelector.response.content.map((masterItem) => {
+                                    return masterItem.id === response.payload.id
+                                        ? { ...masterItem, ...response.payload }
+                                        : masterItem;
+                                })
+                            )
+                        );
+                    })
+                    .catch((error: Error) => console.error(error.message));
             }
             dispatch(toggleDrawer({ type: '' }));
         }
@@ -30,11 +58,12 @@ const MasterForm = () => {
     };
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>, masterItemKey: string) => {
-        masterItem && Object.keys(masterItem).forEach((key) => {
-            if (key === masterItemKey) {
-                dispatch(toggleDrawer({ ...drawer, masterItem: {...masterItem, [key]: event.target.value} }));
-            }
-        });
+        masterItem &&
+            Object.keys(masterItem).forEach((key) => {
+                if (key === masterItemKey) {
+                    dispatch(toggleDrawer({ ...drawer, masterItem: { ...masterItem, [key]: event.target.value } }));
+                }
+            });
     };
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,8 +75,8 @@ const MasterForm = () => {
     };
 
     const handleCategoryChange = (event: SelectChangeEvent) => {
-        if(masterItem) {
-            dispatch(toggleDrawer({ ...drawer, masterItem: {...masterItem, category: event.target.value} }));
+        if (masterItem) {
+            dispatch(toggleDrawer({ ...drawer, masterItem: { ...masterItem, category: event.target.value } }));
         }
     };
 
@@ -56,7 +85,15 @@ const MasterForm = () => {
             <Grid container>
                 {type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM && (
                     <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-                        <TextField sx={{ width: '100%' }} id="" label="ID" variant="outlined" size="small" value={masterItem && masterItem.id} disabled />
+                        <TextField
+                            sx={{ width: '100%' }}
+                            id=""
+                            label="ID"
+                            variant="outlined"
+                            size="small"
+                            value={masterItem && masterItem.id}
+                            disabled
+                        />
                     </Grid>
                 )}
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
@@ -208,7 +245,14 @@ const MasterForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <FormControl fullWidth>
                         <InputLabel id="category">Category</InputLabel>
-                        <Select id="category" labelId="category" label="Category" value={masterItem && masterItem.category} onChange={handleCategoryChange} sx={{ width: '100%' }} size="small">
+                        <Select
+                            id="category"
+                            labelId="category"
+                            label="Category"
+                            value={masterItem && masterItem.category}
+                            onChange={handleCategoryChange}
+                            sx={{ width: '100%' }}
+                            size="small">
                             {Object.keys(CATEGORY).map((category) => (
                                 <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
                             ))}
@@ -273,10 +317,25 @@ const MasterForm = () => {
             {type === DRAWER_TOGGLE_TYPE.ADD_MASTER_ITEM && (
                 <Grid container>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="center">
-                        <FormGroup sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%', paddingTop: 3 }}>
+                        <FormGroup
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                width: '100%',
+                                paddingTop: 3
+                            }}>
                             {Object.values(DEPARTMENT).map((department, index) => (
                                 <FormControlLabel
-                                    control={<Checkbox onChange={handleCheckboxChange} checked={departments.some((departmentName) => departmentName === department)} name={department} />}
+                                    control={
+                                        <Checkbox
+                                            onChange={handleCheckboxChange}
+                                            checked={departments.some(
+                                                (departmentName) => departmentName === department
+                                            )}
+                                            name={department}
+                                        />
+                                    }
                                     label={department.split('_').join(' ')}
                                     key={index}
                                 />
@@ -302,4 +361,4 @@ const MasterForm = () => {
     );
 };
 
-export default MasterForm;
+export default MasterUpdateForm;

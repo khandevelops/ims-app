@@ -2,15 +2,34 @@ import React, { useState } from 'react';
 import { useEffect, MouseEvent, KeyboardEvent, ChangeEvent } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Box, TextField, styled, tableCellClasses, IconButton } from '@mui/material';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TablePagination,
+    Paper,
+    Box,
+    TextField,
+    styled,
+    tableCellClasses,
+    IconButton
+} from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import { changeStoreRoomMasterItems, getStoreRoomMasterItemsThunk, selectStoreRoomMasterItems } from '../app/slice/storeRoom/storeRoomMasterItemsSlice';
+import {
+    changeStoreRoomMasterItems,
+    getStoreRoomMasterItemsThunk,
+    selectStoreRoomMasterItems
+} from '../app/slice/storeRoom/storeRoomMasterItemsSlice';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { updateStoreRoomItemThunk } from '../app/slice/storeRoom/storeRoomUpdateSlice';
 import { IStoreRoomMaster } from '../app/api/properties/IStoreRoom';
+import { getTotalAmount } from '../app/slice/totalAmount';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -24,7 +43,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const columns: { field: string; tooltipName: string; headerName: string | JSX.Element; align: 'left' | 'center' | 'right' }[] = [
+const columns: {
+    field: string;
+    tooltipName: string;
+    headerName: string | JSX.Element;
+    align: 'left' | 'center' | 'right';
+}[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     { field: 'purchase_unit', tooltipName: 'Purchase Unit', headerName: 'PU', align: 'left' },
     { field: 'part_number', tooltipName: 'Part Number', headerName: 'PN', align: 'left' },
@@ -40,8 +64,7 @@ const columns: { field: string; tooltipName: string; headerName: string | JSX.El
     { field: 'received', tooltipName: 'Received', headerName: 'Rec', align: 'left' },
     { field: 'total_price', tooltipName: 'Total Price', headerName: 'TP', align: 'left' },
     { field: 'comments', tooltipName: 'Comment', headerName: 'Comment', align: 'left' },
-    { field: 'edit', tooltipName: 'Edit', headerName: 'Edit', align: 'center' },
-    { field: 'delete', tooltipName: 'Delete', headerName: 'Delete', align: 'center' }
+    { field: 'action', tooltipName: 'Edit | Delete', headerName: 'Edit | Delete', align: 'right' }
 ];
 
 const StoreRoomMaster = () => {
@@ -51,7 +74,17 @@ const StoreRoomMaster = () => {
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getStoreRoomMasterItemsThunk(page));
+        dispatch(getStoreRoomMasterItemsThunk(page))
+            .then((response) => {
+                const total = response.payload.content.reduce(
+                    (total: number, storeRoomMasterItem: IStoreRoomMaster) =>
+                        total + storeRoomMasterItem.masterItem.unit_price * storeRoomMasterItem.quantity,
+                    0
+                );
+
+                dispatch(getTotalAmount({ totalAmount: total }));
+            })
+            .catch((error: Error) => console.error(error.message));
     }, [dispatch, location.state, page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
@@ -158,8 +191,12 @@ const StoreRoomMaster = () => {
                                             }}
                                             id={storeRoomMasterItem.id?.toString()}
                                             value={storeRoomMasterItem.quantity}
-                                            onKeyDown={(event: KeyboardEvent) => handleStoreRoomItemUpdate(storeRoomMasterItem.id, event)}
-                                            onChange={(event: ChangeEvent<HTMLInputElement>) => handleChangeTotalQty(storeRoomMasterItem.id, event)}
+                                            onKeyDown={(event: KeyboardEvent) =>
+                                                handleStoreRoomItemUpdate(storeRoomMasterItem.id, event)
+                                            }
+                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                                handleChangeTotalQty(storeRoomMasterItem.id, event)
+                                            }
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{storeRoomMasterItem.usage_level}</StyledTableCell>
@@ -169,19 +206,28 @@ const StoreRoomMaster = () => {
                                     <StyledTableCell>${storeRoomMasterItem.masterItem.unit_price}</StyledTableCell>
                                     <StyledTableCell>issued</StyledTableCell>
                                     <StyledTableCell>received</StyledTableCell>
-                                    <StyledTableCell>{getTotalPrice(storeRoomMasterItem.masterItem.unit_price, storeRoomMasterItem.quantity)}</StyledTableCell>
-                                    <StyledTableCell width={200}>{storeRoomMasterItem.masterItem.comment}</StyledTableCell>
+                                    <StyledTableCell>
+                                        {getTotalPrice(
+                                            storeRoomMasterItem.masterItem.unit_price,
+                                            storeRoomMasterItem.quantity
+                                        )}
+                                    </StyledTableCell>
+                                    <StyledTableCell width={200}>
+                                        {storeRoomMasterItem.masterItem.comment}
+                                    </StyledTableCell>
                                     <StyledTableCell>
                                         <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleEditClick(event, storeRoomMasterItem)}>
+                                            <IconButton
+                                                sx={{ marginLeft: '0.7rem', marginRight: '0.7rem' }}
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleEditClick(event, storeRoomMasterItem)
+                                                }>
                                                 <ModeEditIcon color="primary" fontSize="small" />
                                             </IconButton>
-                                        </Box>
-                                    </StyledTableCell>
-
-                                    <StyledTableCell>
-                                        <Box sx={{ display: 'flex' }}>
-                                            <IconButton onClick={(event: MouseEvent<HTMLElement>) => handleDeleteClick(event, storeRoomMasterItem)}>
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleDeleteClick(event, storeRoomMasterItem)
+                                                }>
                                                 <DeleteIcon color="primary" fontSize="small" />
                                             </IconButton>
                                         </Box>
