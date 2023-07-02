@@ -1,37 +1,37 @@
-import { meGraphConfig } from "./authConfig";
-import { profilesGraphConfig } from "./authConfig";
+import { meGraphConfig } from './authConfig';
+import { profilesGraphConfig } from './authConfig';
 
 /**
  * Attaches a given access token to a Microsoft Graph API call. Returns information about the user
  */
 export async function callMeMsGraph(accessToken: string) {
-  const headers = new Headers();
-  const bearer = `Bearer ${accessToken}`;
+    const headers = new Headers();
+    const bearer = `Bearer ${accessToken}`;
 
-  headers.append("Authorization", bearer);
+    headers.append('Authorization', bearer);
 
-  const options = {
-    method: "GET",
-    headers: headers,
-  };
+    const options = {
+        method: 'GET',
+        headers: headers
+    };
 
-  return fetch(meGraphConfig.graphMeEndpoint, options)
-    .then((response) => response.json())
-    .catch((error) => console.error(error));
+    return fetch(meGraphConfig.graphMeEndpoint, options)
+        .then((response) => response.json())
+        .catch((error) => console.error(error));
 }
 
 export async function callProflesMsGraph(accessToken: string) {
-  const headers = new Headers();
-  const bearer = `Bearer ${accessToken}`;
+    const headers = new Headers();
+    const bearer = `Bearer ${accessToken}`;
 
-  headers.append("Authorization", bearer);
+    headers.append('Authorization', bearer);
 
-  const options = {
-    method: "GET",
-    headers: headers,
-  };
+    const options = {
+        method: 'GET',
+        headers: headers
+    };
 
-  return fetch(profilesGraphConfig.graphMeEndpoint, options)
-    .then((response) => response.json())
-    .catch((error) => console.error(error));
+    return fetch(profilesGraphConfig.graphMeEndpoint, options)
+        .then((response) => response.json())
+        .catch((error) => console.error(error));
 }
