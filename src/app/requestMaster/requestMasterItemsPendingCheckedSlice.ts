@@ -3,25 +3,27 @@ import { RootState } from "../store";
 import { IRequestMasterItem } from "./requestMasterItemsSlice";
 
 export interface IRequestMasterItemsPendingCheckedState {
-    requestMasterItemsPendingChecked: IRequestMasterItem[]
+  requestMasterItemsPendingChecked: IRequestMasterItem[];
 }
 
 const initialState: IRequestMasterItemsPendingCheckedState = {
-    requestMasterItemsPendingChecked: []
-}
+  requestMasterItemsPendingChecked: [],
+};
 
 export const requestMasterItemsPendingCheckedSlice = createSlice({
-    name: 'requestMasterItemsPendingCheckedSlice',
-    initialState,
-    reducers: {
-        changeRequestItemsPendingChecked: (state, action) => {
-            state.requestMasterItemsPendingChecked = action.payload
-        }
+  name: "requestMasterItemsPendingCheckedSlice",
+  initialState,
+  reducers: {
+    changeRequestItemsPendingChecked: (state, action) => {
+      state.requestMasterItemsPendingChecked = action.payload;
     },
-})
+  },
+});
 
-export const selectRequestMasterItemsPendingChecked = (state: RootState) => state.requestMasterItemsPendingCheckedStore
+export const selectRequestMasterItemsPendingChecked = (state: RootState) =>
+  state.requestMasterItemsPendingCheckedStore;
 
-export const { changeRequestItemsPendingChecked } = requestMasterItemsPendingCheckedSlice.actions
+export const { changeRequestItemsPendingChecked } =
+  requestMasterItemsPendingCheckedSlice.actions;
 
-export default requestMasterItemsPendingCheckedSlice.reducer
+export default requestMasterItemsPendingCheckedSlice.reducer;

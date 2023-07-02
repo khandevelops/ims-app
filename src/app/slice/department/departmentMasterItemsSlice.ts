@@ -4,54 +4,59 @@ import { IDepartmentMaster } from "../../api/properties/IDepartment";
 import { geDepartmentMasterItems } from "../../api/department";
 
 export interface DepartmentMasterItemsState {
-    response: {
-        content: IDepartmentMaster[],
-        last: boolean,
-        totalPages: number,
-        totalElements: number,
-        first: boolean,
-        size: number,
-        number: number,
-        sorted: boolean,
-        numberOfElements: number,
-        empty: boolean
-    } | null;
-    status: 'idle' | 'loading' | 'success' | 'failed';
+  response: {
+    content: IDepartmentMaster[];
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    first: boolean;
+    size: number;
+    number: number;
+    sorted: boolean;
+    numberOfElements: number;
+    empty: boolean;
+  } | null;
+  status: "idle" | "loading" | "success" | "failed";
 }
 
 const initialState: DepartmentMasterItemsState = {
-    response: null,
-    status: 'idle'
-}
+  response: null,
+  status: "idle",
+};
 
 export const getDepartmentMasterItemsThunk = createAsyncThunk(
-    'getDepartmentMasterItemsThunk',
-    async (params: { state: string, page: number }) => {
-        const response = await geDepartmentMasterItems(params)
-        return response.data
-    }
-)
+  "getDepartmentMasterItemsThunk",
+  async (params: { state: string; page: number }) => {
+    const response = await geDepartmentMasterItems(params);
+    return response.data;
+  }
+);
 
 export const departmentMasterItemsSlice = createSlice({
-    name: 'transformedSlice',
-    initialState,
-    reducers: {
-        changeDepartmentMasterItems: (state, action) => {
-            state.response = action.payload
-        }
+  name: "transformedSlice",
+  initialState,
+  reducers: {
+    changeDepartmentMasterItems: (state, action) => {
+      state.response = action.payload;
     },
-    extraReducers: (builder) => {
-        builder.addCase(getDepartmentMasterItemsThunk.pending, (state) => {
-            state.status = 'loading'
-        }).addCase(getDepartmentMasterItemsThunk.fulfilled, (state, action) => {
-            state.status = 'success'
-            state.response = action.payload
-        }).addCase(getDepartmentMasterItemsThunk.rejected, (state) => {
-            state.status = 'failed'
-        })
-    }
-})
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getDepartmentMasterItemsThunk.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getDepartmentMasterItemsThunk.fulfilled, (state, action) => {
+        state.status = "success";
+        state.response = action.payload;
+      })
+      .addCase(getDepartmentMasterItemsThunk.rejected, (state) => {
+        state.status = "failed";
+      });
+  },
+});
 
-export const selectDepartmentMasterItems = (state: RootState) => state.departmentMasterItemsStore
-export const { changeDepartmentMasterItems } = departmentMasterItemsSlice.actions
-export default departmentMasterItemsSlice.reducer
+export const selectDepartmentMasterItems = (state: RootState) =>
+  state.departmentMasterItemsStore;
+export const { changeDepartmentMasterItems } =
+  departmentMasterItemsSlice.actions;
+export default departmentMasterItemsSlice.reducer;

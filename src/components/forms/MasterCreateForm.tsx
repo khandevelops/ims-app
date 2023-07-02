@@ -15,33 +15,47 @@ import {
 } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  selectDrawerToggleType,
-  toggleDrawer,
-} from "../../app/slice/drawerToggle/drawerToggleTypeSlice";
-import {
-  CATEGORY,
-  DEPARTMENT,
-  DRAWER_TOGGLE_TYPE,
-} from "../../common/constants";
-import { updateMasterItemThunk } from "../../app/slice/master/masterItemUpdateSlice";
+import { toggleDrawer } from "../../app/slice/drawerToggle/drawerToggleTypeSlice";
+import { CATEGORY, DEPARTMENT } from "../../common/constants";
 import { createMasterItemThunk } from "../../app/slice/master/masterItemCreateSlice";
 import {
   changeMasterItems,
   selectMasterItems,
 } from "../../app/slice/master/masterItemsSlice";
+import { IMaster } from "../../app/api/properties/IMaster";
 
-const MasterUpdateForm = () => {
+const MasterCreateForm = () => {
   const dispatch = useAppDispatch();
   const masterItemsSelector = useAppSelector(selectMasterItems);
-  const drawer = useAppSelector(selectDrawerToggleType);
-  const { masterItem } = drawer;
 
   const [departments, setDepartments] = useState<string[]>([]);
+  const [masterItem, setMasterItem] = useState<IMaster>({
+    item: "",
+    manufacturer: "",
+    recent_cn: "",
+    part_number: "",
+    recent_vendor: "",
+    fisher_cn: "",
+    vwr_cn: "",
+    lab_source_cn: "",
+    other_cn: "",
+    purchase_unit: "",
+    unit_price: 0,
+    category: "",
+    comment: "",
+    type: "",
+    group: "",
+    drug_class: "",
+  });
 
   const handleSubmit = () => {
     if (masterItem) {
-      dispatch(updateMasterItemThunk(masterItem))
+      dispatch(
+        createMasterItemThunk({
+          masterItem: masterItem,
+          departments: departments,
+        })
+      )
         .then((response) => {
           dispatch(
             changeMasterItems(
@@ -66,17 +80,11 @@ const MasterUpdateForm = () => {
     event: ChangeEvent<HTMLInputElement>,
     masterItemKey: string
   ) => {
-    masterItem &&
-      Object.keys(masterItem).forEach((key) => {
-        if (key === masterItemKey) {
-          dispatch(
-            toggleDrawer({
-              ...drawer,
-              masterItem: { ...masterItem, [key]: event.target.value },
-            })
-          );
-        }
-      });
+    setMasterItem({ ...masterItem, [masterItemKey]: event.target.value });
+  };
+
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setMasterItem({ ...masterItem, category: event.target.value });
   };
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -89,176 +97,266 @@ const MasterUpdateForm = () => {
     }
   };
 
-  const handleCategoryChange = (event: SelectChangeEvent) => {
-    if (masterItem) {
-      dispatch(
-        toggleDrawer({
-          ...drawer,
-          masterItem: { ...masterItem, category: event.target.value },
-        })
-      );
-    }
-  };
-
   return (
     <Box sx={{ padding: 5 }}>
       <Grid container>
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-          {" "}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           <TextField
+            required
             sx={{ width: "100%" }}
+            error={false}
+            helperText=""
             id="item"
             label="ITEM"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.item}
+            value={masterItem.item}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "item")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="manufacturer"
             label="MANUFACTURER"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.manufacturer}
+            value={masterItem.manufacturer}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "manufacturer")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="recent_cn"
             label="RECENT CN"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.recent_cn}
+            value={masterItem.recent_cn}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "recent_cn")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="part_number"
             label="PART NUMBER"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.part_number}
+            value={masterItem.part_number}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "part_number")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="recent_vendor"
             label="RECENT VENDOR"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.recent_vendor}
+            value={masterItem.recent_vendor}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "recent_vendor")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="fisher_cn"
             label="FISHER CN"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.fisher_cn}
+            value={masterItem.fisher_cn}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "fisher_cn")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="vwr_cn"
             label="VWR CN"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.vwr_cn}
+            value={masterItem.vwr_cn}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "vwr_cn")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="lab_source_cn"
             label="LAB SOURCE CN"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.lab_source_cn}
+            value={masterItem.lab_source_cn}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "lab_source_cn")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="other_cn"
             label="OTHER CN"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.other_cn}
+            value={masterItem.other_cn}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "other_cn")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="purchase_unit"
             label="PURCHASE UNIT"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.purchase_unit}
+            value={masterItem.purchase_unit}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "purchase_unit")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="unit_price"
             label="UNIT PRICE"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             InputProps={{
               startAdornment: (
@@ -266,21 +364,32 @@ const MasterUpdateForm = () => {
               ),
             }}
             size="small"
-            value={masterItem && masterItem.unit_price}
+            value={masterItem.unit_price}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "unit_price")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
-          <FormControl fullWidth>
-            <InputLabel id="category">Category</InputLabel>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
+          <FormControl fullWidth required>
+            <InputLabel shrink={true} id="category">
+              Category
+            </InputLabel>
             <Select
               id="category"
               labelId="category"
               label="Category"
-              value={masterItem && masterItem.category}
+              notched={true}
+              value={masterItem.category}
               onChange={handleCategoryChange}
               sx={{ width: "100%" }}
               size="small"
@@ -294,67 +403,111 @@ const MasterUpdateForm = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="drug_class"
             label="DRUG CLASS"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.drug_class}
+            value={masterItem.drug_class}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "drug_class")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="type"
             label="TYPE"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.type}
+            value={masterItem.type}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "type")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={4}
+          xl={4}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           {" "}
           <TextField
             sx={{ width: "100%" }}
             id="group"
             label="GROUP"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
-            value={masterItem && masterItem.group}
+            value={masterItem.group}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "group")
             }
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           <TextField
             sx={{ width: "100%", marginTop: 2 }}
             id="comment"
             label="COMMENT"
+            InputLabelProps={{ shrink: true }}
             variant="outlined"
             size="small"
             multiline
             rows={4}
-            value={masterItem && masterItem.comment}
+            value={masterItem.comment}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, "comment")
             }
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} sx={{ padding: 1 }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          sx={{ padding: "0.75rem 0.5rem" }}
+        >
           <FormGroup
             sx={{
               display: "flex",
@@ -387,8 +540,13 @@ const MasterUpdateForm = () => {
 
       <Grid container gap={5} sx={{ marginTop: 5 }} justifyContent="center">
         <Grid item>
-          <Button variant="outlined" onClick={handleSubmit} sx={{ width: 200 }}>
-            UPDATE
+          <Button
+            variant="outlined"
+            onClick={handleSubmit}
+            sx={{ width: 200 }}
+            disabled={masterItem.category === "" || masterItem.item === ""}
+          >
+            CREATE
           </Button>
         </Grid>
         <Grid item>
@@ -406,4 +564,4 @@ const MasterUpdateForm = () => {
   );
 };
 
-export default MasterUpdateForm;
+export default MasterCreateForm;

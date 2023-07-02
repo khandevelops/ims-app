@@ -1,23 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { RootState } from "./store"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 export interface SearchState {
-    searchValue: string
+  searchValue: string;
 }
 
 const initialState: SearchState = {
-    searchValue: ''
-}
+  searchValue: "",
+};
 
 export const searchSlice = createSlice({
-    name: 'searchSlice',
-    initialState,
-    reducers: {
-        getSearchValue: (state, action) => {
-            state.searchValue = action.payload
-        }
-    }
-})
+  name: "searchSlice",
+  initialState,
+  reducers: {
+    getSearchValue: (state, action) => {
+      state.searchValue = action.payload;
+    },
+  },
+});
 
 export const { getSearchValue } = searchSlice.actions;
 
