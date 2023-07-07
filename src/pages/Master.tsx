@@ -20,12 +20,12 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
 import { IMaster } from '../app/api/properties/IMaster';
 import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemsSlice';
+import { deleteMasterItemThunk } from '../app/slice/master/masterItemDeleteSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -136,6 +136,7 @@ const Master = () => {
 
     const [masterItemId, setMasterItemId] = useState<number>(0);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [anchorElDelete, setAnchorElDelete] = useState<null | HTMLElement>(null);
 
     useEffect(() => {
         dispatch(getMasterItemsThunk(page));
@@ -154,10 +155,11 @@ const Master = () => {
         );
     };
 
-    const handleAssignClick = (event: MouseEvent<HTMLElement>, masterItemId: number | undefined) => {
+    const handleIconClick = (event: MouseEvent<HTMLElement>, masterItemId: number | undefined, icon: string) => {
         if (masterItemId) {
             setMasterItemId(masterItemId);
-            setAnchorElUser(event.currentTarget);
+            if (icon === 'ASSIgn') setAnchorElUser(event.currentTarget);
+            if (icon === 'DELETE') setAnchorElDelete(event.currentTarget);
         }
     };
 
@@ -175,7 +177,18 @@ const Master = () => {
         setAnchorElUser(null);
     };
 
-    const handleDeleteClick = (event: MouseEvent<HTMLElement>, id: number | undefined) => {};
+    const handleDeleteConfirm = (event: MouseEvent<HTMLElement>) => {
+        dispatch(deleteMasterItemThunk(masterItemId))
+            .then((response) => {
+                setAnchorElDelete(null);
+                dispatch(getMasterItemsThunk(page));
+            })
+            .catch((error: Error) => console.error(error.message));
+    };
+
+    const handleDeleteCancel = (event: MouseEvent<HTMLElement>) => {
+        setAnchorElDelete(null);
+    };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
@@ -215,23 +228,20 @@ const Master = () => {
                                         <IconButton
                                             onClick={(event: MouseEvent<HTMLElement>) =>
                                                 handleEditClick(event, masterItem)
-                                            }
-                                        >
+                                            }>
                                             <ModeEditIcon color="primary" fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleAssignClick(event, masterItem.id)
+                                                handleIconClick(event, masterItem.id, 'ASSIGN')
                                             }
-                                            sx={{ marginLeft: '0.7rem', marginRight: '0.7rem' }}
-                                        >
+                                            sx={{ marginLeft: '0.7rem', marginRight: '0.7rem' }}>
                                             <AssignmentTurnedInIcon color="primary" fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleDeleteClick(event, masterItem.id)
-                                            }
-                                        >
+                                                handleIconClick(event, masterItem.id, 'DELETE')
+                                            }>
                                             <DeleteIcon color="primary" fontSize="small" />
                                         </IconButton>
                                     </StyledTableCell>
@@ -264,16 +274,35 @@ const Master = () => {
                     horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseDepartmentMenu}
-            >
+                onClose={handleCloseDepartmentMenu}>
                 {Object.values(DEPARTMENT).map((department, index) => (
                     <MenuItem
                         key={index}
-                        onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}
-                    >
+                        onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
                         <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
                     </MenuItem>
                 ))}
+            </Menu>
+            <Menu
+                key="menu"
+                id="menu"
+                anchorEl={anchorElDelete}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}
+                open={Boolean(anchorElDelete)}
+                onClose={handleCloseDepartmentMenu}>
+                <MenuItem key="confirm" onClick={handleDeleteConfirm}>
+                    <Typography textAlign="center">Confirm</Typography>
+                </MenuItem>
+                <MenuItem key="cancel" onClick={handleDeleteCancel}>
+                    <Typography textAlign="center">Cancel</Typography>
+                </MenuItem>
             </Menu>
         </Box>
     );

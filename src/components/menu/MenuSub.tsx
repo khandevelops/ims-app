@@ -54,7 +54,6 @@ const MenuSub = () => {
 
     useEffect(() => {
         dispatch(getGrandTotalThunk(state));
-        console.log(state);
     }, [dispatch, state]);
 
     const handleKeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -71,8 +70,7 @@ const MenuSub = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: '#1347a4'
-            }}
-        >
+            }}>
             <Box sx={{ width: 150 }}></Box>
             <Toolbar variant="dense" sx={{ justifySelf: 'center' }}>
                 <Search onChange={handleKeywordChange}>
@@ -97,8 +95,7 @@ const MenuSub = () => {
                             border: '2px solid white',
                             borderRadius: 1,
                             padding: '0.25rem 0.65rem'
-                        }}
-                    >
+                        }}>
                         <Typography sx={{ fontWeight: 900 }}>${grandTotal.toFixed(2)}</Typography>
                     </Box>
                 )}

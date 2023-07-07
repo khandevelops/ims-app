@@ -35,6 +35,7 @@ import masterItemAssignReducer from './slice/master/masterItemAssignSlice';
 import totalAmountReducer from './slice/totalAmount';
 import masterItemsFilterReducer from './slice/master/masterItemsFilterSlice';
 import grandTotalReducer from './slice/grandTotalSlice';
+import masterItemDeleteReducer from './slice/master/masterItemDeleteSlice'
 
 export const store = configureStore({
     reducer: {
@@ -73,7 +74,8 @@ export const store = configureStore({
         departmentItemStore: departmentItemReducer,
         totalAmountStore: totalAmountReducer,
         masterItemsFilterStore: masterItemsFilterReducer,
-        grandTotalStore: grandTotalReducer
+        grandTotalStore: grandTotalReducer,
+        masterItemDeleteStore: masterItemDeleteReducer
     }
 });
 

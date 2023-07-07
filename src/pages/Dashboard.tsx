@@ -44,7 +44,6 @@ const columns: { field: string; headerName: string }[] = [
 const Dashboard = () => {
     const { instance, accounts } = useMsal();
     const dispatch = useAppDispatch();
-    const profilesSelector = useAppSelector(selectProfiles);
     const profileDetailsSelector = useAppSelector(selectProfileDetails);
     const [profiles, setProfiles] = useState<{ id: string; displayName: string; mail: string }[]>([]);
 
@@ -56,7 +55,6 @@ const Dashboard = () => {
             })
             .then((response) => {
                 callProflesMsGraph(response.accessToken).then((response) => {
-                    console.log(response);
                     setProfiles(response.value);
                     dispatch(getProfiles(response.value));
                 });
@@ -166,8 +164,7 @@ const Dashboard = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     width: '100%'
-                                }}
-                            >
+                                }}>
                                 <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
                             </CardActions>
                         </Card>
@@ -185,8 +182,7 @@ const Dashboard = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     width: '100%'
-                                }}
-                            >
+                                }}>
                                 <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
                             </CardActions>
                         </Card>
@@ -204,8 +200,7 @@ const Dashboard = () => {
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     width: '100%'
-                                }}
-                            >
+                                }}>
                                 <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
                             </CardActions>
                         </Card>
@@ -221,8 +216,7 @@ const Dashboard = () => {
                                     columns.map((column) => (
                                         <TableCell
                                             key={column.field}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <Box>{column.headerName}</Box>
                                         </TableCell>
                                     ))}
@@ -245,8 +239,7 @@ const Dashboard = () => {
                                                         value={getProfileDetail(profile.id)?.department}
                                                         onChange={(event: SelectChangeEvent) =>
                                                             handleDepartmentChange(profile.id, event)
-                                                        }
-                                                    >
+                                                        }>
                                                         {Object.values(DEPARTMENT).map((department, index) => (
                                                             <MenuItem key={index} value={department}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>
@@ -266,8 +259,7 @@ const Dashboard = () => {
                                                         value={getProfileDetail(profile.id)?.role}
                                                         onChange={(event: SelectChangeEvent) =>
                                                             handleRoleChange(profile.id, event)
-                                                        }
-                                                    >
+                                                        }>
                                                         {Object.values(ROLE).map((role, index) => (
                                                             <MenuItem key={index} value={role}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>
@@ -287,8 +279,7 @@ const Dashboard = () => {
                                                         value={getProfileDetail(profile.id)?.permission}
                                                         onChange={(event: SelectChangeEvent) =>
                                                             handlePermissionChange(profile.id, event)
-                                                        }
-                                                    >
+                                                        }>
                                                         {Object.values(PERMISSION).map((role, index) => (
                                                             <MenuItem key={index} value={role}>
                                                                 <Typography sx={{ fontSize: '10pt' }}>

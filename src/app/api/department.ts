@@ -16,7 +16,7 @@ export const createDepartmentItem = (params: { state: string; departmentItem: ID
 };
 
 export const updateDepartmentItem = (params: { state: string; departmentItem: IDepartment }) => {
-    return axios.patch(`${baseUrl}/departments/${params.state}/${params.departmentItem.id}`, params.departmentItem);
+    return axios.patch(`${baseUrl}/departments/${params.state}/${params.departmentItem.id}/update`, params.departmentItem);
 };
 
 export const geDepartmentMasterItems = (params: { state: string; page: number }) => {

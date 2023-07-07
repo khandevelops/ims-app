@@ -30,3 +30,7 @@ export const getMasterDepartmentItems = (params: { state: string; page: number }
 export const getMasterDepartmentItem = (params: { state: string; id: number }) => {
     return axios.get(`${baseUrl}/master-department/${params.state}/${params.id}`);
 };
+
+export const deleteMasterItem = (masterItemId: number) => {
+    return axios.delete(`${baseUrl}/master/${masterItemId}/delete`)
+}

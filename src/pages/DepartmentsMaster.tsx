@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, useRef, KeyboardEvent, useState } from 'react';
+import { ChangeEvent, Fragment, useRef, KeyboardEvent, useState, FocusEventHandler, FocusEvent } from 'react';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -144,6 +144,10 @@ const DepartmentsMaster = () => {
     const [page, setPage] = useState<number>(0);
     const dispatch = useAppDispatch();
     const location = useLocation();
+
+    const tableRef = useRef<{ tableRef: HTMLTableSectionElement | null }>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+
     const inputRef = useRef<{
         location: HTMLDivElement | null;
         maximum_quantity: HTMLDivElement | null;
@@ -167,9 +171,10 @@ const DepartmentsMaster = () => {
     const handleEnterKey = (
         event: KeyboardEvent<HTMLDivElement>,
         departmentItem: IDepartment,
-        inputRef: HTMLDivElement | null
+        ref: HTMLDivElement | null
     ) => {
         if (event.key === 'Enter') {
+            inputRef.current.location = ref;
             dispatch(
                 updateDepartmentItemThunk({
                     state: location.state,
@@ -177,24 +182,26 @@ const DepartmentsMaster = () => {
                 })
             )
                 .then(() => {
-                    if (inputRef) {
-                        inputRef.style.backgroundColor = '#98FB98';
-                        inputRef.style.transition = '1s background ease-in, 500ms transform ease-out 1s';
+                    if (ref) {
+                        ref.style.backgroundColor = '#98FB98';
+                        ref.style.transition = '1s background ease-in, 500ms transform ease-out 1s';
                         setTimeout(() => {
-                            inputRef.style.backgroundColor = '#FAFAFA';
-                            inputRef.style.transition = '1s background ease-in, 300ms transform ease-out 1s';
-                        }, 600);
+                            if (ref) {
+                                ref.style.backgroundColor = '#FAFAFA';
+                            }
+                        }, 700);
                     }
                 })
                 .catch((error: Error) => {
                     console.error(error.message);
-                    if (inputRef) {
-                        inputRef.style.backgroundColor = '#FF0000';
-                        inputRef.style.transition = '1s background ease-in, 500ms transform ease-out 1s';
+                    if (ref) {
+                        ref.style.backgroundColor = '#FF0000';
+                        ref.style.transition = '1s background ease-in, 500ms transform ease-out 1s';
                         setTimeout(() => {
-                            inputRef.style.backgroundColor = '#FAFAFA';
-                            inputRef.style.transition = '1s background ease-in, 300ms transform ease-out 1s';
-                        }, 600);
+                            if (ref) {
+                                ref.style.backgroundColor = '#FAFAFA';
+                            }
+                        }, 700);
                     }
                 });
         }
@@ -429,7 +436,11 @@ const DepartmentsMaster = () => {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
+        <Box
+            sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
+            component={Paper}
+            elevation={3}
+            ref={containerRef}>
             <TableContainer sx={{ height: '70vh' }}>
                 <Table size="small" stickyHeader>
                     <TableHead>
@@ -471,8 +482,7 @@ const DepartmentsMaster = () => {
                                                     masterDepartmentItem.departmentItems[0].maximum_quantity,
                                                     getTotalQuantity(masterDepartmentItem.departmentItems)
                                                 ).color
-                                            }}
-                                        >
+                                            }}>
                                             {
                                                 getOrderQuantity(
                                                     masterDepartmentItem.departmentItems[0].minimum_quantity,
@@ -529,7 +539,14 @@ const DepartmentsMaster = () => {
                                                                 <TableRow key={index} hover>
                                                                     <StyledSubTableCell sx={{ width: 300 }}>
                                                                         <TextField
-                                                                            id="location"
+                                                                            className={
+                                                                                'location' +
+                                                                                departmentItem.id.toString()
+                                                                            }
+                                                                            id={
+                                                                                'location' +
+                                                                                departmentItem.id.toString()
+                                                                            }
                                                                             ref={(ref) =>
                                                                                 (inputRef.current.location = ref)
                                                                             }
@@ -569,8 +586,7 @@ const DepartmentsMaster = () => {
                                                                     </StyledSubTableCell>
                                                                     <StyledSubTableCell
                                                                         align="left"
-                                                                        sx={{ width: 100 }}
-                                                                    >
+                                                                        sx={{ width: 100 }}>
                                                                         <TextField
                                                                             id="minimum_quantity"
                                                                             ref={(ref) =>
@@ -609,8 +625,7 @@ const DepartmentsMaster = () => {
                                                                     </StyledSubTableCell>
                                                                     <StyledSubTableCell
                                                                         align="left"
-                                                                        sx={{ width: 100 }}
-                                                                    >
+                                                                        sx={{ width: 100 }}>
                                                                         <TextField
                                                                             id="maximum_quantity"
                                                                             ref={(ref) =>
@@ -771,8 +786,7 @@ const DepartmentsMaster = () => {
                                                                     </StyledSubTableCell>
                                                                     <StyledSubTableCell align="left">
                                                                         <LocalizationProvider
-                                                                            dateAdapter={AdapterMoment}
-                                                                        >
+                                                                            dateAdapter={AdapterMoment}>
                                                                             <DateTimePicker
                                                                                 ref={(ref) =>
                                                                                     (inputRef.current.expiration_date =
@@ -805,8 +819,7 @@ const DepartmentsMaster = () => {
                                                                     </StyledSubTableCell>
                                                                     <StyledSubTableCell align="left">
                                                                         <LocalizationProvider
-                                                                            dateAdapter={AdapterMoment}
-                                                                        >
+                                                                            dateAdapter={AdapterMoment}>
                                                                             <DateTimePicker
                                                                                 inputRef={(ref) =>
                                                                                     (inputRef.current.received_date =

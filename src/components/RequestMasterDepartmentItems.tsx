@@ -90,7 +90,6 @@ const RequestMasterDepartmentItems = () => {
                 ])
             );
         }
-        console.log(requestMasterItemsCheckedSelector.requestMasterItemsChecked);
     };
 
     return (
