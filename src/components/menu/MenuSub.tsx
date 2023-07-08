@@ -92,11 +92,13 @@ const MenuSub = () => {
                     state === 'store-room') && (
                     <Box
                         sx={{
-                            border: '2px solid white',
+                            border: '1px solid yellow',
                             borderRadius: 1,
                             padding: '0.25rem 0.65rem'
                         }}>
-                        <Typography sx={{ fontWeight: 900 }}>${grandTotal.toFixed(2)}</Typography>
+                        <Typography sx={{ fontWeight: 600, color: 'yellow' }}>
+                            ${grandTotal.toLocaleString()}
+                        </Typography>
                     </Box>
                 )}
             </Box>

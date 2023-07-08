@@ -50,9 +50,7 @@ export const CATEGORY = {
     GASES: 'GASES',
     SOLVENTS: 'SOLVENTS',
     LDTD: 'LDTD',
-    SCIEX: 'SCIEX',
-    BREAK_ROOM: 'BREAK_ROOM',
-    OFFICE_SUPPLY: 'OFFICE_SUPPLY'
+    SCIEX: 'SCIEX'
 };
 
 export const ROLE = {

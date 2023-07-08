@@ -252,7 +252,7 @@ const MasterCreateForm = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: '0.75rem 0.5rem' }}>
-                    <FormControl fullWidth required>
+                    <FormControl fullWidth>
                         <InputLabel shrink={true} id="category">
                             Category
                         </InputLabel>
@@ -264,8 +264,7 @@ const MasterCreateForm = () => {
                             value={masterItem.category}
                             onChange={handleCategoryChange}
                             sx={{ width: '100%' }}
-                            size="small"
-                        >
+                            size="small">
                             {Object.keys(CATEGORY).map((category) => (
                                 <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
                             ))}
@@ -339,8 +338,7 @@ const MasterCreateForm = () => {
                             height: 60,
                             marginTop: 3,
                             backgroundColor: '#ECECEC'
-                        }}
-                    >
+                        }}>
                         {Object.values(DEPARTMENT).map((department, index) => (
                             <FormControlLabel
                                 control={
@@ -364,8 +362,7 @@ const MasterCreateForm = () => {
                         variant="outlined"
                         onClick={handleSubmit}
                         sx={{ width: 200 }}
-                        disabled={masterItem.category === '' || masterItem.item === ''}
-                    >
+                        disabled={masterItem.item === ''}>
                         CREATE
                     </Button>
                 </Grid>

@@ -223,7 +223,7 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
-                                    <StyledTableCell width={200}>{masterItem.comment}</StyledTableCell>
+                                    <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
                                     <StyledTableCell align="right" width={200}>
                                         <IconButton
                                             onClick={(event: MouseEvent<HTMLElement>) =>

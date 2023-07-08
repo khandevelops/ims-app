@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { updateMasterItemAssign } from '../../api/master';
+import { assignMasterItem } from '../../api/master';
 import { IMaster } from '../../api/properties/IMaster';
 
 interface IMasterAssignState {
@@ -16,7 +16,7 @@ export const initialState: IMasterAssignState = {
 export const assignMasterItemThunk = createAsyncThunk(
     'assignMasterItemThunk',
     async (params: { masterItemId: number; department: string }) => {
-        const response = await updateMasterItemAssign(params);
+        const response = await assignMasterItem(params);
         return response.data;
     }
 );
@@ -40,7 +40,7 @@ const masterItemAssignSlice = createSlice({
     }
 });
 
-export const {} = masterItemAssignSlice.actions;
+export const { } = masterItemAssignSlice.actions;
 
 export const selectMasterItemAssign = (state: RootState) => state.masterItemAssignStore;
 
