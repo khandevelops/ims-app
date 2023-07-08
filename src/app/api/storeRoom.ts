@@ -15,8 +15,8 @@ export const createStoreRoomItem = (storeRoomItem: IStoreRoom) => {
     return axios.post(`${baseUrl}/store-room`, storeRoomItem);
 };
 
-export const updateStoreRoomItem = (params: { id: number; storeRoomItem: IStoreRoom }) => {
-    return axios.put(`${baseUrl}/store-room/${params.id}`, params.storeRoomItem);
+export const updateStoreRoomItem = (storeRoomItem: IStoreRoom) => {
+    return axios.patch(`${baseUrl}/store-room/${storeRoomItem.id}/update`, storeRoomItem);
 };
 
 export const getStoreRoomMasterItems = (page: number) => {

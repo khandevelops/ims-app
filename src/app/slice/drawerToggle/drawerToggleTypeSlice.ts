@@ -5,7 +5,7 @@ import { IStoreRoom } from '../../api/properties/IStoreRoom';
 import { IMaster } from '../../api/properties/IMaster';
 
 export interface DrawerToggleTypeState {
-    type: string;
+    type?: string;
     departmentItem?: IDepartmentItem;
     masterItem?: IMaster;
     storeRoomItem?: IStoreRoom;
@@ -23,6 +23,7 @@ export const drawerToggleTypeSlice = createSlice({
             state.type = action.payload.type;
             state.departmentItem = action.payload.departmentItem;
             state.masterItem = action.payload.masterItem;
+            state.storeRoomItem = action.payload.storeRoomItem;
         }
     }
 });

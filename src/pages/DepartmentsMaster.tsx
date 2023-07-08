@@ -466,6 +466,7 @@ const DepartmentsMaster = () => {
                         </Typography>
                     </StyledTableCell>
                     <StyledTableCell
+                        align="center"
                         sx={{
                             backgroundColor: getOrderQuantity(
                                 masterDepartmentItem.departmentItems[0].minimum_quantity,
@@ -553,6 +554,9 @@ const DepartmentsMaster = () => {
                                                         ref={(ref) => (inputRef.current.minimum_quantity = ref)}
                                                         size="small"
                                                         type="number"
+                                                        InputProps={{
+                                                            inputProps: { min: 0 }
+                                                        }}
                                                         name="minimum_quantity"
                                                         value={departmentItem.minimum_quantity}
                                                         onChange={(event: ChangeEvent<HTMLInputElement>) =>
@@ -583,6 +587,9 @@ const DepartmentsMaster = () => {
                                                         ref={(ref) => (inputRef.current.maximum_quantity = ref)}
                                                         size="small"
                                                         type="number"
+                                                        InputProps={{
+                                                            inputProps: { min: 0 }
+                                                        }}
                                                         name="maximum_quantity"
                                                         sx={{
                                                             '.MuiInputBase-input': {
@@ -590,9 +597,6 @@ const DepartmentsMaster = () => {
                                                                 fontWeight: 900,
                                                                 fontSize: 14
                                                             }
-                                                        }}
-                                                        InputProps={{
-                                                            inputProps: { min: 0 }
                                                         }}
                                                         value={departmentItem.maximum_quantity}
                                                         onChange={(event: ChangeEvent<HTMLInputElement>) =>

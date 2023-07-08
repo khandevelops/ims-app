@@ -169,7 +169,11 @@ const Master = () => {
                 masterItemId: masterItemId,
                 department: department
             })
-        );
+        )
+            .then((response) => {
+                console.log(response.payload);
+            })
+            .catch((error: Error) => console.error(error.message));
         setAnchorElUser(null);
     };
 
@@ -269,8 +273,8 @@ const Master = () => {
                 showLastButton={true}
             />
             <Menu
-                key="menu"
-                id="menu"
+                key="profile-menu"
+                id="profile-menu"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                     vertical: 'top',
@@ -291,8 +295,8 @@ const Master = () => {
                 ))}
             </Menu>
             <Menu
-                key="menu"
-                id="menu"
+                key="delete-menu"
+                id="delete-menu"
                 anchorEl={anchorElDelete}
                 anchorOrigin={{
                     vertical: 'top',

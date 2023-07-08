@@ -1,42 +1,25 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { IStoreRoomMaster } from '../../api/properties/IStoreRoom';
 import { getStoreRoomMasterItems } from '../../api/storeRoom';
 
 export interface StoreRoomMasterState {
-    response: null | {
+    response: {
         content: IStoreRoomMaster[];
-        pageable: {
-            sort: {
-                empty: boolean;
-                sorted: boolean;
-                unsorted: boolean;
-            };
-            offset: number;
-            pageNumber: number;
-            pageSize: number;
-            paged: boolean;
-            unpaged: boolean;
-        };
-        last: boolean;
-        totalPages: number;
         totalElements: number;
-        first: boolean;
         size: number;
         number: number;
-        sort: {
-            empty: boolean;
-            sorted: boolean;
-            unsorted: boolean;
-        };
-        numberOfElements: number;
-        empty: boolean;
     };
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
 export const initialState: StoreRoomMasterState = {
-    response: null,
+    response: {
+        content: [],
+        totalElements: 0,
+        size: 0,
+        number: 0
+    },
     status: 'idle'
 };
 
@@ -49,8 +32,8 @@ export const storeRoomMasterItemsSlice = createSlice({
     name: 'storeRoomSlice',
     initialState,
     reducers: {
-        changeStoreRoomMasterItems: (state, action) => {
-            state.response = action.payload;
+        changeStoreRoomMasterItems: (state, action: PayloadAction<IStoreRoomMaster[]>) => {
+            state.response.content = action.payload;
         }
     },
     extraReducers: (builder) => {

@@ -15,8 +15,8 @@ export const initialState: StoreRoomUpdateState = {
 
 export const updateStoreRoomItemThunk = createAsyncThunk(
     'updateStoreRoomItemThunk',
-    async (params: { id: number; storeRoomItem: IStoreRoom }) => {
-        const response = await updateStoreRoomItem(params);
+    async (storeRoomItem: IStoreRoom) => {
+        const response = await updateStoreRoomItem(storeRoomItem);
         return response.data;
     }
 );
