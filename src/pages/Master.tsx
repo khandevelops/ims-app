@@ -158,7 +158,7 @@ const Master = () => {
     const handleIconClick = (event: MouseEvent<HTMLElement>, masterItemId: number | undefined, icon: string) => {
         if (masterItemId) {
             setMasterItemId(masterItemId);
-            if (icon === 'ASSIgn') setAnchorElUser(event.currentTarget);
+            if (icon === 'ASSIGN') setAnchorElUser(event.currentTarget);
             if (icon === 'DELETE') setAnchorElDelete(event.currentTarget);
         }
     };
