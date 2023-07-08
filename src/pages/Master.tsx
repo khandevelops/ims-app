@@ -231,14 +231,21 @@ const Master = () => {
                                             }>
                                             <ModeEditIcon color="primary" fontSize="small" />
                                         </IconButton>
+                                        <Box component="span" sx={{ color: 'grey' }}>
+                                            |
+                                        </Box>
                                         <IconButton
                                             onClick={(event: MouseEvent<HTMLElement>) =>
                                                 handleIconClick(event, masterItem.id, 'ASSIGN')
                                             }
-                                            sx={{ marginLeft: '0.7rem', marginRight: '0.7rem' }}>
+                                            sx={{ marginLeft: 0.7, marginRight: 0.7 }}>
                                             <AssignmentTurnedInIcon color="primary" fontSize="small" />
                                         </IconButton>
+                                        <Box component="span" sx={{ color: 'grey' }}>
+                                            |
+                                        </Box>
                                         <IconButton
+                                            sx={{ marginLeft: 0.5 }}
                                             onClick={(event: MouseEvent<HTMLElement>) =>
                                                 handleIconClick(event, masterItem.id, 'DELETE')
                                             }>
