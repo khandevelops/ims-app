@@ -30,7 +30,7 @@ export const getMasterItemsThunk = createAsyncThunk('getMasterItemsThunk', async
 
 export const filterMasterItemsThunk = createAsyncThunk(
     'filterMasterItemsThunk',
-    async (params: { page: number; keyword: string }) => {
+    async (params: { keyword: string, page: number }) => {
         const response = await filterMasterItems(params);
         return response.data;
     }

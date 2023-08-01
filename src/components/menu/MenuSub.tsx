@@ -9,6 +9,7 @@ import { Box, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { filterMasterItemsThunk } from '../../app/slice/master/masterItemsFilterSlice';
 import { getGrandTotalThunk, selectGrandTotal } from '../../app/slice/grandTotalSlice';
+import { getKeyword, selectKeyword } from '../../app/search';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -49,6 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const MenuSub = () => {
     const dispatch = useAppDispatch();
+    const { keyword } = useAppSelector(selectKeyword);
     const { grandTotal } = useAppSelector(selectGrandTotal);
     const { state } = useLocation();
 
@@ -57,7 +59,8 @@ const MenuSub = () => {
     }, [dispatch, state]);
 
     const handleKeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        dispatch(getKeyword(event.target.value));
+        dispatch(filterMasterItemsThunk({ keyword: keyword, page: 0 }));
     };
 
     return (

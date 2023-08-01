@@ -784,6 +784,10 @@ const DepartmentsMaster = () => {
         );
     };
 
+    const sortTable = () => {
+        alert('sort');
+    };
+
     return (
         <Box
             sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}
@@ -796,7 +800,11 @@ const DepartmentsMaster = () => {
                         <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field} align={column.align}>
+                                    <StyledTableCell
+                                        key={column.field}
+                                        align={column.align}
+                                        onClick={sortTable}
+                                        sx={{ cursor: 'pointer' }}>
                                         {column.tooltipName === 'ARROW' ? (
                                             <IconButton
                                                 aria-label="expand row"

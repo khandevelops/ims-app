@@ -1,6 +1,10 @@
 import { IDepartment } from './IDepartment';
 
-export interface IMaster {
+export interface IAction {
+    action: string
+}
+
+export interface IMaster extends Partial<IAction> {
     id?: number;
     item: string;
     manufacturer: string;

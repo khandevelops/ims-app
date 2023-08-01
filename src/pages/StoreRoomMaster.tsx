@@ -232,7 +232,6 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
                             setTimeout(() => {
                                 if (inputRef.current) {
                                     inputRef.current.style.backgroundColor = '#FAFAFA';
-                                    inputRef.current.blur();
                                 }
                             }, 700);
                         }

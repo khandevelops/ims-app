@@ -1,26 +1,26 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
 export interface SearchState {
-    searchValue: string;
+    keyword: string;
 }
 
 const initialState: SearchState = {
-    searchValue: ''
+    keyword: ''
 };
 
 export const searchSlice = createSlice({
     name: 'searchSlice',
     initialState,
     reducers: {
-        getSearchValue: (state, action) => {
-            state.searchValue = action.payload;
+        getKeyword: (state, action: PayloadAction<string>) => {
+            state.keyword = action.payload;
         }
     }
 });
 
-export const { getSearchValue } = searchSlice.actions;
+export const { getKeyword } = searchSlice.actions;
 
-export const selectSearchValue = (state: RootState) => state.searchStore;
+export const selectKeyword = (state: RootState) => state.searchStore;
 
 export default searchSlice.reducer;

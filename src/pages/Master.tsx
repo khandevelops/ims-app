@@ -14,7 +14,8 @@ import {
     styled,
     Menu,
     MenuItem,
-    Typography
+    Typography,
+    TableSortLabel
 } from '@mui/material';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { tableCellClasses } from '@mui/material/TableCell';
@@ -24,8 +25,11 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
 import { IMaster } from '../app/api/properties/IMaster';
-import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemsSlice';
+import { filterMasterItemsThunk, getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemsSlice';
 import { deleteMasterItemThunk } from '../app/slice/master/masterItemDeleteSlice';
+import { selectKeyword } from '../app/search';
+import { visuallyHidden } from '@mui/utils';
+import { Height } from '@mui/icons-material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -39,98 +43,194 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const columns: {
-    field: string;
-    tooltipName: string;
-    headerName: string | JSX.Element;
-    align: 'left' | 'center' | 'right';
-}[] = [
-    { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+
+type Order = 'asc' | 'desc';
+
+function getComparator<Key extends keyof any>(
+    order: Order,
+    orderBy: Key
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
+    return order === 'desc'
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) {
+            return order;
+        }
+        return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
+
+interface HeadCell {
+    disablePadding: boolean;
+    id: keyof IMaster;
+    label: string;
+    numeric: boolean;
+}
+
+const headCells: readonly HeadCell[] = [
     {
-        field: 'purchase_unit',
-        tooltipName: 'Purchase Unit',
-        headerName: 'PU',
-        align: 'left'
+        id: 'item',
+        numeric: false,
+        disablePadding: true,
+        label: 'Item'
     },
     {
-        field: 'manufacturer',
-        tooltipName: 'Manufacturer',
-        headerName: 'M',
-        align: 'left'
+        id: 'purchase_unit',
+        numeric: false,
+        disablePadding: false,
+        label: 'Purchase Unit'
     },
     {
-        field: 'recent_cn',
-        tooltipName: 'Recent CN',
-        headerName: 'RCN',
-        align: 'left'
+        id: 'manufacturer',
+        numeric: false,
+        disablePadding: false,
+        label: 'Manufacturer'
     },
     {
-        field: 'part_number',
-        tooltipName: 'Part Number',
-        headerName: 'PN',
-        align: 'left'
+        id: 'recent_cn',
+        numeric: true,
+        disablePadding: false,
+        label: 'Recent CN'
     },
     {
-        field: 'recent_vendor',
-        tooltipName: 'Recent Vendor',
-        headerName: 'RV',
-        align: 'left'
+        id: 'part_number',
+        numeric: true,
+        disablePadding: false,
+        label: 'Part Number'
     },
     {
-        field: 'fisher_cn',
-        tooltipName: 'Fisher CN',
-        headerName: 'FCN',
-        align: 'left'
-    },
-    { field: 'vwr_cn', tooltipName: 'VWR CN', headerName: 'VCN', align: 'left' },
-    {
-        field: 'lab_source_cn',
-        tooltipName: 'Lab Source CN',
-        headerName: 'LSCN',
-        align: 'left'
+        id: 'recent_vendor',
+        numeric: true,
+        disablePadding: false,
+        label: 'Recent Vendor'
     },
     {
-        field: 'next_advance_cn',
-        tooltipName: 'Other CN',
-        headerName: 'OCN',
-        align: 'left'
+        id: 'fisher_cn',
+        numeric: true,
+        disablePadding: false,
+        label: 'Fisher CN'
     },
     {
-        field: 'unit_price',
-        tooltipName: 'Unit Price',
-        headerName: 'AUP',
-        align: 'left'
+        id: 'vwr_cn',
+        numeric: true,
+        disablePadding: false,
+        label: 'VWR CN'
     },
     {
-        field: 'category',
-        tooltipName: 'Category',
-        headerName: 'Ca',
-        align: 'left'
+        id: 'lab_source_cn',
+        numeric: true,
+        disablePadding: false,
+        label: 'Lab Source CN'
     },
     {
-        field: 'drug_class',
-        tooltipName: 'Drug Class',
-        headerName: 'DC',
-        align: 'left'
-    },
-    { field: 'type', tooltipName: 'Type', headerName: 'Type', align: 'left' },
-    { field: 'group', tooltipName: 'Group', headerName: 'Group', align: 'left' },
-    {
-        field: 'comments',
-        tooltipName: 'Comment',
-        headerName: 'Comment',
-        align: 'left'
+        id: 'other_cn',
+        numeric: true,
+        disablePadding: false,
+        label: 'Other CN'
     },
     {
-        field: '',
-        tooltipName: 'Edit | Assign | Delete',
-        headerName: 'Edit Assign Delete',
-        align: 'right'
+        id: 'unit_price',
+        numeric: true,
+        disablePadding: false,
+        label: 'Unit Price'
+    },
+    {
+        id: 'category',
+        numeric: true,
+        disablePadding: false,
+        label: 'Category'
+    },
+    {
+        id: 'drug_class',
+        numeric: true,
+        disablePadding: false,
+        label: 'Drug Class'
+    },
+    {
+        id: 'type',
+        numeric: true,
+        disablePadding: false,
+        label: 'Type'
+    },
+    {
+        id: 'group',
+        numeric: true,
+        disablePadding: false,
+        label: 'Group'
+    },
+    {
+        id: 'comment',
+        numeric: true,
+        disablePadding: false,
+        label: 'Comment'
+    },
+    {
+        id: 'action',
+        numeric: true,
+        disablePadding: false,
+        label: 'Action'
     }
 ];
 
+interface EnhancedTableProps {
+    onRequestSort: (event: MouseEvent<unknown>, property: keyof IMaster) => void;
+    order: Order;
+    orderBy: string;
+    rowCount: number;
+}
+
+function EnhancedTableHead(props: EnhancedTableProps) {
+    const { order, orderBy, onRequestSort } = props;
+    const createSortHandler = (property: keyof IMaster) => (event: MouseEvent<unknown>) => {
+        onRequestSort(event, property);
+    };
+
+    return (
+        <TableHead>
+            <TableRow>
+                {headCells.map((headCell) => (
+                    <StyledTableCell
+                        key={headCell.id}
+                        align={headCell.id === 'action' ? 'center' : 'left'}
+                        padding={'normal'}
+                        sortDirection={orderBy === headCell.id ? order : false}>
+                        <TableSortLabel
+                            active={orderBy === headCell.id}
+                            direction={orderBy === headCell.id ? order : 'asc'}
+                            onClick={createSortHandler(headCell.id)}>
+                            {headCell.label}
+                            {orderBy === headCell.id ? (
+                                <Box component="span" sx={visuallyHidden}>
+                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                </Box>
+                            ) : null}
+                        </TableSortLabel>
+                    </StyledTableCell>
+                ))}
+            </TableRow>
+        </TableHead>
+    );
+}
+
 const Master = () => {
     const masterItemsSelector = useAppSelector(selectMasterItems);
+    const { keyword } = useAppSelector(selectKeyword);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 
@@ -138,9 +238,22 @@ const Master = () => {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [anchorElDelete, setAnchorElDelete] = useState<null | HTMLElement>(null);
 
+    const [order, setOrder] = useState<Order>('asc');
+    const [orderBy, setOrderBy] = useState<keyof IMaster>('item');
+
+    const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IMaster) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
     useEffect(() => {
-        dispatch(getMasterItemsThunk(page));
-    }, [dispatch, page]);
+        if (keyword === '') {
+            dispatch(getMasterItemsThunk(page));
+        } else {
+            dispatch(filterMasterItemsThunk({ keyword: keyword, page: page }));
+        }
+    }, [dispatch, keyword, page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
         setPage(newPage);
@@ -198,16 +311,12 @@ const Master = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
                 <Table stickyHeader size="small">
-                    <TableHead>
-                        <TableRow sx={{ height: 50 }}>
-                            {columns.length > 0 &&
-                                columns.map((column) => (
-                                    <StyledTableCell key={column.field} align={column.align}>
-                                        <Box>{column.tooltipName}</Box>
-                                    </StyledTableCell>
-                                ))}
-                        </TableRow>
-                    </TableHead>
+                    <EnhancedTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        rowCount={masterItemsSelector.response.content.length}
+                    />
                     <TableBody>
                         {masterItemsSelector.response.content.length > 0 &&
                             masterItemsSelector.response.content.map((masterItem, index) => (
@@ -228,33 +337,27 @@ const Master = () => {
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
                                     <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
-                                    <StyledTableCell align="right" width={200}>
-                                        <IconButton
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleEditClick(event, masterItem)
-                                            }>
-                                            <ModeEditIcon color="primary" fontSize="small" />
-                                        </IconButton>
-                                        <Box component="span" sx={{ color: 'grey' }}>
-                                            |
+                                    <StyledTableCell>
+                                        <Box sx={{ display: 'flex' }}>
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleEditClick(event, masterItem)
+                                                }>
+                                                <ModeEditIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleIconClick(event, masterItem.id, 'ASSIGN')
+                                                }>
+                                                <AssignmentTurnedInIcon color="primary" fontSize="small" />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleIconClick(event, masterItem.id, 'DELETE')
+                                                }>
+                                                <DeleteIcon color="primary" fontSize="small" />
+                                            </IconButton>
                                         </Box>
-                                        <IconButton
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleIconClick(event, masterItem.id, 'ASSIGN')
-                                            }
-                                            sx={{ marginLeft: 0.7, marginRight: 0.7 }}>
-                                            <AssignmentTurnedInIcon color="primary" fontSize="small" />
-                                        </IconButton>
-                                        <Box component="span" sx={{ color: 'grey' }}>
-                                            |
-                                        </Box>
-                                        <IconButton
-                                            sx={{ marginLeft: 0.5 }}
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleIconClick(event, masterItem.id, 'DELETE')
-                                            }>
-                                            <DeleteIcon color="primary" fontSize="small" />
-                                        </IconButton>
                                     </StyledTableCell>
                                 </TableRow>
                             ))}
