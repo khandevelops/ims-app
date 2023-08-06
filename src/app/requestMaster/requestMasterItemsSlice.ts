@@ -11,8 +11,8 @@ export interface IRequestMasterItem {
     item?: string;
     request_item_id: number;
     master_item_id: number;
-    recent_cn?: number;
-    purchase_unit?: string;
+    recentCN?: number;
+    purchaseUnit?: string;
     part_number?: string;
     quantity?: number;
     department?: string;

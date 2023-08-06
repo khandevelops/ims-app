@@ -24,8 +24,10 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
 import { IMaster } from '../app/api/properties/IMaster';
-import { getMasterItemsThunk, selectMasterItems } from '../app/slice/master/masterItemsSlice';
+import { getMasterItemsThunk, selectMasterItems, sortMasterItemsThunk } from '../app/slice/master/masterItemsSlice';
 import { deleteMasterItemThunk } from '../app/slice/master/masterItemDeleteSlice';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -47,7 +49,7 @@ const columns: {
 }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     {
-        field: 'purchase_unit',
+        field: 'purchaseUnit',
         tooltipName: 'Purchase Unit',
         headerName: 'PU',
         align: 'left'
@@ -59,7 +61,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'recent_cn',
+        field: 'recentCN',
         tooltipName: 'Recent CN',
         headerName: 'RCN',
         align: 'left'
@@ -71,20 +73,20 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'recent_vendor',
+        field: 'recentVendor',
         tooltipName: 'Recent Vendor',
         headerName: 'RV',
         align: 'left'
     },
     {
-        field: 'fisher_cn',
+        field: 'fisherCN',
         tooltipName: 'Fisher CN',
         headerName: 'FCN',
         align: 'left'
     },
-    { field: 'vwr_cn', tooltipName: 'VWR CN', headerName: 'VCN', align: 'left' },
+    { field: 'vwrCN', tooltipName: 'VWR CN', headerName: 'VCN', align: 'left' },
     {
-        field: 'lab_source_cn',
+        field: 'labSourceCN',
         tooltipName: 'Lab Source CN',
         headerName: 'LSCN',
         align: 'left'
@@ -96,7 +98,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'unit_price',
+        field: 'unitPrice',
         tooltipName: 'Unit Price',
         headerName: 'AUP',
         align: 'left'
@@ -120,12 +122,6 @@ const columns: {
         tooltipName: 'Comment',
         headerName: 'Comment',
         align: 'left'
-    },
-    {
-        field: '',
-        tooltipName: 'Edit | Assign | Delete',
-        headerName: 'Edit Assign Delete',
-        align: 'right'
     }
 ];
 
@@ -137,6 +133,7 @@ const Master = () => {
     const [masterItemId, setMasterItemId] = useState<number>(0);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [anchorElDelete, setAnchorElDelete] = useState<null | HTMLElement>(null);
+    const [sort, setSort] = useState<{ column: string; direction: '' | 'ASC' | 'DESC' }>({ column: '', direction: '' });
 
     useEffect(() => {
         dispatch(getMasterItemsThunk(page));
@@ -194,6 +191,31 @@ const Master = () => {
         setAnchorElDelete(null);
     };
 
+    const handleSort = (field: string) => {
+        if (sort.direction === '') {
+            setSort({ column: field, direction: 'ASC' });
+            dispatch(sortMasterItemsThunk({ page: page, column: field, direction: 'ASC' }));
+        }
+        if (sort.direction === 'ASC') {
+            setSort({ column: field, direction: 'DESC' });
+            dispatch(sortMasterItemsThunk({ page: page, column: field, direction: 'DESC' }));
+        }
+        if (sort.direction === 'DESC') {
+            setSort({ column: field, direction: '' });
+            dispatch(sortMasterItemsThunk({ page: page, column: field, direction: '' }));
+        }
+    };
+
+    const SortIcon = (): JSX.Element => {
+        if (sort.direction === 'ASC') {
+            return <KeyboardArrowUpIcon fontSize="small" />;
+        }
+        if (sort.direction === 'DESC') {
+            return <KeyboardArrowDownIcon fontSize="small" />;
+        }
+        return <></>;
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
@@ -202,10 +224,18 @@ const Master = () => {
                         <TableRow sx={{ height: 50 }}>
                             {columns.length > 0 &&
                                 columns.map((column) => (
-                                    <StyledTableCell key={column.field} align={column.align}>
-                                        <Box>{column.tooltipName}</Box>
+                                    <StyledTableCell
+                                        key={column.field}
+                                        align={column.align}
+                                        onClick={() => handleSort(column.field)}>
+                                        <Box sx={{ display: 'flex', gap: 2 }}>
+                                            {column.tooltipName}
+
+                                            {sort.column === column.field && <SortIcon />}
+                                        </Box>
                                     </StyledTableCell>
                                 ))}
+                            <StyledTableCell align="right">Edit | Assign | Delete</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -213,18 +243,18 @@ const Master = () => {
                             masterItemsSelector.response.content.map((masterItem, index) => (
                                 <TableRow key={index} hover>
                                     <StyledTableCell width={300}>{masterItem.item}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.purchase_unit}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.purchaseUnit}</StyledTableCell>
                                     <StyledTableCell>{masterItem.manufacturer}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.recent_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.part_number}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.recent_vendor}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.fisher_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.vwr_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.lab_source_cn}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.other_cn}</StyledTableCell>
-                                    <StyledTableCell>${masterItem.unit_price}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.recentCN}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.partNumber}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.recentVendor}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.fisherCN}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.vwrCN}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.labSourceCN}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.otherCN}</StyledTableCell>
+                                    <StyledTableCell>${masterItem.unitPrice}</StyledTableCell>
                                     <StyledTableCell>{masterItem.category}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.drug_class}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.drugClass}</StyledTableCell>
                                     <StyledTableCell>{masterItem.type}</StyledTableCell>
                                     <StyledTableCell>{masterItem.group}</StyledTableCell>
                                     <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>

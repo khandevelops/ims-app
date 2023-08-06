@@ -12,7 +12,7 @@ export interface IRequestMasterAdminItem {
     item: string;
     request_item_id: number;
     master_item_id: number;
-    recent_cn: number;
+    recentCN: number;
     department: string;
     status: string;
     quantity: number;

@@ -51,7 +51,7 @@ const columns: {
 }[] = [
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     {
-        field: 'purchase_unit',
+        field: 'purchaseUnit',
         tooltipName: 'Purchase Unit',
         headerName: 'PU',
         align: 'left'
@@ -63,7 +63,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'recent_cn',
+        field: 'recentCN',
         tooltipName: 'Recent CN',
         headerName: 'RCN',
         align: 'left'
@@ -105,7 +105,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'unit_price',
+        field: 'unitPrice',
         tooltipName: 'Unit Price',
         headerName: 'UP',
         align: 'left'
@@ -148,7 +148,7 @@ const StoreRoomMaster = () => {
             .then((response) => {
                 const total = response.payload.content.reduce(
                     (total: number, storeRoomMasterItem: IStoreRoomMaster) =>
-                        total + storeRoomMasterItem.masterItem.unit_price * storeRoomMasterItem.quantity,
+                        total + storeRoomMasterItem.masterItem.unitPrice * storeRoomMasterItem.quantity,
                     0
                 );
 
@@ -265,8 +265,8 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
         );
     };
 
-    const getTotalPrice = (unit_price: number, quantity: number) => {
-        return unit_price * quantity;
+    const getTotalPrice = (unitPrice: number, quantity: number) => {
+        return unitPrice * quantity;
     };
 
     const handleEditClick = (event: MouseEvent<HTMLElement>, storeRoomMasterItem: IStoreRoomMaster) => {
@@ -293,9 +293,9 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
     return (
         <TableRow key={index} hover>
             <StyledTableCell>{storeRoomMasterItem.masterItem.item}</StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.masterItem.purchase_unit}</StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.masterItem.part_number}</StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.masterItem.recent_cn}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.masterItem.purchaseUnit}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.masterItem.partNumber}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.masterItem.recentCN}</StyledTableCell>
             <StyledTableCell>{storeRoomMasterItem.location}</StyledTableCell>
             <StyledTableCell width={100}>
                 <TextField
@@ -322,11 +322,11 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
             <StyledTableCell>{storeRoomMasterItem.minimum_quantity}</StyledTableCell>
             <StyledTableCell>{storeRoomMasterItem.maximum_quantity}</StyledTableCell>
             <StyledTableCell>order quantity</StyledTableCell>
-            <StyledTableCell>${storeRoomMasterItem.masterItem.unit_price}</StyledTableCell>
+            <StyledTableCell>${storeRoomMasterItem.masterItem.unitPrice}</StyledTableCell>
             <StyledTableCell>issued</StyledTableCell>
             <StyledTableCell>received</StyledTableCell>
             <StyledTableCell>
-                ${getTotalPrice(storeRoomMasterItem.masterItem.unit_price, storeRoomMasterItem.quantity)}
+                ${getTotalPrice(storeRoomMasterItem.masterItem.unitPrice, storeRoomMasterItem.quantity)}
             </StyledTableCell>
             <StyledTableCell width={200}>{storeRoomMasterItem.masterItem.comment}</StyledTableCell>
             <StyledTableCell>

@@ -29,20 +29,20 @@ const MasterCreateForm = () => {
     const [masterItem, setMasterItem] = useState<IMaster>({
         item: '',
         manufacturer: '',
-        recent_cn: '',
-        part_number: '',
-        recent_vendor: '',
-        fisher_cn: '',
-        vwr_cn: '',
-        lab_source_cn: '',
-        other_cn: '',
-        purchase_unit: '',
-        unit_price: 0,
+        recentCN: '',
+        partNumber: '',
+        recentVendor: '',
+        fisherCN: '',
+        vwrCN: '',
+        labSourceCN: '',
+        otherCN: '',
+        purchaseUnit: '',
+        unitPrice: 0,
         category: '',
         comment: '',
         type: '',
         group: '',
-        drug_class: ''
+        drugClass: ''
     });
 
     const handleSubmit = () => {
@@ -126,13 +126,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="recent_cn"
+                        id="recentCN"
                         label="RECENT CN"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.recent_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_cn')}
+                        value={masterItem.recentCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recentCN')}
                     />
                 </Grid>
 
@@ -145,7 +145,7 @@ const MasterCreateForm = () => {
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.part_number}
+                        value={masterItem.partNumber}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'part_number')}
                     />
                 </Grid>
@@ -154,13 +154,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="recent_vendor"
+                        id="recentVendor"
                         label="RECENT VENDOR"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.recent_vendor}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_vendor')}
+                        value={masterItem.recentVendor}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recentVendor')}
                     />
                 </Grid>
 
@@ -168,13 +168,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="fisher_cn"
+                        id="fisherCN"
                         label="FISHER CN"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.fisher_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'fisher_cn')}
+                        value={masterItem.fisherCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'fisherCN')}
                     />
                 </Grid>
 
@@ -182,13 +182,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="vwr_cn"
+                        id="vwrCN"
                         label="VWR CN"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.vwr_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'vwr_cn')}
+                        value={masterItem.vwrCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'vwrCN')}
                     />
                 </Grid>
 
@@ -196,13 +196,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="lab_source_cn"
+                        id="labSourceCN"
                         label="LAB SOURCE CN"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.lab_source_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'lab_source_cn')}
+                        value={masterItem.labSourceCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'labSourceCN')}
                     />
                 </Grid>
 
@@ -210,13 +210,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="other_cn"
+                        id="otherCN"
                         label="OTHER CN"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.other_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'other_cn')}
+                        value={masterItem.otherCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'otherCN')}
                     />
                 </Grid>
 
@@ -224,13 +224,13 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="purchase_unit"
+                        id="purchaseUnit"
                         label="PURCHASE UNIT"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.purchase_unit}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'purchase_unit')}
+                        value={masterItem.purchaseUnit}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'purchaseUnit')}
                     />
                 </Grid>
 
@@ -238,7 +238,7 @@ const MasterCreateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="unit_price"
+                        id="unitPrice"
                         label="UNIT PRICE"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
@@ -246,8 +246,8 @@ const MasterCreateForm = () => {
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
                         size="small"
-                        value={masterItem.unit_price}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unit_price')}
+                        value={masterItem.unitPrice}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unitPrice')}
                     />
                 </Grid>
 
@@ -281,7 +281,7 @@ const MasterCreateForm = () => {
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.drug_class}
+                        value={masterItem.drugClass}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'drug_class')}
                     />
                 </Grid>

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { IMaster } from '../../api/properties/IMaster';
-import { filterMasterItems, getMasterItems } from '../../api/master';
+import { filterMasterItems, getMasterItems, sortMasterItems } from '../../api/master';
 
 export interface MasterState {
     response: {
@@ -36,6 +36,14 @@ export const filterMasterItemsThunk = createAsyncThunk(
     }
 );
 
+export const sortMasterItemsThunk = createAsyncThunk(
+    'sortMasterItemsThunk',
+    async (params: { page: number; column: string, direction: string }) => {
+        const response = await sortMasterItems(params);
+        return response.data;
+    }
+);
+
 export const masterItemsSlice = createSlice({
     name: 'master',
     initialState,
@@ -64,6 +72,16 @@ export const masterItemsSlice = createSlice({
                 state.response = action.payload;
             })
             .addCase(filterMasterItemsThunk.rejected, (state) => {
+                state.status = 'failed';
+            })
+            .addCase(sortMasterItemsThunk.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(sortMasterItemsThunk.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.response = action.payload;
+            })
+            .addCase(sortMasterItemsThunk.rejected, (state) => {
                 state.status = 'failed';
             });
     }

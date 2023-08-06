@@ -46,7 +46,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: '', headerName: 'Select' },
     { field: 'item', headerName: 'Item' },
-    { field: 'recent_cn', headerName: 'Recent CN' },
+    { field: 'recentCN', headerName: 'Recent CN' },
     { field: 'order_quantity', headerName: 'Order Quantity' },
     { field: 'custom_text', headerName: 'Custom Text' },
     { field: 'detail', headerName: 'Detail' }
@@ -178,7 +178,7 @@ const RequestMasterDepartmentPending = () => {
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.item}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.recent_cn}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.recentCN}</StyledTableCell>
                                     <StyledTableCell width={100}>
                                         <TextField
                                             variant="standard"

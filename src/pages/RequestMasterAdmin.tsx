@@ -44,7 +44,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
-    { field: 'recent_cn', headerName: 'Recent CN' },
+    { field: 'recentCN', headerName: 'Recent CN' },
     { field: 'quantity', headerName: 'Quantity' },
     { field: 'status', headerName: 'Status' },
     { field: 'time_revieved', headerName: 'Received Date' },
@@ -123,7 +123,7 @@ const RequestMasterAdmin = () => {
                                         {requestMasterItem.item && requestMasterItem.item}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {requestMasterItem.recent_cn && requestMasterItem.recent_cn}
+                                        {requestMasterItem.recentCN && requestMasterItem.recentCN}
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.quantity}</StyledTableCell>
                                     <StyledTableCell>

@@ -11,6 +11,10 @@ export const filterMasterItems = (params: { keyword: string; page: number }) => 
     return axios.get(`${baseUrl}/master/filter?keyword=${params.keyword}&page=${params.page}`);
 };
 
+export const sortMasterItems = (params: { page: number, column: string, direction: string }) => {
+    return axios.get(`${baseUrl}/master/sort?page=${params.page}&column=${params.column}&direction=${params.direction}`);
+};
+
 export const createMasterItem = (params: { masterItem: IMaster; departments: string[] }) => {
     return axios.post(`${baseUrl}/master/create`, params);
 };

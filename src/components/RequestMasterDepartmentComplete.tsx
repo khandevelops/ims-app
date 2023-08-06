@@ -34,7 +34,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
-    { field: 'recent_cn', headerName: 'Recent CN' },
+    { field: 'recentCN', headerName: 'Recent CN' },
     { field: 'order_quantity', headerName: 'Order Quantity' },
     { field: 'status', headerName: 'Status' },
     { field: 'time_revieved', headerName: 'Received Date' },
@@ -79,7 +79,7 @@ const RequestMasterDepartmentComplete = () => {
                             requestMasterItemsCompleteSelector.response.content.map((requestItem, index) => (
                                 <TableRow key={index}>
                                     <StyledTableCell>{requestItem && requestItem.item}</StyledTableCell>
-                                    <StyledTableCell>{requestItem && requestItem.recent_cn}</StyledTableCell>
+                                    <StyledTableCell>{requestItem && requestItem.recentCN}</StyledTableCell>
                                     <StyledTableCell>{requestItem.quantity}</StyledTableCell>
                                     <StyledTableCell>{requestItem.status}</StyledTableCell>
                                     <StyledTableCell>

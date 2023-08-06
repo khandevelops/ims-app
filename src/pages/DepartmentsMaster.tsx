@@ -43,7 +43,7 @@ const columns: {
     { field: 'arrow', tooltipName: 'ARROW', headerName: 'ARROW', align: 'left' },
     { field: 'item', tooltipName: 'Item', headerName: 'Item', align: 'left' },
     {
-        field: 'purchase_unit',
+        field: 'purchaseUnit',
         tooltipName: 'Purchase Unit',
         headerName: 'PU',
         align: 'left'
@@ -55,13 +55,13 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'recent_cn',
+        field: 'recentCN',
         tooltipName: 'Recent CN',
         headerName: 'RCN',
         align: 'left'
     },
     {
-        field: 'recent_vendor',
+        field: 'recentVendor',
         tooltipName: 'Recent Vendor',
         headerName: 'RV',
         align: 'left'
@@ -85,7 +85,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'unit_price',
+        field: 'unitPrice',
         tooltipName: 'Unit Price',
         headerName: 'UP',
         align: 'left'
@@ -438,8 +438,8 @@ const DepartmentsMaster = () => {
         }
     };
 
-    const getTotalPrice = (unit_price: number, totalQuantity: number) => {
-        return unit_price * totalQuantity;
+    const getTotalPrice = (unitPrice: number, totalQuantity: number) => {
+        return unitPrice * totalQuantity;
     };
 
     const Row = (props: { masterDepartmentItem: IMasterDepartment }) => {
@@ -455,11 +455,11 @@ const DepartmentsMaster = () => {
                         </IconButton>
                     </TableCell>
                     <StyledTableCell width={400}>{masterDepartmentItem.item}</StyledTableCell>
-                    <StyledTableCell width={120}>{masterDepartmentItem.purchase_unit}</StyledTableCell>
-                    <StyledTableCell>{masterDepartmentItem.part_number}</StyledTableCell>
-                    <StyledTableCell>{masterDepartmentItem.recent_cn}</StyledTableCell>
-                    <StyledTableCell width={200}>{masterDepartmentItem.recent_vendor}</StyledTableCell>
-                    <StyledTableCell>{masterDepartmentItem.drug_class}</StyledTableCell>
+                    <StyledTableCell width={120}>{masterDepartmentItem.purchaseUnit}</StyledTableCell>
+                    <StyledTableCell>{masterDepartmentItem.partNumber}</StyledTableCell>
+                    <StyledTableCell>{masterDepartmentItem.recentCN}</StyledTableCell>
+                    <StyledTableCell width={200}>{masterDepartmentItem.recentVendor}</StyledTableCell>
+                    <StyledTableCell>{masterDepartmentItem.drugClass}</StyledTableCell>
                     <StyledTableCell sx={{ textAlign: 'center' }}>
                         <Typography variant="inherit" sx={{ fontWeight: 900 }}>
                             {getTotalQuantity(masterDepartmentItem.departmentItems)}
@@ -482,11 +482,11 @@ const DepartmentsMaster = () => {
                             ).orderQuantity
                         }
                     </StyledTableCell>
-                    <StyledTableCell>${masterDepartmentItem.unit_price}</StyledTableCell>
+                    <StyledTableCell>${masterDepartmentItem.unitPrice}</StyledTableCell>
                     <StyledTableCell>
                         $
                         {getTotalPrice(
-                            masterDepartmentItem.unit_price,
+                            masterDepartmentItem.unitPrice,
                             getTotalQuantity(masterDepartmentItem.departmentItems)
                         ).toFixed(2)}
                     </StyledTableCell>

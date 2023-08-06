@@ -47,8 +47,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: '', headerName: 'Select' },
     { field: 'item', headerName: 'Item' },
-    { field: 'recent_cn', headerName: 'Recent CN' },
-    { field: 'purchase_unit', headerName: 'Purchase Unit' },
+    { field: 'recentCN', headerName: 'Recent CN' },
+    { field: 'purchaseUnit', headerName: 'Purchase Unit' },
     { field: 'part_number', headerName: 'Part Number' },
     { field: 'comment', headerName: 'Comment' }
 ];
@@ -121,8 +121,8 @@ const RequestMasterDepartmentItems = () => {
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.item}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.recent_cn}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.purchase_unit}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.recentCN}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.purchaseUnit}</StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.part_number}</StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.detail}</StyledTableCell>
                                 </TableRow>

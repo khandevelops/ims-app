@@ -118,12 +118,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="recent_cn"
+                        id="recentCN"
                         label="RECENT CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.recent_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_cn')}
+                        value={masterItem && masterItem.recentCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recentCN')}
                     />
                 </Grid>
 
@@ -135,7 +135,7 @@ const MasterUpdateForm = () => {
                         label="PART NUMBER"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.part_number}
+                        value={masterItem && masterItem.partNumber}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'part_number')}
                     />
                 </Grid>
@@ -144,12 +144,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="recent_vendor"
+                        id="recentVendor"
                         label="RECENT VENDOR"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.recent_vendor}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recent_vendor')}
+                        value={masterItem && masterItem.recentVendor}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'recentVendor')}
                     />
                 </Grid>
 
@@ -157,12 +157,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="fisher_cn"
+                        id="fisherCN"
                         label="FISHER CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.fisher_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'fisher_cn')}
+                        value={masterItem && masterItem.fisherCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'fisherCN')}
                     />
                 </Grid>
 
@@ -170,12 +170,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="vwr_cn"
+                        id="vwrCN"
                         label="VWR CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.vwr_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'vwr_cn')}
+                        value={masterItem && masterItem.vwrCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'vwrCN')}
                     />
                 </Grid>
 
@@ -183,12 +183,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="lab_source_cn"
+                        id="labSourceCN"
                         label="LAB SOURCE CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.lab_source_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'lab_source_cn')}
+                        value={masterItem && masterItem.labSourceCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'labSourceCN')}
                     />
                 </Grid>
 
@@ -196,12 +196,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="other_cn"
+                        id="otherCN"
                         label="OTHER CN"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.other_cn}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'other_cn')}
+                        value={masterItem && masterItem.otherCN}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'otherCN')}
                     />
                 </Grid>
 
@@ -209,12 +209,12 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="purchase_unit"
+                        id="purchaseUnit"
                         label="PURCHASE UNIT"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.purchase_unit}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'purchase_unit')}
+                        value={masterItem && masterItem.purchaseUnit}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'purchaseUnit')}
                     />
                 </Grid>
 
@@ -222,15 +222,15 @@ const MasterUpdateForm = () => {
                     {' '}
                     <TextField
                         sx={{ width: '100%' }}
-                        id="unit_price"
+                        id="unitPrice"
                         label="UNIT PRICE"
                         variant="outlined"
                         InputProps={{
                             startAdornment: <InputAdornment position="start">$</InputAdornment>
                         }}
                         size="small"
-                        value={masterItem && masterItem.unit_price}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unit_price')}
+                        value={masterItem && masterItem.unitPrice}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'unitPrice')}
                     />
                 </Grid>
 
@@ -244,8 +244,7 @@ const MasterUpdateForm = () => {
                             value={masterItem && masterItem.category}
                             onChange={handleCategoryChange}
                             sx={{ width: '100%' }}
-                            size="small"
-                        >
+                            size="small">
                             {Object.keys(CATEGORY).map((category) => (
                                 <MenuItem value={category}>{category.split('_').join(' ')}</MenuItem>
                             ))}
@@ -261,7 +260,7 @@ const MasterUpdateForm = () => {
                         label="DRUG CLASS"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.drug_class}
+                        value={masterItem && masterItem.drugClass}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'drug_class')}
                     />
                 </Grid>
@@ -315,8 +314,7 @@ const MasterUpdateForm = () => {
                             height: 60,
                             marginTop: 3,
                             backgroundColor: '#ECECEC'
-                        }}
-                    >
+                        }}>
                         {Object.values(DEPARTMENT).map((department, index) => (
                             <FormControlLabel
                                 control={
