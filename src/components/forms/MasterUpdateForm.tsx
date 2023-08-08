@@ -273,7 +273,7 @@ const MasterUpdateForm = () => {
                         label="TYPE"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.type}
+                        value={masterItem && masterItem.itemType}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'type')}
                     />
                 </Grid>
@@ -286,7 +286,7 @@ const MasterUpdateForm = () => {
                         label="GROUP"
                         variant="outlined"
                         size="small"
-                        value={masterItem && masterItem.group}
+                        value={masterItem && masterItem.itemGroup}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'group')}
                     />
                 </Grid>

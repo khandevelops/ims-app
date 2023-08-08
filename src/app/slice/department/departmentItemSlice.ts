@@ -12,45 +12,45 @@ export interface IDepartmentItem {
     id: number;
     location: string;
     quantity: number;
-    minimum_quantity: number;
-    maximum_quantity: number;
-    usage_level: string;
-    lot_number: string;
-    expiration_date: Date;
-    received_date: Date;
+    minimumQuantity: number;
+    maximumQuantity: number;
+    usageLevel: string;
+    lotNumber: string;
+    expirationDate: Date;
+    receivedDate: Date;
 }
 
 export interface IDepartmentState {
     response:
-        | {
-              content: IDepartmentItem[];
-              pageable: {
-                  sort: {
-                      empty: boolean;
-                      sorted: boolean;
-                      unsorted: boolean;
-                  };
-                  offset: number;
-                  pageNumber: number;
-                  pageSize: number;
-                  paged: boolean;
-                  unpaged: boolean;
-              };
-              last: boolean;
-              totalPages: number;
-              totalElements: number;
-              first: boolean;
-              size: number;
-              number: number;
-              sort: {
-                  empty: boolean;
-                  sorted: boolean;
-                  unsorted: boolean;
-              };
-              numberOfElements: number;
-              empty: boolean;
-          }
-        | undefined;
+    | {
+        content: IDepartmentItem[];
+        pageable: {
+            sort: {
+                empty: boolean;
+                sorted: boolean;
+                unsorted: boolean;
+            };
+            offset: number;
+            pageNumber: number;
+            pageSize: number;
+            paged: boolean;
+            unpaged: boolean;
+        };
+        last: boolean;
+        totalPages: number;
+        totalElements: number;
+        first: boolean;
+        size: number;
+        number: number;
+        sort: {
+            empty: boolean;
+            sorted: boolean;
+            unsorted: boolean;
+        };
+        numberOfElements: number;
+        empty: boolean;
+    }
+    | undefined;
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 

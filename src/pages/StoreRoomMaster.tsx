@@ -81,19 +81,19 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'usage_level',
+        field: 'usageLevel',
         tooltipName: 'Usage Level',
         headerName: 'UL',
         align: 'left'
     },
     {
-        field: 'minimum_quantity',
+        field: 'minimumQuantity',
         tooltipName: 'Min Qty',
         headerName: 'MinQ',
         align: 'left'
     },
     {
-        field: 'maximum_quantity',
+        field: 'maximumQuantity',
         tooltipName: 'Max Qty',
         headerName: 'MaxQ',
         align: 'left'
@@ -217,12 +217,12 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
                         id: storeRoomMasterItem.id,
                         location: storeRoomMasterItem.location,
                         quantity: storeRoomMasterItem.quantity,
-                        minimum_quantity: storeRoomMasterItem.minimum_quantity,
-                        maximum_quantity: storeRoomMasterItem.maximum_quantity,
-                        usage_level: storeRoomMasterItem.usage_level,
-                        lot_number: storeRoomMasterItem.lot_number,
-                        expiration_date: storeRoomMasterItem.expiration_date,
-                        received_date: storeRoomMasterItem.received_date
+                        minimumQuantity: storeRoomMasterItem.minimumQuantity,
+                        maximumQuantity: storeRoomMasterItem.maximumQuantity,
+                        usageLevel: storeRoomMasterItem.usageLevel,
+                        lotNumber: storeRoomMasterItem.lotNumber,
+                        expirationDate: storeRoomMasterItem.expirationDate,
+                        receivedDate: storeRoomMasterItem.receivedDate
                     })
                 )
                     .then(() => {
@@ -278,12 +278,12 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
                         id: storeRoomMasterItem.id,
                         location: storeRoomMasterItem.location,
                         quantity: storeRoomMasterItem.quantity,
-                        minimum_quantity: storeRoomMasterItem.minimum_quantity,
-                        maximum_quantity: storeRoomMasterItem.maximum_quantity,
-                        usage_level: storeRoomMasterItem.usage_level,
-                        lot_number: storeRoomMasterItem.lot_number,
-                        expiration_date: storeRoomMasterItem.expiration_date,
-                        received_date: storeRoomMasterItem.received_date
+                        minimumQuantity: storeRoomMasterItem.minimumQuantity,
+                        maximumQuantity: storeRoomMasterItem.maximumQuantity,
+                        usageLevel: storeRoomMasterItem.usageLevel,
+                        lotNumber: storeRoomMasterItem.lotNumber,
+                        expirationDate: storeRoomMasterItem.expirationDate,
+                        receivedDate: storeRoomMasterItem.receivedDate
                     }
                 })
             );
@@ -318,9 +318,9 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
                     onChange={(event: ChangeEvent<HTMLInputElement>) => handleChangeQty(storeRoomMasterItem.id, event)}
                 />
             </StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.usage_level}</StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.minimum_quantity}</StyledTableCell>
-            <StyledTableCell>{storeRoomMasterItem.maximum_quantity}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.usageLevel}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.minimumQuantity}</StyledTableCell>
+            <StyledTableCell>{storeRoomMasterItem.maximumQuantity}</StyledTableCell>
             <StyledTableCell>order quantity</StyledTableCell>
             <StyledTableCell>${storeRoomMasterItem.masterItem.unitPrice}</StyledTableCell>
             <StyledTableCell>issued</StyledTableCell>

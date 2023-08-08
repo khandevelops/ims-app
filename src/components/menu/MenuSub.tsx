@@ -57,7 +57,22 @@ const MenuSub = () => {
     }, [dispatch, state]);
 
     const handleKeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        if (state === 'master') {
+            dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        }
+        if (
+            state === 'extractions' ||
+            state === 'mass-spec' ||
+            state === 'rd' ||
+            state === 'screening' ||
+            state === 'shipping' ||
+            state === 'specimen-processing' ||
+            state === 'qc-internal-standards' ||
+            state === 'quality' ||
+            state === 'store-room'
+        ) {
+            dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        }
     };
 
     return (

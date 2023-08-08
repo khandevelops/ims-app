@@ -27,6 +27,7 @@ const MasterCreateForm = () => {
 
     const [departments, setDepartments] = useState<string[]>([]);
     const [masterItem, setMasterItem] = useState<IMaster>({
+        id: 0,
         item: '',
         manufacturer: '',
         recentCN: '',
@@ -40,8 +41,8 @@ const MasterCreateForm = () => {
         unitPrice: 0,
         category: '',
         comment: '',
-        type: '',
-        group: '',
+        itemType: '',
+        itemGroup: '',
         drugClass: ''
     });
 
@@ -295,7 +296,7 @@ const MasterCreateForm = () => {
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.type}
+                        value={masterItem.itemType}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'type')}
                     />
                 </Grid>
@@ -309,7 +310,7 @@ const MasterCreateForm = () => {
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={masterItem.group}
+                        value={masterItem.itemGroup}
                         onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event, 'group')}
                     />
                 </Grid>

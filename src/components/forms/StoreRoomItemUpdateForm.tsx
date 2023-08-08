@@ -33,30 +33,30 @@ const StoreRoomItemUpdateForm = () => {
                                     storeRoomItem.id === storeRoomMasterItem.id
                                         ? storeRoomItem.quantity
                                         : storeRoomMasterItem.quantity,
-                                lot_number:
+                                lotNumber:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.lot_number
-                                        : storeRoomMasterItem.lot_number,
-                                usage_level:
+                                        ? storeRoomItem.lotNumber
+                                        : storeRoomMasterItem.lotNumber,
+                                usageLevel:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.usage_level
-                                        : storeRoomMasterItem.usage_level,
-                                minimum_quantity:
+                                        ? storeRoomItem.usageLevel
+                                        : storeRoomMasterItem.usageLevel,
+                                minimumQuantity:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.minimum_quantity
-                                        : storeRoomMasterItem.minimum_quantity,
-                                maximum_quantity:
+                                        ? storeRoomItem.minimumQuantity
+                                        : storeRoomMasterItem.minimumQuantity,
+                                maximumQuantity:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.maximum_quantity
-                                        : storeRoomMasterItem.maximum_quantity,
-                                expiration_date:
+                                        ? storeRoomItem.maximumQuantity
+                                        : storeRoomMasterItem.maximumQuantity,
+                                expirationDate:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.expiration_date
-                                        : storeRoomMasterItem.expiration_date,
-                                received_date:
+                                        ? storeRoomItem.expirationDate
+                                        : storeRoomMasterItem.expirationDate,
+                                receivedDate:
                                     storeRoomItem.id === storeRoomMasterItem.id
-                                        ? storeRoomItem.received_date
-                                        : storeRoomMasterItem.received_date
+                                        ? storeRoomItem.receivedDate
+                                        : storeRoomMasterItem.receivedDate
                             }))
                         )
                     );
@@ -74,33 +74,33 @@ const StoreRoomItemUpdateForm = () => {
         if (event.target.name === 'location' && storeRoomItem) {
             dispatch(toggleDrawer({ ...drawer, storeRoomItem: { ...storeRoomItem, location: event.target.value } }));
         }
-        if (event.target.name === 'usage_level' && storeRoomItem) {
-            dispatch(toggleDrawer({ ...drawer, storeRoomItem: { ...storeRoomItem, usage_level: event.target.value } }));
+        if (event.target.name === 'usageLevel' && storeRoomItem) {
+            dispatch(toggleDrawer({ ...drawer, storeRoomItem: { ...storeRoomItem, usageLevel: event.target.value } }));
         }
-        if (event.target.name === 'minimum_quantity' && storeRoomItem) {
+        if (event.target.name === 'minimumQuantity' && storeRoomItem) {
             dispatch(
                 toggleDrawer({
                     ...drawer,
-                    storeRoomItem: { ...storeRoomItem, minimum_quantity: parseInt(event.target.value) }
+                    storeRoomItem: { ...storeRoomItem, minimumQuantity: parseInt(event.target.value) }
                 })
             );
         }
-        if (event.target.name === 'maximum_quantity' && storeRoomItem) {
+        if (event.target.name === 'maximumQuantity' && storeRoomItem) {
             dispatch(
                 toggleDrawer({
                     ...drawer,
-                    storeRoomItem: { ...storeRoomItem, maximum_quantity: parseInt(event.target.value) }
+                    storeRoomItem: { ...storeRoomItem, maximumQuantity: parseInt(event.target.value) }
                 })
             );
         }
     };
 
     const handleDateChange = (value: Date | null, columnName: string) => {
-        if (columnName === 'expiration_date') {
-            dispatch(changeStoreRoomItem({ storeRoomItem: { expiration_date: value } }));
+        if (columnName === 'expirationDate') {
+            dispatch(changeStoreRoomItem({ storeRoomItem: { expirationDate: value } }));
         }
-        if (columnName === 'received_date') {
-            dispatch(changeStoreRoomItem({ storeRoomItem: { expiration_date: value } }));
+        if (columnName === 'receivedDate') {
+            dispatch(changeStoreRoomItem({ storeRoomItem: { expirationDate: value } }));
         }
     };
 
@@ -124,13 +124,13 @@ const StoreRoomItemUpdateForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <TextField
                         sx={{ width: '100%' }}
-                        name="usage_level"
-                        id="usage_level"
+                        name="usageLevel"
+                        id="usageLevel"
                         label="USAGE LEVEL"
                         InputLabelProps={{ shrink: true }}
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.usage_level}
+                        value={storeRoomItem?.usageLevel}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -142,13 +142,13 @@ const StoreRoomItemUpdateForm = () => {
                         InputProps={{
                             inputProps: { min: 0 }
                         }}
-                        name="maximum_quantity"
+                        name="maximumQuantity"
                         InputLabelProps={{ shrink: true }}
-                        id="maximum_quantity"
+                        id="maximumQuantity"
                         label="MAXIMUM QUANTITY"
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.maximum_quantity}
+                        value={storeRoomItem?.maximumQuantity}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -160,13 +160,13 @@ const StoreRoomItemUpdateForm = () => {
                             inputProps: { min: 0 }
                         }}
                         type="number"
-                        id="minimum_quantity"
-                        name="minimum_quantity"
+                        id="minimumQuantity"
+                        name="minimumQuantity"
                         InputLabelProps={{ shrink: true }}
                         label="MINIMUM QUANTITY"
                         variant="outlined"
                         size="small"
-                        value={storeRoomItem?.minimum_quantity}
+                        value={storeRoomItem?.minimumQuantity}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -176,10 +176,10 @@ const StoreRoomItemUpdateForm = () => {
                         <DateTimePicker
                             label="Expiration Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={storeRoomItem?.expiration_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'expiration_date')}
+                            value={storeRoomItem?.expirationDate}
+                            onChange={(value: Date | null) => handleDateChange(value, 'expirationDate')}
                             renderInput={(params) => (
-                                <TextField {...params} size="small" sx={{ width: '100%' }} name="expiration_date" />
+                                <TextField {...params} size="small" sx={{ width: '100%' }} name="expirationDate" />
                             )}
                         />
                     </LocalizationProvider>
@@ -190,10 +190,10 @@ const StoreRoomItemUpdateForm = () => {
                         <DateTimePicker
                             label="Received Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={storeRoomItem?.received_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'received_date')}
+                            value={storeRoomItem?.receivedDate}
+                            onChange={(value: Date | null) => handleDateChange(value, 'receivedDate')}
                             renderInput={(params) => (
-                                <TextField {...params} size="small" sx={{ width: '100%' }} name="received_date" />
+                                <TextField {...params} size="small" sx={{ width: '100%' }} name="receivedDate" />
                             )}
                         />
                     </LocalizationProvider>

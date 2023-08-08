@@ -255,8 +255,8 @@ const Master = () => {
                                     <StyledTableCell>${masterItem.unitPrice}</StyledTableCell>
                                     <StyledTableCell>{masterItem.category}</StyledTableCell>
                                     <StyledTableCell>{masterItem.drugClass}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.type}</StyledTableCell>
-                                    <StyledTableCell>{masterItem.group}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.itemType}</StyledTableCell>
+                                    <StyledTableCell>{masterItem.itemGroup}</StyledTableCell>
                                     <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
                                     <StyledTableCell align="right" width={200}>
                                         <IconButton

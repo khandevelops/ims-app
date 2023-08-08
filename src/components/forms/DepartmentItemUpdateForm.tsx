@@ -28,35 +28,35 @@ const UpdateItemForm = () => {
                 })
             );
         }
-        if (event.target.name === 'usage_level') {
+        if (event.target.name === 'usageLevel') {
             dispatch(
                 changeDepartmentItem({
-                    departmentItem: { usage_level: event.target.value }
+                    departmentItem: { usageLevel: event.target.value }
                 })
             );
         }
-        if (event.target.name === 'minimum_quantity') {
+        if (event.target.name === 'minimumQuantity') {
             dispatch(
                 changeDepartmentItem({
-                    departmentItem: { minimum_quantity: event.target.value }
+                    departmentItem: { minimumQuantity: event.target.value }
                 })
             );
         }
-        if (event.target.name === 'maximum_quantity') {
+        if (event.target.name === 'maximumQuantity') {
             dispatch(
                 changeDepartmentItem({
-                    departmentItem: { maximum_quantity: event.target.value }
+                    departmentItem: { maximumQuantity: event.target.value }
                 })
             );
         }
     };
 
     const handleDateChange = (value: Date | null, columnName: string) => {
-        if (columnName === 'expiration_date') {
-            dispatch(changeDepartmentItem({ departmentItem: { expiration_date: value } }));
+        if (columnName === 'expirationDate') {
+            dispatch(changeDepartmentItem({ departmentItem: { expirationDate: value } }));
         }
-        if (columnName === 'received_date') {
-            dispatch(changeDepartmentItem({ departmentItem: { expiration_date: value } }));
+        if (columnName === 'receivedDate') {
+            dispatch(changeDepartmentItem({ departmentItem: { expirationDate: value } }));
         }
     };
 
@@ -79,12 +79,12 @@ const UpdateItemForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <TextField
                         sx={{ width: '100%' }}
-                        name="usage_level"
-                        id="usage_level"
+                        name="usageLevel"
+                        id="usageLevel"
                         label="USAGE LEVEL"
                         variant="outlined"
                         size="small"
-                        value={departmentItem?.usage_level}
+                        value={departmentItem?.usageLevel}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -92,12 +92,12 @@ const UpdateItemForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <TextField
                         sx={{ width: '100%' }}
-                        name="maximum_quantity"
-                        id="maximum_quantity"
+                        name="maximumQuantity"
+                        id="maximumQuantity"
                         label="MAXIMUM QUANTITY"
                         variant="outlined"
                         size="small"
-                        value={departmentItem?.maximum_quantity}
+                        value={departmentItem?.maximumQuantity}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -105,11 +105,11 @@ const UpdateItemForm = () => {
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4} sx={{ padding: 1 }}>
                     <TextField
                         sx={{ width: '100%' }}
-                        id="minimum_quantity"
+                        id="minimumQuantity"
                         label="MINIMUM QAUNTITY"
                         variant="outlined"
                         size="small"
-                        value={departmentItem?.minimum_quantity}
+                        value={departmentItem?.minimumQuantity}
                         onChange={handleChange}
                     />
                 </Grid>
@@ -119,8 +119,8 @@ const UpdateItemForm = () => {
                         <DateTimePicker
                             label="Expiration Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={departmentItem?.expiration_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'expiration_date')}
+                            value={departmentItem?.expirationDate}
+                            onChange={(value: Date | null) => handleDateChange(value, 'expirationDate')}
                             renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
                         />
                     </LocalizationProvider>
@@ -131,8 +131,8 @@ const UpdateItemForm = () => {
                         <DateTimePicker
                             label="Received Date"
                             inputFormat="MM/DD/YYYY HH:MM"
-                            value={departmentItem?.received_date}
-                            onChange={(value: Date | null) => handleDateChange(value, 'received_date')}
+                            value={departmentItem?.receivedDate}
+                            onChange={(value: Date | null) => handleDateChange(value, 'receivedDate')}
                             renderInput={(params) => <TextField {...params} size="small" sx={{ width: '100%' }} />}
                         />
                     </LocalizationProvider>

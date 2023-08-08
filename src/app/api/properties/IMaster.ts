@@ -1,7 +1,7 @@
 import { IDepartment } from './IDepartment';
 
 export interface IMaster {
-    id?: number;
+    id: number;
     item: string;
     manufacturer: string;
     recentCN: string;
@@ -15,13 +15,13 @@ export interface IMaster {
     unitPrice: number;
     category: string;
     comment: string;
-    type: string;
-    group: string;
+    itemType: string;
+    itemGroup: string;
     drugClass: string;
 }
 
 export interface IMasterDepartment {
-    id?: number;
+    id: number;
     item: string;
     manufacturer: string;
     recentCN: string;
@@ -35,8 +35,8 @@ export interface IMasterDepartment {
     unitPrice: number;
     category: string;
     comment: string;
-    type: string;
-    group: string;
+    itemType: string;
+    itemGroup: string;
     drugClass: string;
     departmentItems: IDepartment[];
 }
