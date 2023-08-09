@@ -25,8 +25,6 @@ const Profile = () => {
             ...loginRequest,
             account: accounts[0]
         };
-
-        // Silently acquires an access token which is then attached to a request for Microsoft Graph data
         instance
             .acquireTokenSilent(request)
             .then((response) => {
@@ -59,7 +57,6 @@ const Profile = () => {
 
     const handleLogout = () => {
         const currentAccount = instance.getAccountByHomeId(accounts[0].homeAccountId);
-        // The account's ID Token must contain the login_hint optional claim to avoid the account picker
         instance
             .logoutRedirect({ account: currentAccount })
             .then(() => <Navigate to="/" />)
@@ -103,8 +100,7 @@ const Profile = () => {
                     horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-            >
+                onClose={handleCloseUserMenu}>
                 <MenuItem key="name">
                     <Typography textAlign="center">
                         {profileSelector && profileSelector.profile && profileSelector.profile.displayName}

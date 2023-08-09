@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { filterMasterItemsThunk } from '../../app/slice/master/masterItemsFilterSlice';
 import { getGrandTotalThunk, selectGrandTotal } from '../../app/slice/grandTotalSlice';
 import { filterMasterDepartmentItemsThunk } from '../../app/slice/master/masterDepartmentItemsSlice';
+import { getSearchValue } from '../../app/search';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -58,6 +59,7 @@ const MenuSub = () => {
     }, [dispatch, state]);
 
     const handleKeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        dispatch(getSearchValue(event.target.value));
         if (state === 'master') {
             dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
         } else {

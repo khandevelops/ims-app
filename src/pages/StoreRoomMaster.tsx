@@ -151,7 +151,6 @@ const StoreRoomMaster = () => {
                         total + storeRoomMasterItem.masterItem.unitPrice * storeRoomMasterItem.quantity,
                     0
                 );
-
                 dispatch(getTotalAmount({ totalAmount: total }));
             })
             .catch((error: Error) => console.error(error.message));

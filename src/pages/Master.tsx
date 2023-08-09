@@ -24,10 +24,17 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
 import { IMaster } from '../app/api/properties/IMaster';
-import { getMasterItemsThunk, selectMasterItems, sortMasterItemsThunk } from '../app/slice/master/masterItemsSlice';
+import {
+    filterMasterItemsThunk,
+    getMasterItemsThunk,
+    selectMasterItems,
+    sortMasterItemsThunk
+} from '../app/slice/master/masterItemsSlice';
 import { deleteMasterItemThunk } from '../app/slice/master/masterItemDeleteSlice';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { selectSearchValue } from '../app/search';
+import SortIcon from '../components/common/SortIcon';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -125,7 +132,8 @@ const columns: {
     }
 ];
 
-const Master = () => {
+const Master = (): JSX.Element => {
+    const searchValueSelector = useAppSelector(selectSearchValue);
     const masterItemsSelector = useAppSelector(selectMasterItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
@@ -136,11 +144,18 @@ const Master = () => {
     const [sort, setSort] = useState<{ column: string; direction: '' | 'ASC' | 'DESC' }>({ column: '', direction: '' });
 
     useEffect(() => {
-        dispatch(getMasterItemsThunk(page));
+        if (searchValueSelector && searchValueSelector.searchValue) {
+            dispatch(filterMasterItemsThunk({ keyword: searchValueSelector.searchValue, page: page }));
+        } else {
+            dispatch(getMasterItemsThunk(page));
+        }
     }, [dispatch, page]);
 
     const handleChangePage = (event: any, newPage: number): void => {
         setPage(newPage);
+        if (searchValueSelector && searchValueSelector.searchValue) {
+            dispatch(filterMasterItemsThunk({ keyword: searchValueSelector.searchValue, page: newPage }));
+        }
     };
 
     const handleEditClick = (event: MouseEvent<HTMLElement>, masterItem: IMaster) => {
@@ -206,16 +221,6 @@ const Master = () => {
         }
     };
 
-    const SortIcon = (): JSX.Element => {
-        if (sort.direction === 'ASC') {
-            return <KeyboardArrowUpIcon fontSize="small" />;
-        }
-        if (sort.direction === 'DESC') {
-            return <KeyboardArrowDownIcon fontSize="small" />;
-        }
-        return <></>;
-    };
-
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }} component={Paper} elevation={3}>
             <TableContainer sx={{ height: '70vh' }}>
@@ -230,7 +235,7 @@ const Master = () => {
                                         onClick={() => handleSort(column.field)}>
                                         <Box sx={{ display: 'flex', gap: 2 }}>
                                             {column.tooltipName}
-                                            {sort.column === column.field && <SortIcon />}
+                                            {sort.column === column.field && <SortIcon sort={sort} />}
                                         </Box>
                                     </StyledTableCell>
                                 ))}

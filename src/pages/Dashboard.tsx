@@ -16,10 +16,11 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
     Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { Fragment, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { loginRequest } from '../config/authConfig';
 import { callProflesMsGraph } from '../config/graph';
@@ -33,6 +34,8 @@ import {
 } from '../app/profileDetail/profileDetailsSlice';
 import { DEPARTMENT, PERMISSION, ROLE } from '../common/constants';
 import { updateProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
+import { selectDepartmentNames } from '../app/profileDetail/departmentNamesSlice';
+import { departmentNameCreateThunk } from '../app/profileDetail/departmentNameCreateSlice';
 
 const columns: { field: string; headerName: string }[] = [
     { field: 'displayName', headerName: 'Name' },
@@ -42,24 +45,26 @@ const columns: { field: string; headerName: string }[] = [
 ];
 
 const Dashboard = () => {
+    const departmentNamesSelector = useAppSelector(selectDepartmentNames);
     const { instance, accounts } = useMsal();
     const dispatch = useAppDispatch();
     const profileDetailsSelector = useAppSelector(selectProfileDetails);
     const [profiles, setProfiles] = useState<{ id: string; displayName: string; mail: string }[]>([]);
+    const [departmentName, setDepartmentName] = useState<string>('');
 
     useEffect(() => {
-        instance
-            .acquireTokenSilent({
-                ...loginRequest,
-                account: accounts[0]
-            })
-            .then((response) => {
-                callProflesMsGraph(response.accessToken).then((response) => {
-                    setProfiles(response.value);
-                    dispatch(getProfiles(response.value));
-                });
-            });
-        dispatch(getProfileDetailsThunk());
+        // instance
+        //     .acquireTokenSilent({
+        //         ...loginRequest,
+        //         account: accounts[0]
+        //     })
+        //     .then((response) => {
+        //         callProflesMsGraph(response.accessToken).then((response) => {
+        //             setProfiles(response.value);
+        //             dispatch(getProfiles(response.value));
+        //         });
+        //     });
+        // dispatch(getProfileDetailsThunk());
     }, [accounts, dispatch, instance]);
 
     const getProfileDetail = (id: string) => {
@@ -147,6 +152,10 @@ const Dashboard = () => {
         }
     };
 
+    const addDepartmentName = () => {
+        dispatch(departmentNameCreateThunk({ name: departmentName, key: departmentName }));
+    };
+
     return (
         <Grid container sx={{ height: '100%' }}>
             <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ padding: 5 }}>
@@ -170,40 +179,22 @@ const Dashboard = () => {
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <Card>
-                            <CardContent sx={{ textAlign: 'center' }}>
-                                <Typography variant="h6" color="text.secondary">
-                                    IMPORTANT!
-                                </Typography>
-                            </CardContent>
-                            <CardActions
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: '100%'
-                                }}>
-                                <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <Card>
-                            <CardContent sx={{ textAlign: 'center' }}>
-                                <Typography variant="h6" color="text.secondary">
-                                    IMPORTANT!
-                                </Typography>
-                            </CardContent>
-                            <CardActions
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: '100%'
-                                }}>
-                                <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
-                            </CardActions>
-                        </Card>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                            <TextField
+                                id="name"
+                                label="Department Name"
+                                variant="outlined"
+                                onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                    setDepartmentName(event.target.value)
+                                }
+                            />
+                            <Button onClick={addDepartmentName}>ADD</Button>
+                        </Box>
+                        <Box>
+                            {departmentNamesSelector.departmentNames.map((name) => (
+                                <TextField id="name" label="Department Name" variant="outlined" value={name} />
+                            ))}
+                        </Box>
                     </Grid>
                 </Grid>
             </Grid>
