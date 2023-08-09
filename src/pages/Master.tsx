@@ -32,12 +32,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 12
+        fontSize: 11
     }
 }));
 
@@ -230,7 +230,6 @@ const Master = () => {
                                         onClick={() => handleSort(column.field)}>
                                         <Box sx={{ display: 'flex', gap: 2 }}>
                                             {column.tooltipName}
-
                                             {sort.column === column.field && <SortIcon />}
                                         </Box>
                                     </StyledTableCell>
@@ -263,7 +262,7 @@ const Master = () => {
                                             onClick={(event: MouseEvent<HTMLElement>) =>
                                                 handleEditClick(event, masterItem)
                                             }>
-                                            <ModeEditIcon color="primary" fontSize="small" />
+                                            <ModeEditIcon color="primary" sx={{ fontSize: 16 }} />
                                         </IconButton>
                                         <Box component="span" sx={{ color: 'grey' }}>
                                             |
@@ -273,7 +272,7 @@ const Master = () => {
                                                 handleIconClick(event, masterItem.id, 'ASSIGN')
                                             }
                                             sx={{ marginLeft: 0.7, marginRight: 0.7 }}>
-                                            <AssignmentTurnedInIcon color="primary" fontSize="small" />
+                                            <AssignmentTurnedInIcon color="primary" sx={{ fontSize: 16 }} />
                                         </IconButton>
                                         <Box component="span" sx={{ color: 'grey' }}>
                                             |
@@ -283,7 +282,7 @@ const Master = () => {
                                             onClick={(event: MouseEvent<HTMLElement>) =>
                                                 handleIconClick(event, masterItem.id, 'DELETE')
                                             }>
-                                            <DeleteIcon color="primary" fontSize="small" />
+                                            <DeleteIcon color="primary" sx={{ fontSize: 16 }} />
                                         </IconButton>
                                     </StyledTableCell>
                                 </TableRow>

@@ -9,6 +9,7 @@ import { Box, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { filterMasterItemsThunk } from '../../app/slice/master/masterItemsFilterSlice';
 import { getGrandTotalThunk, selectGrandTotal } from '../../app/slice/grandTotalSlice';
+import { filterMasterDepartmentItemsThunk } from '../../app/slice/master/masterDepartmentItemsSlice';
 
 const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
@@ -59,20 +60,22 @@ const MenuSub = () => {
     const handleKeywordChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (state === 'master') {
             dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        } else {
+            dispatch(filterMasterDepartmentItemsThunk({ state: state, keyword: event.target.value, page: 0 }));
         }
-        if (
-            state === 'extractions' ||
-            state === 'mass-spec' ||
-            state === 'rd' ||
-            state === 'screening' ||
-            state === 'shipping' ||
-            state === 'specimen-processing' ||
-            state === 'qc-internal-standards' ||
-            state === 'quality' ||
-            state === 'store-room'
-        ) {
-            dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
-        }
+        // if (
+        //     state === 'extractions' ||
+        //     state === 'mass-spec' ||
+        //     state === 'rd' ||
+        //     state === 'screening' ||
+        //     state === 'shipping' ||
+        //     state === 'specimen-processing' ||
+        //     state === 'qc-internal-standards' ||
+        //     state === 'quality' ||
+        //     state === 'store-room'
+        // ) {
+        //     dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
+        // }
     };
 
     return (

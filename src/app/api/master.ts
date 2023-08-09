@@ -31,6 +31,15 @@ export const getMasterDepartmentItems = (params: { state: string; page: number }
     return axios.get(`${baseUrl}/master-department/${params.state}/list?page=${params.page}`);
 };
 
+export const filterMasterDepartmentItems = (params: { state: string, keyword: string; page: number }) => {
+    return axios.get(`${baseUrl}/master-department/${params.state}/filter?keyword=${params.keyword}&page=${params.page}`);
+
+};
+
+export const sortMasterDepartmentItems = (params: { state: string, page: number, column: string, direction: string }) => {
+    return axios.get(`${baseUrl}/master-department/${params.state}/sort?page=${params.page}&column=${params.column}&direction=${params.direction}`);
+};
+
 export const getMasterDepartmentItem = (params: { state: string; id: number }) => {
     return axios.get(`${baseUrl}/master-department/${params.state}/${params.id}`);
 };

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { IMasterDepartment } from '../../api/properties/IMaster';
-import { getMasterDepartmentItems } from '../../api/master';
+import { filterMasterDepartmentItems, getMasterDepartmentItems, sortMasterDepartmentItems } from '../../api/master';
 
 export interface MasterDepartmentItemsState {
     response: {
@@ -43,8 +43,24 @@ export const getMasterDepartmentItemsThunk = createAsyncThunk(
     }
 );
 
+export const filterMasterDepartmentItemsThunk = createAsyncThunk(
+    'filterMasterDepartmentItemsThunk',
+    async (params: { state: string, keyword: string, page: number }) => {
+        const response = await filterMasterDepartmentItems(params);
+        return response.data;
+    }
+);
+
+export const sortMasterDepartmentItemsThunk = createAsyncThunk(
+    'sortMasterDepartmentItemsThunk',
+    async (params: { state: string, page: number; column: string, direction: string }) => {
+        const response = await sortMasterDepartmentItems(params);
+        return response.data;
+    }
+);
+
 export const masterDepartmentItemsSlice = createSlice({
-    name: 'masterDepartmentSlice',
+    name: 'masterDepartmentItemsSlice',
     initialState,
     reducers: {
         changeMasterDepartmentItems: (state, action) => {
@@ -60,6 +76,24 @@ export const masterDepartmentItemsSlice = createSlice({
                 state.response = action.payload;
             })
             .addCase(getMasterDepartmentItemsThunk.rejected, (state) => {
+                state.status = 'failed';
+            })
+            .addCase(sortMasterDepartmentItemsThunk.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(sortMasterDepartmentItemsThunk.fulfilled, (state, action) => {
+                state.response = action.payload;
+            })
+            .addCase(sortMasterDepartmentItemsThunk.rejected, (state) => {
+                state.status = 'failed';
+            })
+            .addCase(filterMasterDepartmentItemsThunk.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(filterMasterDepartmentItemsThunk.fulfilled, (state, action) => {
+                state.response = action.payload;
+            })
+            .addCase(filterMasterDepartmentItemsThunk.rejected, (state) => {
                 state.status = 'failed';
             });
     }
