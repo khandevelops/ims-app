@@ -11,7 +11,7 @@ export const createDepartmentName = (params: { name: string, key: string }) => {
 export interface IDepartmentName {
     id?: string;
     name: string;
-    key: string
+    mapping: string
 }
 
 export interface DepartmentNameCreateState {
