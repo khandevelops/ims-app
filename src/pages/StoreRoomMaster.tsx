@@ -34,12 +34,12 @@ import { updateStoreRoomItemThunk } from '../app/slice/storeRoom/storeRoomUpdate
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: '#ffd740',
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: 700,
         color: theme.palette.common.black
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 12
+        fontSize: 11
     }
 }));
 
@@ -309,7 +309,7 @@ const Row = ({ storeRoomMasterItem, index }: { storeRoomMasterItem: IStoreRoomMa
                     sx={{
                         '.MuiInputBase-input': {
                             padding: 1,
-                            fontSize: 14
+                            fontSize: 11
                         }
                     }}
                     id={storeRoomMasterItem.id?.toString()}
