@@ -5,6 +5,7 @@ import {
     CardContent,
     FormControl,
     Grid,
+    IconButton,
     MenuItem,
     Paper,
     Select,
@@ -28,14 +29,19 @@ import { useMsal } from '@azure/msal-react';
 import { getProfiles, selectProfiles } from '../app/profilesSlice';
 import {
     changeProfileDetails,
-    getProfileDetailsThunk,
     selectProfileDetails,
     syncProfileDetailsThunk
 } from '../app/profileDetail/profileDetailsSlice';
 import { DEPARTMENT, PERMISSION, ROLE } from '../common/constants';
 import { updateProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
-import { selectDepartmentNames } from '../app/profileDetail/departmentNamesSlice';
-import { departmentNameCreateThunk } from '../app/profileDetail/departmentNameCreateSlice';
+import { getDepartmentNamesThunk, selectDepartmentNames } from '../app/profileDetail/departmentNamesSlice';
+import {
+    departmentNameCreateThunk,
+    departmentNameDeleteThunk,
+    departmentNameUpdateThunk
+} from '../app/profileDetail/departmentNameCreateSlice';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const columns: { field: string; headerName: string }[] = [
     { field: 'displayName', headerName: 'Name' },
@@ -53,6 +59,7 @@ const Dashboard = () => {
     const [departmentName, setDepartmentName] = useState<string>('');
 
     useEffect(() => {
+        dispatch(getDepartmentNamesThunk());
         // instance
         //     .acquireTokenSilent({
         //         ...loginRequest,
@@ -152,8 +159,25 @@ const Dashboard = () => {
         }
     };
 
-    const addDepartmentName = () => {
-        dispatch(departmentNameCreateThunk({ name: departmentName, key: departmentName }));
+    const createDepartmentName = () => {
+        dispatch(departmentNameCreateThunk({ name: departmentName, mapping: departmentName }));
+    };
+
+    const updateDepartmentName = (id: number | undefined) => {
+        if (id) {
+            dispatch(
+                departmentNameUpdateThunk({
+                    id: id,
+                    departmentName: { name: departmentName, mapping: departmentName }
+                })
+            );
+        }
+    };
+
+    const deleteDepartmentName = (id: number | undefined) => {
+        if (id) {
+            dispatch(departmentNameDeleteThunk(id));
+        }
     };
 
     return (
@@ -179,20 +203,40 @@ const Dashboard = () => {
                         </Card>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, marginBottom: 2 }}>
                             <TextField
                                 id="name"
                                 label="Department Name"
                                 variant="outlined"
+                                size="small"
                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                                     setDepartmentName(event.target.value)
                                 }
                             />
-                            <Button onClick={addDepartmentName}>ADD</Button>
+                            <Button onClick={createDepartmentName}>ADD</Button>
                         </Box>
-                        <Box>
-                            {departmentNamesSelector.departmentNames.map((name) => (
-                                <TextField id="name" label="Department Name" variant="outlined" value={name} />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, marginBottom: 3 }}>
+                            {departmentNamesSelector.departmentNames.map((department, index) => (
+                                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }} key={index}>
+                                    <TextField
+                                        id="name"
+                                        label="get"
+                                        variant="outlined"
+                                        value={department.name}
+                                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                            setDepartmentName(event.target.value)
+                                        }
+                                        size="small"
+                                    />
+                                    <IconButton aria-label="delete" onClick={() => updateDepartmentName(department.id)}>
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        aria-label="update"
+                                        onClick={() => dispatch(deleteDepartmentName(department.id))}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Box>
                             ))}
                         </Box>
                     </Grid>

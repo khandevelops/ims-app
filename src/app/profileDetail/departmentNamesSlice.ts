@@ -9,7 +9,7 @@ export const getDepartmentNames = () => {
 };
 
 export interface IDepartmentName {
-    id?: string;
+    id?: number;
     name: string;
     key: string
 }
@@ -24,13 +24,13 @@ const initialState: DepartmentNameState = {
     status: 'idle'
 };
 
-export const getDepartmentNamesThunk = createAsyncThunk('getDepartmentNamesThunk', async (id: string) => {
+export const getDepartmentNamesThunk = createAsyncThunk('getDepartmentNamesThunk', async () => {
     const response = await getDepartmentNames();
     return response.data;
 });
 
-export const getDepartmentNamesSlice = createSlice({
-    name: 'usersSlice',
+export const departmentNamesSlice = createSlice({
+    name: 'departmentNamesSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -48,6 +48,6 @@ export const getDepartmentNamesSlice = createSlice({
     }
 });
 
-export const { } = getDepartmentNamesSlice.actions;
+export const { } = departmentNamesSlice.actions;
 export const selectDepartmentNames = (state: RootState) => state.departmentNamesStore;
-export default getDepartmentNamesSlice.reducer;
+export default departmentNamesSlice.reducer;
