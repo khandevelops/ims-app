@@ -2,27 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 import axios from 'axios';
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const createProfileDetail = (profileDetail: iProfileDetail) => {
-    return axios.post(`${baseUrl}/profile-details/create`, profileDetail);
-};
-
-export const updateProfileDetail = (id: string, profileDetail: iProfileDetail) => {
-    return axios.patch(`${baseUrl}/profile-details/${id}/update`, profileDetail);
-};
-
-export const fetchProfileDetail = (id: string) => {
-    return axios.get(`${baseUrl}/profile-details/${id}`);
-};
-
-export interface iProfileDetail {
-    id?: string;
-    department?: string;
-    role?: string;
-    permission?: string;
-}
-
 export interface iProfileDetailState {
     profileDetail: iProfileDetail | null;
     status: 'idle' | 'loading' | 'success' | 'failed';
@@ -90,6 +69,6 @@ export const profileDetailSlice = createSlice({
     }
 });
 
-export const {} = profileDetailSlice.actions;
+export const { } = profileDetailSlice.actions;
 export const selectProfileDetail = (state: RootState) => state.profileDetailStore;
 export default profileDetailSlice.reducer;

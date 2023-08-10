@@ -1,0 +1,6 @@
+export interface IProfileDetail {
+    id?: string;
+    department?: string;
+    role?: string;
+    permission?: string;
+}

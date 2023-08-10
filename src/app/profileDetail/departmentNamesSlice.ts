@@ -1,18 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
-import axios from 'axios';
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const getDepartmentNames = () => {
-    return axios.get(`${baseUrl}/profile-details/department-names/list`);
-};
-
-export interface IDepartmentName {
-    id?: number;
-    name: string;
-    key: string
-}
 
 export interface DepartmentNameState {
     departmentNames: IDepartmentName[]
