@@ -220,8 +220,8 @@ const Dashboard = () => {
                 </Backdrop>
             )}
             <Grid container>
-                <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ padding: 5 }}>
-                    <Grid container sx={{ height: '70vh' }} gap={4}>
+                <Grid item xs={12} sm={12} md={12} lg={4} xl={4} sx={{ height: '80vh', padding: 5 }}>
+                    <Grid container gap={4}>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                             <Card>
                                 <CardContent sx={{ textAlign: 'center' }}>
@@ -242,8 +242,29 @@ const Dashboard = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} height={1}>
                             <Card>
-                                <CardContent sx={{ textAlign: 'center', height: '47vh', overflowY: 'auto' }}>
-                                    <CardHeader title="Manage Department Names" />
+                                <CardContent sx={{ textAlign: 'center', overflowY: 'auto', height: '58vh' }}>
+                                    <TextField
+                                        fullWidth
+                                        id="name"
+                                        label="Department Name"
+                                        variant="outlined"
+                                        size="medium"
+                                        value={departmentName}
+                                        InputProps={{
+                                            endAdornment: (
+                                                <IconButton onClick={createDepartmentName}>
+                                                    <AddCircleIcon />
+                                                </IconButton>
+                                            )
+                                        }}
+                                        InputLabelProps={{
+                                            shrink: true
+                                        }}
+                                        sx={{ marginBottom: 4, marginTop: 2 }}
+                                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                            setDepartmentName(event.target.value)
+                                        }
+                                    />
                                     <List>
                                         <Divider />
                                         {departmentNamesSelector.departmentNames &&
@@ -303,29 +324,6 @@ const Dashboard = () => {
                                             ))}
                                     </List>
                                 </CardContent>
-                                <CardActions sx={{ marginTop: 4 }}>
-                                    <TextField
-                                        fullWidth
-                                        id="name"
-                                        label="Department Name"
-                                        variant="outlined"
-                                        size="medium"
-                                        value={departmentName}
-                                        InputProps={{
-                                            endAdornment: (
-                                                <IconButton onClick={createDepartmentName}>
-                                                    <AddCircleIcon />
-                                                </IconButton>
-                                            )
-                                        }}
-                                        InputLabelProps={{
-                                            shrink: true
-                                        }}
-                                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                            setDepartmentName(event.target.value)
-                                        }
-                                    />
-                                </CardActions>
                             </Card>
                         </Grid>
                     </Grid>
