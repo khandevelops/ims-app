@@ -2,7 +2,7 @@ import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import Profile from '../Profile';
-import { selectProfileDetail } from '../../app/profileDetail/profileDetailSlice';
+import { selectProfileDetail } from '../../app/slice/profileDetail/profileDetailSlice';
 import { DEPARTMENT } from '../../common/constants';
 import { useAppSelector } from '../../app/hooks';
 
@@ -26,8 +26,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/extractions"
-                            state="extractions"
-                        >
+                            state="extractions">
                             extractions
                         </Button>
                     )}
@@ -39,8 +38,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/mass-spec"
-                            state="mass-spec"
-                        >
+                            state="mass-spec">
                             mass-spec
                         </Button>
                     )}
@@ -52,8 +50,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/specimen-processing"
-                            state="specimen-processing"
-                        >
+                            state="specimen-processing">
                             Specimen Processing
                         </Button>
                     )}
@@ -65,8 +62,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/rd"
-                            state="rd"
-                        >
+                            state="rd">
                             r&d
                         </Button>
                     )}
@@ -78,8 +74,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/screening"
-                            state="screening"
-                        >
+                            state="screening">
                             screening
                         </Button>
                     )}
@@ -91,8 +86,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/shipping"
-                            state="shipping"
-                        >
+                            state="shipping">
                             shipping
                         </Button>
                     )}
@@ -104,8 +98,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/qc-internal-standards"
-                            state="qc-internal-standards"
-                        >
+                            state="qc-internal-standards">
                             qc internal standards
                         </Button>
                     )}
@@ -117,8 +110,7 @@ const MenuDepartment = () => {
                             }}
                             component={Link}
                             to="/departments/quality"
-                            state="quality"
-                        >
+                            state="quality">
                             quality
                         </Button>
                     )}
@@ -129,8 +121,7 @@ const MenuDepartment = () => {
                         }}
                         component={Link}
                         to="/departments/general-request/list"
-                        state="general"
-                    >
+                        state="general">
                         general request
                     </Button>
                     <Button
@@ -140,8 +131,7 @@ const MenuDepartment = () => {
                         }}
                         component={Link}
                         to="/departments/office-supply-request/list"
-                        state="office-supply"
-                    >
+                        state="office-supply">
                         office supply request
                     </Button>
                     <Button
@@ -151,8 +141,7 @@ const MenuDepartment = () => {
                         }}
                         component={Link}
                         to="/departments/store-room-request/list"
-                        state="store-room"
-                    >
+                        state="store-room">
                         store room request
                     </Button>
                 </Box>

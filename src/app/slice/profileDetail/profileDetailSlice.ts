@@ -1,30 +1,31 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import axios from 'axios';
+import { RootState } from '../../store';
+import { IProfileDetail } from '../../api/properties/IProfileDetail';
+import { createProfileDetail, getProfileDetail, updateProfileDetail } from '../../api/profileDetail';
 
-export interface iProfileDetailState {
-    profileDetail: iProfileDetail | null;
+export interface ProfileDetailState {
+    profileDetail: IProfileDetail | null;
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: iProfileDetailState = {
+const initialState: ProfileDetailState = {
     profileDetail: null,
     status: 'idle'
 };
 
 export const getProfileDetailThunk = createAsyncThunk('getProfileDetailThunk', async (id: string) => {
-    const response = await fetchProfileDetail(id);
+    const response = await getProfileDetail(id);
     return response.data;
 });
 
-export const createProfileDetailThunk = createAsyncThunk('createUsersThunk', async (profileDetail: iProfileDetail) => {
+export const createProfileDetailThunk = createAsyncThunk('createUsersThunk', async (profileDetail: IProfileDetail) => {
     const response = await createProfileDetail(profileDetail);
     return response.data;
 });
 
 export const updateProfileDetailThunk = createAsyncThunk(
     'updateProfileDetailThunk',
-    async (params: { id: string; profileDetail: iProfileDetail }) => {
+    async (params: { id: string; profileDetail: IProfileDetail }) => {
         const response = await updateProfileDetail(params.id, params.profileDetail);
         return response.data;
     }

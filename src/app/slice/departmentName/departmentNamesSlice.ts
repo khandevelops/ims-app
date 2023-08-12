@@ -1,12 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../store';
+import { getDepartmentNames } from '../../api/departmentName';
+import { IDepartmentName } from '../../api/properties/IDepartmentName';
 
-export interface DepartmentNameState {
+export interface DepartmentNamesState {
     departmentNames: IDepartmentName[]
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: DepartmentNameState = {
+const initialState: DepartmentNamesState = {
     departmentNames: [],
     status: 'idle'
 };
@@ -19,7 +21,11 @@ export const getDepartmentNamesThunk = createAsyncThunk('getDepartmentNamesThunk
 export const departmentNamesSlice = createSlice({
     name: 'departmentNamesSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        changeDepartmentName: (state, action: PayloadAction<IDepartmentName[]>) => {
+            state.departmentNames = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getDepartmentNamesThunk.pending, (state) => {
@@ -35,6 +41,6 @@ export const departmentNamesSlice = createSlice({
     }
 });
 
-export const { } = departmentNamesSlice.actions;
+export const { changeDepartmentName } = departmentNamesSlice.actions;
 export const selectDepartmentNames = (state: RootState) => state.departmentNamesStore;
 export default departmentNamesSlice.reducer;

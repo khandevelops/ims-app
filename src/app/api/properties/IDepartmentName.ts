@@ -1,5 +1,5 @@
 export interface IDepartmentName {
-    id?: string;
+    id: number;
     name: string;
     mapping: string
 }

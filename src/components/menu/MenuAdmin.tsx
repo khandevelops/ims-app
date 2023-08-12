@@ -1,7 +1,8 @@
-import { AppBar, Box, Button, Toolbar } from '@mui/material';
+import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.png';
 import Profile from '../Profile';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const MenuAdmin = () => {
     const location = useLocation();
@@ -12,7 +13,7 @@ const MenuAdmin = () => {
                 <Box>
                     <img src={logo} alt={'USDTL IMS'} style={{ height: 40 }} />
                 </Box>
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box sx={{ display: 'flex', gap: 0.5 }}>
                     <Button
                         size="small"
                         sx={{
@@ -21,8 +22,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/admin/master"
-                        state="master"
-                    >
+                        state="master">
                         master
                     </Button>
                     <Button
@@ -33,8 +33,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/admin/store-room"
-                        state="store-room"
-                    >
+                        state="store-room">
                         store room
                     </Button>
                     <Button
@@ -45,8 +44,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/extractions"
-                        state="extractions"
-                    >
+                        state="extractions">
                         extractions
                     </Button>
                     <Button
@@ -57,8 +55,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="departments/mass-spec"
-                        state="mass-spec"
-                    >
+                        state="mass-spec">
                         mass spec
                     </Button>
                     <Button
@@ -69,8 +66,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/rd"
-                        state="rd"
-                    >
+                        state="rd">
                         r&d
                     </Button>
                     <Button
@@ -81,8 +77,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/screening"
-                        state="screening"
-                    >
+                        state="screening">
                         screening
                     </Button>
                     <Button
@@ -93,8 +88,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/shipping"
-                        state="shipping"
-                    >
+                        state="shipping">
                         shipping
                     </Button>
                     <Button
@@ -105,8 +99,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/specimen-processing"
-                        state="specimen-processing"
-                    >
+                        state="specimen-processing">
                         specimen processing
                     </Button>
                     <Button
@@ -117,8 +110,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/departments/qc-internal-standards"
-                        state="qc-internal-standards"
-                    >
+                        state="qc-internal-standards">
                         qc internal standards
                     </Button>
                     <Button
@@ -129,8 +121,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="departments/quality"
-                        state="quality"
-                    >
+                        state="quality">
                         quality
                     </Button>
                     <Button
@@ -141,8 +132,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/admin/request/general"
-                        state="general"
-                    >
+                        state="general">
                         general
                     </Button>
                     <Button
@@ -153,8 +143,7 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/admin/request/office-supply"
-                        state="office-supply"
-                    >
+                        state="office-supply">
                         office supply
                     </Button>
                     <Button
@@ -165,10 +154,26 @@ const MenuAdmin = () => {
                         }}
                         component={Link}
                         to="/admin/request/store-room"
-                        state="store-room"
-                    >
+                        state="store-room">
                         store room
                     </Button>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        color="secondary"
+                        sx={{
+                            color: location.pathname === '/admin/dashboard' ? 'yellow' : '#fff',
+                            fontWeight: '700',
+                            border: '1px solid yellow'
+                        }}
+                        component={Link}
+                        to="/admin/dashboard"
+                        state="store-room">
+                        dashboard
+                    </Button>
+                    {/* <IconButton>
+                        <DashboardIcon />
+                    </IconButton> */}
                 </Box>
                 <Box>
                     <Profile />

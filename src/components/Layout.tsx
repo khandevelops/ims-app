@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import MenuSub from './menu/MenuSub';
 import MenuAdmin from './menu/MenuAdmin';
 import MenuDepartment from './menu/MenuDepartment';
-import { selectProfileDetail } from '../app/profileDetail/profileDetailSlice';
+import { selectProfileDetail } from '../app/slice/profileDetail/profileDetailSlice';
 import { useAppSelector } from '../app/hooks';
 import { ROLE } from '../common/constants';
 import Drawer from './drawers/Drawers';

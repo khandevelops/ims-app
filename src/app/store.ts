@@ -21,10 +21,10 @@ import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsU
 import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice';
 import masterDepartmentItemsReducer from './slice/master/masterDepartmentItemsSlice';
 import masterItemUpdateReducer from './slice/master/masterItemUpdateSlice';
-import profileDetailsReducer from './profileDetail/profileDetailsSlice';
-import updateProfileDetailReducer from './profileDetail/updateProfileDetailSlice';
+import profileDetailsReducer from './slice/profileDetail/profileDetailsSlice';
+import updateProfileDetailReducer from './slice/profileDetail/updateProfileDetailSlice';
 import profilesReducer from './profilesSlice';
-import profileDetailReducer from './profileDetail/profileDetailSlice';
+import profileDetailReducer from './slice/profileDetail/profileDetailSlice';
 import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice';
 import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice';
 import departmentMasterItemsReducer from './slice/department/departmentMasterItemsSlice';
@@ -36,8 +36,8 @@ import totalAmountReducer from './slice/totalAmount';
 import masterItemsFilterReducer from './slice/master/masterItemsFilterSlice';
 import grandTotalReducer from './slice/grandTotalSlice';
 import masterItemDeleteReducer from './slice/master/masterItemDeleteSlice';
-import departmentNamesReducer from '../app/profileDetail/departmentNamesSlice'
-import departmentNameCreateReducer from '../app/profileDetail/departmentNameCreateSlice'
+import departmentNamesReducer from './slice/departmentName/departmentNamesSlice'
+import departmentNameCreateReducer from './slice/departmentName/departmentNameActionSlice'
 
 export const store = configureStore({
     reducer: {

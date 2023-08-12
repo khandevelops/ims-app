@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { getProfile, iProfile, selectProfile } from '../app/profileSlice';
 import { Avatar } from '@mui/material';
-import { getProfileDetailThunk } from '../app/profileDetail/profileDetailSlice';
+import { getProfileDetailThunk } from '../app/slice/profileDetail/profileDetailSlice';
 import { Navigate } from 'react-router-dom';
 
 const Profile = () => {

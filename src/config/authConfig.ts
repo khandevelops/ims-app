@@ -17,10 +17,6 @@ export const loginRequest = {
 };
 
 // Add the endpoints here for Microsoft Graph API services you'd like to use.
-export const meGraphConfig = {
+export const currentUserConfig = {
     graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me'
-};
-
-export const profilesGraphConfig = {
-    graphMeEndpoint: 'https://graph.microsoft.com/v1.0/users?$top=999'
 };

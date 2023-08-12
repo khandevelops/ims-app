@@ -1,26 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import axios from 'axios';
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const createDepartmentName = (params: { name: string, mapping: string }) => {
-    return axios.post(`${baseUrl}/profile-details/department-names/create`, params);
-};
-
-export const updateDepartmentName = (params: { id: number, departmentName: { name: string, mapping: string } }) => {
-    return axios.patch(`${baseUrl}/profile-details/department-names/${params.id}/update`, params.departmentName);
-};
-
-export const deleteDepartmentName = (id: number) => {
-    return axios.patch(`${baseUrl}/profile-details/department-names/${id}/delete`);
-};
-
-export interface IDepartmentName {
-    id?: number;
-    name: string;
-    mapping: string
-}
+import { RootState } from '../../store';
+import { createDepartmentName, deleteDepartmentName, updateDepartmentName } from '../../api/departmentName';
+import { IDepartmentName } from '../../api/properties/IDepartmentName';
 
 export interface DepartmentNameCreateState {
     departmentName: IDepartmentName | null,
@@ -37,7 +18,7 @@ export const departmentNameCreateThunk = createAsyncThunk('departmentNameCreateT
     return response.data;
 });
 
-export const departmentNameUpdateThunk = createAsyncThunk('departmentNameUpdateThunk', async (params: { id: number, departmentName: { name: string, mapping: string } }) => {
+export const departmentNameUpdateThunk = createAsyncThunk('departmentNameUpdateThunk', async (params: { id: number, name: string, mapping: string }) => {
     const response = await updateDepartmentName(params);
     return response.data;
 });
