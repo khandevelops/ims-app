@@ -22,13 +22,13 @@ import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { STATUS } from '../common/constants';
-import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
+import { updateRequestMasterItemThunk } from '../app/slice/request/requestMasterItemUpdateSlice';
 import {
     changeRequestMasterItems,
     getRequestMasterItemsThunk,
-    IRequestMasterItem,
     selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItemsSlice';
+} from '../app/slice/request/requestMasterItemsSlice';
+import { IRequestMaster } from '../app/api/properties/IRequest';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -68,32 +68,33 @@ const RequestMasterAdmin = () => {
         setPage(page);
     };
 
-    const handleStatusChange = (event: SelectChangeEvent, request_item_id: number) => {
+    const handleStatusChange = (event: SelectChangeEvent, id: number) => {
         dispatch(
             changeRequestMasterItems(
                 requestMasterItemsSelector.response.content.map((item) => ({
                     ...item,
-                    status: item.request_item_id === request_item_id ? event.target.value : item.status
+                    status: item.id === id ? event.target.value : item.status
                 }))
             )
         );
     };
 
-    const handleDetailChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
+    const handleDetailChange = (event: ChangeEvent<HTMLInputElement>, id: number) => {
         dispatch(
             changeRequestMasterItems(
                 requestMasterItemsSelector.response.content.map((item) => ({
                     ...item,
-                    detail: item.request_item_id === request_item_id ? event.target.value : item.detail
+                    detail: item.id === id ? event.target.value : item.detail
                 }))
             )
         );
     };
 
-    const handleEnterKey = (event: KeyboardEvent, requestMasterItem: IRequestMasterItem) => {
+    const handleEnterKey = (event: KeyboardEvent, requestMasterItem: IRequestMaster) => {
         dispatch(
             updateRequestMasterItemThunk({
                 state: location.state,
+                id: requestMasterItem.id,
                 requestMasterItem: requestMasterItem
             })
         );
@@ -133,7 +134,7 @@ const RequestMasterAdmin = () => {
                                                 id={requestMasterItem.item}
                                                 value={requestMasterItem.status}
                                                 onChange={(event: SelectChangeEvent) =>
-                                                    handleStatusChange(event, requestMasterItem.request_item_id)
+                                                    handleStatusChange(event, requestMasterItem.id)
                                                 }>
                                                 {Object.values(STATUS).map((status, index) => (
                                                     <MenuItem key={index} value={status}>
@@ -144,20 +145,20 @@ const RequestMasterAdmin = () => {
                                         </FormControl>
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {moment(requestMasterItem.time_requested).format('MM/DD/YYYY')}
+                                        {moment(requestMasterItem.timeRequested).format('MM/DD/YYYY')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {moment(requestMasterItem.time_updated).format('MM/DD/YYYY')}
+                                        {moment(requestMasterItem.timeUpdated).format('MM/DD/YYYY')}
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.department}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.custom_text}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.customText}</StyledTableCell>
                                     <StyledTableCell>
                                         <TextField
                                             size="small"
                                             variant="outlined"
                                             value={requestMasterItem.detail}
                                             onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                handleDetailChange(event, requestMasterItem.request_item_id)
+                                                handleDetailChange(event, requestMasterItem.id)
                                             }
                                             onKeyDown={(event: KeyboardEvent) =>
                                                 handleEnterKey(event, requestMasterItem)

@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, useRef, KeyboardEvent, useState, FocusEventHandler, FocusEvent } from 'react';
+import { ChangeEvent, Fragment, useRef, KeyboardEvent, useState } from 'react';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -436,7 +436,7 @@ const Row = ({
                         aria-label="expand-row"
                         sx={{ fontSize: 8 }}
                         onClick={() => handleExpandRow(masterDepartmentItem)}>
-                        {masterDepartmentItemsSelector.response.content.every((masterDepartmentItem) =>
+                        {masterDepartmentItemsSelector.response.content.every((masterDepartmentItem, index) =>
                             open.includes(masterDepartmentItem.id)
                         ) ? (
                             <KeyboardArrowUpIcon fontSize="medium" />
@@ -503,8 +503,8 @@ const Row = ({
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {masterDepartmentItem.departmentItems.map((departmentItem, index) => (
-                                            <TableRow key={index} hover>
+                                        {masterDepartmentItem.departmentItems.map((departmentItem) => (
+                                            <TableRow key={departmentItem.location} hover>
                                                 <StyledSubTableCell>
                                                     <TextField
                                                         className={'location' + departmentItem.id.toString()}
@@ -882,12 +882,9 @@ const DepartmentsMaster = () => {
                                 </IconButton>
                             </StyledTableCell>
                             {columns.length > 0 &&
-                                columns.map((column) => (
-                                    <Fragment>
-                                        <StyledTableCell
-                                            key={column.field}
-                                            align={column.align}
-                                            onClick={() => handleSort(column.field)}>
+                                columns.map((column, index) => (
+                                    <Fragment key={index}>
+                                        <StyledTableCell align={column.align} onClick={() => handleSort(column.field)}>
                                             <Box sx={{ display: 'flex', gap: 2 }}>
                                                 {column.tooltipName}
                                                 {sort.column === column.field && <SortIcon />}

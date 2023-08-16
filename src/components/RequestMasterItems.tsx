@@ -2,9 +2,7 @@ import {
     Box,
     Checkbox,
     Drawer,
-    Fab,
     Paper,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -12,26 +10,21 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Zoom,
     styled,
     tableCellClasses
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import {
-    IRequestMasterItem,
-    getRequestMasterItemsThunk,
-    selectRequestMasterItems
-} from '../app/requestMaster/requestMasterItemsSlice';
-import {
-    changeRequestItemsChecked,
-    selectRequestMasterItemsChecked
-} from '../app/requestMaster/requestMasterItemsCheckedSlice';
 import { selectDrawerToggleType } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import RequestItemReviewForm from './forms/RequestItemReviewForm';
+import { getRequestMasterItemsThunk, selectRequestMasterItems } from '../app/slice/request/requestMasterItemsSlice';
+import {
+    changeRequestMasterItemsChecked,
+    selectRequestMasterItemsChecked
+} from '../app/slice/request/requestMasterItemsCheckedSlice';
+import { IRequestMaster } from '../app/api/properties/IRequest';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -69,22 +62,22 @@ const RequestMasterDepartmentItems = () => {
         setPage(page);
     };
 
-    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMaster) => {
         const exists = requestMasterItemsCheckedSelector.requestMasterItemsChecked.some(
-            (item) => item.request_item_id === departmentMasterItem.request_item_id
+            (item) => item.id === departmentMasterItem.id
         );
         if (exists) {
             dispatch(
-                changeRequestItemsChecked(
+                changeRequestMasterItemsChecked(
                     requestMasterItemsCheckedSelector.requestMasterItemsChecked.filter(
-                        (item) => item.request_item_id !== departmentMasterItem.request_item_id
+                        (item) => item.id !== departmentMasterItem.id
                     )
                 )
             );
         }
         if (!exists) {
             dispatch(
-                changeRequestItemsChecked([
+                changeRequestMasterItemsChecked([
                     ...requestMasterItemsCheckedSelector.requestMasterItemsChecked,
                     departmentMasterItem
                 ])
@@ -115,15 +108,15 @@ const RequestMasterDepartmentItems = () => {
                                             }
                                             checked={
                                                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.find(
-                                                    (item) => item.request_item_id === requestMasterItem.request_item_id
+                                                    (item) => item.id === requestMasterItem.id
                                                 ) !== undefined
                                             }
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.item}</StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.recentCN}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.purchaseUnit}</StyledTableCell>
-                                    <StyledTableCell>{requestMasterItem.part_number}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.masterItem.purchaseUnit}</StyledTableCell>
+                                    <StyledTableCell>{requestMasterItem.masterItem.partNumber}</StyledTableCell>
                                     <StyledTableCell>{requestMasterItem.detail}</StyledTableCell>
                                 </TableRow>
                             ))}

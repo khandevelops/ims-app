@@ -45,6 +45,6 @@ export const storeRoomUpdateSlice = createSlice({
 });
 
 export const { changeStoreRoomItem } = storeRoomUpdateSlice.actions;
-export const selectStoreRoomUpdate = (state: RootState) => state.storeRooomUpdateStore;
+export const selectStoreRoomUpdate = (state: RootState) => state.storeRoomUpdateStore;
 
 export default storeRoomUpdateSlice.reducer;

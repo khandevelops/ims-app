@@ -14,11 +14,11 @@ import { ChangeEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
-import { createRequestMasterItemsThunk } from '../../app/requestMaster/requestMasterItemsCreateSlice';
+import { createRequestMasterItemsThunk } from '../../app/slice/request/requestMasterItemsCreateSlice';
 import {
-    changeRequestItemsChecked,
+    changeRequestMasterItemsChecked,
     selectRequestMasterItemsChecked
-} from '../../app/requestMaster/requestMasterItemsCheckedSlice';
+} from '../../app/slice/request/requestMasterItemsCheckedSlice';
 import { CONFIRMATION } from '../../common/constants';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
@@ -38,21 +38,21 @@ const RequestItemReviewForm = () => {
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItemsChecked(
+            changeRequestMasterItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
-                    custom_text: item.request_item_id === request_item_id ? event.target.value : item.custom_text
+                    custom_text: item.id === request_item_id ? event.target.value : item.customText
                 }))
             )
         );
     };
 
-    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
+    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, id: number) => {
         dispatch(
-            changeRequestItemsChecked(
+            changeRequestMasterItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
-                    quantity: item.request_item_id === request_item_id ? parseInt(event.target.value) : item.quantity
+                    quantity: item.id === id ? parseInt(event.target.value) : item.quantity
                 }))
             )
         );
@@ -63,15 +63,16 @@ const RequestItemReviewForm = () => {
             createRequestMasterItemsThunk({
                 state: location.state,
                 requestMasterItems: requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
+                    ...item,
                     quantity: item.quantity,
                     department: 'EXTRACTIONS',
                     user: 'Batsaikhan Ulambayar',
                     detail: 'detail',
                     confirmation: CONFIRMATION.WAITING,
-                    custom_text: 'custom text',
+                    customText: 'custom text',
                     location: 'store room',
-                    request_item_id: item.request_item_id,
-                    master_item_id: item.master_item_id,
+                    id: item.id,
+                    itemId: item.masterItem.id,
                     item: item.item
                 }))
             })
@@ -107,10 +108,7 @@ const RequestItemReviewForm = () => {
                                                 size="small"
                                                 value={requestMasterCheckedItem.quantity}
                                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                    handleQuantityChange(
-                                                        event,
-                                                        requestMasterCheckedItem.request_item_id
-                                                    )
+                                                    handleQuantityChange(event, requestMasterCheckedItem.id)
                                                 }
                                             />
                                         </TableCell>
@@ -119,12 +117,9 @@ const RequestItemReviewForm = () => {
                                                 ref={inputRef}
                                                 sx={{ minWidth: 300 }}
                                                 size="small"
-                                                value={requestMasterCheckedItem.custom_text}
+                                                value={requestMasterCheckedItem.customText}
                                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                    handleCustomTextChange(
-                                                        event,
-                                                        requestMasterCheckedItem.request_item_id
-                                                    )
+                                                    handleCustomTextChange(event, requestMasterCheckedItem.id)
                                                 }
                                             />
                                         </TableCell>
@@ -138,8 +133,7 @@ const RequestItemReviewForm = () => {
                 direction="row"
                 justifyContent="space-around"
                 alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}
-            >
+                sx={{ padding: 2, height: '100%' }}>
                 <Button onClick={handleSubmit}>SUBMIT </Button>
                 <Button onClick={handleClose}>CLOSE </Button>
             </Stack>

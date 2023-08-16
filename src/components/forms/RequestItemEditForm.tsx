@@ -15,9 +15,9 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
 import { useLocation } from 'react-router-dom';
 import {
-    changeRequestItemsChecked,
+    changeRequestMasterItemsChecked,
     selectRequestMasterItemsChecked
-} from '../../app/requestMaster/requestMasterItemsCheckedSlice';
+} from '../../app/slice/request/requestMasterItemsCheckedSlice';
 
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
@@ -36,21 +36,21 @@ const RequestItemEditForm = () => {
     };
     const handleCustomTextChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
         dispatch(
-            changeRequestItemsChecked(
+            changeRequestMasterItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
-                    custom_text: item.request_item_id === request_item_id ? event.target.value : item.custom_text
+                    custom_text: item.id === request_item_id ? event.target.value : item.customText
                 }))
             )
         );
     };
 
-    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, request_item_id: number) => {
+    const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>, id: number) => {
         dispatch(
-            changeRequestItemsChecked(
+            changeRequestMasterItemsChecked(
                 requestMasterItemsCheckedSelector.requestMasterItemsChecked.map((item) => ({
                     ...item,
-                    quantity: item.request_item_id === request_item_id ? parseInt(event.target.value) : item.quantity
+                    quantity: item.id === id ? parseInt(event.target.value) : item.quantity
                 }))
             )
         );
@@ -105,10 +105,7 @@ const RequestItemEditForm = () => {
                                                 size="small"
                                                 value={requestMasterCheckedItem.quantity}
                                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                    handleQuantityChange(
-                                                        event,
-                                                        requestMasterCheckedItem.request_item_id
-                                                    )
+                                                    handleQuantityChange(event, requestMasterCheckedItem.id)
                                                 }
                                             />
                                         </TableCell>
@@ -117,12 +114,9 @@ const RequestItemEditForm = () => {
                                                 ref={inputRef}
                                                 sx={{ minWidth: 300 }}
                                                 size="small"
-                                                value={requestMasterCheckedItem.custom_text}
+                                                value={requestMasterCheckedItem.customText}
                                                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                    handleCustomTextChange(
-                                                        event,
-                                                        requestMasterCheckedItem.request_item_id
-                                                    )
+                                                    handleCustomTextChange(event, requestMasterCheckedItem.id)
                                                 }
                                             />
                                         </TableCell>
@@ -136,8 +130,7 @@ const RequestItemEditForm = () => {
                 direction="row"
                 justifyContent="space-around"
                 alignItems="stretch"
-                sx={{ padding: 2, height: '100%' }}
-            >
+                sx={{ padding: 2, height: '100%' }}>
                 <Button onClick={handleSubmit}>SUBMIT </Button>
                 <Button onClick={handleClose}>CLOSE </Button>
             </Stack>

@@ -1,7 +1,6 @@
 import {
     Box,
     Checkbox,
-    Drawer,
     Paper,
     Table,
     TableBody,
@@ -17,20 +16,17 @@ import {
 import { ChangeEvent, useEffect, useState, KeyboardEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useLocation } from 'react-router-dom';
-import { IRequestMasterItem } from '../app/requestMaster/requestMasterItemsSlice';
-import { selectDrawerToggleType } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
-import { DRAWER_TOGGLE_TYPE } from '../common/constants';
-import RequestItemEditForm from './forms/RequestItemEditForm';
 import {
     changeRequestMasterItemsPending,
     getRequestMasterItemsPendingThunk,
     selectRequestMasterItemsPending
-} from '../app/requestMaster/requestMasterItemsPendingSlice';
+} from '../app/slice/request/requestMasterItemsPendingSlice';
 import {
     changeRequestItemsPendingChecked,
     selectRequestMasterItemsPendingChecked
-} from '../app/requestMaster/requestMasterItemsPendingCheckedSlice';
-import { updateRequestMasterItemThunk } from '../app/requestMaster/requestMasterItemUpdateSlice';
+} from '../app/slice/request/requestMasterItemsPendingCheckedSlice';
+import { updateRequestMasterItemThunk } from '../app/slice/request/requestMasterItemUpdateSlice';
+import { IRequestMaster } from '../app/api/properties/IRequest';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,7 +51,6 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
 const RequestMasterDepartmentPending = () => {
     const requestMasterItemsPendingSelector = useAppSelector(selectRequestMasterItemsPending);
     const requestMasterItemsPendingCheckedSelector = useAppSelector(selectRequestMasterItemsPendingChecked);
-    const { type } = useAppSelector(selectDrawerToggleType);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
 
@@ -74,15 +69,15 @@ const RequestMasterDepartmentPending = () => {
         setPage(page);
     };
 
-    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMasterItem) => {
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, departmentMasterItem: IRequestMaster) => {
         const exists = requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.some(
-            (item) => item.request_item_id === departmentMasterItem.request_item_id
+            (item) => item.id === departmentMasterItem.id
         );
         if (exists) {
             dispatch(
                 changeRequestItemsPendingChecked(
                     requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.filter(
-                        (item) => item.request_item_id !== departmentMasterItem.request_item_id
+                        (item) => item.id !== departmentMasterItem.id
                     )
                 )
             );
@@ -104,7 +99,7 @@ const RequestMasterDepartmentPending = () => {
                 content: requestMasterItemsPendingSelector.response.content.map((requestMasterItemPending) => ({
                     ...requestMasterItemPending,
                     quantity:
-                        requestMasterItemPending.request_item_id === id
+                        requestMasterItemPending.id === id
                             ? parseInt(event.target.value)
                             : requestMasterItemPending.quantity
                 }))
@@ -112,11 +107,12 @@ const RequestMasterDepartmentPending = () => {
         );
     };
 
-    const handleUpdateQuantity = (event: KeyboardEvent, requestMasterItem: IRequestMasterItem) => {
+    const handleUpdateQuantity = (event: KeyboardEvent, requestMasterItem: IRequestMaster) => {
         if (event.key === 'Enter') {
             dispatch(
                 updateRequestMasterItemThunk({
                     state: location.state,
+                    id: requestMasterItem.id,
                     requestMasterItem: requestMasterItem
                 })
             );
@@ -130,19 +126,20 @@ const RequestMasterDepartmentPending = () => {
                 content: requestMasterItemsPendingSelector.response.content.map((requestMasterItemPending) => ({
                     ...requestMasterItemPending,
                     custom_text:
-                        requestMasterItemPending.request_item_id === id
+                        requestMasterItemPending.id === id
                             ? parseInt(event.target.value)
-                            : requestMasterItemPending.custom_text
+                            : requestMasterItemPending.customText
                 }))
             })
         );
     };
 
-    const handleUpdateCustomText = (event: KeyboardEvent, requestMasterItem: IRequestMasterItem) => {
+    const handleUpdateCustomText = (event: KeyboardEvent, requestMasterItem: IRequestMaster) => {
         if (event.key === 'Enter') {
             dispatch(
                 updateRequestMasterItemThunk({
                     state: location.state,
+                    id: requestMasterItem.id,
                     requestMasterItem: requestMasterItem
                 })
             );
@@ -172,7 +169,7 @@ const RequestMasterDepartmentPending = () => {
                                             }
                                             checked={
                                                 requestMasterItemsPendingCheckedSelector.requestMasterItemsPendingChecked.find(
-                                                    (item) => item.request_item_id === requestMasterItem.request_item_id
+                                                    (item) => item.id === requestMasterItem.id
                                                 ) !== undefined
                                             }
                                         />
@@ -187,13 +184,13 @@ const RequestMasterDepartmentPending = () => {
                                             InputProps={{
                                                 inputProps: { min: 0 }
                                             }}
-                                            id={requestMasterItem.request_item_id.toString()}
+                                            id={requestMasterItem.id.toString()}
                                             value={requestMasterItem.quantity}
                                             onKeyDown={(event: React.KeyboardEvent) =>
                                                 handleUpdateQuantity(event, requestMasterItem)
                                             }
                                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                                handleChangeQuantity(event, requestMasterItem.request_item_id)
+                                                handleChangeQuantity(event, requestMasterItem.id)
                                             }
                                         />
                                     </StyledTableCell>
@@ -202,13 +199,13 @@ const RequestMasterDepartmentPending = () => {
                                             variant="standard"
                                             sx={{ width: 150 }}
                                             size="small"
-                                            id={requestMasterItem.request_item_id.toString()}
-                                            value={requestMasterItem.custom_text}
+                                            id={requestMasterItem.id.toString()}
+                                            value={requestMasterItem.customText}
                                             onKeyDown={(event: React.KeyboardEvent) =>
                                                 handleUpdateCustomText(event, requestMasterItem)
                                             }
                                             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                                handleChangeCustomText(event, requestMasterItem.request_item_id)
+                                                handleChangeCustomText(event, requestMasterItem.id)
                                             }
                                         />
                                     </StyledTableCell>

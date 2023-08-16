@@ -1,28 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { RootState } from '../store';
-import { IRequestMasterItem } from './requestMasterItemsSlice';
+import { RootState } from '../../store';
+import { IRequestMaster } from '../../api/properties/IRequest';
+import { createRequestMasterItems } from '../../api/request';
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const createRequestMasterItems = (state: string, requestMasterItems: IRequestMasterItem[]) => {
-    return axios.post(`${baseUrl}/request-master/${state}/create`, requestMasterItems);
-};
-
-export interface IRequestMasterItemsCreateState {
-    response: IRequestMasterItem[];
+export interface RequestMasterItemsCreateState {
+    response: IRequestMaster[];
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
-const initialState: IRequestMasterItemsCreateState = {
+const initialState: RequestMasterItemsCreateState = {
     response: [],
     status: 'idle'
 };
 
 export const createRequestMasterItemsThunk = createAsyncThunk(
-    'createRequestItemsThunk',
-    async (params: { state: string; requestMasterItems: IRequestMasterItem[] }) => {
-        const response = await createRequestMasterItems(params.state, params.requestMasterItems);
+    'createRequestMasterItemsThunk',
+    async (params: { state: string; requestMasterItems: IRequestMaster[] }) => {
+        const response = await createRequestMasterItems(params);
         return response.data;
     }
 );

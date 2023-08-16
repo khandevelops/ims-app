@@ -52,5 +52,5 @@ export const storeRoomMasterItemsSlice = createSlice({
 });
 
 export const { changeStoreRoomMasterItems } = storeRoomMasterItemsSlice.actions;
-export const selectStoreRoomMasterItems = (state: RootState) => state.storeRooomMasterItemsStore;
+export const selectStoreRoomMasterItems = (state: RootState) => state.storeRoomMasterItemsStore;
 export default storeRoomMasterItemsSlice.reducer;

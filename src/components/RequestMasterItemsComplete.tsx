@@ -1,6 +1,5 @@
 import {
     Box,
-    Checkbox,
     Paper,
     Table,
     TableBody,
@@ -19,7 +18,7 @@ import { useLocation } from 'react-router-dom';
 import {
     getRequestMasterItemsCompleteThunk,
     selectRequestMasterItemsComplete
-} from '../app/requestMaster/requestMasterItemsCompleteSlice';
+} from '../app/slice/request/requestMasterItemsCompleteSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -83,10 +82,10 @@ const RequestMasterDepartmentComplete = () => {
                                     <StyledTableCell>{requestItem.quantity}</StyledTableCell>
                                     <StyledTableCell>{requestItem.status}</StyledTableCell>
                                     <StyledTableCell>
-                                        {moment(requestItem.time_requested).format('MM/DD/YYYY')}
+                                        {moment(requestItem.timeRequested).format('MM/DD/YYYY')}
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        {moment(requestItem.time_updated).format('MM/DD/YYYY')}
+                                        {moment(requestItem.timeUpdated).format('MM/DD/YYYY')}
                                     </StyledTableCell>
                                     <StyledTableCell>{requestItem.detail}</StyledTableCell>
                                 </TableRow>

@@ -1,20 +1,17 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react';
 import Dashboard from './pages/Dashboard';
-import { useAppSelector } from './app/hooks';
 import Departments from './pages/DepartmentsMaster';
 import Master from './pages/Master';
 import StoreRoomMaster from './pages/StoreRoomMaster';
-import RequestMasterDepartment from './pages/RequestMasterDepartment';
-import RequestMasterAdmin from './pages/RequestMasterAdmin';
+import RequestMasterDepartment from './pages/RequestMaster';
+import RequestMasterAdmin from './pages/RequestMasterDashboard';
 import Layout from './components/Layout';
 import { Box } from '@mui/material';
 import Auth from './pages/Auth';
-import RequestMasterDepartmentItems from './components/RequestMasterDepartmentItems';
-import RequestMasterDepartmentComplete from './components/RequestMasterDepartmentComplete';
-import RequestMasterDepartmentPending from './components/RequestMasterDepartmentPending';
-import { DRAWER_TOGGLE_TYPE } from './common/constants';
-import { selectDrawerToggleType } from './app/slice/drawerToggle/drawerToggleTypeSlice';
+import RequestMasterDepartmentItems from './components/RequestMasterItems';
+import RequestMasterDepartmentComplete from './components/RequestMasterItemsComplete';
+import RequestMasterDepartmentPending from './components/RequestMasterItemsPending';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -61,7 +58,6 @@ const router = createBrowserRouter(
 );
 
 const App = () => {
-    const { type } = useAppSelector(selectDrawerToggleType);
     return (
         <Box>
             <UnauthenticatedTemplate>

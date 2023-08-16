@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import { IRequestMasterItem } from './requestMasterItemsSlice';
+import { RootState } from '../../store';
+import { IRequestMaster } from '../../api/properties/IRequest';
 
-export interface IRequestMasterItemsPendingCheckedState {
-    requestMasterItemsPendingChecked: IRequestMasterItem[];
+export interface RequestMasterItemsPendingCheckedState {
+    requestMasterItemsPendingChecked: IRequestMaster[];
 }
 
-const initialState: IRequestMasterItemsPendingCheckedState = {
+const initialState: RequestMasterItemsPendingCheckedState = {
     requestMasterItemsPendingChecked: []
 };
 

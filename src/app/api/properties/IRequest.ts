@@ -1,6 +1,7 @@
 import { IMaster } from "./IMaster";
 
 export interface IRequest {
+    id: number;
     item: string;
     recentCN: number;
     department: string;
@@ -10,9 +11,11 @@ export interface IRequest {
     timeUpdated: Date;
     comment: string;
     customText: string;
+    detail: string;
 }
 
 export interface IRequestMaster {
+    id: number;
     item: string;
     recentCN: number;
     department: string;
@@ -22,5 +25,6 @@ export interface IRequestMaster {
     timeUpdated: Date;
     comment: string;
     customText: string;
+    detail: string;
     masterItem: IMaster
 }

@@ -3,29 +3,28 @@ import masterReducer from './slice/master/masterItemsSlice';
 import pageReducer from './common/pageSlice';
 import masterDepartmentItemReducer from './slice/master/masterDepartmentItemSlice';
 import departmentItemsReducer from './departments/departmentItemsSlice';
-import requestMasterItemsReducer from './requestMaster/requestMasterItemsSlice';
 import requestTabReducer from './common/requestTabSlice';
 import profileReducer from './profileSlice';
 import searchReducer from './search';
-import storeRooomMasterItemsReducer from './slice/storeRoom/storeRoomMasterItemsSlice';
-import storeRooomUpdateReducer from './slice/storeRoom/storeRoomUpdateSlice';
-import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice';
-import requestMasterItemsAdminReducer from './slice/request/requestMasterItemsSlice';
+import storeRoomMasterItemsReducer from './slice/storeRoom/storeRoomMasterItemsSlice';
+import storeRoomUpdateReducer from './slice/storeRoom/storeRoomUpdateSlice';
+import requestItemsUpdateReducer from './slice/request/requestMasterItemsUpdateSlice';
+import requestMasterItemsReducer from './slice/request/requestMasterItemsSlice';
 import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems';
-import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsCheckedSlice';
+import requestMasterItemsCheckedReducer from './slice/request/requestMasterItemsCheckedSlice';
 import drawerToggleTypeReducer from './slice/drawerToggle/drawerToggleTypeSlice';
-import requestMasterItemsCreateReducer from './requestMaster/requestMasterItemsCreateSlice';
-import requestMasterItemsCompleteReducer from './requestMaster/requestMasterItemsCompleteSlice';
-import requestMasterItemsPendingReducer from './requestMaster/requestMasterItemsPendingSlice';
-import requestMasterItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice';
-import requestMasterItemUpdateReducer from './requestMaster/requestMasterItemUpdateSlice';
+import requestMasterItemsCreateReducer from './slice/request/requestMasterItemsCreateSlice';
+import requestMasterItemsCompleteReducer from './slice/request/requestMasterItemsCompleteSlice';
+import requestMasterItemsPendingReducer from './slice/request/requestMasterItemsPendingSlice';
+import requestMasterItemsUpdateReducer from './slice/request/requestMasterItemsUpdateSlice';
+import requestMasterItemUpdateReducer from './slice/request/requestMasterItemUpdateSlice';
 import masterDepartmentItemsReducer from './slice/master/masterDepartmentItemsSlice';
 import masterItemUpdateReducer from './slice/master/masterItemUpdateSlice';
 import profileDetailsReducer from './slice/profileDetail/profileDetailsSlice';
 import updateProfileDetailReducer from './slice/profileDetail/updateProfileDetailSlice';
 import profilesReducer from './profilesSlice';
 import profileDetailReducer from './slice/profileDetail/profileDetailSlice';
-import requestMasterItemsPendingCheckedReducer from './requestMaster/requestMasterItemsPendingCheckedSlice';
+import requestMasterItemsPendingCheckedReducer from './slice/request/requestMasterItemsPendingCheckedSlice';
 import downloadDepartmentMasterItemsReducer from './download/downloadDepartmentMasterItemsSlice';
 import departmentMasterItemsReducer from './slice/department/departmentMasterItemsSlice';
 import departmentItemUpdateReducer from './slice/department/departmentItemUpdateSlice';
@@ -51,10 +50,9 @@ export const store = configureStore({
         requestTabStore: requestTabReducer,
         profileStore: profileReducer,
         searchStore: searchReducer,
-        storeRooomMasterItemsStore: storeRooomMasterItemsReducer,
-        storeRooomUpdateStore: storeRooomUpdateReducer,
+        storeRoomMasterItemsStore: storeRoomMasterItemsReducer,
+        storeRoomUpdateStore: storeRoomUpdateReducer,
         requestItemsUpdateStore: requestItemsUpdateReducer,
-        requestMasterItemsAdminStore: requestMasterItemsAdminReducer,
         bottomToolbarItemsStore: bottomToolbarItemsReducer,
         requestMasterItemsCheckedStore: requestMasterItemsCheckedReducer,
         drawerToggleTypeStore: drawerToggleTypeReducer,
@@ -79,7 +77,7 @@ export const store = configureStore({
         grandTotalStore: grandTotalReducer,
         masterItemDeleteStore: masterItemDeleteReducer,
         departmentNamesStore: departmentNamesReducer,
-        departmentNameCreateStore: departmentNameCreateReducer
+        departmentNameCreateStore: departmentNameCreateReducer,
     }
 });
 

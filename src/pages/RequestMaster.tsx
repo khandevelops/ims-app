@@ -3,9 +3,9 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { changeTab } from '../app/common/requestTabSlice';
 import { useAppDispatch } from '../app/hooks';
-import RequestMasterDepartmentPending from '../components/RequestMasterDepartmentPending';
-import RequestMasterDepartmentComplete from '../components/RequestMasterDepartmentComplete';
-import RequestMasterDepartmentItems from '../components/RequestMasterDepartmentItems';
+import RequestMasterDepartmentPending from '../components/RequestMasterItemsPending';
+import RequestMasterDepartmentComplete from '../components/RequestMasterItemsComplete';
+import RequestMasterDepartmentItems from '../components/RequestMasterItems';
 import Filter1Icon from '@mui/icons-material/Filter1';
 import Filter2Icon from '@mui/icons-material/Filter2';
 import Filter3Icon from '@mui/icons-material/Filter3';
@@ -27,8 +27,7 @@ function TabPanel(props: TabPanelProps) {
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
+            {...other}>
             {value === 0 && <RequestMasterDepartmentItems />}
             {value === 1 && <RequestMasterDepartmentPending />}
             {value === 2 && <RequestMasterDepartmentComplete />}
@@ -79,8 +78,7 @@ const RequestMasterDepartment = () => {
                         onClick={handleStep(0)}
                         component={Link}
                         to={`/departments/${location.state}-request/list`}
-                        state={location.state}
-                    >
+                        state={location.state}>
                         List
                     </StepButton>
                 </Step>
@@ -92,8 +90,7 @@ const RequestMasterDepartment = () => {
                         onClick={handleStep(1)}
                         component={Link}
                         to={`/departments/${location.state}-request/confirmation`}
-                        state={location.state}
-                    >
+                        state={location.state}>
                         Confirmation
                     </StepButton>
                 </Step>
@@ -105,8 +102,7 @@ const RequestMasterDepartment = () => {
                         onClick={handleStep(2)}
                         component={Link}
                         to={`/departments/${location.state}-request/status`}
-                        state={location.state}
-                    >
+                        state={location.state}>
                         Status
                     </StepButton>
                 </Step>

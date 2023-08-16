@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { DRAWER_TOGGLE_TYPE } from '../../common/constants';
 import { toggleDrawer } from '../../app/slice/drawerToggle/drawerToggleTypeSlice';
-import { selectRequestMasterItemsChecked } from '../../app/requestMaster/requestMasterItemsCheckedSlice';
+import { selectRequestMasterItemsChecked } from '../../app/slice/request/requestMasterItemsCheckedSlice';
 import { useLocation } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
 import PreviewIcon from '@mui/icons-material/Preview';
-import { selectRequestMasterItemsPendingChecked } from '../../app/requestMaster/requestMasterItemsPendingCheckedSlice';
+import { selectRequestMasterItemsPendingChecked } from '../../app/slice/request/requestMasterItemsPendingCheckedSlice';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import FileSaver from 'file-saver';
@@ -55,8 +55,7 @@ const NavbarBottom = () => {
                 value={value}
                 onChange={(event, newValue) => {
                     setValue(newValue);
-                }}
-            >
+                }}>
                 <Box sx={{ width: 10 }}>
                     {(location.pathname === '/departments/extractions' ||
                         location.pathname === '/departments/mass-spec' ||
