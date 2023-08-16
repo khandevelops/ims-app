@@ -1,31 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { RootState } from '../store';
-
-const baseUrl = process.env.REACT_APP_BASE_URL;
-
-export const getRequestMasterItems = (pathName: string, page: number) => {
-    return axios.get(`${baseUrl}${pathName}/list/transformed/admin?page=${page}`);
-};
-
-export interface IRequestMasterAdminItem {
-    item: string;
-    request_item_id: number;
-    master_item_id: number;
-    recentCN: number;
-    department: string;
-    status: string;
-    quantity: number;
-    time_requested: Date;
-    time_updated: Date;
-    comment: string;
-    custom_text: string;
-    checked: boolean;
-}
+import { RootState } from '../../store';
+import { IRequestMaster } from '../../api/properties/IRequest';
 
 export interface IRequestMasterState {
     response: {
-        content: IRequestMasterAdminItem[];
+        content: IRequestMaster[];
         pageable: {
             sort: {
                 empty: boolean;

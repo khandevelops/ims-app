@@ -10,7 +10,7 @@ import searchReducer from './search';
 import storeRooomMasterItemsReducer from './slice/storeRoom/storeRoomMasterItemsSlice';
 import storeRooomUpdateReducer from './slice/storeRoom/storeRoomUpdateSlice';
 import requestItemsUpdateReducer from './requestMaster/requestMasterItemsUpdateSlice';
-import requestMasterItemsAdminReducer from './requestAdminMaster/requestMasterAdminItemsSlice';
+import requestMasterItemsAdminReducer from './slice/request/requestMasterItemsSlice';
 import bottomToolbarItemsReducer from './bottomToolbar/bottomToolbarItems';
 import requestMasterItemsCheckedReducer from './requestMaster/requestMasterItemsCheckedSlice';
 import drawerToggleTypeReducer from './slice/drawerToggle/drawerToggleTypeSlice';
