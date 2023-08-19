@@ -5,4 +5,5 @@ export interface IProfileDetail {
     department: string;
     role: string;
     permission: string;
+    status: 'ACTIVE' | 'INACTIVE';
 }

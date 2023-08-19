@@ -4,7 +4,6 @@ import {
     Card,
     CardActions,
     CardContent,
-    CardHeader,
     CircularProgress,
     Divider,
     FormControl,
@@ -67,7 +66,8 @@ const columns: { field: string; headerName: string }[] = [
     { field: 'displayName', headerName: 'Name' },
     { field: 'department', headerName: 'Department' },
     { field: 'role', headerName: 'Role' },
-    { field: 'permission', headerName: 'Permission' }
+    { field: 'permission', headerName: 'Permission' },
+    { field: 'active', headerName: 'Active' }
 ];
 
 const Dashboard = () => {
@@ -240,6 +240,24 @@ const Dashboard = () => {
                                 </CardActions>
                             </Card>
                         </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                            <Card>
+                                <CardContent sx={{ textAlign: 'center' }}>
+                                    <Typography variant="h6" color="text.secondary">
+                                        IMPORTANT!
+                                    </Typography>
+                                </CardContent>
+                                <CardActions
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        width: '100%'
+                                    }}>
+                                    <Button onClick={requestProfileData}>SYNC ALL USER INFORMATION</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} height={1}>
                             <Card>
                                 <CardContent sx={{ textAlign: 'center', overflowY: 'auto', height: '58vh' }}>
@@ -356,75 +374,98 @@ const Dashboard = () => {
                                         profileDetailsSelector.response &&
                                         profileDetailsSelector.response.content &&
                                         profileDetailsSelector.response.content.length > 0 &&
-                                        profileDetailsSelector.response.content.map((profile, index) => (
-                                            <Fragment key={index}>
-                                                <TableRow>
-                                                    <TableCell sx={{ width: 500 }}>{profile.displayName}</TableCell>
-                                                    <TableCell sx={{ width: 200 }}>
-                                                        <FormControl fullWidth>
-                                                            <Select
-                                                                size="small"
-                                                                id={profile.userPrincipalName}
-                                                                name="department"
-                                                                value={profile.department}
-                                                                onChange={(event: SelectChangeEvent) =>
-                                                                    handleSelectChange(profile.id, event)
-                                                                }>
-                                                                {departmentNamesSelector.departmentNames.map(
-                                                                    (department, index) => (
-                                                                        <MenuItem key={index} value={department.name}>
+                                        profileDetailsSelector.response.content
+                                            .filter((profile) => profile.status === 'ACTIVE')
+                                            .map((profile, index) => (
+                                                <Fragment key={index}>
+                                                    <TableRow>
+                                                        <TableCell sx={{ width: 500 }}>{profile.displayName}</TableCell>
+                                                        <TableCell sx={{ width: 200 }}>
+                                                            <FormControl fullWidth>
+                                                                <Select
+                                                                    size="small"
+                                                                    id={profile.userPrincipalName}
+                                                                    name="department"
+                                                                    value={profile.department}
+                                                                    onChange={(event: SelectChangeEvent) =>
+                                                                        handleSelectChange(profile.id, event)
+                                                                    }>
+                                                                    {departmentNamesSelector.departmentNames.map(
+                                                                        (department, index) => (
+                                                                            <MenuItem
+                                                                                key={index}
+                                                                                value={department.name}>
+                                                                                <Typography sx={{ fontSize: '10pt' }}>
+                                                                                    {department.name}
+                                                                                </Typography>
+                                                                            </MenuItem>
+                                                                        )
+                                                                    )}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </TableCell>
+                                                        <TableCell sx={{ width: 200 }}>
+                                                            <FormControl fullWidth>
+                                                                <Select
+                                                                    size="small"
+                                                                    id={profile.userPrincipalName}
+                                                                    name="role"
+                                                                    value={profile.role}
+                                                                    onChange={(event: SelectChangeEvent) =>
+                                                                        handleSelectChange(profile.id, event)
+                                                                    }>
+                                                                    {Object.values(ROLE).map((role, index) => (
+                                                                        <MenuItem key={index} value={role}>
                                                                             <Typography sx={{ fontSize: '10pt' }}>
-                                                                                {department.name}
+                                                                                {role}
                                                                             </Typography>
                                                                         </MenuItem>
-                                                                    )
-                                                                )}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </TableCell>
-                                                    <TableCell sx={{ width: 200 }}>
-                                                        <FormControl fullWidth>
-                                                            <Select
-                                                                size="small"
-                                                                id={profile.userPrincipalName}
-                                                                name="role"
-                                                                value={profile.role}
-                                                                onChange={(event: SelectChangeEvent) =>
-                                                                    handleSelectChange(profile.id, event)
-                                                                }>
-                                                                {Object.values(ROLE).map((role, index) => (
-                                                                    <MenuItem key={index} value={role}>
-                                                                        <Typography sx={{ fontSize: '10pt' }}>
-                                                                            {role}
-                                                                        </Typography>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </TableCell>
+                                                        <TableCell sx={{ width: 200 }}>
+                                                            <FormControl fullWidth>
+                                                                <Select
+                                                                    size="small"
+                                                                    id={profile.userPrincipalName}
+                                                                    name="permission"
+                                                                    value={profile.permission}
+                                                                    onChange={(event: SelectChangeEvent) =>
+                                                                        handleSelectChange(profile.id, event)
+                                                                    }>
+                                                                    {Object.values(PERMISSION).map((role, index) => (
+                                                                        <MenuItem key={index} value={role}>
+                                                                            <Typography sx={{ fontSize: '10pt' }}>
+                                                                                {role}
+                                                                            </Typography>
+                                                                        </MenuItem>
+                                                                    ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </TableCell>
+                                                        <TableCell sx={{ width: 200 }}>
+                                                            <FormControl fullWidth>
+                                                                <Select
+                                                                    size="small"
+                                                                    id={profile.userPrincipalName}
+                                                                    name="active"
+                                                                    value={profile.status ? 'ACTIVE' : 'INACTIVE'}
+                                                                    onChange={(event: SelectChangeEvent) =>
+                                                                        handleSelectChange(profile.id, event)
+                                                                    }>
+                                                                    <MenuItem key="ACTIVE" value="ACTIVE">
+                                                                        ACTIVE
                                                                     </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </TableCell>
-                                                    <TableCell sx={{ width: 200 }}>
-                                                        <FormControl fullWidth>
-                                                            <Select
-                                                                size="small"
-                                                                id={profile.userPrincipalName}
-                                                                name="permission"
-                                                                value={profile.permission}
-                                                                onChange={(event: SelectChangeEvent) =>
-                                                                    handleSelectChange(profile.id, event)
-                                                                }>
-                                                                {Object.values(PERMISSION).map((role, index) => (
-                                                                    <MenuItem key={index} value={role}>
-                                                                        <Typography sx={{ fontSize: '10pt' }}>
-                                                                            {role}
-                                                                        </Typography>
+                                                                    <MenuItem key="INACTIVE" value="INACTIVE">
+                                                                        INACTIVE
                                                                     </MenuItem>
-                                                                ))}
-                                                            </Select>
-                                                        </FormControl>
-                                                    </TableCell>
-                                                </TableRow>
-                                            </Fragment>
-                                        ))}
+                                                                </Select>
+                                                            </FormControl>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </Fragment>
+                                            ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
