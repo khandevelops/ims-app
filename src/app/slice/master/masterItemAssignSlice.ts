@@ -15,7 +15,7 @@ export const initialState: IMasterAssignState = {
 
 export const assignMasterItemThunk = createAsyncThunk(
     'assignMasterItemThunk',
-    async (params: { masterItemId: number; department: string }) => {
+    async (params: { id: number; department: string }) => {
         const response = await assignMasterItem(params);
         return response.data;
     }
@@ -40,7 +40,7 @@ const masterItemAssignSlice = createSlice({
     }
 });
 
-export const { } = masterItemAssignSlice.actions;
+// export const { } = masterItemAssignSlice.actions;
 
 export const selectMasterItemAssign = (state: RootState) => state.masterItemAssignStore;
 

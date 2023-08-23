@@ -59,11 +59,11 @@ const NavbarBottom = () => {
                 <Box sx={{ width: 10 }}>
                     {(location.pathname === '/departments/extractions' ||
                         location.pathname === '/departments/mass-spec' ||
-                        location.pathname === '/departments/specimen-processing' ||
+                        location.pathname === '/departments/processing_lab' ||
                         location.pathname === '/departments/rd' ||
                         location.pathname === '/departments/screening' ||
                         location.pathname === '/departments/shipping' ||
-                        location.pathname === '/departments/quality') && (
+                        location.pathname === '/departments/qc-qa') && (
                         <BottomNavigationAction
                             label="Download"
                             onClick={handleDownloadClick}

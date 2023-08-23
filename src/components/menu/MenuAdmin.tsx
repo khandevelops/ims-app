@@ -94,13 +94,13 @@ const MenuAdmin = () => {
                     <Button
                         size="small"
                         sx={{
-                            color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff',
+                            color: location.pathname === '/departments/processing_lab' ? 'yellow' : '#fff',
                             fontWeight: '700'
                         }}
                         component={Link}
-                        to="/departments/specimen-processing"
-                        state="specimen-processing">
-                        specimen processing
+                        to="/departments/processing_lab"
+                        state="processing_lab">
+                        processing lab
                     </Button>
                     <Button
                         size="small"
@@ -116,13 +116,13 @@ const MenuAdmin = () => {
                     <Button
                         size="small"
                         sx={{
-                            color: location.pathname === '/departments/quality' ? 'yellow' : '#fff',
+                            color: location.pathname === '/departments/qc-qa' ? 'yellow' : '#fff',
                             fontWeight: '700'
                         }}
                         component={Link}
-                        to="departments/quality"
-                        state="quality">
-                        quality
+                        to="departments/qc-qa"
+                        state="qc-qa">
+                        qc-qa
                     </Button>
                     <Button
                         size="small"

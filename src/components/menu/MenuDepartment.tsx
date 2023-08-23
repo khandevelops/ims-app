@@ -42,16 +42,16 @@ const MenuDepartment = () => {
                             mass-spec
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.SPECIMEN_PROCESSING && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.PROCESSING_LAB && (
                         <Button
                             sx={{
-                                color: location.pathname === '/departments/specimen-processing' ? 'yellow' : '#fff',
+                                color: location.pathname === '/departments/processing_lab' ? 'yellow' : '#fff',
                                 fontWeight: '700'
                             }}
                             component={Link}
-                            to="/departments/specimen-processing"
-                            state="specimen-processing">
-                            Specimen Processing
+                            to="/departments/processing_lab"
+                            state="processing_lab">
+                            Processing lab
                         </Button>
                     )}
                     {profileDetailSelector.profileDetail?.department === DEPARTMENT.RD && (
@@ -102,16 +102,16 @@ const MenuDepartment = () => {
                             qc internal standards
                         </Button>
                     )}
-                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.QUALITY && (
+                    {profileDetailSelector.profileDetail?.department === DEPARTMENT.QC_QA && (
                         <Button
                             sx={{
-                                color: location.pathname === '/departments/quality' ? 'yellow' : '#fff',
+                                color: location.pathname === '/departments/qc-qa' ? 'yellow' : '#fff',
                                 fontWeight: '700'
                             }}
                             component={Link}
-                            to="/departments/quality"
-                            state="quality">
-                            quality
+                            to="/departments/qc-qa"
+                            state="qc-qa">
+                            qc-qa
                         </Button>
                     )}
                     <Button

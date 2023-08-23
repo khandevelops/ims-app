@@ -71,9 +71,9 @@ const MenuSub = () => {
         //     state === 'rd' ||
         //     state === 'screening' ||
         //     state === 'shipping' ||
-        //     state === 'specimen-processing' ||
+        //     state === 'processing_lab' ||
         //     state === 'qc-internal-standards' ||
-        //     state === 'quality' ||
+        //     state === 'qc-qa' ||
         //     state === 'store-room'
         // ) {
         //     dispatch(filterMasterItemsThunk({ keyword: event.target.value, page: 0 }));
@@ -106,9 +106,9 @@ const MenuSub = () => {
                     state === 'rd' ||
                     state === 'screening' ||
                     state === 'shipping' ||
-                    state === 'specimen-processing' ||
+                    state === 'processing_lab' ||
                     state === 'qc-internal-standards' ||
-                    state === 'quality' ||
+                    state === 'qc-qa' ||
                     state === 'store-room') && (
                     <Box
                         sx={{

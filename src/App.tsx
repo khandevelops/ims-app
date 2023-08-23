@@ -30,13 +30,13 @@ const router = createBrowserRouter(
             <Route path="departments">
                 <Route path="extractions" element={<Departments />} />
                 <Route path="mass-spec" element={<Departments />} />
-                <Route path="specimen-processing" element={<Departments />} />
+                <Route path="processing_lab" element={<Departments />} />
                 <Route path="rd" element={<Departments />} />
                 <Route path="screening" element={<Departments />} />
                 <Route path="shipping" element={<Departments />} />
                 <Route path="shipping" element={<Departments />} />
                 <Route path="qc-internal-standards" element={<Departments />} />
-                <Route path="quality" element={<Departments />} />
+                <Route path="qc-qa" element={<Departments />} />
                 <Route path="general-request" element={<RequestMasterDepartment />}>
                     <Route path="list" element={<RequestMasterDepartmentItems />} />
                     <Route path="confirmation" element={<RequestMasterDepartmentPending />} />

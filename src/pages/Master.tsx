@@ -14,7 +14,9 @@ import {
     styled,
     Menu,
     MenuItem,
-    Typography
+    Typography,
+    ButtonGroup,
+    Button
 } from '@mui/material';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { tableCellClasses } from '@mui/material/TableCell';
@@ -178,7 +180,7 @@ const Master = (): JSX.Element => {
     const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
         dispatch(
             assignMasterItemThunk({
-                masterItemId: masterItemId,
+                id: masterItemId,
                 department: department
             })
         )
@@ -234,12 +236,15 @@ const Master = (): JSX.Element => {
                                         align={column.align}
                                         onClick={() => handleSort(column.field)}>
                                         <Box sx={{ display: 'flex', gap: 2 }}>
-                                            {column.tooltipName}
+                                            <Typography
+                                                sx={{ fontSize: 12, whiteSpace: 'nowrap', fontFamily: 'inherit' }}>
+                                                {column.tooltipName}
+                                            </Typography>
                                             {sort.column === column.field && <SortIcon sort={sort} />}
                                         </Box>
                                     </StyledTableCell>
                                 ))}
-                            <StyledTableCell align="right">Edit | Assign | Delete</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -262,33 +267,29 @@ const Master = (): JSX.Element => {
                                     <StyledTableCell>{masterItem.itemType}</StyledTableCell>
                                     <StyledTableCell>{masterItem.itemGroup}</StyledTableCell>
                                     <StyledTableCell width={180}>{masterItem.comment}</StyledTableCell>
-                                    <StyledTableCell align="right" width={200}>
-                                        <IconButton
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleEditClick(event, masterItem)
-                                            }>
-                                            <ModeEditIcon color="primary" sx={{ fontSize: 16 }} />
-                                        </IconButton>
-                                        <Box component="span" sx={{ color: 'grey' }}>
-                                            |
-                                        </Box>
-                                        <IconButton
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleIconClick(event, masterItem.id, 'ASSIGN')
-                                            }
-                                            sx={{ marginLeft: 0.7, marginRight: 0.7 }}>
-                                            <AssignmentTurnedInIcon color="primary" sx={{ fontSize: 16 }} />
-                                        </IconButton>
-                                        <Box component="span" sx={{ color: 'grey' }}>
-                                            |
-                                        </Box>
-                                        <IconButton
-                                            sx={{ marginLeft: 0.5 }}
-                                            onClick={(event: MouseEvent<HTMLElement>) =>
-                                                handleIconClick(event, masterItem.id, 'DELETE')
-                                            }>
-                                            <DeleteIcon color="primary" sx={{ fontSize: 16 }} />
-                                        </IconButton>
+                                    <StyledTableCell align="right">
+                                        <ButtonGroup variant="outlined" size="small">
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleEditClick(event, masterItem)
+                                                }>
+                                                <ModeEditIcon color="secondary" sx={{ fontSize: 16 }} />
+                                            </IconButton>
+                                            <IconButton
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleIconClick(event, masterItem.id, 'ASSIGN')
+                                                }
+                                                sx={{ marginLeft: 0.7, marginRight: 0.7 }}>
+                                                <AssignmentTurnedInIcon color="secondary" sx={{ fontSize: 16 }} />
+                                            </IconButton>
+                                            <IconButton
+                                                sx={{ marginLeft: 0.5 }}
+                                                onClick={(event: MouseEvent<HTMLElement>) =>
+                                                    handleIconClick(event, masterItem.id, 'DELETE')
+                                                }>
+                                                <DeleteIcon color="secondary" sx={{ fontSize: 16 }} />
+                                            </IconButton>
+                                        </ButtonGroup>
                                     </StyledTableCell>
                                 </TableRow>
                             ))}
