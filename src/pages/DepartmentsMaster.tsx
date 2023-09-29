@@ -49,7 +49,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'part_number',
+        field: 'partNumber',
         tooltipName: 'Part Number',
         headerName: 'PN',
         align: 'left'
@@ -67,19 +67,19 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'drug_class',
+        field: 'drugClass',
         tooltipName: 'Drug Class',
         headerName: 'DC',
         align: 'left'
     },
     {
-        field: 'total_quantity',
+        field: 'totalQuantity',
         tooltipName: 'Total Qty',
         headerName: 'TQ',
         align: 'left'
     },
     {
-        field: 'order_quantity',
+        field: 'orderQuantity',
         tooltipName: 'Order Qty',
         headerName: 'OQ',
         align: 'left'
@@ -91,7 +91,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'total_price',
+        field: 'totalPrice',
         tooltipName: 'Total Price',
         headerName: 'TP',
         align: 'left'

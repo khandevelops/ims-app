@@ -30,7 +30,6 @@ export interface IDepartmentItem {
     lotNumber: string;
     expirationDate: Date;
     receivedDate: Date;
-    order_quantity: number;
 }
 
 export interface IDepartmentState {

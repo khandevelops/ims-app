@@ -4,12 +4,12 @@ import { createDepartmentName, deleteDepartmentName, updateDepartmentName } from
 import { IDepartmentName } from '../../api/properties/IDepartmentName';
 
 export interface DepartmentNameCreateState {
-    departmentName: IDepartmentName | null,
+    departmentName: IDepartmentName,
     status: 'idle' | 'loading' | 'success' | 'failed';
 }
 
 const initialState: DepartmentNameCreateState = {
-    departmentName: { id: 0, name: '', mapping: '' },
+    departmentName: { id: 0, name: '', mapping: '', hasInventory: false },
     status: 'idle'
 };
 
@@ -18,7 +18,7 @@ export const departmentNameCreateThunk = createAsyncThunk('departmentNameCreateT
     return response.data;
 });
 
-export const departmentNameUpdateThunk = createAsyncThunk('departmentNameUpdateThunk', async (params: { id: number, name: string, mapping: string }) => {
+export const departmentNameUpdateThunk = createAsyncThunk('departmentNameUpdateThunk', async (params: IDepartmentName) => {
     const response = await updateDepartmentName(params);
     return response.data;
 });
@@ -67,6 +67,6 @@ export const departmentNameCreateSlice = createSlice({
     }
 });
 
-export const { } = departmentNameCreateSlice.actions;
+// export const { } = departmentNameCreateSlice.actions;
 export const selectDepartmentNameCreate = (state: RootState) => state.departmentNameCreateStore;
 export default departmentNameCreateSlice.reducer;

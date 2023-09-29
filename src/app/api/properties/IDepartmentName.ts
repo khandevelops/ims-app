@@ -1,5 +1,6 @@
 export interface IDepartmentName {
     id: number;
     name: string;
-    mapping: string
+    mapping: string;
+    hasInventory: boolean;
 }

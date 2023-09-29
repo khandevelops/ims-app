@@ -4,6 +4,7 @@ import {
     Card,
     CardActions,
     CardContent,
+    Checkbox,
     CircularProgress,
     Divider,
     FormControl,
@@ -61,6 +62,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import { IProfileDetail } from '../app/api/properties/IProfileDetail';
+import { IDepartmentName } from '../app/api/properties/IDepartmentName';
 
 const columns: { field: string; headerName: string }[] = [
     { field: 'displayName', headerName: 'Name' },
@@ -135,9 +137,9 @@ const Dashboard = () => {
     };
 
     const updateDepartmentName = (id: number): void => {
-        const departmentName = departmentNamesSelector.departmentNames.find((name) => name.id === id);
-        if (departmentName) {
-            dispatch(departmentNameUpdateThunk({ id: id, name: departmentName.name, mapping: departmentName.mapping }))
+        const departmentDetail = departmentNamesSelector.departmentNames.find((name) => name.id === id);
+        if (departmentDetail) {
+            dispatch(departmentNameUpdateThunk({ ...departmentDetail, id: id }))
                 .then((response) => {
                     setEdit({ action: false, id: 0 });
                     dispatch(
@@ -210,6 +212,22 @@ const Dashboard = () => {
         dispatch(filterProfileDetailsThunk({ displayName: event.target.value, page: page - 1 }));
     };
 
+    const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, departmentDetail: IDepartmentName): void => {
+        dispatch(departmentNameUpdateThunk({ ...departmentDetail, hasInventory: event.target.checked }))
+            .then((response) =>
+                dispatch(
+                    changeDepartmentName(
+                        departmentNamesSelector.departmentNames.map((name) => ({
+                            ...name,
+                            hasInventory:
+                                name.id === departmentDetail.id ? response.payload.hasInventory : name.hasInventory
+                        }))
+                    )
+                )
+            )
+            .catch((error: Error) => console.error(error.message));
+    };
+
     return (
         <Fragment>
             {loading === 'loading' && (
@@ -260,7 +278,7 @@ const Dashboard = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} height={1}>
                             <Card>
-                                <CardContent sx={{ textAlign: 'center', overflowY: 'auto', height: '58vh' }}>
+                                <CardContent sx={{ textAlign: 'center', overflowY: 'auto', height: 'auto' }}>
                                     <TextField
                                         fullWidth
                                         id="name"
@@ -283,64 +301,92 @@ const Dashboard = () => {
                                             setDepartmentName(event.target.value)
                                         }
                                     />
-                                    <List>
-                                        <Divider />
-                                        {departmentNamesSelector.departmentNames &&
-                                            departmentNamesSelector.departmentNames.length > 0 &&
-                                            departmentNamesSelector.departmentNames.map((department, index) => (
-                                                <Fragment key={index}>
-                                                    {edit.action && department.id === edit.id ? (
-                                                        <TextField
-                                                            id="name"
-                                                            fullWidth
-                                                            variant="outlined"
-                                                            value={department.name}
-                                                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                                                                handleChangeDepartmentName(event, department.id)
-                                                            }
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <Fragment>
+                                    <Box sx={{ height: 290, overflow: 'auto' }}>
+                                        <List>
+                                            <Divider />
+                                            {departmentNamesSelector.departmentNames &&
+                                                departmentNamesSelector.departmentNames.length > 0 &&
+                                                departmentNamesSelector.departmentNames.map(
+                                                    (departmentDetail, index) => (
+                                                        <Fragment key={index}>
+                                                            {edit.action && departmentDetail.id === edit.id ? (
+                                                                <TextField
+                                                                    id="name"
+                                                                    fullWidth
+                                                                    variant="outlined"
+                                                                    value={departmentDetail.name}
+                                                                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                                                        handleChangeDepartmentName(
+                                                                            event,
+                                                                            departmentDetail.id
+                                                                        )
+                                                                    }
+                                                                    InputProps={{
+                                                                        endAdornment: (
+                                                                            <Fragment>
+                                                                                <IconButton
+                                                                                    onClick={() =>
+                                                                                        updateDepartmentName(
+                                                                                            departmentDetail.id
+                                                                                        )
+                                                                                    }>
+                                                                                    <CheckIcon />
+                                                                                </IconButton>
+                                                                                <IconButton onClick={handleCancel}>
+                                                                                    <CloseIcon />
+                                                                                </IconButton>
+                                                                            </Fragment>
+                                                                        )
+                                                                    }}
+                                                                    size="medium"
+                                                                />
+                                                            ) : (
+                                                                <ListItem>
+                                                                    <ListItemText primary={departmentDetail.name} />
+                                                                    <ListItemIcon>
                                                                         <IconButton
+                                                                            aria-label="delete"
                                                                             onClick={() =>
-                                                                                updateDepartmentName(department.id)
+                                                                                setEdit({
+                                                                                    action: true,
+                                                                                    id: departmentDetail.id
+                                                                                        ? departmentDetail.id
+                                                                                        : 0
+                                                                                })
                                                                             }>
-                                                                            <CheckIcon />
+                                                                            <EditIcon />
                                                                         </IconButton>
-                                                                        <IconButton onClick={handleCancel}>
-                                                                            <CloseIcon />
+                                                                        <IconButton
+                                                                            aria-label="update"
+                                                                            onClick={() =>
+                                                                                deleteDepartmentName(
+                                                                                    departmentDetail.id
+                                                                                )
+                                                                            }>
+                                                                            <DeleteIcon />
                                                                         </IconButton>
-                                                                    </Fragment>
-                                                                )
-                                                            }}
-                                                            size="medium"
-                                                        />
-                                                    ) : (
-                                                        <ListItem>
-                                                            <ListItemText primary={department.name} />
-                                                            <ListItemIcon>
-                                                                <IconButton
-                                                                    aria-label="delete"
-                                                                    onClick={() =>
-                                                                        setEdit({
-                                                                            action: true,
-                                                                            id: department.id ? department.id : 0
-                                                                        })
-                                                                    }>
-                                                                    <EditIcon />
-                                                                </IconButton>
-                                                                <IconButton
-                                                                    aria-label="update"
-                                                                    onClick={() => deleteDepartmentName(department.id)}>
-                                                                    <DeleteIcon />
-                                                                </IconButton>
-                                                            </ListItemIcon>
-                                                        </ListItem>
-                                                    )}
-                                                    <Divider />
-                                                </Fragment>
-                                            ))}
-                                    </List>
+                                                                        <IconButton>
+                                                                            <Checkbox
+                                                                                onChange={(
+                                                                                    event: ChangeEvent<HTMLInputElement>
+                                                                                ) =>
+                                                                                    handleCheckbox(
+                                                                                        event,
+                                                                                        departmentDetail
+                                                                                    )
+                                                                                }
+                                                                                checked={departmentDetail.hasInventory}
+                                                                            />
+                                                                        </IconButton>
+                                                                    </ListItemIcon>
+                                                                </ListItem>
+                                                            )}
+                                                            <Divider />
+                                                        </Fragment>
+                                                    )
+                                                )}
+                                        </List>
+                                    </Box>
                                 </CardContent>
                             </Card>
                         </Grid>

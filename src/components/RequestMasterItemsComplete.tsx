@@ -34,10 +34,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
     { field: 'recentCN', headerName: 'Recent CN' },
-    { field: 'order_quantity', headerName: 'Order Quantity' },
+    { field: 'orderQuantity', headerName: 'Order Quantity' },
     { field: 'status', headerName: 'Status' },
-    { field: 'time_revieved', headerName: 'Received Date' },
-    { field: 'time_updated', headerName: 'Updated Date' },
+    { field: 'timeReceived', headerName: 'Received Date' },
+    { field: 'timeUpdated', headerName: 'Updated Date' },
     { field: 'detail', headerName: 'Detail' }
 ];
 

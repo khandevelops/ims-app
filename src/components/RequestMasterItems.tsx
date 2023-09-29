@@ -42,7 +42,7 @@ const columns: { field: string; headerName: string | JSX.Element }[] = [
     { field: 'item', headerName: 'Item' },
     { field: 'recentCN', headerName: 'Recent CN' },
     { field: 'purchaseUnit', headerName: 'Purchase Unit' },
-    { field: 'part_number', headerName: 'Part Number' },
+    { field: 'partNumber', headerName: 'Part Number' },
     { field: 'comment', headerName: 'Comment' }
 ];
 

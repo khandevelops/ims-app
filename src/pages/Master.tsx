@@ -15,13 +15,12 @@ import {
     Menu,
     MenuItem,
     Typography,
-    ButtonGroup,
-    Button
+    ButtonGroup
 } from '@mui/material';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import { tableCellClasses } from '@mui/material/TableCell';
 import { toggleDrawer } from '../app/slice/drawerToggle/drawerToggleTypeSlice';
-import { DEPARTMENT, DRAWER_TOGGLE_TYPE } from '../common/constants';
+import { DRAWER_TOGGLE_TYPE } from '../common/constants';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { assignMasterItemThunk } from '../app/slice/master/masterItemAssignSlice';
@@ -37,6 +36,7 @@ import { deleteMasterItemThunk } from '../app/slice/master/masterItemDeleteSlice
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { selectSearchValue } from '../app/search';
 import SortIcon from '../components/common/SortIcon';
+import { getDepartmentNamesThunk, selectDepartmentNames } from '../app/slice/departmentName/departmentNamesSlice';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -76,7 +76,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'part_number',
+        field: 'partNumber',
         tooltipName: 'Part Number',
         headerName: 'PN',
         align: 'left'
@@ -101,7 +101,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'next_advance_cn',
+        field: 'otherCN',
         tooltipName: 'Other CN',
         headerName: 'OCN',
         align: 'left'
@@ -119,7 +119,7 @@ const columns: {
         align: 'left'
     },
     {
-        field: 'drug_class',
+        field: 'drugClass',
         tooltipName: 'Drug Class',
         headerName: 'DC',
         align: 'left'
@@ -137,15 +137,16 @@ const columns: {
 const Master = (): JSX.Element => {
     const searchValueSelector = useAppSelector(selectSearchValue);
     const masterItemsSelector = useAppSelector(selectMasterItems);
+    const departmentNamesSelector = useAppSelector(selectDepartmentNames);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState<number>(0);
-
     const [masterItemId, setMasterItemId] = useState<number>(0);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [anchorElDelete, setAnchorElDelete] = useState<null | HTMLElement>(null);
     const [sort, setSort] = useState<{ column: string; direction: '' | 'ASC' | 'DESC' }>({ column: '', direction: '' });
 
     useEffect(() => {
+        dispatch(getDepartmentNamesThunk());
         if (searchValueSelector && searchValueSelector.searchValue) {
             dispatch(filterMasterItemsThunk({ keyword: searchValueSelector.searchValue, page: page }));
         } else {
@@ -177,11 +178,11 @@ const Master = (): JSX.Element => {
         }
     };
 
-    const handleAssignItem = (event: MouseEvent<HTMLElement>, department: string) => {
+    const handleAssignItem = (event: MouseEvent<HTMLElement>, departmentName: string) => {
         dispatch(
             assignMasterItemThunk({
                 id: masterItemId,
-                department: department
+                department: departmentName.toLowerCase()
             })
         )
             .then((response) => {
@@ -321,13 +322,17 @@ const Master = (): JSX.Element => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseDepartmentMenu}>
-                {Object.values(DEPARTMENT).map((department, index) => (
-                    <MenuItem
-                        key={index}
-                        onClick={(event: MouseEvent<HTMLElement>) => handleAssignItem(event, department)}>
-                        <Typography textAlign="center">{department.split('_').join(' ')}</Typography>
-                    </MenuItem>
-                ))}
+                {departmentNamesSelector.departmentNames
+                    .filter((departmentNameDetail) => departmentNameDetail.hasInventory)
+                    .map((departmentNameDetail, index) => (
+                        <MenuItem
+                            key={index}
+                            onClick={(event: MouseEvent<HTMLElement>) =>
+                                handleAssignItem(event, departmentNameDetail.name)
+                            }>
+                            <Typography textAlign="center">{departmentNameDetail.name.split('_').join(' ')}</Typography>
+                        </MenuItem>
+                    ))}
             </Menu>
             <Menu
                 key="delete-menu"
