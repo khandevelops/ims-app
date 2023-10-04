@@ -1,4 +1,5 @@
 import { IDepartment } from './IDepartment';
+import { IOrderDetail } from './IOrderDetail';
 
 export interface IMaster {
     id: number;
@@ -38,5 +39,6 @@ export interface IMasterDepartment {
     itemType: string;
     itemGroup: string;
     drugClass: string;
+    orderDetail: IOrderDetail;
     departmentItems: IDepartment[];
 }

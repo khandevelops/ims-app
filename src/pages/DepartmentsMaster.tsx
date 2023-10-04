@@ -453,7 +453,7 @@ const Row = ({
                 <StyledTableCell>{masterDepartmentItem.drugClass}</StyledTableCell>
                 <StyledTableCell sx={{ textAlign: 'center' }}>
                     <Typography variant="inherit" sx={{ fontWeight: 900 }}>
-                        {getTotalQuantity(masterDepartmentItem.departmentItems)}
+                        {masterDepartmentItem.orderDetail.totalQuantity}
                     </Typography>
                 </StyledTableCell>
                 <StyledTableCell
@@ -465,22 +465,10 @@ const Row = ({
                             getTotalQuantity(masterDepartmentItem.departmentItems)
                         ).color
                     }}>
-                    {
-                        getOrderQuantity(
-                            masterDepartmentItem.departmentItems[0].minimumQuantity,
-                            masterDepartmentItem.departmentItems[0].maximumQuantity,
-                            getTotalQuantity(masterDepartmentItem.departmentItems)
-                        ).orderQuantity
-                    }
+                    {masterDepartmentItem.orderDetail.orderQuantity}
                 </StyledTableCell>
                 <StyledTableCell>${masterDepartmentItem.unitPrice}</StyledTableCell>
-                <StyledTableCell>
-                    $
-                    {getTotalPrice(
-                        masterDepartmentItem.unitPrice,
-                        getTotalQuantity(masterDepartmentItem.departmentItems)
-                    ).toFixed(2)}
-                </StyledTableCell>
+                <StyledTableCell>${masterDepartmentItem.orderDetail.totalPrice}</StyledTableCell>
                 <StyledTableCell width={200}>{masterDepartmentItem.comment}</StyledTableCell>
                 <StyledTableCell width={80}>{masterDepartmentItem.category}</StyledTableCell>
             </StyledTableRow>
