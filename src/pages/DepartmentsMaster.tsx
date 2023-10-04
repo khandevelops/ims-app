@@ -408,24 +408,16 @@ const Row = ({
         );
     };
 
-    const getTotalQuantity = (departmentItems: IDepartment[]) => {
-        return departmentItems.reduce((acc, departmentItem) => acc + departmentItem.quantity, 0);
-    };
-
-    const getOrderQuantity = (minimumQuantity: number, maximumQuantity: number, totalQuantity: number) => {
+    const getOrderQuantityColor = (minimumQuantity: number, maximumQuantity: number, totalQuantity: number) => {
         if (!minimumQuantity || !maximumQuantity) {
-            return { orderQuantity: null, color: '#eded00' };
+            return '#eded00'
         } else if (minimumQuantity === 1 && maximumQuantity === 1 && totalQuantity < 1) {
-            return { orderQuantity: 1, color: '#FF0000' };
+            return '#FF0000'
         } else if (totalQuantity < minimumQuantity) {
-            return { orderQuantity: maximumQuantity - totalQuantity, color: 'red' };
+            return 'red';
         } else {
-            return { orderQuantity: 0, color: '#3CB371' };
+            return '#3CB371'
         }
-    };
-
-    const getTotalPrice = (unitPrice: number, totalQuantity: number) => {
-        return unitPrice * totalQuantity;
     };
 
     return (
@@ -453,17 +445,17 @@ const Row = ({
                 <StyledTableCell>{masterDepartmentItem.drugClass}</StyledTableCell>
                 <StyledTableCell sx={{ textAlign: 'center' }}>
                     <Typography variant="inherit" sx={{ fontWeight: 900 }}>
-                        {masterDepartmentItem.orderDetail.totalQuantity}
+                        {masterDepartmentItem.orderDetail && masterDepartmentItem.orderDetail.totalQuantity}
                     </Typography>
                 </StyledTableCell>
                 <StyledTableCell
                     align="center"
                     sx={{
-                        backgroundColor: getOrderQuantity(
+                        backgroundColor: getOrderQuantityColor(
                             masterDepartmentItem.departmentItems[0].minimumQuantity,
                             masterDepartmentItem.departmentItems[0].maximumQuantity,
-                            getTotalQuantity(masterDepartmentItem.departmentItems)
-                        ).color
+                            masterDepartmentItem.orderDetail.totalQuantity
+                        )
                     }}>
                     {masterDepartmentItem.orderDetail.orderQuantity}
                 </StyledTableCell>
