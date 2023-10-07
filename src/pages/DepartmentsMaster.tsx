@@ -33,7 +33,7 @@ import { IDepartment } from '../app/api/properties/IDepartment';
 import { updateDepartmentItemThunk } from '../app/slice/department/departmentItemUpdateSlice';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { IMasterDepartment } from '../app/api/properties/IMaster';
+import { IMaster, IMasterDepartment } from '../app/api/properties/IMaster';
 
 const columns: {
     field: string;
@@ -408,15 +408,21 @@ const Row = ({
         );
     };
 
-    const getOrderQuantityColor = (minimumQuantity: number, maximumQuantity: number, totalQuantity: number) => {
-        if (!minimumQuantity || !maximumQuantity) {
-            return '#eded00'
-        } else if (minimumQuantity === 1 && maximumQuantity === 1 && totalQuantity < 1) {
-            return '#FF0000'
-        } else if (totalQuantity < minimumQuantity) {
-            return 'red';
-        } else {
-            return '#3CB371'
+    const getOrderQuantityColor = (masterDepartmentItem: IMasterDepartment) => {
+        const minimumQuantity = masterDepartmentItem.departmentItems[0].minimumQuantity;
+        const maximumQuantity = masterDepartmentItem.departmentItems[0].maximumQuantity;
+        const totalQuantity =
+            masterDepartmentItem.orderDetail === null ? null : masterDepartmentItem.orderDetail.totalQuantity;
+        if (totalQuantity) {
+            if (!minimumQuantity || !maximumQuantity) {
+                return '#eded00';
+            } else if (minimumQuantity === 1 && maximumQuantity === 1 && totalQuantity < 1) {
+                return '#FF0000';
+            } else if (totalQuantity < minimumQuantity) {
+                return 'red';
+            } else {
+                return '#3CB371';
+            }
         }
     };
 
@@ -451,16 +457,12 @@ const Row = ({
                 <StyledTableCell
                     align="center"
                     sx={{
-                        backgroundColor: getOrderQuantityColor(
-                            masterDepartmentItem.departmentItems[0].minimumQuantity,
-                            masterDepartmentItem.departmentItems[0].maximumQuantity,
-                            masterDepartmentItem.orderDetail.totalQuantity
-                        )
+                        backgroundColor: getOrderQuantityColor(masterDepartmentItem)
                     }}>
-                    {masterDepartmentItem.orderDetail.orderQuantity}
+                    {masterDepartmentItem.orderDetail && masterDepartmentItem.orderDetail.orderQuantity}
                 </StyledTableCell>
                 <StyledTableCell>${masterDepartmentItem.unitPrice}</StyledTableCell>
-                <StyledTableCell>${masterDepartmentItem.orderDetail.totalPrice}</StyledTableCell>
+                <StyledTableCell>${masterDepartmentItem.orderDetail && masterDepartmentItem.orderDetail.totalPrice}</StyledTableCell>
                 <StyledTableCell width={200}>{masterDepartmentItem.comment}</StyledTableCell>
                 <StyledTableCell width={80}>{masterDepartmentItem.category}</StyledTableCell>
             </StyledTableRow>

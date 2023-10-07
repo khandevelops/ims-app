@@ -106,7 +106,7 @@ const MenuSub = () => {
                     state === 'rd' ||
                     state === 'screening' ||
                     state === 'shipping' ||
-                    state === 'processing_lab' ||
+                    state === 'processing-lab' ||
                     state === 'qc-internal-standards' ||
                     state === 'qc-qa' ||
                     state === 'store-room') && (

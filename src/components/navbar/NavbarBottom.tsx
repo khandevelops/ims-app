@@ -59,7 +59,7 @@ const NavbarBottom = () => {
                 <Box sx={{ width: 10 }}>
                     {(location.pathname === '/departments/extractions' ||
                         location.pathname === '/departments/mass-spec' ||
-                        location.pathname === '/departments/processing_lab' ||
+                        location.pathname === '/departments/processing-lab' ||
                         location.pathname === '/departments/rd' ||
                         location.pathname === '/departments/screening' ||
                         location.pathname === '/departments/shipping' ||

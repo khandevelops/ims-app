@@ -30,7 +30,7 @@ const router = createBrowserRouter(
             <Route path="departments">
                 <Route path="extractions" element={<Departments />} />
                 <Route path="mass-spec" element={<Departments />} />
-                <Route path="processing_lab" element={<Departments />} />
+                <Route path="processing-lab" element={<Departments />} />
                 <Route path="rd" element={<Departments />} />
                 <Route path="screening" element={<Departments />} />
                 <Route path="shipping" element={<Departments />} />

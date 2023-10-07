@@ -94,12 +94,12 @@ const MenuAdmin = () => {
                     <Button
                         size="small"
                         sx={{
-                            color: location.pathname === '/departments/processing_lab' ? 'yellow' : '#fff',
+                            color: location.pathname === '/departments/processing-lab' ? 'yellow' : '#fff',
                             fontWeight: '700'
                         }}
                         component={Link}
-                        to="/departments/processing_lab"
-                        state="processing_lab">
+                        to="/departments/processing-lab"
+                        state="processing-lab">
                         processing lab
                     </Button>
                     <Button
